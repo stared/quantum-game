@@ -13,6 +13,7 @@
 var SIZE_X = 8;
 var SIZE_Y = 8;
 var TILE_SIZE = 40;
+var TIME_STEP = 500;
 var board = [];
 var state = {}; // or some hashtable like-tking
 // as of now
@@ -82,15 +83,38 @@ function visualize () {
         .attr("y", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.y; })
         .style("fill", function (d) { return d.val == "empty" ? null : "black"});
 
-  d3.select("#board").selectAll(".photon")
-    .data(history[1])
-    .enter()
-      .append("circle")
-        .attr("class", "photon")
-        .attr("r", 10)
-        .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * (d.x - dir2vx(d.dir)); })  // as d.x and d.y are for destination location
-        .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * (d.y - dir2vy(d.dir)); })
-        .style("opacity", function (d) { return d.amp; });
+  vizStep(0);
+
+}
+
+
+function vizStep (i) {
+
+  var photons = d3.select("#board").selectAll(".photon");
+
+  photons.remove();
+
+  photons = d3.select("#board").selectAll(".photon")
+    .data(history[i]);
+
+  photons.enter()
+    .append("circle")
+      .attr("class", "photon")
+      .attr("r", 10)
+      .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * (d.x - dir2vx(d.dir)); })  // as d.x and d.y are for destination location
+      .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * (d.y - dir2vy(d.dir)); })
+      .style("opacity", function (d) { return d.amp; });
+
+  photons.transition()
+    .ease([0,1])
+    .duration(TIME_STEP)
+      .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * d.x; })
+      .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * d.y; });
+
+  if ( i + 1 < history.length ) {
+    setTimeout(vizStep, TIME_STEP, i + 1);
+  }
+
 
 }
 
