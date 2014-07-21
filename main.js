@@ -13,7 +13,7 @@
 var SIZE_X = 8;
 var SIZE_Y = 8;
 var TILE_SIZE = 40;
-var TIME_STEP = 500;
+var TIME_STEP = 1000;
 var board = [];
 var state = {}; // or some hashtable like-tking
 // as of now
@@ -42,8 +42,11 @@ function main () {
   board[4][4] = "super_mirror";
 
   v = {x: 1, y: 4, dir: 0, amp: 0.7};
-
   state[[v.x, v.y, v.dir]] = v;
+
+  v = {x: 4, y: 1, dir: 3, amp: 0.5};
+  state[[v.x, v.y, v.dir]] = v;
+  // some problems with the new stuff
 
   for (i = 0; i < 8; i++) {
     
