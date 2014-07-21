@@ -46,10 +46,10 @@ function main () {
 
   v = {x: 4, y: 1, dir: 3, amp: 0.5};
   state[[v.x, v.y, v.dir]] = v;
-  // some problems with the new stuff
 
   for (i = 0; i < 8; i++) {
     
+    console.log(state);
     history[i] = [];
     for (k in state) {
       v = state[k];
@@ -131,18 +131,18 @@ function propagate (state0, board) {
 
     // also actions for photons otu of board
 
-    tile = board[v.x][v.y];
+    tile = board[v0.x][v0.y];
 
     // v1 - warning: in most cases there are plenty outputs
 
     switch ( tile ) {
       case "empty":
-        v1 = v0;  // or maybe I need copy?
+        v1 = {x: v0.x, y: v0.y, dir: v0.dir, amp: v0.amp}; // needed?
         v1.x = v0.x + dir2vx(v0.dir);
         v1.y = v0.y + dir2vy(v0.dir);
         break;
       case "super_mirror":  // simplest
-        v1 = v0;
+        v1 = {x: v0.x, y: v0.y, dir: v0.dir, amp: v0.amp};
         v1.x = v0.x - dir2vx(v0.dir);
         v1.y = v0.y - dir2vy(v0.dir);
         v1.dir = (v0.dir + 2) % 4;
@@ -160,9 +160,9 @@ function propagate (state0, board) {
       state1[h] = v1;
     }
 
-    return state1;
-
   }
+
+  return state1;
 
 }
 
@@ -171,5 +171,5 @@ function dir2vx (direction) {
 }
 
 function dir2vy (direction) {
-  return (direction % 2) * (2 - direction);
+  return (direction % 2) * (direction - 2);
 }
