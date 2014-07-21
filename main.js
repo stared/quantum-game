@@ -12,6 +12,7 @@
 
 var SIZE_X = 8;
 var SIZE_Y = 8;
+var TILE_SIZE = 40;
 var board = [];
 var state = {}; // or some hashtable like-tking
 // as of now
@@ -39,7 +40,7 @@ function main () {
 
   board[4][4] = "super_mirror";
 
-  v = {x: 0, y: 4, dir: 0, amp: 0.7};
+  v = {x: 1, y: 4, dir: 0, amp: 0.7};
 
   state[[v.x, v.y, v.dir]] = v;
 
@@ -47,13 +48,49 @@ function main () {
     
     history[i] = [];
     for (k in state) {
-      history[i].push(state[k]);
+      v = state[k];
+      history[i].push({x: v.x, y: v.y, dir: v.dir, amp: v.amp});  // to copy
     }
 
     state = propagate(state, board);
+
   }
 
-  console.log(history);
+  visualize();
+
+}
+
+function visualize () {
+
+  var boardFlat = [];
+
+  for (i = 0; i < SIZE_X; i++) {
+    for (j = 0; j < SIZE_Y; j++)
+      boardFlat.push({x: i, y: j, val: board[i][j]});
+  }
+
+  d3.select("svg").append("g")
+    .attr("id", "board")
+    .selectAll(".tile")
+    .data(boardFlat)
+    .enter()
+      .append("rect")
+        .attr("class", "tile")
+        .attr("width", 0.95 * TILE_SIZE)
+        .attr("height", 0.95 * TILE_SIZE)
+        .attr("x", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.x; })
+        .attr("y", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.y; })
+        .style("fill", function (d) { return d.val == "empty" ? null : "black"});
+
+  d3.select("#board").selectAll(".photon")
+    .data(history[1])
+    .enter()
+      .append("circle")
+        .attr("class", "photon")
+        .attr("r", 10)
+        .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * (d.x - dir2vx(d.dir)); })  // as d.x and d.y are for destination location
+        .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * (d.y - dir2vy(d.dir)); })
+        .style("opacity", function (d) { return d.amp; });
 
 }
 
@@ -74,13 +111,13 @@ function propagate (state0, board) {
     switch ( tile ) {
       case "empty":
         v1 = v0;  // or maybe I need copy?
-        v1.x = v0.x + ((v0.dir + 1) % 2) * (1 - v0.dir);
-        v1.y = v0.y + (v0.dir % 2) * (2 - v0.dir);
+        v1.x = v0.x + dir2vx(v0.dir);
+        v1.y = v0.y + dir2vy(v0.dir);
         break;
       case "super_mirror":  // simplest
         v1 = v0;
-        v1.x = v0.x - ((v0.dir + 1) % 2) * (1 - v0.dir);
-        v1.y = v0.y - (v0.dir % 2) * (2 - v0.dir);
+        v1.x = v0.x - dir2vx(v0.dir);
+        v1.y = v0.y - dir2vy(v0.dir);
         v1.dir = (v0.dir + 2) % 4;
         break;
     }
@@ -100,4 +137,12 @@ function propagate (state0, board) {
 
   }
 
+}
+
+function dir2vx (direction) {
+  return ((direction + 1) % 2) * (1 - direction);
+}
+
+function dir2vy (direction) {
+  return (direction % 2) * (2 - direction);
 }
