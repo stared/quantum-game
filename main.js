@@ -19,14 +19,11 @@ var state = {}; // or some hashtable like-tking
 // as of now
 // {"9,12,2": {x: 9, y: 12, dir: 2, amp: 1.}}
 // as of now, no polarizarion and only real amp
-var history = [];
+var history2 = [];
 
 var i, j, d, p, k, v, x, y, tile, v0, v1, h;
 
-main();
-
-
-function main () {
+var main = function () {
 
   var svg = d3.select("body").append("svg")
     .attr("id", "game")
@@ -47,13 +44,14 @@ function main () {
   v = {x: 4, y: 1, dir: 3, amp: 0.5};
   state[[v.x, v.y, v.dir]] = v;
 
+  history2 = [];
   for (i = 0; i < 8; i++) {
     
     console.log(state);
-    history[i] = [];
+    history2[i] = [];
     for (k in state) {
       v = state[k];
-      history[i].push({x: v.x, y: v.y, dir: v.dir, amp: v.amp});  // to copy
+      history2[i].push({x: v.x, y: v.y, dir: v.dir, amp: v.amp});  // to copy
     }
 
     state = propagate(state, board);
@@ -98,7 +96,7 @@ function vizStep (i) {
   photons.remove();
 
   photons = d3.select("#board").selectAll(".photon")
-    .data(history[i]);
+    .data(history2[i]);
 
   photons.enter()
     .append("circle")
@@ -114,7 +112,7 @@ function vizStep (i) {
       .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * d.x; })
       .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * d.y; });
 
-  if ( i + 1 < history.length ) {
+  if ( i + 1 < history2.length ) {
     setTimeout(vizStep, TIME_STEP, i + 1);
   }
 
@@ -173,3 +171,5 @@ function dir2vx (direction) {
 function dir2vy (direction) {
   return (direction % 2) * (direction - 2);
 }
+
+main();
