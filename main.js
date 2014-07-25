@@ -21,9 +21,12 @@ var state = {}; // or some hashtable like-tking
 // as of now, no polarizarion and only real amp
 var history2 = [];
 
-var i, j, d, p, k, v, x, y, tile, v0, v1, h;
+// this thing is dangerous;
+// de facto global varibles for loops
 
 var main = function () {
+
+  var i;
 
   var svg = d3.select("body").append("svg")
     .attr("id", "game")
@@ -45,10 +48,11 @@ var main = function () {
   state[[v.x, v.y, v.dir]] = v;
 
   history2 = [];
+
   for (i = 0; i < 8; i++) {
     
     console.log(state);
-    history2[i] = [];
+    history2.push([]);
     for (k in state) {
       v = state[k];
       history2[i].push({x: v.x, y: v.y, dir: v.dir, amp: v.amp});  // to copy
@@ -64,6 +68,7 @@ var main = function () {
 
 function visualize () {
 
+  var i, j;
   var boardFlat = [];
 
   for (i = 0; i < SIZE_X; i++) {
@@ -122,12 +127,16 @@ function vizStep (i) {
 
 function propagate (state0, board) {
 
+  var k, v0, i, v1s, h, tile;
   var state1 = {};
 
   for (k in state0) {
     v0 = state0[k];
 
-    // also actions for photons otu of board
+    if ( (v0.x < 0) || (v0.x >= SIZE_X) || (v0.y < 0) || (v0.y >= SIZE_Y) ) {
+      console.log(v0);
+      continue;
+    }
 
     tile = board[v0.x][v0.y];
 
@@ -135,27 +144,33 @@ function propagate (state0, board) {
 
     switch ( tile ) {
       case "empty":
-        v1 = {x: v0.x, y: v0.y, dir: v0.dir, amp: v0.amp}; // needed?
-        v1.x = v0.x + dir2vx(v0.dir);
-        v1.y = v0.y + dir2vy(v0.dir);
+        v1s = [{x: v0.x, y: v0.y, dir: v0.dir, amp: v0.amp}];
+        v1s[0].x = v0.x + dir2vx(v0.dir);
+        v1s[0].y = v0.y + dir2vy(v0.dir);
         break;
       case "super_mirror":  // simplest
-        v1 = {x: v0.x, y: v0.y, dir: v0.dir, amp: v0.amp};
-        v1.x = v0.x - dir2vx(v0.dir);
-        v1.y = v0.y - dir2vy(v0.dir);
-        v1.dir = (v0.dir + 2) % 4;
+        v1s = [{x: v0.x, y: v0.y, dir: v0.dir, amp: v0.amp}];
+        v1s[0].x = v0.x - dir2vx(v0.dir);
+        v1s[0].y = v0.y - dir2vy(v0.dir);
+        v1s[0].dir = (v0.dir + 2) % 4;
         break;
     }
 
-    h = [v1.x, v1.y, v1.dir].join(",");  // we can do numerical, if needed for a speedup
+    for (i = 0; i < v1s.length; i++) {
 
-    if (h in state1) {
-      state1[h].amp += v1.amp;
-      if (state1[h].amp === 0) {
-        delete state1[h];
-      } 
-    } else {
-      state1[h] = v1;
+      v1 = v1s[i];
+
+      h = [v1.x, v1.y, v1.dir].join(",");  // we can do numerical, if needed for a speedup
+
+      if (h in state1) {
+        state1[h].amp += v1.amp;
+        if (state1[h].amp === 0) {
+          delete state1[h];
+        } 
+      } else {
+        state1[h] = v1;
+      }
+
     }
 
   }
