@@ -21,6 +21,10 @@ var state = {}; // or some hashtable like-tking
 // as of now, no polarizarion and only real amp
 var history2 = [];
 
+var tiles2colors = {empty: null,
+                    super_mirror: "black",
+                    beam_splitter_a: "blue"};
+
 // this thing is dangerous;
 // de facto global varibles for loops
 
@@ -39,12 +43,13 @@ var main = function () {
       board[i][j] = "empty";
   }
 
-  board[4][4] = "super_mirror";
+  board[4][4] = "beam_splitter_a";
+  board[4][5] = "super_mirror";
 
-  v = {x: 1, y: 4, dir: 0, amp: 0.7};
+  v = {x: 6, y: 4, dir: 2, amp: 0.7};
   state[[v.x, v.y, v.dir]] = v;
 
-  v = {x: 4, y: 1, dir: 3, amp: 0.5};
+  v = {x: 4, y: 2, dir: 3, amp: 0.5};
   state[[v.x, v.y, v.dir]] = v;
 
   history2 = [];
@@ -87,7 +92,7 @@ function visualize () {
         .attr("height", 0.95 * TILE_SIZE)
         .attr("x", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.x; })
         .attr("y", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.y; })
-        .style("fill", function (d) { return d.val == "empty" ? null : "black"});
+        .style("fill", function (d) { return tiles2colors[d.val]; });
 
   vizStep(0);
 
@@ -109,7 +114,8 @@ function vizStep (i) {
       .attr("r", 10)
       .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * (d.x - dir2vx(d.dir)); })  // as d.x and d.y are for destination location
       .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * (d.y - dir2vy(d.dir)); })
-      .style("opacity", function (d) { return d.amp; });
+      .style("opacity", function (d) { return Math.abs(d.amp); })
+      .style("fill", function (d) { return d.amp < 0 ? "violet" : null; });
 
   photons.transition()
     .ease([0,1])
@@ -144,6 +150,7 @@ function propagate (state0, board) {
 
     switch ( tile ) {
       case "empty":
+        // deserves a separate function as it is used in all other
         v1s = [{x: v0.x, y: v0.y, dir: v0.dir, amp: v0.amp}];
         v1s[0].x = v0.x + dir2vx(v0.dir);
         v1s[0].y = v0.y + dir2vy(v0.dir);
@@ -153,6 +160,21 @@ function propagate (state0, board) {
         v1s[0].x = v0.x - dir2vx(v0.dir);
         v1s[0].y = v0.y - dir2vy(v0.dir);
         v1s[0].dir = (v0.dir + 2) % 4;
+        break;
+      case "beam_splitter_a":
+        // antidiagonal; hadamard; not to careful with the sing
+        v1s = [];
+        // going forward
+        v1s.push({x:   v0.x + dir2vx(v0.dir),
+                  y:   v0.y + dir2vy(v0.dir),
+                  dir: v0.dir,
+                  amp: v0.amp/Math.sqrt(2)})
+        // bouncing
+        var dir1 = v0.dir ^ 1;  // {0:1, 1:0, 2:3, 3:2} 
+        v1s.push({x:   v0.x + dir2vx(dir1),
+                  y:   v0.y + dir2vy(dir1),
+                  dir: dir1,
+                  amp: (2 * (dir1 % 2) - 1) * v0.amp/Math.sqrt(2)})  // sign swap for one possibility
         break;
     }
 
