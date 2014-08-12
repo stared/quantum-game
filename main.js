@@ -94,6 +94,23 @@ function visualize () {
         .attr("y", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.y; })
         .style("fill", function (d) { return tiles2colors[d.val]; });
 
+  $( ".tile" )
+    .draggable({
+      revert: true,
+      revertDuration: 200,
+      cursorAt: { left: 20, top: 60 }
+    })
+    .bind('mousedown', function(event, ui){
+      // bring target to front
+      $(event.target.parentElement).append( event.target );
+    })
+    .bind('drag', function(event, ui){
+      // update coordinates manually, since top/left style props don't work on SVG
+      event.target.setAttribute('x', ui.position.left);
+      event.target.setAttribute('y', ui.position.top);
+    });
+
+
   vizStep(0);
 
 }
