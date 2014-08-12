@@ -76,6 +76,10 @@ function visualize () {
   var i, j;
   var boardFlat = [];
 
+  var drag = d3.behavior.drag()
+    .origin(function(d) { return {x: TILE_SIZE/2 + TILE_SIZE * d.x, y: TILE_SIZE/2 + TILE_SIZE * d.y}; })
+    .on("drag", dragmove);
+
   for (i = 0; i < SIZE_X; i++) {
     for (j = 0; j < SIZE_Y; j++)
       boardFlat.push({x: i, y: j, val: board[i][j]});
@@ -92,26 +96,17 @@ function visualize () {
         .attr("height", 0.95 * TILE_SIZE)
         .attr("x", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.x; })
         .attr("y", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.y; })
-        .style("fill", function (d) { return tiles2colors[d.val]; });
-
-  $( ".tile" )
-    .draggable({
-      revert: true,
-      revertDuration: 200,
-      cursorAt: { left: 20, top: 60 }
-    })
-    .bind('mousedown', function(event, ui){
-      // bring target to front
-      $(event.target.parentElement).append( event.target );
-    })
-    .bind('drag', function(event, ui){
-      // update coordinates manually, since top/left style props don't work on SVG
-      event.target.setAttribute('x', ui.position.left);
-      event.target.setAttribute('y', ui.position.top);
-    });
-
+        .style("fill", function (d) { return tiles2colors[d.val]; })
+        .call(drag);
 
   vizStep(0);
+
+  function dragmove(d) {
+    d3.select(this)
+      .attr("x", d3.event.x)
+      .attr("y", d3.event.y);
+  }
+
 
 }
 
