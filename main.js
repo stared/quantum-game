@@ -78,7 +78,8 @@ function visualize () {
 
   var drag = d3.behavior.drag()
     .origin(function(d) { return {x: TILE_SIZE/2 + TILE_SIZE * d.x, y: TILE_SIZE/2 + TILE_SIZE * d.y}; })
-    .on("drag", dragmove);
+    .on("drag", dragmove)
+    .on("dragend", function () { console.log("Dragged!"); });
 
   for (i = 0; i < SIZE_X; i++) {
     for (j = 0; j < SIZE_Y; j++)
