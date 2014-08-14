@@ -1,6 +1,7 @@
 .tile {
-	fill: steelblue;
-	opacity: 0.5;
+	fill: #ccc;
+	stroke-width: 1;
+	stroke: #aaa;
 }
 
 .photon {

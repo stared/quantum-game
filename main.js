@@ -23,15 +23,31 @@ var state = {}; // or some hashtable like-tking
 // as of now, no polarizarion and only real amp
 var history2 = [];
 
-var tiles2colors = {emptj: null,
-                    super_mirror: "black",
-                    beam_splitter_a: "blue"};
-
-// this thing is dangerous;
-// de facto global varibles for loops
 
 var i2x = function (i) { return TILE_SIZE/2 + TILE_SIZE * i; }
 var j2y = function (j) { return TILE_SIZE/2 + TILE_SIZE * j; }
+
+var acronym = {corner_cube: 'cc', beam_splitter_a: 'ba'};
+
+var drawElement = function (d) {
+
+  var g = d3.select(this);
+  
+  g.append("rect")
+    .attr("width", 0.5 * TILE_SIZE)
+    .attr("height", 0.5 * TILE_SIZE)
+    .attr("x", 0.25 * TILE_SIZE)
+    .attr("y", 0.25 * TILE_SIZE)
+    .style("fill", "#afa")
+    .style("opacity", 0.5);
+
+  g.append("text")
+    .attr("x", 0.5 * TILE_SIZE)
+    .attr("y", 0.5 * TILE_SIZE + 4)
+    .style("text-anchor", "middle")
+    .text(acronym[d.val]);
+
+}
 
 var main = function () {
 
@@ -49,7 +65,7 @@ var main = function () {
   }
 
   board[4][4] = "beam_splitter_a";
-  board[4][5] = "super_mirror";
+  board[4][5] = "corner_cube";
 
   v = {i: 6, j: 4, dir: 2, amp: 0.7};
   state[[v.i, v.j, v.dir]] = v;
@@ -78,7 +94,7 @@ var main = function () {
 
 function visualize () {
 
-  var i, j;
+  var i, j, v;
   var boardFlat = [];
 
   var drag = d3.behavior.drag()
@@ -87,8 +103,13 @@ function visualize () {
     .on("dragend", function () { console.log("Dragged!"); });
 
   for (i = 0; i < SIZE_X; i++) {
-    for (j = 0; j < SIZE_Y; j++)
-      boardFlat.push({i: i, j: j, val: board[i][j]});
+    for (j = 0; j < SIZE_Y; j++) {
+      v = board[i][j];
+      boardFlat.push({i: i, j: j, val: v});
+      if (v !== "empty") {
+        elements.push({i: i, j: j, val: v});
+      }
+    }
   }
 
   d3.select("svg").append("g")
@@ -100,17 +121,32 @@ function visualize () {
         .attr("class", "tile")
         .attr("width", 0.95 * TILE_SIZE)
         .attr("height", 0.95 * TILE_SIZE)
+        .attr("rx", 3)
+        .attr("ry", 3)
         .attr("x", function (d) { return i2x(d.i); })
         .attr("y", function (d) { return j2y(d.j); })
-        .style("fill", function (d) { return tiles2colors[d.val]; })
+        .style("fill", function (d) { return d.val === "empty" ? null : "#aaa"; });
+
+  d3.select("svg").append("g")
+    .attr("id", "elements")
+    .selectAll(".element")
+    .data(elements)
+    .enter()
+      .append('g')
+        .attr("class", "element")
+        .attr("transform", function (d) {
+          return ["translate(", i2x(d.i), ",", j2y(d.j), ")"].join("");
+        })
+        .each(drawElement)
         .call(drag);
 
   vizStep(0);
 
   function dragmove(d) {
     d3.select(this)
-      .attr("x", d3.event.i)
-      .attr("y", d3.event.j);
+      .attr("transform", ["translate(", d3.event.x, ",", d3.event.y, ")"].join(""));
+      // .attr("x", d3.event.x)
+      // .attr("y", d3.event.y);
   }
 
 
@@ -173,7 +209,7 @@ function propagate (state0, board) {
         v1s[0].i = v0.i + dir2vx(v0.dir);
         v1s[0].j = v0.j + dir2vy(v0.dir);
         break;
-      case "super_mirror":  // simplest
+      case "corner_cube":  // simplest
         v1s = [{i: v0.i, j: v0.j, dir: v0.dir, amp: v0.amp}];
         v1s[0].i = v0.i - dir2vx(v0.dir);
         v1s[0].j = v0.j - dir2vy(v0.dir);
