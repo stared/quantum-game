@@ -15,6 +15,8 @@ var SIZE_Y = 8;
 var TILE_SIZE = 40;
 var TIME_STEP = 1000;
 var board = [];
+var elements = [];
+var stash = [];
 var state = {}; // or some hashtable like-tking
 // as of now
 // {"9,12,2": {i: 9, j: 12, dir: 2, amp: 1.}}
@@ -27,6 +29,9 @@ var tiles2colors = {emptj: null,
 
 // this thing is dangerous;
 // de facto global varibles for loops
+
+var i2x = function (i) { return TILE_SIZE/2 + TILE_SIZE * i; }
+var j2y = function (j) { return TILE_SIZE/2 + TILE_SIZE * j; }
 
 var main = function () {
 
@@ -77,7 +82,7 @@ function visualize () {
   var boardFlat = [];
 
   var drag = d3.behavior.drag()
-    .origin(function(d) { return {i: TILE_SIZE/2 + TILE_SIZE * d.i, j: TILE_SIZE/2 + TILE_SIZE * d.j}; })
+    .origin(function(d) { return {x: i2x(d.i), y: j2y(d.j)}; })
     .on("drag", dragmove)
     .on("dragend", function () { console.log("Dragged!"); });
 
@@ -95,8 +100,8 @@ function visualize () {
         .attr("class", "tile")
         .attr("width", 0.95 * TILE_SIZE)
         .attr("height", 0.95 * TILE_SIZE)
-        .attr("x", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.i; })
-        .attr("y", function (d) { return TILE_SIZE/2 + TILE_SIZE * d.j; })
+        .attr("x", function (d) { return i2x(d.i); })
+        .attr("y", function (d) { return j2y(d.j); })
         .style("fill", function (d) { return tiles2colors[d.val]; })
         .call(drag);
 
@@ -125,16 +130,16 @@ function vizStep (i) {
     .append("circle")
       .attr("class", "photon")
       .attr("r", 10)
-      .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * (d.i - dir2vx(d.dir)); })  // as d.i and d.j are for destination location
-      .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * (d.j - dir2vy(d.dir)); })
+      .attr("cx", function (d) { return i2x(d.i - dir2vx(d.dir)) + TILE_SIZE/2; })  // as d.i and d.j are for destination location
+      .attr("cy", function (d) { return j2y(d.j - dir2vy(d.dir)) + TILE_SIZE/2; })
       .style("opacity", function (d) { return Math.abs(d.amp); })
       .style("fill", function (d) { return d.amp < 0 ? "violet" : null; });
 
   photons.transition()
     .ease([0,1])
     .duration(TIME_STEP)
-      .attr("cx", function (d) { return TILE_SIZE + TILE_SIZE * d.i; })
-      .attr("cy", function (d) { return TILE_SIZE + TILE_SIZE * d.j; });
+      .attr("cx", function (d) { return i2x(d.i) + TILE_SIZE/2; })
+      .attr("cy", function (d) { return j2y(d.j) + TILE_SIZE/2; });
 
   if ( i + 1 < history2.length ) {
     setTimeout(vizStep, TIME_STEP, i + 1);
