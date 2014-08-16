@@ -27,6 +27,9 @@ var history2 = [];
 var i2x = function (i) { return TILE_SIZE/2 + TILE_SIZE * i; }
 var j2y = function (j) { return TILE_SIZE/2 + TILE_SIZE * j; }
 
+var x2i = function (x) { return Math.floor(x / TILE_SIZE); }
+var y2j = function (y) { return Math.floor(y / TILE_SIZE); }
+
 var acronym = {corner_cube: 'cc', beam_splitter_a: 'ba'};
 
 var drawElement = function (d) {
@@ -100,8 +103,27 @@ function visualize () {
   var drag = d3.behavior.drag()
     .origin(function(d) { return {x: i2x(d.i), y: j2y(d.j)}; })
     .on("drag", dragmove)
-    .on("dragend", function () { console.log("Dragged!"); });
+    .on("dragend", function (d) {
+      // here I don't get d3.event.x);
 
+      board[d.i][d.j] = "empty";
+
+      d.i = x2i(d.x);
+      d.j = y2j(d.y);
+      d3.select(this)
+        .attr("transform", ["translate(", i2x(d.i), ",", j2y(d.j), ")"].join(""));
+      
+      board[d.i][d.j] = d.val;
+      
+    });
+
+  function dragmove(d) {
+    d3.select(this)
+      .attr("transform", ["translate(", d.x = d3.event.x, ",", d.y = d3.event.y, ")"].join(""));
+      // .attr("x", d3.event.x)
+      // .attr("y", d3.event.y);
+  }
+  
   for (i = 0; i < SIZE_X; i++) {
     for (j = 0; j < SIZE_Y; j++) {
       v = board[i][j];
@@ -142,12 +164,6 @@ function visualize () {
 
   vizStep(0);
 
-  function dragmove(d) {
-    d3.select(this)
-      .attr("transform", ["translate(", d3.event.x, ",", d3.event.y, ")"].join(""));
-      // .attr("x", d3.event.x)
-      // .attr("y", d3.event.y);
-  }
 
 
 }
