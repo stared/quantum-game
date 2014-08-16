@@ -7,3 +7,7 @@
 .photon {
 	fill: coral;
 }
+
+.element {
+	cursor: default;
+}
