@@ -36,19 +36,59 @@ var drawElement = function (d) {
 
   var g = d3.select(this);
   
-  g.append("rect")
-    .attr("width", 0.5 * TILE_SIZE)
-    .attr("height", 0.5 * TILE_SIZE)
-    .attr("x", 0.25 * TILE_SIZE)
-    .attr("y", 0.25 * TILE_SIZE)
-    .style("fill", "#afa")
-    .style("opacity", 0.5);
+  // we need to add rotation as a parameter
+  switch (d.val) {
+    case ("beam_splitter_a"):
+      drawBeamSplitterA(g);
+      break;
+    case ("beam_splitter_d"):
+      drawBeamSplitterD(g);
+      break;
+    case ("corner_cube"):
+      drawCornerCube(g);
+      break;
+    default:
+      g.append("rect")
+        .attr("width", 0.5 * TILE_SIZE)
+        .attr("height", 0.5 * TILE_SIZE)
+        .attr("x", 0.25 * TILE_SIZE)
+        .attr("y", 0.25 * TILE_SIZE)
+        .style("fill", "#afa")
+        .style("opacity", 0.5);
 
-  g.append("text")
-    .attr("x", 0.5 * TILE_SIZE)
-    .attr("y", 0.5 * TILE_SIZE + 4)
-    .style("text-anchor", "middle")
-    .text(acronym[d.val]);
+      g.append("text")
+        .attr("x", 0.5 * TILE_SIZE)
+        .attr("y", 0.5 * TILE_SIZE + 4)
+        .style("text-anchor", "middle")
+        .text(acronym[d.val]);
+  }
+
+}
+
+function drawBeamSplitterD (g) {
+
+  g.append("path")
+    .attr("class", "glass")
+    .attr("d", "M 8 12 L 12 8 L 32 28 L 28 32");
+
+}
+
+function drawBeamSplitterA (g) {
+
+  g.append("path")
+    .attr("class", "glass")
+    .attr("d", "M 32 12 L 28 8 L 8 28 L 12 32");
+
+}
+
+function drawCornerCube (g) {
+
+  g.append("path")
+    .attr("class", "metal")
+    .attr("d", ["M 5 5", "10 5", "20 15", "30 5", "35 5",
+                "35 10", "25 20", "35 30", "35 35",
+                "30 35", "20 25", "10 35", "5 35",
+                "5 30", "15 20", "5 10"].join("L"));
 
 }
 

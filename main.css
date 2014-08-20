@@ -11,3 +11,16 @@
 .element {
 	cursor: default;
 }
+
+.glass {
+	fill: blue;
+	stroke-width: 1;
+	stroke: steelblue;
+	opacity: 0.5;
+}
+
+.metal {
+	fill: #555;
+	stroke-width: 1;
+	stroke: #999;
+}
