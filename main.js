@@ -118,24 +118,11 @@ var main = function () {
 
   history2 = [];
 
-  for (i = 0; i < 8; i++) {
-    
-    console.log(state);
-    history2.push([]);
-    for (k in state) {
-      v = state[k];
-      history2[i].push({i: v.i, j: v.j, dir: v.dir, amp: v.amp});  // to copy
-    }
-
-    state = propagate(state, board);
-
-  }
-
-  visualize();
+  visualizeBoard();
 
 }
 
-function visualize () {
+function visualizeBoard () {
 
   var i, j, v;
   var boardFlat = [];
@@ -205,7 +192,25 @@ function visualize () {
 }
 
 
-d3.select("#run").on("click", function () { vizStep(0); })
+d3.select("#run").on("click", function () {
+  simulate();
+  vizStep(0);
+})
+
+function simulate () {
+  for (i = 0; i < 8; i++) {
+    
+    console.log(state);
+    history2.push([]);
+    for (k in state) {
+      v = state[k];
+      history2[i].push({i: v.i, j: v.j, dir: v.dir, amp: v.amp});  // to copy
+    }
+
+    state = propagate(state, board);
+
+  }
+}
 
 function vizStep (i) {
 
