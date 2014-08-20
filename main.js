@@ -162,12 +162,10 @@ function visualize () {
         .each(drawElement)
         .call(drag);
 
-  vizStep(0);
-
-
-
 }
 
+
+d3.select("#run").on("click", function () { vizStep(0); })
 
 function vizStep (i) {
 
@@ -184,7 +182,7 @@ function vizStep (i) {
       .attr("r", 10)
       .attr("cx", function (d) { return i2x(d.i - dir2vx(d.dir)) + TILE_SIZE/2; })  // as d.i and d.j are for destination location
       .attr("cy", function (d) { return j2y(d.j - dir2vy(d.dir)) + TILE_SIZE/2; })
-      .style("opacity", function (d) { return Math.abs(d.amp); })
+      .style("opacity", function (d) { return Math.sqrt(Math.abs(d.amp)); })
       .style("fill", function (d) { return d.amp < 0 ? "violet" : null; });
 
   photons.transition()
