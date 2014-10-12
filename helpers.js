@@ -78,6 +78,11 @@ var smIdentityPolarization = {
   '|': [{to: '|', re: 1, im: 0}],
 };
 
+var smReflectionPhasePolarization = {
+  '-': [{to: '-', re: -1, im: 0}],
+  '|': [{to: '|', re: 1, im: 0}],
+};
+
 var smIdentityFull = transitionTensor(smIdentityDirection, smIdentityPolarization);
 
 // some tests would help

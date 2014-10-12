@@ -35,15 +35,16 @@ Elements.CornerCube = function () {
 
   this.draw = function () {};
 
-  var amplitudesDirection = {
+  var amplitudesDirection = [{
     '>': [{to: '<', re: 1, im: 0}],
     '^': [{to: 'v', re: 1, im: 0}],
     '<': [{to: '>', re: 1, im: 0}],
     'v': [{to: '^', re: 1, im: 0}],
-  };
+  }];
 
-  this.amplitudes = [transitionTensor(amplitudesDirection, smIdentityPolarization)];  // check if it is that simple
-  // to some extent convention, but either this or mirror needs to be difficult
+  this.amplitudes = amplitudesDirection
+    .map(function (each) { return transitionTensor(each, smIdentityPolarization); });
+  // check it with circular polarization
 
 }
 
@@ -64,18 +65,47 @@ Elements.ThinMirror = function () {
 
   this.draw = function () {};
 
-  var amplitudesDirection = {
-    '>': [{to: '<', re: 1, im: 0}],
-    '^': [{to: 'v', re: 1, im: 0}],
-    '<': [{to: '>', re: 1, im: 0}],
-    'v': [{to: '^', re: 1, im: 0}],
-  };
+  var amplitudesDirection =
+  [
+    // -
+    { 
+      '>': [{to: '>', re: 1, im: 0}],
+      '^': [{to: 'v', re: 1, im: 0}],
+      '<': [{to: '<', re: 1, im: 0}],
+      'v': [{to: '^', re: 1, im: 0}],
+    },
+    // /
+    {
+      '>': [{to: '^', re: 1, im: 0}],
+      '^': [{to: '>', re: 1, im: 0}],
+      '<': [{to: 'v', re: 1, im: 0}],
+      'v': [{to: '<', re: 1, im: 0}],
+    },
+    // |
+    {
+      '>': [{to: '<', re: 1, im: 0}],
+      '^': [{to: '^', re: 1, im: 0}],
+      '<': [{to: '>', re: 1, im: 0}],
+      'v': [{to: 'v', re: 1, im: 0}],
+    },
+    // \
+    {
+      '>': [{to: 'v', re: 1, im: 0}],
+      '^': [{to: '<', re: 1, im: 0}],
+      '<': [{to: '^', re: 1, im: 0}],
+      'v': [{to: '>', re: 1, im: 0}],
+    },
+  ];
 
-  this.amplitudes = transitionTensor(amplitudesDirection, smIdentityPolarization);  // check if it is that simple
+  this.amplitudes = amplitudesDirection
+    .map(function (each) { return transitionTensor(each, smReflectionPhasePolarization); });
+
 
 }
 
-
+// Elements.SugarSolution
+////
+// Elements.FaradayRotor
 // Elements.HalfWavePlate
 // Elements.QuarterWavePlate
 // Elements.PolarizingBeamSplitter
