@@ -109,7 +109,7 @@ Elements.ThinMirror = function () {
 
 }
 
-
+ 
 Elements.ThinBeamSplitter = function () {
 
   // it is also possible to create it as a superposition:
@@ -129,6 +129,7 @@ Elements.ThinBeamSplitter = function () {
 
   this.draw = function () {};
 
+  // TO FIX!
   var amplitudesDirection =
   [
     // -
@@ -163,10 +164,59 @@ Elements.ThinBeamSplitter = function () {
 
   // damn it, this thing is not as simple;
   // the only reflected thing are reflections, not - transmittions
+  // this thing with sparse linear operations would 
   this.amplitudes = amplitudesDirection
     .map(function (each) { return transitionTensor(each, smReflectionPhasePolarization); });
 
 }
+
+
+Elements.PolarizingBeamSplitter = function () {
+
+  this.flavor = "It separates ones how wave up and down from ones waving left and right.\n"
+                + "Like religion-politics separation.";
+
+  this.g = null;
+  this.name = "polarizing_beam_splitter";
+  this.type = "unitary";
+  this.rotation = 0;  // 0: [/] 1: [\]
+
+  this.rotate = function () {
+    this.rotation = (this.rotation + 1) % 2;
+  };
+
+  this.draw = function () {};
+
+  // double check if this polarization
+  // I assumed that - is being reflected and | just passes
+  this.amplitudes =
+  [
+    // [/]
+    {
+      '>-': [{to: '^-', re: 1, im: 0}],
+      '^-': [{to: '>-', re: 1, im: 0}],
+      '<-': [{to: 'v-', re: 1, im: 0}],
+      'v-': [{to: '<-', re: 1, im: 0}],
+      '>|': [{to: '>|', re: 1, im: 0}],
+      '^|': [{to: '^|', re: 1, im: 0}],
+      '<|': [{to: '<|', re: 1, im: 0}],
+      'v|': [{to: 'v|', re: 1, im: 0}],
+    },
+    // [\]
+    {
+      '>-': [{to: 'v-', re: 1, im: 0}],
+      '^-': [{to: '<-', re: 1, im: 0}],
+      '<-': [{to: '^-', re: 1, im: 0}],
+      'v-': [{to: '>-', re: 1, im: 0}],
+      '>|': [{to: '>|', re: 1, im: 0}],
+      '^|': [{to: '^|', re: 1, im: 0}],
+      '<|': [{to: '<|', re: 1, im: 0}],
+      'v|': [{to: 'v|', re: 1, im: 0}],
+    },
+  ];
+
+}
+
 
 // Elements.SugarSolution
 //// "Vodka is a solution. But Sugar Solution is the sweetest solution."
