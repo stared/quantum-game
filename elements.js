@@ -4,10 +4,15 @@
 Elements = {};
 
 
-Elements.Free = function () {
+Elements.Vacuum = function () {
+
+  // to all elements:
+  // some var self = this, to get no problems in functions? 
   
+  this.flavor = "Pure timespace without relativistic energy density.";
+
   this.g = null;
-  this.name = "free";
+  this.name = "vacuum";
   this.type = "unitary";
   this.rotation = 0;
 
@@ -23,6 +28,8 @@ Elements.Free = function () {
 
 
 Elements.CornerCube = function () {
+
+  this.flavor = "Like a mirrot but cooler. It rotates you, not - reflects.";
 
   this.g = null;
   this.name = "corner_cube";
@@ -52,10 +59,10 @@ Elements.CornerCube = function () {
 // magical thin mirror that is easy for implementation (no decoherence!)
 Elements.ThinMirror = function () {
 
-  // some var self = this, to get no problems in functions? 
+  this.flavor = "Works both ways [like 13]. So thin that it can serve as a pad... I mean iPad.";
 
   this.g = null;
-  this.name = "mirror";
+  this.name = "thin_mirror";
   this.type = "unitary";
   this.rotation = 0;  // 0: - 1: / 2: | 3: \
 
@@ -100,12 +107,71 @@ Elements.ThinMirror = function () {
   this.amplitudes = amplitudesDirection
     .map(function (each) { return transitionTensor(each, smReflectionPhasePolarization); });
 
+}
+
+
+Elements.ThinBeamSplitter = function () {
+
+  // it is also possible to create it as a superposition:
+  // ~ (vacuum  + i * thin_mirror)
+  // helpers for linear operations on sparse matrices
+
+  this.flavor = "Making photons in two places at once. And binding them again.";
+
+  this.g = null;
+  this.name = "thin_beam_splitter";
+  this.type = "unitary";
+  this.rotation = 0;  // 0: - 1: / 2: | 3: \
+
+  this.rotate = function () {
+    this.rotation = (this.rotation + 1) % 4;
+  };
+
+  this.draw = function () {};
+
+  var amplitudesDirection =
+  [
+    // -
+    { 
+      '>': [{to: '>', re: 1, im: 0}],
+      '^': [{to: '^', re: sq2inv, im: 0}, {to: 'v', re: 0, im: sq2inv}],
+      '<': [{to: '<', re: 1, im: 0}],
+      'v': [{to: 'v', re: sq2inv, im: 0}, {to: '^', re: 0, im: sq2inv}],
+    },
+    // /
+    {
+      '>': [{to: '>', re: sq2inv, im: 0}, {to: '^', re: 0, im: sq2inv}],
+      '^': [{to: '^', re: sq2inv, im: 0}, {to: '>', re: 0, im: sq2inv}],
+      '<': [{to: '<', re: sq2inv, im: 0}, {to: 'v', re: 0, im: sq2inv}],
+      'v': [{to: 'v', re: sq2inv, im: 0}, {to: '<', re: 0, im: sq2inv}],
+    },
+    // |
+    {
+      '>': [{to: '>', re: sq2inv, im: 0}, {to: '<', re: 0, im: sq2inv}],
+      '^': [{to: '^', re: 1, im: 0}],
+      '<': [{to: '<', re: sq2inv, im: 0}, {to: '>', re: 0, im: sq2inv}],
+      'v': [{to: 'v', re: 1, im: 0}],
+    },
+    // \
+    {
+      '>': [{to: '>', re: sq2inv, im: 0}, {to: 'v', re: 0, im: sq2inv}],
+      '^': [{to: '^', re: sq2inv, im: 0}, {to: '<', re: 0, im: sq2inv}],
+      '<': [{to: '<', re: sq2inv, im: 0}, {to: '^', re: 0, im: sq2inv}],
+      'v': [{to: 'v', re: sq2inv, im: 0}, {to: '>', re: 0, im: sq2inv}],
+    },
+  ];
+
+  // damn it, this thing is not as simple;
+  // the only reflected thing are reflections, not - transmittions
+  this.amplitudes = amplitudesDirection
+    .map(function (each) { return transitionTensor(each, smReflectionPhasePolarization); });
 
 }
 
 // Elements.SugarSolution
-////
+//// "Vodka is a solution. But Sugar Solution is the sweetest solution."
 // Elements.FaradayRotor
+//// "You can go back, but it won't be the same."
 // Elements.HalfWavePlate
 // Elements.QuarterWavePlate
 // Elements.PolarizingBeamSplitter

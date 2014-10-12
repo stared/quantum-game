@@ -3,4 +3,6 @@
     * Jacek Kaczmarski, Epitafium dla Boba Dylana
 * Oddzieliłem tylko od ciemności światło.
 * [o coś]
-    * Griffiths     
+    * Griffiths
+* Squeezing vacuum in a crystal, with a laser
+* [klimat jak ze shrine z D2]
