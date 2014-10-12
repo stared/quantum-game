@@ -56,6 +56,13 @@ var transitionTensor = function (sm1, sm2) {
 
 }
 
+
+var smMultiplyZ = function (sm, z) {
+  // an inefficient trick by a smart but lazy programmer
+  return transitionTensor(sm, {'': [{to: '', re: z.re, im: z.im}]});
+}
+
+
 // the most fundamental constant in QM
 var sq2inv = 1/Math.sqrt(2);
 
