@@ -104,7 +104,7 @@ var main = function () {
   for (i = 0; i < SIZE_X; i++) {
     board[i] = [];
     for (j = 0; j < SIZE_Y; j++)
-      board[i][j] = "empty";
+      board[i][j] = "beam_splitter_a";
   }
 
   board[4][4] = "beam_splitter_a";
