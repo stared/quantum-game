@@ -45,6 +45,12 @@ var drawElement = function (d) {
     case ("beam_splitter_d"):
       drawBeamSplitterD(g);
       break;
+    case ("mirror_a"):
+      drawMirrorA(g);
+      break;
+    case ("mirror_d"):
+      drawMirrorD(g);
+      break;
     case ("corner_cube"):
       drawCornerCube(g);
       break;
@@ -78,6 +84,22 @@ function drawBeamSplitterD (g) {
 }
 
 function drawBeamSplitterA (g) {
+
+  g.append("path")
+    .attr("class", "glass")
+    .attr("d", "M 32 12 L 28 8 L 8 28 L 12 32");
+
+}
+
+function drawMirrorD (g) {
+
+  g.append("path")
+    .attr("class", "metal")
+    .attr("d", "M 8 12 L 12 8 L 32 28 L 28 32");
+
+}
+
+function drawMirrorA (g) {
 
   g.append("path")
     .attr("class", "glass")
@@ -136,7 +158,10 @@ var main = function () {
 
   board[1][1] = "laser";
   board[4][4] = "beam_splitter_a";
+  board[6][3] = "beam_splitter_d";
   board[6][4] = "beam_splitter_d";
+  board[6][5] = "mirror_a";
+  board[6][6] = "mirror_d";
   board[4][5] = "corner_cube";
 
   // v = {i: 6, j: 4, dir: 2, amp: 0.7};
@@ -354,6 +379,22 @@ function propagate (state0, board) {
                   j:   v0.j + dir2vy(dir1),
                   dir: dir1,
                   amp: (2 * (dir1 % 2) - 1) * v0.amp/Math.sqrt(2)})  // sign swap for one possibility
+        break;
+      case "mirror_a":
+        // bouncing
+        var dir1 = v0.dir ^ 1;  // {0:1, 1:0, 2:3, 3:2} 
+        v1s.push({i:   v0.i + dir2vx(dir1),
+                  j:   v0.j + dir2vy(dir1),
+                  dir: dir1,
+                  amp: v0.amp})
+        break;
+      case "mirror_d":
+        // bouncing
+        var dir1 = v0.dir ^ 3;  // {0:3, 1:2, 2:1, 3:0} 
+        v1s.push({i:   v0.i + dir2vx(dir1),
+                  j:   v0.j + dir2vy(dir1),
+                  dir: dir1,
+                  amp: v0.amp})  // sign swap for one possibility
         break;
     }
 
