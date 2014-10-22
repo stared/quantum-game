@@ -47,6 +47,9 @@ var drawElement = function (d) {
     case ("corner_cube"):
       drawCornerCube(g);
       break;
+    case ("laser"):
+      drawLaser(g);
+      break;
     default:
       g.append("rect")
         .attr("width", 0.5 * TILE_SIZE)
@@ -92,6 +95,29 @@ function drawCornerCube (g) {
 
 }
 
+function drawLaser (g) {
+
+  g.append("rect")
+    .attr("x", 10)
+    .attr("y", 10)
+    .attr("width", 20)
+    .attr("height", 20)
+    .style("fill", "black");
+
+  var angles = [0, 45, 90, 135];
+
+  g.selectAll("line").data(angles).enter()
+    .append("line")
+      .attr("x1", function (d) { return 30 - 7 * Math.cos(Math.PI * d / 180); })
+      .attr("y1", function (d) { return 20 - 7 * Math.sin(Math.PI * d / 180); })
+      .attr("x2", function (d) { return 30 + 7 * Math.cos(Math.PI * d / 180); })
+      .attr("y2", function (d) { return 20 + 7 * Math.sin(Math.PI * d / 180); })
+      .style("stroke-width", 1.5)
+      .style("stroke", "red");
+
+}
+
+
 var main = function () {
 
   var i;
@@ -104,17 +130,18 @@ var main = function () {
   for (i = 0; i < SIZE_X; i++) {
     board[i] = [];
     for (j = 0; j < SIZE_Y; j++)
-      board[i][j] = "beam_splitter_a";
+      board[i][j] = "empty";
   }
 
+  board[1][1] = "laser";
   board[4][4] = "beam_splitter_a";
   board[4][5] = "corner_cube";
 
-  v = {i: 6, j: 4, dir: 2, amp: 0.7};
-  state[[v.i, v.j, v.dir]] = v;
+  // v = {i: 6, j: 4, dir: 2, amp: 0.7};
+  // state[[v.i, v.j, v.dir]] = v;
 
-  v = {i: 4, j: 2, dir: 3, amp: 0.5};
-  state[[v.i, v.j, v.dir]] = v;
+  // v = {i: 4, j: 2, dir: 3, amp: 0.5};
+  // state[[v.i, v.j, v.dir]] = v;
 
   history2 = [];
 
@@ -124,7 +151,7 @@ var main = function () {
 
 function visualizeBoard () {
 
-  var i, j, v;
+  var i, j, v, s;
   var boardFlat = [];
 
   var drag = d3.behavior.drag()
@@ -173,8 +200,8 @@ function visualizeBoard () {
         .attr("rx", 3)
         .attr("ry", 3)
         .attr("x", function (d) { return i2x(d.i); })
-        .attr("y", function (d) { return j2y(d.j); })
-        .style("fill", function (d) { return d.val === "empty" ? null : "#aaa"; });
+        .attr("y", function (d) { return j2y(d.j); });
+        // .style("fill", function (d) { return d.val === "empty" ? null : "#aaa"; });
 
   d3.select("svg").append("g")
     .attr("id", "elements")
@@ -198,6 +225,20 @@ d3.select("#run").on("click", function () {
 })
 
 function simulate () {
+
+  var i, j, v, s;
+  
+  // generating state from laser
+  for (i = 0; i < SIZE_X; i++) {
+    for (j = 0; j < SIZE_Y; j++) {
+      v = board[i][j];
+      if (v === 'laser') {
+        s = {i: i + 1, j: j, dir: 0, amp: 1};
+        state[[s.i, s.j, s.dir]] = s;
+      } 
+    }
+  }
+
   for (i = 0; i < 8; i++) {
     
     console.log(state);
