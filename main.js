@@ -22,6 +22,7 @@ var state = {}; // or some hashtable like-tking
 // {"9,12,2": {i: 9, j: 12, dir: 2, amp: 1.}}
 // as of now, no polarizarion and only real amp
 var history2 = [];
+var VIZ_IS_ON = false; 
 
 
 var i2x = function (i) { return TILE_SIZE/2 + TILE_SIZE * i; }
@@ -222,7 +223,8 @@ function visualizeBoard () {
 
 d3.select("#run").on("click", function () {
   simulate();
-  vizStep(0);
+  VIZ_IS_ON = false;
+  setTimeout(vizStep, TIME_STEP, 0);
 })
 
 function simulate () {
@@ -230,6 +232,7 @@ function simulate () {
   var i, j, v, s;
 
   // generating state from laser
+  state = {};
   for (i = 0; i < SIZE_X; i++) {
     for (j = 0; j < SIZE_Y; j++) {
       v = board[i][j];
@@ -256,6 +259,10 @@ function simulate () {
 
 function vizStep (i) {
 
+  if (i === 0) {
+    VIZ_IS_ON = true;
+  }
+
   var photons = d3.select("#board").selectAll(".photon");
 
   photons.remove();
@@ -278,7 +285,7 @@ function vizStep (i) {
       .attr("cx", function (d) { return i2x(d.i) + TILE_SIZE/2; })
       .attr("cy", function (d) { return j2y(d.j) + TILE_SIZE/2; });
 
-  if ( i + 1 < history2.length ) {
+  if ( i + 1 < history2.length && VIZ_IS_ON) {
     setTimeout(vizStep, TIME_STEP, i + 1);
   }
 
@@ -291,6 +298,8 @@ function propagate (state0, board) {
   var k, v0, i, v1s, h, tile;
   var state1 = {};
 
+  console.log("turn");
+
   for (k in state0) {
     v0 = state0[k];
 
@@ -301,7 +310,9 @@ function propagate (state0, board) {
 
     tile = board[v0.i][v0.j];
 
-    // v1 - warning: in most cases there are plenty outputs
+    console.log("tile", tile);
+
+    v1s = [];
 
     switch ( tile ) {
       case "empty":
@@ -318,7 +329,6 @@ function propagate (state0, board) {
         break;
       case "beam_splitter_a":
         // antidiagonal; hadamard; not to careful with the sing
-        v1s = [];
         // going forward
         v1s.push({i:   v0.i + dir2vx(v0.dir),
                   j:   v0.j + dir2vy(v0.dir),
@@ -333,7 +343,6 @@ function propagate (state0, board) {
         break;
       case "beam_splitter_d":
         // diagonal; hadamard; not to careful with the sing
-        v1s = [];
         // going forward
         v1s.push({i:   v0.i + dir2vx(v0.dir),
                   j:   v0.j + dir2vy(v0.dir),
