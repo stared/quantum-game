@@ -135,6 +135,7 @@ var main = function () {
 
   board[1][1] = "laser";
   board[4][4] = "beam_splitter_a";
+  board[6][4] = "beam_splitter_d";
   board[4][5] = "corner_cube";
 
   // v = {i: 6, j: 4, dir: 2, amp: 0.7};
@@ -227,7 +228,7 @@ d3.select("#run").on("click", function () {
 function simulate () {
 
   var i, j, v, s;
-  
+
   // generating state from laser
   for (i = 0; i < SIZE_X; i++) {
     for (j = 0; j < SIZE_Y; j++) {
@@ -325,6 +326,21 @@ function propagate (state0, board) {
                   amp: v0.amp/Math.sqrt(2)})
         // bouncing
         var dir1 = v0.dir ^ 1;  // {0:1, 1:0, 2:3, 3:2} 
+        v1s.push({i:   v0.i + dir2vx(dir1),
+                  j:   v0.j + dir2vy(dir1),
+                  dir: dir1,
+                  amp: (2 * (dir1 % 2) - 1) * v0.amp/Math.sqrt(2)})  // sign swap for one possibility
+        break;
+      case "beam_splitter_d":
+        // diagonal; hadamard; not to careful with the sing
+        v1s = [];
+        // going forward
+        v1s.push({i:   v0.i + dir2vx(v0.dir),
+                  j:   v0.j + dir2vy(v0.dir),
+                  dir: v0.dir,
+                  amp: v0.amp/Math.sqrt(2)})
+        // bouncing
+        var dir1 = v0.dir ^ 3;  // {0:3, 1:2, 2:1, 3:0} 
         v1s.push({i:   v0.i + dir2vx(dir1),
                   j:   v0.j + dir2vy(dir1),
                   dir: dir1,
