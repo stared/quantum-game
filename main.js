@@ -57,6 +57,12 @@ var drawElement = function (d) {
     case ("laser"):
       drawLaser(g);
       break;
+    case ("stone"):
+      drawStone(g);
+      break;
+    case ("phase_shift"):
+      drawPhaseShift(g);
+      break;
     default:
       g.append("rect")
         .attr("width", 0.5 * TILE_SIZE)
@@ -140,6 +146,27 @@ function drawLaser (g) {
 
 }
 
+function drawStone (g) {
+
+  g.append("rect")
+    .attr("x", 5)
+    .attr("y", 5)
+    .attr("width", 30)
+    .attr("height", 30)
+    .style("fill", "grey");
+
+}
+
+function drawPhaseShift (g) {
+
+  g.append("rect")
+    .attr("class", "glass")
+    .attr("x", 5)
+    .attr("y", 5)
+    .attr("width", 30)
+    .attr("height", 30);
+
+}
 
 var main = function () {
 
@@ -175,8 +202,10 @@ var main = function () {
   board[7][9] = "mirror_d";
   board[8][8] = "corner_cube";
   board[8][9] = "corner_cube";
-  board[9][8] = "corner_cube";
-  board[9][9] = "corner_cube";
+  board[9][8] = "stone";
+  board[9][9] = "stone";
+  board[10][8] = "phase_shift";
+  board[10][9] = "phase_shift";
 
   // v = {i: 6, j: 4, dir: 2, amp: 0.7};
   // state[[v.i, v.j, v.dir]] = v;
@@ -406,6 +435,16 @@ function propagate (state0, board) {
                   j:   v0.j + dir2vy(dir1),
                   dir: dir1,
                   amp: v0.amp})  // sign swap for one possibility
+        break;
+      case "stone":
+        // add sth to make dissapearance explicit
+        break;
+      case "phase_shift":
+        // by lambda/2
+        v1s.push({i:   v0.i + dir2vx(v0.dir),
+                  j:   v0.j + dir2vy(v0.dir),
+                  dir: v0.dir,
+                  amp: -v0.amp});
         break;
     }
 
