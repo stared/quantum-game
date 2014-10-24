@@ -10,8 +10,8 @@
 // V
 
 
-var SIZE_X = 8;
-var SIZE_Y = 8;
+var SIZE_X = 12;
+var SIZE_Y = 10;
 var TILE_SIZE = 40;
 var TIME_STEP = 1000;
 var board = [];
@@ -102,7 +102,7 @@ function drawMirrorD (g) {
 function drawMirrorA (g) {
 
   g.append("path")
-    .attr("class", "glass")
+    .attr("class", "metal")
     .attr("d", "M 32 12 L 28 8 L 8 28 L 12 32");
 
 }
@@ -157,13 +157,26 @@ var main = function () {
   }
 
   board[1][1] = "laser";
-  board[0][7] = "beam_splitter_a";
-  board[1][7] = "beam_splitter_d";
-  board[2][7] = "beam_splitter_d";
-  board[3][7] = "mirror_a";
-  board[4][7] = "mirror_d";
-  board[5][7] = "mirror_d";
-  board[6][7] = "corner_cube";
+  board[0][8] = "beam_splitter_a";
+  board[0][9] = "beam_splitter_a";
+  board[1][8] = "beam_splitter_a";
+  board[1][9] = "beam_splitter_a";
+  board[2][8] = "beam_splitter_d";
+  board[2][9] = "beam_splitter_d";
+  board[3][8] = "beam_splitter_d";
+  board[3][9] = "beam_splitter_d";
+  board[4][8] = "mirror_a";
+  board[4][9] = "mirror_a";
+  board[5][8] = "mirror_a";
+  board[5][9] = "mirror_a";
+  board[6][8] = "mirror_d";
+  board[6][9] = "mirror_d";
+  board[7][8] = "mirror_d";
+  board[7][9] = "mirror_d";
+  board[8][8] = "corner_cube";
+  board[8][9] = "corner_cube";
+  board[9][8] = "corner_cube";
+  board[9][9] = "corner_cube";
 
   // v = {i: 6, j: 4, dir: 2, amp: 0.7};
   // state[[v.i, v.j, v.dir]] = v;
@@ -271,9 +284,9 @@ function simulate () {
     }
   }
 
-  for (i = 0; i < 8; i++) {
+  for (i = 0; i < 50; i++) {
     
-    console.log(state);
+    // console.log(state);
     history2.push([]);
     for (k in state) {
       v = state[k];
@@ -326,19 +339,14 @@ function propagate (state0, board) {
   var k, v0, i, v1s, h, tile;
   var state1 = {};
 
-  console.log("turn");
-
   for (k in state0) {
     v0 = state0[k];
 
     if ( (v0.i < 0) || (v0.i >= SIZE_X) || (v0.j < 0) || (v0.j >= SIZE_Y) ) {
-      console.log(v0);
       continue;
     }
 
     tile = board[v0.i][v0.j];
-
-    console.log("tile", tile);
 
     v1s = [];
 
