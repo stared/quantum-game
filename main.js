@@ -157,12 +157,13 @@ var main = function () {
   }
 
   board[1][1] = "laser";
-  board[4][4] = "beam_splitter_a";
-  board[6][3] = "beam_splitter_d";
-  board[6][4] = "beam_splitter_d";
-  board[6][5] = "mirror_a";
-  board[6][6] = "mirror_d";
-  board[4][5] = "corner_cube";
+  board[0][7] = "beam_splitter_a";
+  board[1][7] = "beam_splitter_d";
+  board[2][7] = "beam_splitter_d";
+  board[3][7] = "mirror_a";
+  board[4][7] = "mirror_d";
+  board[5][7] = "mirror_d";
+  board[6][7] = "corner_cube";
 
   // v = {i: 6, j: 4, dir: 2, amp: 0.7};
   // state[[v.i, v.j, v.dir]] = v;
@@ -255,6 +256,8 @@ d3.select("#run").on("click", function () {
 function simulate () {
 
   var i, j, v, s;
+
+  history2 = [];
 
   // generating state from laser
   state = {};
