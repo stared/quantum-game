@@ -24,3 +24,16 @@
 	stroke-width: 1;
 	stroke: #999;
 }
+
+#footnote {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px;
+  width: 300px;
+  background: rgba(230, 230, 230, 0.85);
+  color: #222;
+  border: solid 1px #aaa;
+  border-radius: 4px;
+  z-index:20;
+}
