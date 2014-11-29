@@ -168,6 +168,8 @@ Elements.ThinBeamSplitter = function () {
   this.amplitudes = amplitudesDirection
     .map(function (each) { return transitionTensor(each, smReflectionPhasePolarization); });
 
+  // WARNING: propagation alone should not change phases
+
 }
 
 

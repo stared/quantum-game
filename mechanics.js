@@ -20,6 +20,8 @@
 // }
 //
 
+// abstracting complex numbers?
+
 
 // sm stands for 'sparse matrix', not 'sado-maso'!
 
@@ -60,7 +62,53 @@ var transitionTensor = function (sm1, sm2) {
 var smMultiplyZ = function (sm, z) {
   // an inefficient trick by a smart but lazy programmer
   return transitionTensor(sm, {'': [{to: '', re: z.re, im: z.im}]});
-}
+};
+
+
+var propagatePoint = function (state0, transitionSm) {
+  var state = {};
+  var absorptionProbs = {};
+  var absorptionProb, diffRe, diffIm;
+
+  _.forEach(state0, function (v0, k0) {
+
+    absorptionProb = Math.pow(v0.re, 2) + Math.pow(v0.im, 2);
+    
+    if (!transitionSm[k0]) return;
+
+    _.forEach(transitionSm[k0], function (out) {
+
+      diffRe = v0.re * out.re - v0.im * out.im;
+      diffIm = v0.re * out.im + v0.im * out.re;
+      
+      if (out.to in state) {
+        state[out.to].re += diffRe
+        state[out.to].im += diffIm;
+        // purging zero probs here or later?
+      } else {
+        state[out.to] = {re: diffRe, im: diffIm};
+      }
+
+      absorptionProb -=  Math.pow(diffRe, 2) + Math.pow(diffIm, 2);
+
+    });
+
+    if (absorptionProb > e-5) {
+      absorptionProbs[k0] = absorptionProb;
+    }
+
+
+  });
+
+  return {state: state, absorptionProbs: absorptionProbs};
+
+};
+
+
+
+//
+// Some constants
+//
 
 
 // the most fundamental constant in QM
