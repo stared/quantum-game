@@ -50,7 +50,7 @@ Elements.CornerCube = function () {
   }];
 
   this.amplitudes = amplitudesDirection
-    .map(function (each) { return transitionTensor(each, smIdentityPolarization); });
+    .map(function (each) { return smTensorProd(each, smIdentityPolarization); });
   // check it with circular polarization
 
 }
@@ -105,7 +105,7 @@ Elements.ThinMirror = function () {
   ];
 
   this.amplitudes = amplitudesDirection
-    .map(function (each) { return transitionTensor(each, smReflectionPhasePolarization); });
+    .map(function (each) { return smTensorProd(each, smReflectionPhasePolarization); });
 
 }
 
@@ -166,7 +166,7 @@ Elements.ThinBeamSplitter = function () {
   // the only reflected thing are reflections, not - transmittions
   // this thing with sparse linear operations would 
   this.amplitudes = amplitudesDirection
-    .map(function (each) { return transitionTensor(each, smReflectionPhasePolarization); });
+    .map(function (each) { return smTensorProd(each, smReflectionPhasePolarization); });
 
   // WARNING: propagation alone should not change phases
 

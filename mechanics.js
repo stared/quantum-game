@@ -25,7 +25,7 @@
 
 // sm stands for 'sparse matrix', not 'sado-maso'!
 
-var transitionTensor = function (sm1, sm2) {
+var smTensorProd = function (sm1, sm2) {
   var sm = {};
   var k1, k2, i1, i2, amp1, amp2;
   var tmp;
@@ -61,11 +61,11 @@ var transitionTensor = function (sm1, sm2) {
 
 var smMultiplyZ = function (sm, z) {
   // an inefficient trick by a smart but lazy programmer
-  return transitionTensor(sm, {'': [{to: '', re: z.re, im: z.im}]});
+  return smTensorProd(sm, {'': [{to: '', re: z.re, im: z.im}]});
 };
 
 
-var propagatePoint = function (state0, transitionSm) {
+var smPropagateState = function (state0, transitionSm) {
   var state = {};
   var absorptionProbs = {};
   var absorptionProb, diffRe, diffIm;
@@ -138,6 +138,6 @@ var smReflectionPhasePolarization = {
   '|': [{to: '|', re: 1, im: 0}],
 };
 
-var smIdentityFull = transitionTensor(smIdentityDirection, smIdentityPolarization);
+var smIdentityFull = smTensorProd(smIdentityDirection, smIdentityPolarization);
 
 // some tests would help
