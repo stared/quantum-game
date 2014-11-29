@@ -1,0 +1,26 @@
+.glass {
+    fill: steelblue;
+    fill-opacity: 0.5;
+}
+
+.glass-edge {
+    stroke: steelblue;
+    stroke-opacity: 1;
+    stroke-width: 1.5; 
+}
+
+.metal {
+    fill: gray;
+}
+
+.metal-edge {
+    stroke: lightgrey;
+    stroke-opacity: 1;
+    stroke-width: 1.5;
+}
+
+.beam {
+    stroke: red;
+    stroke-opacity: 0.5;
+    stroke-width: 2;
+}
