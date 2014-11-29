@@ -22,6 +22,8 @@
 
 // abstracting complex numbers?
 
+// arrays or objects in the last point?
+
 
 // sm stands for 'sparse matrix', not 'sado-maso'!
 
@@ -56,7 +58,31 @@ var smTensorProd = function (sm1, sm2) {
 
   return sm;
 
-}
+};
+
+
+var smSum = function (sm1, sm2) {
+
+  var sm = {};
+
+  _.union(_.keys(sm1), _.keys(sm2)).forEach(function (kIn) {
+    
+    sm[kIn] = _.chain(sm1[kIn] || []).concat(sm2[kIn] || [])
+      .groupBy('to')
+      .mapValues(function (x) {
+        return _.reduce(x, function (acc, y) {
+          return {re: acc.re + y.re, im: acc.im + y.im};
+        });
+      })
+      .value();
+
+  }); 
+
+  // removing zeros?
+
+  return sm;
+
+};
 
 
 var smMultiplyZ = function (sm, z) {
@@ -85,6 +111,7 @@ var smPropagateState = function (state0, transitionSm) {
         state[out.to].re += diffRe
         state[out.to].im += diffIm;
         // purging zero probs here or later?
+        // or maybe reducing only in the last step?
       } else {
         state[out.to] = {re: diffRe, im: diffIm};
       }
