@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <head>
-  <title>Quantum game prototype, SPP</title>
-<!--   <meta name="description" content="Interaktywna wizualizacja zainteresowań oraz miast uczestników Krajowego Funduszu na rzecz Dzieci, w latach 1997-2013.">
-  <meta name="keywords" content="visualization,d3js,map,topojson,poland,kfnrd,education"> -->
+  <title>Quantum game prototype</title>
+  <meta name="description" content="Quantum Game - play with photons, superposition and entanglement. With true quantum mechanics underneath.">
+  <meta name="keywords" content="quantum,game,optics,educational">
   <meta name="author" content="Piotr Migdał">
   <!-- <meta property='og:image' content="http://stared.github.io/kfnrd_viz/screenshot.png"> -->
   <meta charset="utf-8">
+  <script src="lib/d3.v3.min.js"></script>
+  <script src="lib/lodash.min.js"></script>
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-  <script src="lib/d3.v3.min.js"></script>
+  
+  <button id="run">Run!</button>
+
   <div id="footnote">
     Quantum game prototype<br>
-    Secret: Polish Perspectives<br>
     <a href="http://migdal.wikidot.com/">Piotr Migdał</a>, 2014.
   </div>
-  <button id="run">Run!</button>
+
   <div id="tooltip"></div>
+
   <script src="main.js"></script>
+
 </body>
