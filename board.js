@@ -18,7 +18,7 @@ function Board (nX, nY) {
     }
   }
 
-  this.stateSpatial = {};
+  this.stateSpatial = [];
 
 
 }
@@ -26,22 +26,34 @@ function Board (nX, nY) {
 
 Board.prototype.stateInit = function () {
 
-  var source = 0;
+  var sources = 0;
 
   this.stateSpatial = [];
 
+  var stateSpatial = this.stateSpatial;  // this issue
+
   _.forEach(this.board, function (col, i) {
     _.forEach(col, function (el, j) {
-      if (el.name = 'source') {
-        source += 1;
-        this.stateSpatial.push({i: i, j: j, source})
+      if (el.name === 'source') {
+        sources += 1;
+        console.log('i', i, 'j', j, 'el', el);
+        _.forEach(el.generateSv(), function (out) {
+          stateSpatial.push({
+            i:  i,
+            j:  j,
+            to: out.to,  // for more particles, more things will go it 'to'
+            re: out.re,
+            im: out.im
+          })
+        })
       }
-    })
-  })
+    });
+  });
 
-  if (source) {
+  if (sources > 1) {
     console.log("As of now only one source, sorry.");
   }
 
 }
+
 

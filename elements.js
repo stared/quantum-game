@@ -25,7 +25,11 @@ Elements.Vacuum = function () {
 
   this.amplitudes = [smIdentityFull];  // copy?
 
-}
+  this.transitionSm = function () {
+    return this.amplitudes[this.rotation];
+  };
+
+};
 
 
 Elements.Source = function () {
@@ -55,11 +59,11 @@ Elements.Source = function () {
     [{to: 'v-', re: 1, im: 0}],
   ];
 
-  this.generates = [];
+  this.generateSv = function () {
+    return this.generates[this.rotation];
+  };
 
-  // some getters?
-
-}
+};
 
 
 Elements.CornerCube = function () {
@@ -88,7 +92,11 @@ Elements.CornerCube = function () {
     .map(function (each) { return smTensorProd(each, smIdentityPolarization); });
   // check it with circular polarization
 
-}
+  this.transitionSm = function () {
+    return this.amplitudes[this.rotation];
+  };
+
+};
 
 
 // magical thin mirror that is easy for implementation (no decoherence!)
@@ -142,7 +150,11 @@ Elements.ThinMirror = function () {
   this.amplitudes = amplitudesDirection
     .map(function (each) { return smTensorProd(each, smReflectionPhasePolarization); });
 
-}
+  this.transitionSm = function () {
+    return this.amplitudes[this.rotation];
+  };
+
+};
 
  
 Elements.ThinBeamSplitter = function () {
@@ -205,7 +217,11 @@ Elements.ThinBeamSplitter = function () {
 
   // WARNING: propagation alone should not change phases
 
-}
+  this.transitionSm = function () {
+    return this.amplitudes[this.rotation];
+  };
+
+};
 
 
 Elements.PolarizingBeamSplitter = function () {
@@ -252,7 +268,11 @@ Elements.PolarizingBeamSplitter = function () {
     },
   ];
 
-}
+  this.transitionSm = function () {
+    return this.amplitudes[this.rotation];
+  };
+
+};
 
 
 // Elements.SugarSolution
