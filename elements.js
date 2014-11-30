@@ -1,8 +1,9 @@
-// require helpers.js
-
+// require mechanics.js
 
 Elements = {};
 
+
+// a base element?
 
 Elements.Vacuum = function () {
 
@@ -23,6 +24,40 @@ Elements.Vacuum = function () {
   this.draw = function () {};
 
   this.amplitudes = [smIdentityFull];  // copy?
+
+}
+
+
+Elements.Source = function () {
+
+  // to all elements:
+  // some var self = this, to get no problems in functions? 
+  
+  this.flavor = "Photon generator.";
+
+  this.g = null;
+  this.name = "source";
+  this.type = "special";
+  this.rotation = 0;  // 0: > 1: ^ 2: < 3: v
+
+  this.rotate = function () {
+    this.rotation = (this.rotation + 1) % 4;
+  };
+
+  this.draw = function () {};
+
+  this.amplitudes = [{}, {}, {}, {}];
+
+  this.generates = [
+    [{to: '>-', re: 1, im: 0}],
+    [{to: '^-', re: 1, im: 0}],
+    [{to: '<-', re: 1, im: 0}],
+    [{to: 'v-', re: 1, im: 0}],
+  ];
+
+  this.generates = [];
+
+  // some getters?
 
 }
 
