@@ -1,5 +1,5 @@
 
-var board = new Board(5, 5);
+var board = new Board(18, 12);
 
 board.draw();
 
