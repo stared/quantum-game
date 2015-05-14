@@ -1,7 +1,7 @@
 // require mechanics.js
 // require elements.js
 
-var TILE_SIZE = 20;
+var TILE_SIZE = 40;
 
 var i2x = function (i) { return TILE_SIZE/2 + TILE_SIZE * i; }
 var j2y = function (j) { return TILE_SIZE/2 + TILE_SIZE * j; }
