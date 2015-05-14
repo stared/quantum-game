@@ -4,6 +4,7 @@ var nY = 12;
 
 var board = new Board(nX, nY);
 
+board.drawBackground();
 board.draw();
 
 // for (i = 0; i < nX; i++) {

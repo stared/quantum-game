@@ -1,10 +1,10 @@
 // require mechanics.js
 // require elements.js
 
-var TILE_SIZE = 40;
+var TILE_SIZE = 80;
 
-var i2x = function (i) { return TILE_SIZE/2 + TILE_SIZE * i; }
-var j2y = function (j) { return TILE_SIZE/2 + TILE_SIZE * j; }
+var i2x = function (i) { return TILE_SIZE * i; }
+var j2y = function (j) { return TILE_SIZE * j; }
 
 var x2i = function (x) { return Math.floor(x / TILE_SIZE); }
 var y2j = function (y) { return Math.floor(y / TILE_SIZE); }
@@ -37,6 +37,32 @@ function Board (nX, nY) {
 
 }
 
+Board.prototype.drawBackground = function () {
+  var boardFlat = [];
+  var i, j;
+
+  for (i = 0; i < this.nX; ++i) {
+    for (j = 0; j < this.nY; ++j) {
+      boardFlat.push({i: i, j: j});
+    }
+  }
+
+  d3.select("svg").append("g")
+    .attr("id", "background")
+    .selectAll(".tile")
+    .data(boardFlat)
+    .enter()
+      .append("rect")
+      .attr({
+        class: 'tile',
+        x: function (d) { return i2x(d.i) },
+        y: function (d) { return j2y(d.j) },
+        width: TILE_SIZE,
+        height: TILE_SIZE,
+      });
+
+}
+
 Board.prototype.draw = function () {
 
   var i, j, v, s;
@@ -52,20 +78,30 @@ Board.prototype.draw = function () {
     }
   }
 
-  d3.select("svg").append("g")
+  var tiles = d3.select("svg").append("g")
     .attr("id", "board")
     .selectAll(".tile")
     .data(boardFlat)
     .enter()
+      .append("g")
+      .attr({
+        class: 'tile',
+        transform: function (d) {
+          return 'translate(' + (i2x(d.i) + TILE_SIZE/2) + ',' + (j2y(d.j) + TILE_SIZE/2) + ')';
+        },
+      });
+
+  tiles
       .append("use")
-        .attr("xlink:href", function (d) { return "#" + d.val.name; })
-        .attr("class", "tile")
-        .attr("width", 0.5 * TILE_SIZE)
-        .attr("height", 0.5 * TILE_SIZE)
-        .attr("rx", 3)
-        .attr("ry", 3)
-        .attr("x", function (d) { return i2x(d.i); })
-        .attr("y", function (d) { return j2y(d.j); });
+      .attr({
+        'xlink:href': function (d) { return "#" + d.val.name; },
+      });
+  tiles
+      .append("use")
+      .attr({
+        'xlink:href': '#hitbox',
+        'class': 'hitbox',
+      });
 
 }
 
