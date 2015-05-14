@@ -2,6 +2,8 @@
 // require elements.js
 
 var TILE_SIZE = 80;
+var TIME_STEP = 500;
+var VIZ_IS_ON = false;
 
 var i2x = function (i) { return TILE_SIZE * i; }
 var j2y = function (j) { return TILE_SIZE * j; }
@@ -60,6 +62,10 @@ Board.prototype.drawBackground = function () {
         width: TILE_SIZE,
         height: TILE_SIZE,
       });
+
+  // just to have it at the right layer
+  d3.select("svg").append("g")
+    .attr("id", "photons");
 
 }
 
@@ -169,7 +175,7 @@ Board.prototype.stateInit = function () {
     console.log("As of now only one source, sorry.");
   }
 
-  console.log("stateSpatial", this.stateSpatial);
+  this.stateHistory = [_.cloneDeep(this.stateSpatial)];
 
 };
 
@@ -177,6 +183,7 @@ Board.prototype.stateInit = function () {
 // as of now - only single particle interactions
 // as of now - very inefficient (I should query elements only once)
 // as of now - without absorption
+// some of it should go to mechanics.js BTW
 Board.prototype.statePropagate = function () {
 
   var board = this.board;
@@ -220,6 +227,46 @@ Board.prototype.statePropagate = function () {
   this.stateSpatial = _.values(stateSpatialDict)
     .filter(function (state) { return Math.pow(state.re, 2) + Math.pow(state.im, 2) > 1e-5; });
 
-  console.log("new stateSpatial", this.stateSpatial);
+  this.stateHistory.push(_.cloneDeep(this.stateSpatial));
+
+}
+
+
+Board.prototype.animationRun = function () {
+
+  this.step = this.step || 0;
+
+  if (this.step === 0) {
+    VIZ_IS_ON = true;
+  }
+
+  d3.select("#photons").selectAll(".photon").remove();;
+
+  var photons = d3.select("#photons").selectAll(".photon")
+    .data(this.stateHistory[this.step]);
+
+  photons.enter()
+    .append("circle")
+      .attr("class", "photon")
+      .attr("r", 10)
+      .attr("cx", function (d) { return i2x(d.i) + TILE_SIZE/2; })
+      .attr("cy", function (d) { return j2y(d.j) + TILE_SIZE/2; })
+      .style("opacity", function (d) { return Math.sqrt(d.re*d.re + d.im*d.im); });
+
+  photons.transition()
+    .ease([0,1])
+    .duration(TIME_STEP)
+      .attr("cx", function (d) { return i2x(d.i + speedX[d.to[0]]) + TILE_SIZE/2; })
+      .attr("cy", function (d) { return j2y(d.j + speedY[d.to[0]]) + TILE_SIZE/2; });
+
+  var thisFunction = this.animationRun.bind(this);
+  this.step += 1;
+
+  if ( this.step < this.stateHistory.length && VIZ_IS_ON) {
+    setTimeout(thisFunction, TIME_STEP);
+  } else {
+    this.step = 0;
+    VIZ_IS_ON = false;
+  }
 
 }

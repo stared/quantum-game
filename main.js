@@ -24,3 +24,5 @@ board.stateInit();
 board.statePropagate();
 board.statePropagate();
 board.statePropagate();
+
+board.animationRun();
