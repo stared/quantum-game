@@ -71,6 +71,8 @@ Board.prototype.draw = function () {
   for (i = 0; i < this.nX; i++) {
     for (j = 0; j < this.nY; j++) {
       v = this.board[i][j];
+      v.i = i;
+      v.j = j;
       if (v instanceof Elements.Vacuum) {
         continue;
       }
@@ -91,6 +93,12 @@ Board.prototype.draw = function () {
         },
       });
 
+  // Keep tile node reference
+  tiles.each(function (d) {
+    d.val.node = this;
+  });
+
+  // Create element
   tiles
       .append("use")
       .attr({
@@ -100,6 +108,7 @@ Board.prototype.draw = function () {
           return 'rotate(' + (360 / d.val.maxRotation * d.val.rotation) + ',0,0)';
         },
       });
+  // Create hitbox
   tiles
       .append("use")
       .attr({
@@ -109,8 +118,7 @@ Board.prototype.draw = function () {
       .on('click', function (d) {
         var newRotation = (d.val.rotation + 1) % d.val.maxRotation;
         d.val.rotation = newRotation;
-        var element = d3.select(this.parentNode).select('.element');
-        element.transition().duration(300).attr(
+        d3.select(d.val.node).select('.element').transition().duration(300).attr(
           'transform', 'rotate(' + (360 / d.val.maxRotation * newRotation) + ',0,0)'
         );
       });
@@ -122,16 +130,40 @@ Board.prototype.draw = function () {
 
       })
       .on('drag', function (d) {
-        var i, j, x, y;
-        x = d3.event.x;
-        y = d3.event.y;
-        i = x2i(d3.event.x - TILE_SIZE / 2);
-        j = y2j(d3.event.y - TILE_SIZE / 2);
-        d3.select(this).attr("transform", 'translate(' + x + ',' + y + ')');
+        d3.select(this).attr("transform", 'translate(' + d3.event.x + ',' + d3.event.y + ')');
+        d.val.newI = x2i(d3.event.x);
+        d.val.newJ = y2j(d3.event.y);
       })
       .on('dragend', function (d) {
-        //var i = 0, j = 0;
-        //d3.select(this).attr("transform", "translate(" + i2x(i) + "," + j2y(j) + ")");
+        // No drag?
+        if (d.val.newI == null || d.val.newJ == null) {
+          return;
+        }
+        // Intuitive naming
+        var from = d.val;
+        var to = board.board[from.newI][from.newJ];
+        // Swap items in matrix
+        board.board[from.i][from.j] = to;
+        board.board[from.newI][from.newJ] = from;
+        // Swap items' positions
+        to.i = from.i;
+        to.j = from.j;
+        from.i = from.newI;
+        from.j = from.newJ;
+        delete from.newI;
+        delete from.newJ;
+        // Move element (if exists)
+        if (to.node) {
+          d3.select(to.node).transition().duration(300).attr('transform',
+              'translate(' + (i2x(to.i) + TILE_SIZE/2) +
+              ',' + (j2y(to.j) + TILE_SIZE/2) + ')'
+          );
+        }
+        // "from" element is draggable, so it exists
+        d3.select(from.node).transition().duration(300).attr('transform',
+            'translate(' + (i2x(from.i) + TILE_SIZE/2) +
+            ',' + (j2y(from.j) + TILE_SIZE/2) + ')'
+        );
       });
   tiles
       .call(drag);
@@ -202,7 +234,7 @@ Board.prototype.statePropagate = function () {
       diffIm = stateIn.re * out.im + stateIn.im * out.re;
 
       if (out.to in stateSpatialDict) {
-        stateSpatialDict[keyOut].re += diffRe
+        stateSpatialDict[keyOut].re += diffRe;
         stateSpatialDict[keyOut].im += diffIm;
 
       } else {
@@ -222,4 +254,4 @@ Board.prototype.statePropagate = function () {
 
   console.log("new stateSpatial", this.stateSpatial);
 
-}
+};
