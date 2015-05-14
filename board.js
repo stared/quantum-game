@@ -22,7 +22,7 @@ function Board (nX, nY) {
   for (i = 0; i < nX; i++) {
     this.board[i] = [];
     for (j = 0; j < nY; j++) {
-      this.board[i][j] = Math.random() > 0.9 ? new Elements.PolarizingBeamSplitter() : new Elements.Vacuum();
+      this.board[i][j] = new Elements.Vacuum();
     }
   }
 
@@ -83,7 +83,6 @@ Board.prototype.stateInit = function () {
     _.forEach(col, function (el, j) {
       if (el.name === 'source') {
         sources += 1;
-        console.log('i', i, 'j', j, 'el', el);
         _.forEach(el.generateSv(), function (out) {
           stateSpatial.push({
             i:  i,
@@ -101,26 +100,57 @@ Board.prototype.stateInit = function () {
     console.log("As of now only one source, sorry.");
   }
 
+  console.log("stateSpatial", this.stateSpatial);
+
 };
 
 
 // as of now - only single particle interactions
+// as of now - very inefficient (I should query elements only once)
+// as of now - without absorption
 Board.prototype.statePropagate = function () {
 
+  var board = this.board;
   var stateSpatial0 = this.stateSpatial;
-  var stateSpatial = [];
+  var stateSpatialDict = {};
 
-  // _.chain(stateSpatial0)
-  //   .groupBy(function (each) { return [each.i, each.j].join(" "); })
-  //   .map(function ())
+  var keyOut, diffRe, diffIm;
 
+  stateSpatial0 = _.map(stateSpatial0, function (stateIn) {
+    stateIn.i += speedX[stateIn.to[0]];
+    stateIn.j += speedY[stateIn.to[0]];
+    return stateIn;
+  });
 
+  _.forEach(stateSpatial0, function (stateIn) {
+    
+    var transitionAmps = board[stateIn.i][stateIn.j].transitionSm();
+    
+    _.forEach(transitionAmps[stateIn.to], function (out) {
 
-  // _.groupBy(this.stateSpatial, function (vIn) {
-  //   vIn 
-  // })
+      keyOut = [stateIn.i, stateIn.j, out.to].join("_");
+      diffRe = stateIn.re * out.re - stateIn.im * out.im;
+      diffIm = stateIn.re * out.im + stateIn.im * out.re;
+      
+      if (out.to in stateSpatialDict) {
+        stateSpatialDict[keyOut].re += diffRe
+        stateSpatialDict[keyOut].im += diffIm;
+
+      } else {
+        stateSpatialDict[keyOut] = {i:  stateIn.i,
+                                    j:  stateIn.j,
+                                    to: out.to,
+                                    re: diffRe,
+                                    im: diffIm};
+      }
+
+    });
+
+  });
+
+  this.stateSpatial = _.values(stateSpatialDict)
+    .filter(function (state) { return Math.pow(state.re, 2) + Math.pow(state.im, 2) > 1e-5; });
+
+  console.log("new stateSpatial", this.stateSpatial);
 
 }
-
-
-

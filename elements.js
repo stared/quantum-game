@@ -63,6 +63,15 @@ Elements.Source = function () {
     return this.generates[this.rotation];
   };
 
+  // for now - fully transparent
+  // probably I will change it into totally absorbing
+
+  this.amplitudes = [smIdentityFull];
+
+  this.transitionSm = function () {
+    return this.amplitudes[this.rotation];
+  };
+
 };
 
 

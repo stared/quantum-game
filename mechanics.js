@@ -120,7 +120,7 @@ var smPropagateState = function (state0, transitionSm) {
 
     });
 
-    if (absorptionProb > e-5) {
+    if (absorptionProb > 1e-5) {
       absorptionProbs[k0] = absorptionProb;
     }
 
@@ -166,5 +166,19 @@ var smReflectionPhasePolarization = {
 };
 
 var smIdentityFull = smTensorProd(smIdentityDirection, smIdentityPolarization);
+
+var speedX = {
+  '>': 1,
+  '^': 0,
+  '<': -1,
+  'v': 0,
+};
+
+var speedY = {
+  '>': 0,
+  '^': 1,
+  '<': 0,
+  'v': -1,
+};
 
 // some tests would help
