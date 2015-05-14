@@ -115,6 +115,27 @@ Board.prototype.draw = function () {
         );
       });
 
+  // Drag and drop
+
+  var drag = d3.behavior.drag()
+      .on('dragstart', function (d) {
+
+      })
+      .on('drag', function (d) {
+        var i, j, x, y;
+        x = d3.event.x;
+        y = d3.event.y;
+        i = x2i(d3.event.x - TILE_SIZE / 2);
+        j = y2j(d3.event.y - TILE_SIZE / 2);
+        d3.select(this).attr("transform", 'translate(' + x + ',' + y + ')');
+      })
+      .on('dragend', function (d) {
+        //var i = 0, j = 0;
+        //d3.select(this).attr("transform", "translate(" + i2x(i) + "," + j2y(j) + ")");
+      });
+  tiles
+      .call(drag);
+
 }
 
 
@@ -179,7 +200,7 @@ Board.prototype.statePropagate = function () {
       keyOut = [stateIn.i, stateIn.j, out.to].join("_");
       diffRe = stateIn.re * out.re - stateIn.im * out.im;
       diffIm = stateIn.re * out.im + stateIn.im * out.re;
-      
+
       if (out.to in stateSpatialDict) {
         stateSpatialDict[keyOut].re += diffRe
         stateSpatialDict[keyOut].im += diffIm;
