@@ -19,6 +19,10 @@ use.hitbox:hover {
 	fill: coral;
 }
 
+.beam {
+	stroke: red;
+}
+
 .element {
 	cursor: default;
 }
