@@ -1,7 +1,17 @@
-.tile {
+rect.tile {
 	fill: #fff;
 	stroke-width: 0.5px;
 	stroke: #aaa;
+}
+
+rect.hitbox {
+	fill: lightgreen;
+}
+use.hitbox {
+	opacity: 0;
+}
+use.hitbox:hover {
+	opacity: 0.2;
 }
 
 .photon {
