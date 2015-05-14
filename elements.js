@@ -16,12 +16,7 @@ Elements.Vacuum = function () {
   this.name = "vacuum";
   this.type = "unitary";
   this.rotation = 0;
-
-  this.rotate = function () {
-    console.log("Element " + this.name + " is not rotable!");
-  };
-
-  this.draw = function () {};
+  this.maxRotation = 1;
 
   this.amplitudes = [smIdentityFull];  // copy?
 
@@ -43,12 +38,7 @@ Elements.Source = function () {
   this.name = "source";
   this.type = "special";
   this.rotation = 0;  // 0: > 1: ^ 2: < 3: v
-
-  this.rotate = function () {
-    this.rotation = (this.rotation + 1) % 4;
-  };
-
-  this.draw = function () {};
+  this.maxRotation = 4;
 
   this.amplitudes = [{}, {}, {}, {}];
 
@@ -83,12 +73,7 @@ Elements.CornerCube = function () {
   this.name = "corner-cube";
   this.type = "unitary";
   this.rotation = 0;
-
-  this.rotate = function () {
-    console.log("Element " + this.name + " is not rotable!");
-  };
-
-  this.draw = function () {};
+  this.maxRotation = 1;
 
   var amplitudesDirection = [{
     '>': [{to: '<', re: 1, im: 0}],
@@ -117,12 +102,7 @@ Elements.ThinMirror = function () {
   this.name = "thin-mirror";
   this.type = "unitary";
   this.rotation = 0;  // 0: - 1: / 2: | 3: \
-
-  this.rotate = function () {
-    this.rotation = (this.rotation + 1) % 4;
-  };
-
-  this.draw = function () {};
+  this.maxRotation = 4;
 
   var amplitudesDirection =
   [
@@ -178,12 +158,7 @@ Elements.ThinBeamSplitter = function () {
   this.name = "thin-beam-splitter";
   this.type = "unitary";
   this.rotation = 0;  // 0: - 1: / 2: | 3: \
-
-  this.rotate = function () {
-    this.rotation = (this.rotation + 1) % 4;
-  };
-
-  this.draw = function () {};
+  this.maxRotation = 4;
 
   // TO FIX!
   var amplitudesDirection =
@@ -242,12 +217,7 @@ Elements.PolarizingBeamSplitter = function () {
   this.name = "polarizing-beam-splitter";
   this.type = "unitary";
   this.rotation = 0;  // 0: [/] 1: [\]
-
-  this.rotate = function () {
-    this.rotation = (this.rotation + 1) % 2;
-  };
-
-  this.draw = function () {};
+  this.maxRotation = 4;
 
   // double check if this polarization
   // I assumed that - is being reflected and | just passes

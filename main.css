@@ -6,6 +6,7 @@ rect.tile {
 
 rect.hitbox {
 	fill: lightgreen;
+	cursor: pointer;
 }
 use.hitbox {
 	opacity: 0;

@@ -95,12 +95,24 @@ Board.prototype.draw = function () {
       .append("use")
       .attr({
         'xlink:href': function (d) { return "#" + d.val.name; },
+        'class': 'element',
       });
   tiles
       .append("use")
       .attr({
         'xlink:href': '#hitbox',
-        'class': 'hitbox',
+        class: 'hitbox',
+        transform: function (d) {
+          return 'rotate(' + (360 / d.val.maxRotation * d.val.rotation) + ',0,0)';
+        },
+      })
+      .on('click', function (d) {
+        var newRotation = (d.val.rotation + 1) % d.val.maxRotation;
+        d.val.rotation = newRotation;
+        var element = d3.select(this.parentNode).select('.element');
+        element.transition().duration(300).attr(
+          'transform', 'rotate(' + (360 / d.val.maxRotation * newRotation) + ',0,0)'
+        );
       });
 
 }
