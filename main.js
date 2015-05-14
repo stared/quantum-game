@@ -1,11 +1,8 @@
 
-var nX = 18;
-var nY = 12;
+var nX = 13;
+var nY = 10;
 
 var board = new Board(nX, nY);
-
-board.drawBackground();
-board.draw();
 
 // for (i = 0; i < nX; i++) {
 //   board.board[i] = [];
@@ -14,7 +11,13 @@ board.draw();
 //   }
 // }
 
-board.board[2][4] = new Elements.Source();
+board.board[2][7] = new Elements.Source();
+
+board.board[4][7] = new Elements.ThinBeamSplitter();
+board.board[4][7].rotation = 1;
+
+board.drawBackground();
+board.draw();
 
 board.stateInit();
 
