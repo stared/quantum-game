@@ -1,7 +1,7 @@
 // require mechanics.js
 // require elements.js
 
-var TILE_SIZE = 20;
+var TILE_SIZE = 40;
 
 var i2x = function (i) { return TILE_SIZE/2 + TILE_SIZE * i; }
 var j2y = function (j) { return TILE_SIZE/2 + TILE_SIZE * j; }
@@ -22,7 +22,7 @@ function Board (nX, nY) {
   for (i = 0; i < nX; i++) {
     this.board[i] = [];
     for (j = 0; j < nY; j++) {
-      this.board[i][j] = new Elements.Vacuum();
+      this.board[i][j] = Math.random() > 0.9 ? new Elements.PolarizingBeamSplitter() : new Elements.Vacuum();
     }
   }
 
@@ -45,6 +45,9 @@ Board.prototype.draw = function () {
   for (i = 0; i < this.nX; i++) {
     for (j = 0; j < this.nY; j++) {
       v = this.board[i][j];
+      if (v instanceof Elements.Vacuum) {
+        continue;
+      }
       boardFlat.push({i: i, j: j, val: v});
     }
   }
@@ -54,10 +57,11 @@ Board.prototype.draw = function () {
     .selectAll(".tile")
     .data(boardFlat)
     .enter()
-      .append("rect")
+      .append("use")
+        .attr("xlink:href", function (d) { return "#" + d.val.name; })
         .attr("class", "tile")
-        .attr("width", 0.95 * TILE_SIZE)
-        .attr("height", 0.95 * TILE_SIZE)
+        .attr("width", 0.5 * TILE_SIZE)
+        .attr("height", 0.5 * TILE_SIZE)
         .attr("rx", 3)
         .attr("ry", 3)
         .attr("x", function (d) { return i2x(d.i); })

@@ -71,7 +71,7 @@ Elements.CornerCube = function () {
   this.flavor = "Like a mirrot but cooler. It rotates you, not - reflects.";
 
   this.g = null;
-  this.name = "corner_cube";
+  this.name = "corner-cube";
   this.type = "unitary";
   this.rotation = 0;
 
@@ -105,7 +105,7 @@ Elements.ThinMirror = function () {
   this.flavor = "Works both ways [like 13]. So thin that it can serve as a pad... I mean iPad.";
 
   this.g = null;
-  this.name = "thin_mirror";
+  this.name = "thin-mirror";
   this.type = "unitary";
   this.rotation = 0;  // 0: - 1: / 2: | 3: \
 
@@ -166,7 +166,7 @@ Elements.ThinBeamSplitter = function () {
   this.flavor = "Making photons in two places at once. And binding them again.";
 
   this.g = null;
-  this.name = "thin_beam_splitter";
+  this.name = "thin-beam-splitter";
   this.type = "unitary";
   this.rotation = 0;  // 0: - 1: / 2: | 3: \
 
@@ -230,7 +230,7 @@ Elements.PolarizingBeamSplitter = function () {
                 + "Like religion-politics separation.";
 
   this.g = null;
-  this.name = "polarizing_beam_splitter";
+  this.name = "polarizing-beam-splitter";
   this.type = "unitary";
   this.rotation = 0;  // 0: [/] 1: [\]
 

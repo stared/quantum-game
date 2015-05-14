@@ -1,6 +1,6 @@
 .tile {
 	fill: #fff;
-	stroke-width: 0.5;
+	stroke-width: 0.5px;
 	stroke: #aaa;
 }
 
@@ -13,15 +13,18 @@
 }
 
 .glass {
-	fill: blue;
-	stroke-width: 1;
+	fill: steelblue;
+	fill-opacity: 0.5;
+}
+.glass-edge {
 	stroke: steelblue;
-	opacity: 0.5;
+	stroke-opacity: 1;
+	stroke-width: 2px;
 }
 
 .metal {
 	fill: #555;
-	stroke-width: 1;
+	stroke-width: 1px;
 	stroke: #999;
 }
 
