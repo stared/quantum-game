@@ -96,15 +96,15 @@ Board.prototype.draw = function () {
       .attr({
         'xlink:href': function (d) { return "#" + d.val.name; },
         'class': 'element',
+        transform: function (d) {
+          return 'rotate(' + (360 / d.val.maxRotation * d.val.rotation) + ',0,0)';
+        },
       });
   tiles
       .append("use")
       .attr({
         'xlink:href': '#hitbox',
         class: 'hitbox',
-        transform: function (d) {
-          return 'rotate(' + (360 / d.val.maxRotation * d.val.rotation) + ',0,0)';
-        },
       })
       .on('click', function (d) {
         var newRotation = (d.val.rotation + 1) % d.val.maxRotation;
