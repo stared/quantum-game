@@ -123,6 +123,8 @@ Board.prototype.draw = function () {
       })
       .on('click', function (d) {
 
+        if (d3.event.defaultPrevented) return;
+
         d.val.rotation = (d.val.rotation + 1) % d.val.maxRotation;
         
         var element = d3.select(d.val.node).select('.element');
@@ -139,7 +141,7 @@ Board.prototype.draw = function () {
 
   var drag = d3.behavior.drag()
       .on('dragstart', function (d) {
-
+        d3.event.sourceEvent.stopPropagation();
       })
       .on('drag', function (d) {
         d3.select(this).attr("transform", 'translate(' + d3.event.x + ',' + d3.event.y + ')');
