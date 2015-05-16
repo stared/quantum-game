@@ -262,6 +262,11 @@ Board.prototype.statePropagate = function () {
   });
 
   _.forEach(stateSpatial0, function (stateIn) {
+
+    // removing out-of-board photons
+    if ((stateIn.i < 0) || (stateIn.i >  board.nX - 1) || (stateIn.j < 0) || (stateIn.j >  board.nY - 1)) {
+      return;
+    }
     
     var transitionAmps = board[stateIn.i][stateIn.j].transitionSm();
     
