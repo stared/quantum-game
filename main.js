@@ -16,6 +16,12 @@ board.board[2][7] = new Elements.Source();
 board.board[4][7] = new Elements.ThinBeamSplitter();
 board.board[4][7].rotation = 1;
 
+// you can't have more sources, so let's draw all other elements
+board.board[0][0] = new Elements.ThinMirror();
+board.board[0][1] = new Elements.ThinBeamSplitter();
+board.board[0][2] = new Elements.PolarizingBeamSplitter();
+board.board[0][3] = new Elements.CornerCube();
+
 board.drawBackground();
 board.draw();
 

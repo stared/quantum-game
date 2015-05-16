@@ -122,11 +122,17 @@ Board.prototype.draw = function () {
         class: 'hitbox',
       })
       .on('click', function (d) {
-        var newRotation = (d.val.rotation + 1) % d.val.maxRotation;
-        d.val.rotation = newRotation;
-        d3.select(d.val.node).select('.element').transition().duration(300).attr(
-          'transform', 'rotate(' +  (d.val.angleOfRotation * newRotation) + ',0,0)'
-        );
+
+        d.val.rotation = (d.val.rotation + 1) % d.val.maxRotation;
+        
+        var element = d3.select(d.val.node).select('.element');
+
+        if (d.val.rotation === 0) {
+          element.attr('transform', 'rotate(' +  (- d.val.angleOfRotation) + ',0,0)')
+        }
+
+        element.transition().duration(300)
+          .attr('transform', 'rotate(' +  (d.val.angleOfRotation * d.val.rotation ) + ',0,0)');
       });
 
   // Drag and drop
