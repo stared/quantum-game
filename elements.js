@@ -17,6 +17,7 @@ Elements.Vacuum = function () {
   this.type = "unitary";
   this.rotation = 0;
   this.maxRotation = 1;
+  this.angleOfRotation = 360;  // just in case
 
   this.amplitudes = [smIdentityFull];  // copy?
 
@@ -39,6 +40,7 @@ Elements.Source = function () {
   this.type = "special";
   this.rotation = 0;  // 0: > 1: ^ 2: < 3: v
   this.maxRotation = 4;
+  this.angleOfRotation = 90;
 
   this.amplitudes = [{}, {}, {}, {}];
 
@@ -74,6 +76,7 @@ Elements.CornerCube = function () {
   this.type = "unitary";
   this.rotation = 0;
   this.maxRotation = 1;
+  this.angleOfRotation = 90;
 
   var amplitudesDirection = [{
     '>': [{to: '<', re: 1, im: 0}],
@@ -103,6 +106,7 @@ Elements.ThinMirror = function () {
   this.type = "unitary";
   this.rotation = 0;  // 0: - 1: / 2: | 3: \
   this.maxRotation = 4;
+  this.angleOfRotation = 45;
 
   var amplitudesDirection =
   [
@@ -159,6 +163,7 @@ Elements.ThinBeamSplitter = function () {
   this.type = "unitary";
   this.rotation = 0;  // 0: - 1: / 2: | 3: \
   this.maxRotation = 4;
+  this.angleOfRotation = 45;
 
   // TO FIX!
   var amplitudesDirection =
@@ -217,7 +222,8 @@ Elements.PolarizingBeamSplitter = function () {
   this.name = "polarizing-beam-splitter";
   this.type = "unitary";
   this.rotation = 0;  // 0: [/] 1: [\]
-  this.maxRotation = 4;
+  this.maxRotation = 2;
+  this.angleOfRotation = 90;
 
   // double check if this polarization
   // I assumed that - is being reflected and | just passes

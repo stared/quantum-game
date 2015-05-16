@@ -111,7 +111,7 @@ Board.prototype.draw = function () {
         'xlink:href': function (d) { return "#" + d.val.name; },
         'class': 'element',
         transform: function (d) {
-          return 'rotate(' + (360 / d.val.maxRotation * d.val.rotation) + ',0,0)';
+          return 'rotate(' + (d.val.angleOfRotation * d.val.rotation) + ',0,0)';
         },
       });
   // Create hitbox
@@ -125,7 +125,7 @@ Board.prototype.draw = function () {
         var newRotation = (d.val.rotation + 1) % d.val.maxRotation;
         d.val.rotation = newRotation;
         d3.select(d.val.node).select('.element').transition().duration(300).attr(
-          'transform', 'rotate(' + (360 / d.val.maxRotation * newRotation) + ',0,0)'
+          'transform', 'rotate(' +  (d.val.angleOfRotation * newRotation) + ',0,0)'
         );
       });
 
