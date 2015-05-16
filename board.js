@@ -312,3 +312,35 @@ Board.prototype.animationRun = function () {
   }
 
 };
+
+
+Board.prototype.exportJSON = function () {
+
+  var elements = [];
+  var i, j, el;
+
+  for (i = 0; i < this.nX; i++) {
+    for (j = 0; j < this.nY; j++) {
+
+      el = this.board[i][j];
+
+      if (el instanceof Elements.Vacuum) {
+        continue;
+      } else {
+        elements.push({name:     el.name,
+                       i:        i,
+                       j:        j,
+                       rotation: el.rotation});
+      }
+    }
+  }
+
+  return JSON.stringify({
+    board: {
+      width: this.nX,
+      height: this.nY
+    },
+    elements: elements
+  }, null, 2);
+
+}
