@@ -1,5 +1,4 @@
-.DS_Store
-lib/*
-aux/drawings.js
-.idea
-
+/.DS_Store
+/aux
+/.idea
+/jspm_packages

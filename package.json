@@ -1,0 +1,15 @@
+{
+  "jspm": {
+    "directories": {},
+    "dependencies": {
+      "d3": "github:mbostock/d3@^3.5.5",
+      "lodash": "npm:lodash@^3.8.0",
+      "normalize.css": "github:necolas/normalize.css@^3.0.3"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4"
+    }
+  }
+}

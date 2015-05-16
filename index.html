@@ -6,17 +6,20 @@
   <meta name="author" content="Piotr Migdał">
   <!-- <meta property='og:image' content="http://stared.github.io/kfnrd_viz/screenshot.png"> -->
   <meta charset="utf-8">
-  <script src="lib/d3.v3.min.js"></script>
-  <script src="lib/lodash.min.js"></script>
-  <script src="mechanics.js"></script>
-  <script src="elements.js"></script>
-  <script src="board.js"></script>
-  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <script src="jspm_packages/system.js"></script>
+  <script src="config.js"></script>
+  <script>
+    System.import('./app');
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="css/interface.css">
+  <link rel="stylesheet" type="text/css" href="css/tiles.css">
 </head>
 <body>
   
   <div id="game">
-    <svg width="1200" height="900">
+    <svg viewBox="0 0 1040 800" preserveAspectRatio="xMidYMid meet">
       <defs>
         <g id="hitbox">
           <rect class="hitbox" x="-40" y="-40" width="80" height="80"/>

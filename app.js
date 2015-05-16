@@ -1,8 +1,15 @@
+'use strict';
 
-var nX = 13;
-var nY = 10;
+import 'normalize.css';
 
-var board = new Board(nX, nY);
+import 'elements'
+import 'js/level'
+import 'js/board'
+
+const nX = 13;
+const nY = 10;
+
+const board = new Board(nX, nY);
 
 // for (i = 0; i < nX; i++) {
 //   board.board[i] = [];

@@ -1,0 +1,32 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    padding: 1vw;
+
+    /* fallback/image non-cover color */
+    background-color: #225566;
+    /* Firefox 3.6+ */
+    background-image: -moz-linear-gradient(#225566, #447788);
+    /* Safari 4+, Chrome 1+ */
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#225566), to(#447788));
+    /* Safari 5.1+, Chrome 10+ */
+    background-image: -webkit-linear-gradient(#225566, #447788);
+    /* Opera 11.10+ */
+    background-image: -o-linear-gradient(#225566, #447788);
+}
+
+#game {
+    width: 100%;
+    height: 100%;
+    /* Allow <svg> to be 100% height */
+    font-size: 0;
+}
+#game > svg {
+    width: 100%;
+    height: 100%;
+}
