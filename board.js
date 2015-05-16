@@ -155,6 +155,21 @@ Board.prototype.draw = function () {
         if (d.val.newI == null || d.val.newJ == null) {
           return;
         }
+
+        if ((d.val.newI < 0) || (d.val.newI >  thisBoard.nX - 1) || (d.val.newJ < 0) || (d.val.newJ >  thisBoard.nY - 1)) {
+
+          d.val.newI = d.val.i;
+          d.val.newI = d.val.j;
+
+          d3.select(d.val.node).transition().duration(300).attr('transform',
+              'translate(' + (i2x(d.val.i) + TILE_SIZE/2) +
+              ',' + (j2y(d.val.j) + TILE_SIZE/2) + ')'
+          );
+
+          return;
+
+        }
+
         // Intuitive naming
         var from = d.val;
 
