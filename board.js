@@ -73,6 +73,8 @@ Board.prototype.draw = function () {
 
   var i, j, v, s;
   var boardFlat = [];
+
+  var thisBoard = this;
   
   for (i = 0; i < this.nX; i++) {
     for (j = 0; j < this.nY; j++) {
@@ -155,13 +157,15 @@ Board.prototype.draw = function () {
         }
         // Intuitive naming
         var from = d.val;
-        var to = board.board[from.newI][from.newJ];
+
+        var to = thisBoard.board[from.newI][from.newJ];
+
         // Swap items if it's possible
         var canSwap = true; // TODO detect if "to" element is frozen. If not, let it go.
         if (canSwap) {
           // Swap items in matrix
-          board.board[from.i][from.j] = to;
-          board.board[from.newI][from.newJ] = from;
+          thisBoard.board[from.i][from.j] = to;
+          thisBoard.board[from.newI][from.newJ] = from;
           // Swap items' positions
           to.i = from.i;
           to.j = from.j;
