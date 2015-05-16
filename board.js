@@ -303,7 +303,7 @@ Board.prototype.animationRun = function () {
     VIZ_IS_ON = true;
   }
 
-  d3.select("#photons").selectAll(".photon").remove();;
+  
 
   var photons = d3.select("#photons").selectAll(".photon")
     .data(this.stateHistory[this.step]);
@@ -316,7 +316,16 @@ Board.prototype.animationRun = function () {
       .attr("cy", function (d) { return j2y(d.j) + TILE_SIZE/2; })
       .style("opacity", function (d) { return Math.sqrt(d.re*d.re + d.im*d.im); });
 
+  // // growing annimation for birth?
+  // if (this.step === 0) {
+  //   photons
+  //     .attr("r", 0)
+  //     .transition().duration(TIME_STEP)
+  //       .attr("r", 10);
+  // }
+
   photons.transition()
+    // .delay(this.step === 0 ? TIME_STEP : 0)
     .ease([0,1])
     .duration(TIME_STEP)
       .attr("cx", function (d) { return i2x(d.i + speedX[d.to[0]]) + TILE_SIZE/2; })
@@ -328,9 +337,14 @@ Board.prototype.animationRun = function () {
   if ( this.step < this.stateHistory.length && VIZ_IS_ON) {
     setTimeout(thisFunction, TIME_STEP);
   } else {
+    photons.transition().duration(TIME_STEP)
+      .style("opacity", 0);
+
     this.step = 0;
     VIZ_IS_ON = false;
   }
+
+  photons.transition().delay(TIME_STEP).remove();
 
 };
 
