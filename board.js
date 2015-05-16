@@ -271,7 +271,7 @@ Board.prototype.statePropagate = function () {
       diffRe = stateIn.re * out.re - stateIn.im * out.im;
       diffIm = stateIn.re * out.im + stateIn.im * out.re;
 
-      if (out.to in stateSpatialDict) {
+      if (keyOut in stateSpatialDict) {
         stateSpatialDict[keyOut].re += diffRe;
         stateSpatialDict[keyOut].im += diffIm;
 
