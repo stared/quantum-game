@@ -11,10 +11,10 @@ var board = new Board(nX, nY);
 //   }
 // }
 
-board.board[2][7] = new Elements.Source();
+board.board[2][3] = new Elements.Source();
 
-board.board[4][7] = new Elements.ThinBeamSplitter();
-board.board[4][7].rotation = 1;
+board.board[4][3] = new Elements.ThinBeamSplitter();
+board.board[4][3].rotation = 1;
 
 // you can't have more sources, so let's draw all other elements
 board.board[0][0] = new Elements.ThinMirror();
@@ -25,10 +25,13 @@ board.board[0][3] = new Elements.CornerCube();
 board.drawBackground();
 board.draw();
 
-board.stateInit();
+function play(n) {
+    board.stateInit();
+    var i;
+    for (i = 0; i < n; ++i) {
+        board.statePropagate();
+    }
+    board.animationRun();
+}
 
-board.statePropagate();
-board.statePropagate();
-board.statePropagate();
-
-board.animationRun();
+play(5);
