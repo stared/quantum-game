@@ -1,3 +1,5 @@
+'use strict';
+
 class Level {
   constructor(width, height, tiles) {
     this.width = width;

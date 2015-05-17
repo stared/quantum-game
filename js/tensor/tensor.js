@@ -1,3 +1,4 @@
+'use strict';
 import _ from 'lodash';
 
 const EPSILON = 1e-5;
@@ -83,3 +84,14 @@ export function propagateState(state0, transitionSm) {
   };
 }
 
+// Create a tensor that has the same complex number values for all indices.
+export function fill(xs, re, im) {
+  return _.reduce(xs, (acc, x) => {
+    acc[x] = [{
+      to: x,
+      re: re,
+      im: im,
+    }];
+    return acc;
+  }, {});
+}

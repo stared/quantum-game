@@ -1,3 +1,5 @@
+'use strict';
+import _ from 'lodash';
 import * as level from 'level';
 import * as tile from 'tile';
 
