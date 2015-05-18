@@ -46,3 +46,13 @@ use.hitbox:hover {
   stroke-width: 1;
   stroke: #999;
 }
+
+.polarizer {
+  fill: url(#polarizing-stripes);
+  stroke: #555;
+  stroke-width: 1;
+}
+
+.phase-plate {
+  fill: url(#phase-stripes);
+}

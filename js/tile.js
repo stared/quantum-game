@@ -34,7 +34,7 @@ export const Source = {
 };
 
 export const CornerCube = {
-  name: 'corner-cube',
+  name: 'corner-cube',  // image needed
   maxRotation: 1,
   rotationAngle: 0,
   transition: (rotation) => full.cornerCube[rotation]
@@ -59,4 +59,32 @@ export const PolarizingSplitter = {
   maxRotation: 2, // / \
   rotationAngle: 90,
   transition: (rotation) => full.polarizingSplitter[rotation]
+};
+
+export const Polarizer = {
+  name: 'polarizer',
+  maxRotation: 4, // - / | \
+  rotationAngle: 90,
+  transition: () => full.zero // to do
+};
+
+export const PhasePlate = {
+  name: 'phase-plate',
+  maxRotation: 4, // - / | \
+  rotationAngle: 90,
+  transition: () => full.zero // to do
+};
+
+export const SugarSolution = {
+  name: 'sugar-solution',
+  maxRotation: 1, // []
+  rotationAngle: 360,
+  transition: () => full.zero // to do
+};
+
+export const Mine = {
+  name: 'mine',
+  maxRotation: 1, // []
+  rotationAngle: 360,
+  transition: () => full.zero // to do
 };
