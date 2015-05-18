@@ -1,5 +1,5 @@
 'use strict';
-import * as tensor from 'tensor';
+import * as tensor from './tensor';
 
 export const polarizations = ['-', '|'];
 

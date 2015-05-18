@@ -1,44 +1,40 @@
 'use strict';
 
 import 'normalize.css';
+import d3 from 'd3';
 
-import 'elements'
-import 'js/level'
-import 'js/board'
+import * as tiles from './js/tile'
+import * as level from './js/level'
+import * as board from './js/board'
 
-const nX = 13;
-const nY = 10;
+const demoLevel = new level.Level(
+  13,
+  10,
+  [
+    {i: 2, j: 3, name: 'Source', frozen: true},
+    {i: 4, j: 3, name: 'ThinBeamSplitter', rotation: 1},
+    {i: 0, j: 0, name: 'ThinMirror'},
+    {i: 0, j: 1, name: 'ThinSplitter'},
+    {i: 0, j: 2, name: 'PolarizingSplitter'},
+    {i: 0, j: 3, name: 'CornerCube'},
 
-const board = new Board(nX, nY);
+    {i: 5, j: 0, name: 'ThinMirror'},
+    {i: 5, j: 1, name: 'ThinSplitter'},
+    {i: 5, j: 2, name: 'PolarizingSplitter'},
+    {i: 5, j: 3, name: 'CornerCube'},
+  ]
+);
 
-// for (i = 0; i < nX; i++) {
-//   board.board[i] = [];
-//   for (j = 0; j < nY; j++) {
-//     board.board[i][j] = Math.random() > 0.9 ? new Elements.PolarizingBeamSplitter() : new Elements.Vacuum();
-//   }
-// }
+const gameBoard = new board.Board(demoLevel, d3.select('svg'));
+gameBoard.reset();
 
-board.board[2][3] = new Elements.Source();
-
-board.board[4][3] = new Elements.ThinBeamSplitter();
-board.board[4][3].rotation = 1;
-
-// you can't have more sources, so let's draw all other elements
-board.board[0][0] = new Elements.ThinMirror();
-board.board[0][1] = new Elements.ThinBeamSplitter();
-board.board[0][2] = new Elements.PolarizingBeamSplitter();
-board.board[0][3] = new Elements.CornerCube();
-
-board.drawBackground();
-board.draw();
-
-function play(n) {
-    board.stateInit();
-    var i;
-    for (i = 0; i < n; ++i) {
-        board.statePropagate();
-    }
-    board.animationRun();
-}
-
-play(5);
+//function play(n) {
+//    board.stateInit();
+//    var i;
+//    for (i = 0; i < n; ++i) {
+//        board.statePropagate();
+//    }
+//    board.animationRun();
+//}
+//
+//play(5);

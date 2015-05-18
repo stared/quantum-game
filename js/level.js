@@ -1,9 +1,9 @@
 'use strict';
 
-class Level {
-  constructor(width, height, tiles) {
+export class Level {
+  constructor(width, height, tileRecipes) {
     this.width = width;
     this.height = height;
-    this.tiles = tiles;
+    this.tileRecipes = tileRecipes;
   }
 }

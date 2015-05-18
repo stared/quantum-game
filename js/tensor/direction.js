@@ -1,5 +1,7 @@
 'use strict';
-import * as tensor from 'tensor';
+import _ from 'lodash';
+
+import * as tensor from './tensor';
 
 // Moving directions. We allow only four of them:
 export const directions = ['>', '^', '<', 'v'];
@@ -39,7 +41,7 @@ export function planeReflectionDirection(direction, rotation) {
   return angleToDirection(reflectedAngle);
 }
 
-export const cube = _.reduce(directions, (direction, acc) => {
+export const cube = _.reduce(directions, (acc, direction) => {
     acc[direction] = [{
       to: pointReflectionDirection(direction),
       re: 1,
@@ -50,7 +52,7 @@ export const cube = _.reduce(directions, (direction, acc) => {
 );
 
 export const mirror = _.range(4).map((rotation) => {
-  return _.reduce(directions, (direction, acc) => {
+  return _.reduce(directions, (acc, direction) => {
     acc[direction] = [{
       to: planeReflectionDirection(direction, rotation),
       re: 1,
@@ -61,7 +63,7 @@ export const mirror = _.range(4).map((rotation) => {
 });
 
 export const splitter = _.range(4).map((rotation) => {
-  return _.reduce(directions, (direction, acc) => {
+  return _.reduce(directions, (acc, direction) => {
     const reflectedDirection = planeReflectionDirection(direction, rotation);
     if (reflectedDirection === direction) {
       // When beam goes parallel to splitter surface, act like vacuum

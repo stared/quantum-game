@@ -1,8 +1,9 @@
 'use strict';
-import * as tensor from 'tensor/tensor'
-import * as full from 'tensor/full'
+import * as config from './config'
+import * as tensor from './tensor/tensor'
+import * as full from './tensor/full'
 
-class Tile {
+export class Tile {
   constructor(type = Vacuum, rotation = 0, frozen = true, i = 0, j = 0) {
     this.type = type;
     this.rotation = rotation;
@@ -10,52 +11,52 @@ class Tile {
     this.i = i;
     this.j = j;
   }
-}
-
-class TileType {
-  generate() {
-    return this.generates[this.rotation];
+  get x() {
+    return config.tileSize * this.i;
+  }
+  get y() {
+    return config.tileSize * this.j;
   }
 }
 
-export class Vacuum extends TileType {
-  static name = 'vacuum';
-  static maxRotation = 1;
-  static rotationAngle = 0;
-  static transition = () => full.identity;
-}
+export const Vacuum = {
+  name: 'vacuum',
+  maxRotation: 1,
+  rotationAngle: 0,
+  transition: () => full.identity
+};
 
-export class Source extends TileType {
-  static name = 'source';
-  static maxRotation = 4; // > ^ < v
-  static rotationAngle = 90;
-  static transition = () => full.zero;
-}
+export const Source = {
+  name: 'source',
+  maxRotation: 4, // > ^ < v
+  rotationAngle: 90,
+  transition: () => full.zero
+};
 
-export class CornerCube extends TileType {
-  static name = 'corner-cube';
-  static maxRotation = 4;
-  static rotationAngle = 90;
-  static transition = (rotation) => full.cornerCube[rotation];
-}
+export const CornerCube = {
+  name: 'corner-cube',
+  maxRotation: 1,
+  rotationAngle: 0,
+  transition: (rotation) => full.cornerCube[rotation]
+};
 
-export class ThinMirror extends TileType {
-  static name = 'thin-mirror';
-  static maxRotation = 4; // - / | \
-  static rotationAngle = 45;
-  static transition = (rotation) => full.thinMirror[rotation];
-}
+export const ThinMirror = {
+  name: 'thin-mirror',
+  maxRotation: 4, // - / | \
+  rotationAngle: 45,
+  transition: (rotation) => full.thinMirror[rotation]
+};
 
-export class ThinSplitter extends TileType {
-  static name = 'thin-splitter';
-  static maxRotation = 4; // - / | \
-  static rotationAngle = 45;
-  static transition = (rotation) => full.thinSplitter[rotation];
-}
+export const ThinSplitter = {
+  name: 'thin-splitter',
+  maxRotation: 4, // - / | \
+  rotationAngle: 45,
+  transition: (rotation) => full.thinSplitter[rotation]
+};
 
-export class PolarizingBeamSplitter extends TileType {
-  static name = 'polarizing-beam-splitter';
-  static maxRotation = 2; // / \
-  static rotationAngle = 90;
-  static transition = (rotation) => full.polarizingSplitter[rotation];
-}
+export const PolarizingSplitter = {
+  name: 'polarizing-splitter',
+  maxRotation: 2, // / \
+  rotationAngle: 90,
+  transition: (rotation) => full.polarizingSplitter[rotation]
+};

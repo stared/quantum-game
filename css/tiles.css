@@ -1,57 +1,48 @@
-rect.tile {
-	fill: #fff;
-	stroke-width: 0.5px;
-	stroke: #aaa;
+g.background rect.tile {
+  fill: #fff;
+  stroke-width: 2;
+  stroke: #aaa;
+}
+g.background rect.tile--frozen {
+  fill: #eee;
 }
 
 rect.hitbox {
-	fill: lightgreen;
-	cursor: pointer;
+  fill: lightgreen;
+  cursor: pointer;
 }
 use.hitbox {
-	opacity: 0;
+  opacity: 0;
 }
 use.hitbox:hover {
-	opacity: 0.2;
+  opacity: 0.2;
 }
 
 .photon {
-	fill: coral;
+  fill: coral;
 }
 
 .beam {
-	stroke: red;
+  stroke: red;
+  stroke-width: 2;
 }
 
 .element {
-	cursor: default;
+  cursor: default;
 }
 
 .glass {
-	fill: steelblue;
-	fill-opacity: 0.5;
+  fill: steelblue;
+  fill-opacity: 0.5;
 }
 .glass-edge {
-	stroke: steelblue;
-	stroke-opacity: 1;
-	stroke-width: 2px;
+  stroke: steelblue;
+  stroke-opacity: 1;
+  stroke-width: 2;
 }
 
 .metal {
-	fill: #555;
-	stroke-width: 1px;
-	stroke: #999;
-}
-
-#footnote {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 12px;
-  width: 300px;
-  background: rgba(230, 230, 230, 0.85);
-  color: #222;
-  border: solid 1px #aaa;
-  border-radius: 4px;
-  z-index:20;
+  fill: #555;
+  stroke-width: 1;
+  stroke: #999;
 }

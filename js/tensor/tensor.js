@@ -8,8 +8,8 @@ export function product(sm1, sm2) {
   let k1, k2, i1, i2;
   var tmp;
 
-  for (k1 of sm1) {
-    for (k2 of sm2) {
+  for (k1 in sm1) {
+    for (k2 in sm2) {
       result[k1 + k2] = [];
       tmp = result[k1 + k2];
 
