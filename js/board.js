@@ -140,6 +140,10 @@ export class Board {
         if (d3.event.defaultPrevented) {
           return;
         }
+        // Avoid rotation when frozen
+        if (d.frozen) {
+          return;
+        }
         const element = d3.select(d.node).select('.element');
         d.rotation = (d.rotation + 1) % d.type.maxRotation;
         // Assure that rotation animation is clockwise
