@@ -177,11 +177,16 @@ export class Board {
       .on('dragstart', () => {
         d3.event.sourceEvent.stopPropagation();
       })
-      .on('drag', function (d) {
+      .on('drag', function (source) {
+        // Is it impossible to drag item?
+        if (source.frozen) {
+          return;
+        }
+
         d3.select(this)
           .attr('transform', `translate(${d3.event.x},${d3.event.y})`);
-        d.newI = Math.floor(d3.event.x / config.tileSize);
-        d.newJ = Math.floor(d3.event.y / config.tileSize);
+        source.newI = Math.floor(d3.event.x / config.tileSize);
+        source.newJ = Math.floor(d3.event.y / config.tileSize);
       })
       .on('dragend', (source) => {
         // No drag? Return.
