@@ -174,8 +174,11 @@ export class Board {
 
     const drag = d3.behavior.drag();
     drag
-      .on('dragstart', () => {
+      .on('dragstart', (source) => {
         d3.event.sourceEvent.stopPropagation();
+
+        // Move element to the top
+        this.svg[0][0].appendChild(source.node);
       })
       .on('drag', function (source) {
         // Is it impossible to drag item?
