@@ -56,3 +56,10 @@ use.hitbox:hover {
 .phase-plate {
   fill: url(#phase-stripes);
 }
+
+.absorber {
+  fill: black;
+  fill-opacity: 0.5;
+  stroke: #555;
+  stroke-width: 1;
+}
