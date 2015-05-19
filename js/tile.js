@@ -64,14 +64,14 @@ export const PolarizingSplitter = {
 export const Polarizer = {
   name: 'polarizer',
   maxRotation: 4, // - / | \
-  rotationAngle: 90,
+  rotationAngle: 45,
   transition: () => full.zero // to do
 };
 
 export const PhasePlate = {
   name: 'phase-plate',
   maxRotation: 4, // - / | \
-  rotationAngle: 90,
+  rotationAngle: 45,
   transition: () => full.zero // to do
 };
 
