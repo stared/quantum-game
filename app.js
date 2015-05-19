@@ -26,6 +26,7 @@ const demoLevel = new level.Level(
     {i: 0, j: 9, name: 'Glass'},
     {i: 1, j: 0, name: 'VacuumJar'},
     {i: 1, j: 1, name: 'Absorber'},
+    {i: 1, j: 2, name: 'Detector'},
 
     {i: 5, j: 0, name: 'ThinMirror'},
     {i: 5, j: 1, name: 'ThinSplitter'},

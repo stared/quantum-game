@@ -119,3 +119,10 @@ export const Absorber = {
   rotationAngle: 360,
   transition: () => full.zero // to do
 };
+
+export const Detector = {
+  name: 'detector',
+  maxRotation: 4, // > ^ < v
+  rotationAngle: 90,
+  transition: () => full.zero // to do
+};
