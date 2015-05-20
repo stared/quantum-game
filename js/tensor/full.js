@@ -90,3 +90,19 @@ export const sugarSolution = [
     polarization.rotation(tau/4)
   )
 ];
+
+// it's not just a product; we need some kind of co-variant product
+export const polarizer = _.range(4).map((rotation) =>
+  tensor.product(
+    direction.identity,
+    polarization.projection(rotation * tau/8)
+  )
+);
+
+// it's not just a product; we need some kind of co-variant product
+export const phasePlate = _.range(4).map((rotation) =>
+  tensor.product(
+    direction.identity,
+    polarization.phaseShift(rotation * tau/8, tau/4)
+  )
+);

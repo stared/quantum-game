@@ -67,14 +67,14 @@ export const Polarizer = {
   name: 'polarizer',
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: () => full.zero // to do
+  transition: () => full.polarizer
 };
 
 export const PhasePlate = {
   name: 'phase-plate',
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: () => full.zero // to do
+  transition: () => full.phasePlate
 };
 
 export const SugarSolution = {

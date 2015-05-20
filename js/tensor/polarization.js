@@ -1,6 +1,8 @@
 'use strict';
 import * as tensor from './tensor';
 
+const tau = 2 * Math.PI;
+
 export const polarizations = ['-', '|'];
 
 export const identity = tensor.fill(polarizations, 1, 0);
@@ -24,6 +26,19 @@ export const projection = (alpha) => ({
   '|': [{to: '_', re: Math.cos(alpha) * Math.sin(alpha), im: 0},
         {to: '|', re: Math.cos(alpha) * Math.cos(alpha), im: 0}],
 });
+
+// one gets shifted, second stays the same
+export const phaseShift = (alpha, phi) => (
+  tensor.sum(
+    tensor.byConstant(
+      projection(alpha),
+      {re: Math.cos(phi), im: Math.sin(phi)}
+    ),
+    projection(alpha + tau/4)
+  )
+);
+
+// for the three fuctions above - invent something to purge almost-zero entries?
 
 // ones below are NOT polarization-dependent,
 // but it might be simpler to keep them there

@@ -53,7 +53,7 @@ export function product(sm1, sm2) {
 
 export function byConstant (sm, z) {
   // an inefficient trick by a smart but lazy programmer
-  return smTensorProd(sm, {'': [{to: '', re: z.re, im: z.im}]});
+  return product(sm, {'': [{to: '', re: z.re, im: z.im}]});
 };
 
 export function sum(sm1, sm2) {
