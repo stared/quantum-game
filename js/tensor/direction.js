@@ -62,6 +62,7 @@ export const mirror = _.range(4).map((rotation) => {
   }, {});
 });
 
+// it may be not as simple if we include polarization
 export const splitter = _.range(4).map((rotation) => {
   return _.reduce(directions, (acc, direction) => {
     const reflectedDirection = planeReflectionDirection(direction, rotation);

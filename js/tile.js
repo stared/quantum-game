@@ -81,7 +81,7 @@ export const SugarSolution = {
   name: 'sugar-solution',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.zero // to do
+  transition: () => full.sugarSolution
 };
 
 export const Mine = {
@@ -103,26 +103,26 @@ export const Glass = {
   name: 'glass',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.zero // to do
+  transition: () => full.glass
 };
 
 export const VacuumJar = {
   name: 'vacuum-jar',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.zero // to do
+  transition: () => full.vacuumJar
 };
 
 export const Absorber = {
   name: 'absorber',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.zero // to do
+  transition: () => full.absorber
 };
 
 export const Detector = {
   name: 'detector',
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
-  transition: () => full.zero // to do
+  transition: () => full.zero
 };

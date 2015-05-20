@@ -1,17 +1,38 @@
 'use strict';
 import _ from 'lodash';
 
+//// One-particle identity matrix looks like that:
+//
+// {
+//   '>-': [
+//     {
+//       to: '>-',
+//       re: 1,
+//       im: 0
+//     }
+//   ],
+//   ''>|': [
+//     {
+//       'to': >|',
+//       're': 1,
+//       'im': 0
+//     }
+//   ],
+//   ...
+// }
+//
+//// sm stands for 'sparse matrix', not 'sado-maso'!
+
 const EPSILON = 1e-5;
 
 export function product(sm1, sm2) {
   const result = {};
   let k1, k2, i1, i2;
-  var tmp;
 
   for (k1 in sm1) {
     for (k2 in sm2) {
       result[k1 + k2] = [];
-      tmp = result[k1 + k2];
+      const tmp = result[k1 + k2];
 
       for (i1 = 0; i1 < sm1[k1].length; ++i1) {
         for (i2 = 0; i2 < sm2[k2].length; ++i2) {
@@ -29,6 +50,11 @@ export function product(sm1, sm2) {
 
   return result;
 }
+
+export function byConstant (sm, z) {
+  // an inefficient trick by a smart but lazy programmer
+  return smTensorProd(sm, {'': [{to: '', re: z.re, im: z.im}]});
+};
 
 export function sum(sm1, sm2) {
   const result = {};
