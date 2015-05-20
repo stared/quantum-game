@@ -79,3 +79,14 @@ export const absorber = [
     polarization.globalAbsorption(0.5)
   )
 ];
+
+// for sugar it should be just a product,
+// but let's then double check convention
+// AND 
+// check sign (so it works well for typical sugar)
+export const sugarSolution = [
+  tensor.product(
+    direction.identity,
+    polarization.rotation(tau/4)
+  )
+];
