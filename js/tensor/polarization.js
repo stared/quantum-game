@@ -1,4 +1,3 @@
-'use strict';
 import * as tensor from './tensor';
 
 const tau = 2 * Math.PI;

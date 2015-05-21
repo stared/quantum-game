@@ -1,4 +1,3 @@
-'use strict';
 import _ from 'lodash';
 
 //// One-particle identity matrix looks like that:

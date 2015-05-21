@@ -1,0 +1,17 @@
+{
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "forOf": true,
+    "generators": true,
+    "modules": true,
+    "jsx": true
+  },
+  "rules": {
+    "comma-dangle": "always-multiline",
+    "no-var": true,
+    "quotes": "single"
+  }
+}

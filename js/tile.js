@@ -1,4 +1,3 @@
-'use strict';
 import * as config from './config'
 import * as tensor from './tensor/tensor'
 import * as full from './tensor/full'
