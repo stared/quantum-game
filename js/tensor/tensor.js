@@ -26,15 +26,14 @@ const EPSILON = 1e-5;
 
 export function product(sm1, sm2) {
   const result = {};
-  let k1, k2, i1, i2;
 
-  for (k1 in sm1) {
-    for (k2 in sm2) {
+  for (let k1 in _.keys(sm1)) {
+    for (let k2 in _.keys(sm1)) {
       result[k1 + k2] = [];
       const tmp = result[k1 + k2];
 
-      for (i1 = 0; i1 < sm1[k1].length; ++i1) {
-        for (i2 = 0; i2 < sm2[k2].length; ++i2) {
+      for (let i1 = 0; i1 < sm1[k1].length; ++i1) {
+        for (let i2 = 0; i2 < sm2[k2].length; ++i2) {
           const amp1 = sm1[k1][i1];
           const amp2 = sm2[k2][i2];
           tmp.push({
@@ -53,7 +52,7 @@ export function product(sm1, sm2) {
 export function byConstant (sm, z) {
   // an inefficient trick by a smart but lazy programmer
   return product(sm, {'': [{to: '', re: z.re, im: z.im}]});
-};
+}
 
 export function sum(sm1, sm2) {
   const result = {};
@@ -82,7 +81,9 @@ export function propagateState(state0, transitionSm) {
     absorptionProb = Math.pow(v0.re, 2) + Math.pow(v0.im, 2);
 
     // TODO we should return some {state, absorptionProbs} here
-    if (!transitionSm[k0]) return;
+    if (!transitionSm[k0]) {
+      return;
+    }
 
     _.forEach(transitionSm[k0], function (out) {
       const diffRe = v0.re * out.re - v0.im * out.im;
@@ -105,7 +106,7 @@ export function propagateState(state0, transitionSm) {
 
   return {
     state: state,
-    absorptionProbs: absorptionProbs
+    absorptionProbs: absorptionProbs,
   };
 }
 

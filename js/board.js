@@ -2,7 +2,6 @@ import _ from 'lodash';
 import d3 from 'd3';
 
 import * as config from './config';
-import * as level from './level';
 import * as tile from './tile';
 
 export class Board {

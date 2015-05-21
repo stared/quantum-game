@@ -1,11 +1,8 @@
-'use strict';
-
 import 'normalize.css';
 import d3 from 'd3';
 
-import * as tiles from './js/tile'
-import * as level from './js/level'
-import * as board from './js/board'
+import * as level from './js/level';
+import * as board from './js/board';
 
 const demoLevel = new level.Level(
   13,

@@ -3,15 +3,13 @@ import _ from 'lodash';
 import * as tensor from './tensor';
 import * as direction from './direction';
 import * as polarization from './polarization';
-
-const tau = 2 * Math.PI;
+import {TAU} from '../const';
 
 export const identity = tensor.product(
   direction.identity,
   polarization.identity
 );
 
-// or should it be all entries with empty lists?
 export const zero = {};
 
 export const cornerCube = tensor.product(
@@ -26,7 +24,7 @@ export const thinMirror = _.range(4).map((rotation) =>
   )
 );
 
-// check this - it may be not a product
+// TODO check if thinSplitter should use polarization.reflectPhase
 export const thinSplitter = _.range(4).map((rotation) =>
   tensor.product(
     direction.splitter[rotation],
@@ -55,20 +53,20 @@ export const polarizingSplitter = _.range(2).map((rotation) => {
   }, {});
 });
 
-// later - check sign
-// quater phase
+// TODO check sign (?)
+// Quarter wave-plate
 export const glass = [
   tensor.product(
     direction.identity,
-    polarization.globalPhase(tau/4)
+    polarization.globalPhase(TAU / 4)
   )
 ];
 
-// quater phase, but opposite sign
+// Quarter wave-plate phase, but with opposite sign
 export const vacuumJar = [
   tensor.product(
     direction.identity,
-    polarization.globalPhase(-tau/4)
+    polarization.globalPhase(-TAU / 4)
   )
 ];
 
@@ -79,14 +77,12 @@ export const absorber = [
   )
 ];
 
-// for sugar it should be just a product,
-// but let's then double check convention
-// AND 
-// check sign (so it works well for typical sugar)
+// TODO check if this should be tensor.product or something else
+// TODO check sign
 export const sugarSolution = [
   tensor.product(
     direction.identity,
-    polarization.rotation(tau/4)
+    polarization.rotation(TAU / 4)
   )
 ];
 
@@ -94,7 +90,7 @@ export const sugarSolution = [
 export const polarizer = _.range(4).map((rotation) =>
   tensor.product(
     direction.identity,
-    polarization.projection(rotation * tau/8)
+    polarization.projection(rotation * TAU / 8)
   )
 );
 
@@ -102,6 +98,6 @@ export const polarizer = _.range(4).map((rotation) =>
 export const phasePlate = _.range(4).map((rotation) =>
   tensor.product(
     direction.identity,
-    polarization.phaseShift(rotation * tau/8, tau/4)
+    polarization.phaseShift(rotation * TAU / 8, TAU / 4)
   )
 );

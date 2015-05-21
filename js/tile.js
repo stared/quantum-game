@@ -1,22 +1,5 @@
-import * as config from './config'
-import * as tensor from './tensor/tensor'
-import * as full from './tensor/full'
-
-export class Tile {
-  constructor(type = Vacuum, rotation = 0, frozen = true, i = 0, j = 0) {
-    this.type = type;
-    this.rotation = rotation;
-    this.frozen = frozen;
-    this.i = i;
-    this.j = j;
-  }
-  get x() {
-    return config.tileSize * this.i;
-  }
-  get y() {
-    return config.tileSize * this.j;
-  }
-}
+import * as config from './config';
+import * as full from './tensor/full';
 
 export const Vacuum = {
   name: 'vacuum',
@@ -125,3 +108,19 @@ export const Detector = {
   rotationAngle: 90,
   transition: () => full.zero
 };
+
+export class Tile {
+  constructor(type = Vacuum, rotation = 0, frozen = true, i = 0, j = 0) {
+    this.type = type;
+    this.rotation = rotation;
+    this.frozen = frozen;
+    this.i = i;
+    this.j = j;
+  }
+  get x() {
+    return config.tileSize * this.i;
+  }
+  get y() {
+    return config.tileSize * this.j;
+  }
+}

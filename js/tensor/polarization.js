@@ -1,6 +1,5 @@
 import * as tensor from './tensor';
-
-const tau = 2 * Math.PI;
+import {TAU} from '../const';
 
 export const polarizations = ['-', '|'];
 
@@ -33,11 +32,11 @@ export const phaseShift = (alpha, phi) => (
       projection(alpha),
       {re: Math.cos(phi), im: Math.sin(phi)}
     ),
-    projection(alpha + tau/4)
+    projection(alpha + TAU / 4)
   )
 );
 
-// for the three fuctions above - invent something to purge almost-zero entries?
+// for the three functions above - invent something to purge almost-zero entries?
 
 // ones below are NOT polarization-dependent,
 // but it might be simpler to keep them there
