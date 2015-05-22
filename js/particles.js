@@ -24,6 +24,10 @@ class ParticleAnimation {
     this.stepNo = 0;
     this.particleGroup = this.board.svg
       .select('.particles');
+    this.currentTimeout = 0;
+  }
+  stop() {
+    window.clearTimeout(this.currentTimeout);
   }
   play() {
     this.nextFrame();
@@ -32,7 +36,10 @@ class ParticleAnimation {
     this.updateParticles();
     this.stepNo++;
     if (this.stepNo < this.history.length - 1) {
-      window.setTimeout(this.nextFrame.bind(this), animationStepDuration);
+      this.currentTimeout = window.setTimeout(
+        this.nextFrame.bind(this),
+        animationStepDuration
+      );
     }
   }
   updateParticles() {
@@ -180,6 +187,10 @@ export class Particles {
   play() {
     this.initialize();
     this.propagateToEnd();
-    new ParticleAnimation(this.history, this.board).play();
+    if (this.particleAnimation) {
+      this.particleAnimation.stop();
+    }
+    this.particleAnimation = new ParticleAnimation(this.history, this.board);
+    this.particleAnimation.play();
   }
 }

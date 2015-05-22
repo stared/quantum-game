@@ -1,3 +1,4 @@
+/*global window:false*/
 import 'normalize.css';
 import d3 from 'd3';
 
@@ -35,7 +36,10 @@ const demoLevel = new level.Level(
 
 const gameBoard = new board.Board(demoLevel, d3.select('svg'));
 gameBoard.reset();
-gameBoard.particles.play();
+
+window.document.getElementById('play').onclick = function () {
+  gameBoard.particles.play();
+};
 
 //function play(n) {
 //    board.stateInit();
