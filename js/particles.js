@@ -137,6 +137,13 @@ export class Particles {
     // Collect all transitions into bins. Each bin will be labeled
     // with position (i, j) and momentum direction.
     const bins = _.reduce(state, (acc, entry) => {
+      // Check if particle is out of bound
+      if (
+           entry.i < 0 || entry.i >= this.board.level.width
+        || entry.j < 0 || entry.j >= this.board.level.height
+      ) {
+        return acc;
+      }
       const tile = this.board.tileMatrix[entry.i][entry.j];
       const transition = tile.type.transition(tile.rotation);
       _.each(transition[entry.to], (change) => {
