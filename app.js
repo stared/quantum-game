@@ -35,11 +35,7 @@ const demoLevel = new level.Level(
 
 const gameBoard = new board.Board(demoLevel, d3.select('svg'));
 gameBoard.reset();
-let step;
-for (step = 0; step < 6; ++step) {
-  gameBoard.particles.propagate();
-}
-console.log(gameBoard.particles.history);
+gameBoard.particles.play();
 
 //function play(n) {
 //    board.stateInit();

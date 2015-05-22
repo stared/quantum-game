@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import d3 from 'd3';
 
-import * as config from './config';
+import {tileSize, rotationSpeed, repositionSpeed} from './config';
 import * as tile from './tile';
 import * as particles from './particles';
 
@@ -55,7 +55,7 @@ export class Board {
 
   resizeSvg() {
     this.svg.attr({
-      viewBox: `0 0 ${config.tileSize * this.level.width} ${config.tileSize * this.level.height}`
+      viewBox: `0 0 ${tileSize * this.level.width} ${tileSize * this.level.height}`
     });
   }
 
@@ -80,8 +80,8 @@ export class Board {
         },
         x: (d) => d.x,
         y: (d) => d.y,
-        width: config.tileSize,
-        height: config.tileSize,
+        width: tileSize,
+        height: tileSize,
       });
   }
 
@@ -121,7 +121,7 @@ export class Board {
       .append('g')
       .attr({
         'class': 'tile',
-        transform: (d) => `translate(${d.x + config.tileSize / 2},${d.y + config.tileSize / 2})`
+        transform: (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`
       });
   }
 
@@ -173,7 +173,7 @@ export class Board {
         const endAngle = d.type.rotationAngle * d.rotation;
         element
           .transition()
-          .duration(config.rotationSpeed)
+          .duration(rotationSpeed)
           .attr('transform', `rotate(${endAngle},0,0)`);
       });
   }
@@ -184,10 +184,10 @@ export class Board {
       delete data.newJ;
       elem
         .transition()
-        .duration(config.repositionSpeed)
+        .duration(repositionSpeed)
         .attr(
           'transform',
-          `translate(${data.x + config.tileSize / 2},${data.y + config.tileSize / 2})`
+          `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
         );
     }
 
@@ -207,8 +207,8 @@ export class Board {
 
         d3.select(this)
           .attr('transform', `translate(${d3.event.x},${d3.event.y})`);
-        source.newI = Math.floor(d3.event.x / config.tileSize);
-        source.newJ = Math.floor(d3.event.y / config.tileSize);
+        source.newI = Math.floor(d3.event.x / tileSize);
+        source.newJ = Math.floor(d3.event.y / tileSize);
       })
       .on('dragend', (source) => {
         // No drag? Return.

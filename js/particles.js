@@ -1,6 +1,8 @@
+/*global window:false*/
 import _ from 'lodash';
 
 import {EPSILON} from './const';
+import {maxIterations, animationStepDuration, tileSize} from './config';
 
 const displacementX = {
   '>': 1,
@@ -14,6 +16,45 @@ const displacementY = {
   '<': 0,
   'v': -1,
 };
+
+class ParticleAnimation {
+  constructor(history, board) {
+    this.history = history;
+    this.board = board;
+    this.stepNo = 0;
+    this.particleGroup = this.board.svg
+      .select('.particles');
+  }
+  play() {
+    this.nextFrame();
+  }
+  nextFrame() {
+    this.updateParticles();
+    this.stepNo++;
+    if (this.stepNo < this.history.length - 1) {
+      window.setTimeout(this.nextFrame.bind(this), animationStepDuration);
+    }
+  }
+  updateParticles() {
+    const particles = this.particleGroup
+      .selectAll('.particle')
+      .data(this.history[this.stepNo]);
+    particles
+      .exit()
+      .remove();
+    particles
+      .enter()
+      .append('use')
+      .attr({
+        'xlink:href': '#particle',
+        'class': 'particle'
+      });
+    particles
+      .attr({
+        transform: (d) => `translate(${d.i * tileSize + tileSize / 2},${d.j * tileSize + tileSize / 2})`
+      });
+  }
+}
 
 export class Particles {
   constructor(board) {
@@ -51,10 +92,16 @@ export class Particles {
       }, []);
     this.history = [initialState];
   }
+
+  /**
+   * Make one propagation step and save it in history.
+   * Additionally, return it.
+   */
   propagate() {
     const lastState = _.last(this.history);
     const newState = this.interact(this.displace(lastState));
     this.history.push(newState);
+    return newState;
   }
 
   /**
@@ -110,5 +157,29 @@ export class Particles {
     return _.values(bins).filter((entry) =>
       entry.re * entry.re + entry.im * entry.im > EPSILON
     );
+  }
+
+  /**
+   * Propagate until:
+   * - all probabilities go to 0
+   * - iteration limit is reached
+   */
+  propagateToEnd() {
+    let stepNo, lastStep;
+    for (stepNo = 0; stepNo < maxIterations; ++stepNo) {
+      lastStep = this.propagate();
+      if (!lastStep.length) {
+        break;
+      }
+    }
+  }
+
+  /**
+   * Generate history and play animation.
+   */
+  play() {
+    this.initialize();
+    this.propagateToEnd();
+    new ParticleAnimation(this.history, this.board).play();
   }
 }
