@@ -3,6 +3,7 @@ import d3 from 'd3';
 
 import * as config from './config';
 import * as tile from './tile';
+import * as particles from './particles';
 
 export class Board {
   constructor(level, svg) {
@@ -11,9 +12,10 @@ export class Board {
     this.tileMatrix = [];
     this.tileList = [];
     this.tileSelection = d3.select();
+    this.particles = new particles.Particles(this);
   }
 
-  clear() {
+  clearTiles() {
     // Create matrix filled with Vacuum
     this.tileMatrix = _.range(this.level.width).map((i) =>
         _.range(this.level.height).map((j) =>
@@ -27,7 +29,7 @@ export class Board {
 
   reset() {
     // Clear tiles
-    this.clear();
+    this.clearTiles();
     // Fill board with proper tiles
     _.each(this.level.tileRecipes, (tileRecipe) => {
       if (!_.has(tile, tileRecipe.name)) {
@@ -47,6 +49,7 @@ export class Board {
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
+    this.particles.initialize();
   }
 
   resizeSvg() {

@@ -5,12 +5,31 @@ import * as direction from './direction';
 import * as polarization from './polarization';
 import {TAU} from '../const';
 
+/**
+ * Module contains (mostly) transition probabilities.
+ * Some of them are independent of tile orientation - in this case
+ * the probability information is represented as tensor.
+ * If there's a dependency between orientation and probability,
+ * there appears a list of tensors, one for each orientation.
+ */
+
 export const identity = tensor.product(
   direction.identity,
   polarization.identity
 );
 
-export const zero = {};
+export const zero = tensor.product(
+  direction.zero,
+  polarization.zero
+);
+
+export const source = _.range(4).map((rotation) => {
+  return [{
+    to: `${direction.directions[rotation]}-`,
+    re: 1.0,
+    im: 0.0,
+  }];
+});
 
 export const cornerCube = tensor.product(
   direction.cube,

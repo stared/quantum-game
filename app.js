@@ -1,6 +1,7 @@
 import 'normalize.css';
 import d3 from 'd3';
 
+import * as tile from './js/tile';
 import * as level from './js/level';
 import * as board from './js/board';
 
@@ -34,6 +35,11 @@ const demoLevel = new level.Level(
 
 const gameBoard = new board.Board(demoLevel, d3.select('svg'));
 gameBoard.reset();
+let step;
+for (step = 0; step < 6; ++step) {
+  gameBoard.particles.propagate();
+}
+console.log(gameBoard.particles.history);
 
 //function play(n) {
 //    board.stateInit();

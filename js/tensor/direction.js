@@ -23,11 +23,12 @@ export function angleToDirection(angle) {
 }
 
 export const identity = tensor.fill(directions, 1, 0);
+export const zero = tensor.fill(directions, 0, 0);
 
 // Reflection direction: reflecting from point
 export function pointReflectionDirection(direction) {
   const incidentAngle = directionToAngle(direction);
-  const reflectedAngle = 360 - incidentAngle;
+  const reflectedAngle = (360 - incidentAngle) % 360;
   return angleToDirection(reflectedAngle);
 }
 

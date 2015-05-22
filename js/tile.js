@@ -12,7 +12,8 @@ export const Source = {
   name: 'source',
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
-  transition: () => full.zero
+  transition: () => full.zero,
+  generation: (rotation) => full.source[rotation]
 };
 
 // maybe will be changed to a typical, one-side corner sube
@@ -20,7 +21,7 @@ export const CornerCube = {
   name: 'corner-cube',
   maxRotation: 1,
   rotationAngle: 0,
-  transition: (rotation) => full.cornerCube[rotation]
+  transition: () => full.cornerCube
 };
 
 export const ThinMirror = {

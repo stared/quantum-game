@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {EPSILON} from '../const';
 
 //// One-particle identity matrix looks like that:
 //
@@ -22,13 +23,11 @@ import _ from 'lodash';
 //
 //// sm stands for 'sparse matrix', not 'sado-maso'!
 
-const EPSILON = 1e-5;
-
 export function product(sm1, sm2) {
   const result = {};
 
-  for (let k1 in _.keys(sm1)) {
-    for (let k2 in _.keys(sm1)) {
+  for (let k1 of _.keys(sm1)) {
+    for (let k2 of _.keys(sm2)) {
       result[k1 + k2] = [];
       const tmp = result[k1 + k2];
 
@@ -49,7 +48,7 @@ export function product(sm1, sm2) {
   return result;
 }
 
-export function byConstant (sm, z) {
+export function byConstant(sm, z) {
   // an inefficient trick by a smart but lazy programmer
   return product(sm, {'': [{to: '', re: z.re, im: z.im}]});
 }
