@@ -20,10 +20,16 @@ export class Particles {
     this.board = board;
     this.history = [];
   }
+
+  /**
+   * Clear history and make it one-element list
+   * containing initial particles state.
+   */
   initialize() {
     const initialState =
       _.reduce(_.range(this.board.level.width), (accI, i) => {
         return _.reduce(_.range(this.board.level.height), (accJ, j) => {
+          // Recognize generating tiles by having 'generation' method
           if (!this.board.tileMatrix[i][j].type.generation) {
             return accJ;
           }
@@ -43,7 +49,7 @@ export class Particles {
           return accJ;
         }, accI);
       }, []);
-    this.history.push(initialState);
+    this.history = [initialState];
   }
   propagate() {
     const lastState = _.last(this.history);

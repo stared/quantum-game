@@ -48,6 +48,7 @@ export class Board {
     // Initial drawing
     this.resizeSvg();
     this.drawBackground();
+    this.drawParticles();
     this.drawBoard();
     this.particles.initialize();
   }
@@ -58,6 +59,9 @@ export class Board {
     });
   }
 
+  /**
+   * Draw background - a grid of squares.
+   */
   drawBackground() {
     this.svg
       .append('g')
@@ -81,6 +85,20 @@ export class Board {
       });
   }
 
+  /**
+   * Draw particle layer. Particles will be drawn by Particle class
+   * when the simulation runs.
+   */
+  drawParticles() {
+    this.svg
+      .append('g')
+      .attr('class', 'particles');
+  }
+
+  /**
+   * Draw board: tiles and their hitboxes.
+   * Also, bind click and drag events.
+   */
   drawBoard() {
     this.spawnTiles();
     this.keepNodeReference();
