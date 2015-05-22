@@ -59,6 +59,9 @@ class ParticleAnimation {
     particles
       .attr({
         transform: (d) => `translate(${d.i * tileSize + tileSize / 2},${d.j * tileSize + tileSize / 2})`
+      })
+      .style({
+        opacity: (d) => d.re * d.re + d.im * d.im
       });
   }
 }

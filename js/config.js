@@ -5,6 +5,6 @@ export const rotationSpeed = 250;
 // Tile reposition speed in ms
 export const repositionSpeed = 250;
 // Maximum iteration count
-export const maxIterations = 10;
+export const maxIterations = 1000;
 // Animation step duration in ms
-export const animationStepDuration = 500;
+export const animationStepDuration = 300;
