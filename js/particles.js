@@ -149,7 +149,7 @@ export class Particles {
         return acc;
       }
       const tile = this.board.tileMatrix[entry.i][entry.j];
-      const transition = tile.type.transition(tile.rotation);
+      const transition = tile.transitionAmplitudes;
       _.each(transition[entry.to], (change) => {
         const binKey = [entry.i, entry.j, change.to].join('_');
         // (a + bi)(c + di) = (ac - bd) + i(ad + bc)

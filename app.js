@@ -37,6 +37,9 @@ const demoLevel = new level.Level(
 const gameBoard = new board.Board(demoLevel, d3.select('svg'));
 gameBoard.reset();
 
+// for debugging purposes
+window.gameBoard = gameBoard;
+
 window.document.getElementById('play').onclick = function () {
   gameBoard.particles.play();
 };
