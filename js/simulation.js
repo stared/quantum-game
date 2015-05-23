@@ -1,4 +1,4 @@
-
+/*global window:false*/
 import _ from 'lodash';
 
 import {EPSILON, velocityI, velocityJ} from './const';
@@ -50,9 +50,9 @@ export class Simulation {
     const newState = this.interact(this.displace(lastState));
     this.history.push(newState);
 
-    // bebugging purpose
-    console.log(print.stateToStr(newState));
-    
+    // debugging purpose
+    window.console.log(print.stateToStr(newState));
+
     return newState;
   }
 

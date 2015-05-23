@@ -27,6 +27,7 @@
   "rules": {
     "comma-dangle": "always-multiline",
     "no-var": true,
-    "quotes": "single"
+    "quotes": "single",
+    "key-spacing": true
   }
 }
