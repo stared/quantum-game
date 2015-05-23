@@ -48,8 +48,8 @@ export class Board {
     // Initial drawing
     this.resizeSvg();
     this.drawBackground();
-    this.drawParticles();
     this.drawBoard();
+    this.drawParticles();
     this.particles.initialize();
   }
 
@@ -197,7 +197,7 @@ export class Board {
         d3.event.sourceEvent.stopPropagation();
 
         // Move element to the top
-        this.svg[0][0].appendChild(source.node);
+        this.svg.select('.tiles')[0][0].appendChild(source.node);
       })
       .on('drag', function (source) {
         // Is it impossible to drag item?
