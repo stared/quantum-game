@@ -60,9 +60,12 @@ export function sum(sm1, sm2) {
       .groupBy('to')
       .mapValues(function (x) {
         return _.reduce(x, function (acc, y) {
-          return {re: acc.re + y.re, im: acc.im + y.im};
-        });
+          return {re: acc.re + y.re,
+                  im: acc.im + y.im,
+                  to: y.to};
+        }, {re: 0, im: 0});
       })
+      .values()
       .value();
   });
 

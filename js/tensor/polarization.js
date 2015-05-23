@@ -27,8 +27,12 @@ export const projection = (alpha) => ({
   '-': [{to: '-', re: Math.cos(alpha) * Math.cos(alpha), im: 0},
         {to: '|', re: Math.cos(alpha) * Math.sin(alpha), im: 0}],
   '|': [{to: '_', re: Math.cos(alpha) * Math.sin(alpha), im: 0},
-        {to: '|', re: Math.cos(alpha) * Math.cos(alpha), im: 0}],
+        {to: '|', re: Math.sin(alpha) * Math.sin(alpha), im: 0}],
 });
+
+// note to myself:
+// TAU/2 is symmetry
+// TAU/4 is rotation to the perpendicular coordinates
 
 // one gets shifted, second stays the same
 export const phaseShift = (alpha, phi) => (
@@ -40,6 +44,8 @@ export const phaseShift = (alpha, phi) => (
     projection(alpha + TAU / 4)
   )
 );
+
+// console.log("phaseShift(TAU/8, TAU/4)", phaseShift(TAU/8, TAU/4));
 
 // for the three functions above - invent something to purge almost-zero entries?
 
