@@ -90,6 +90,7 @@ class ParticleAnimation {
         opacity: (d) => d.re * d.re + d.im * d.im
       });
     particles
+      .interrupt()
       .transition()
       .ease([0, 1])
       .duration(animationStepDuration)
