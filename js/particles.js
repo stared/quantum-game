@@ -5,18 +5,40 @@ import {EPSILON} from './const';
 import {maxIterations, animationStepDuration, tileSize} from './config';
 import * as print from './print';
 
-const displacementX = {
+const velocityI = {
   '>': 1,
   '^': 0,
   '<': -1,
   'v': 0,
 };
-const displacementY = {
+const velocityJ = {
   '>': 0,
   '^': 1,
   '<': 0,
   'v': -1,
 };
+
+class Particle {
+  constructor(i, j, to, re, im) {
+    this.i = i;
+    this.j = j;
+    this.to = to;
+    this.re = re;
+    this.im = im;
+  }
+  get startX() {
+    return tileSize * this.i + tileSize / 2;
+  }
+  get endX() {
+    return tileSize * (this.i + velocityI[this.to[0]]) + tileSize / 2;
+  }
+  get startY() {
+    return tileSize * this.j + tileSize / 2;
+  }
+  get endY() {
+    return tileSize * (this.j + velocityJ[this.to[0]]) + tileSize / 2;
+  }
+}
 
 class ParticleAnimation {
   constructor(history, board) {
@@ -59,7 +81,7 @@ class ParticleAnimation {
       });
     particles
       .attr({
-        transform: (d) => `translate(${d.i * tileSize + tileSize / 2},${d.j * tileSize + tileSize / 2})`
+        transform: (d) => `translate(${d.startX},${d.startY})`
       })
       .style({
         opacity: (d) => d.re * d.re + d.im * d.im
@@ -90,13 +112,7 @@ export class Particles {
               this.board.tileMatrix[i][j].rotation
             );
           _.forEach(emissions, (emission) => {
-            accJ.push({
-              i: i,
-              j: j,
-              to: emission.to,
-              re: emission.re,
-              im: emission.im,
-            });
+            accJ.push(new Particle(i, j, emission.to, emission.re, emission.im));
           });
           return accJ;
         }, accI);
@@ -123,13 +139,9 @@ export class Particles {
     return _.map(state, (entry) => {
       // 'to' value = direction + polarization
       const dir = entry.to[0];
-      return {
-        i: entry.i + displacementX[dir],
-        j: entry.j + displacementY[dir],
-        to: entry.to,
-        re: entry.re,
-        im: entry.im,
-      };
+      const newI = entry.i + velocityI[dir];
+      const newJ = entry.j + velocityJ[dir];
+      return new Particle(newI, newJ, entry.to, entry.re, entry.im);
     });
   }
 
@@ -160,13 +172,7 @@ export class Particles {
           acc[binKey].re += re;
           acc[binKey].im += im;
         } else {
-          acc[binKey] = {
-            i: entry.i,
-            j: entry.j,
-            to: change.to,
-            re: re,
-            im: im,
-          };
+          acc[binKey] = new Particle(entry.i, entry.j, change.to, re, im);
         }
       });
       return acc;
