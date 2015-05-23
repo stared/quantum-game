@@ -51,6 +51,9 @@ class ParticleAnimation {
   }
   stop() {
     window.clearTimeout(this.currentTimeout);
+    this.particleGroup
+      .selectAll('.particle')
+      .remove();
   }
   play() {
     this.nextFrame();
