@@ -3,6 +3,7 @@ import d3 from 'd3';
 
 import {tileSize, rotationSpeed, repositionSpeed} from './config';
 import * as tile from './tile';
+import * as simulation from './simulation';
 import * as particles from './particles';
 
 export class Board {
@@ -12,7 +13,6 @@ export class Board {
     this.tileMatrix = [];
     this.tileList = [];
     this.tileSelection = d3.select();
-    this.particles = new particles.Particles(this);
   }
 
   clearTiles() {
@@ -50,7 +50,6 @@ export class Board {
     this.drawBackground();
     this.drawBoard();
     this.drawParticles();
-    this.particles.initialize();
   }
 
   resizeSvg() {
@@ -254,4 +253,22 @@ export class Board {
     this.tileSelection
       .call(drag);
   }
+
+  /**
+   * Generate history and play animation.
+   */
+  play() {
+
+    this.simulation = new simulation.Simulation(this);
+
+    this.simulation.initialize();
+    this.simulation.propagateToEnd();
+
+    if (this.particleAnimation) {
+      this.particleAnimation.stop();
+    }
+    this.particleAnimation = new particles.ParticleAnimation(this.simulation.history, this);
+    this.particleAnimation.play();
+  }
+
 }

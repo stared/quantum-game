@@ -45,16 +45,5 @@ gameBoard.reset();
 window.gameBoard = gameBoard;
 
 window.document.getElementById('play').onclick = function () {
-  gameBoard.particles.play();
+  gameBoard.play();
 };
-
-//function play(n) {
-//    board.stateInit();
-//    var i;
-//    for (i = 0; i < n; ++i) {
-//        board.statePropagate();
-//    }
-//    board.animationRun();
-//}
-//
-//play(5);
