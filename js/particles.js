@@ -13,9 +13,9 @@ const velocityI = {
 };
 const velocityJ = {
   '>': 0,
-  '^': 1,
+  '^': -1, // TODO when changing (i,j) to cartesian, change it to 1
   '<': 0,
-  'v': -1,
+  'v': 1, // TODO when changing (i,j) to cartesian, change it to -1
 };
 
 class Particle {
