@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import {EPSILON} from './const';
 import {maxIterations, animationStepDuration, tileSize} from './config';
+import * as print from './print';
 
 const displacementX = {
   '>': 1,
@@ -197,6 +198,11 @@ export class Particles {
   play() {
     this.initialize();
     this.propagateToEnd();
+
+    this.history.forEach((state) => {
+      console.log(print.stateToStr(state));
+    });
+
     if (this.particleAnimation) {
       this.particleAnimation.stop();
     }
