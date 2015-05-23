@@ -111,7 +111,6 @@ export const Detector = {
 };
 
 export class Tile {
-
   constructor(type = Vacuum, rotation = 0, frozen = true, i = 0, j = 0) {
     this.type = type;
     this.rotation = rotation;
@@ -127,8 +126,8 @@ export class Tile {
   get y() {
     return config.tileSize * this.j;
   }
-  
-  get transitionAmplitudes () {
+
+  get transitionAmplitudes() {
     return this.type.transition(this.rotation);
   }
 }
