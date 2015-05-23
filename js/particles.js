@@ -86,6 +86,11 @@ class ParticleAnimation {
       .style({
         opacity: (d) => d.re * d.re + d.im * d.im
       });
+    particles
+      .transition()
+      .ease([0, 1])
+      .duration(animationStepDuration)
+      .attr('transform', (d) => `translate(${d.endX},${d.endY})`);
   }
 }
 

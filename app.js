@@ -27,10 +27,14 @@ const demoLevel = new level.Level(
     {i: 1, j: 1, name: 'Absorber'},
     {i: 1, j: 2, name: 'Detector'},
 
-    {i: 5, j: 0, name: 'ThinMirror'},
-    {i: 5, j: 1, name: 'ThinSplitter'},
-    {i: 5, j: 2, name: 'PolarizingSplitter'},
-    {i: 5, j: 3, name: 'CornerCube'},
+    {i: 8, j: 0, name: 'ThinMirror'},
+    {i: 8, j: 1, name: 'ThinSplitter'},
+    {i: 8, j: 2, name: 'PolarizingSplitter'},
+    {i: 8, j: 3, name: 'CornerCube'},
+
+    {i: 4, j: 3, name: 'ThinSplitter', rotation: 1},
+    {i: 5, j: 3, name: 'ThinSplitter', rotation: 1},
+    {i: 6, j: 3, name: 'Rock'},
   ]
 );
 
