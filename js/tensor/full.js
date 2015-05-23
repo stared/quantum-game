@@ -74,36 +74,29 @@ export const polarizingSplitter = _.range(2).map((rotation) => {
 
 // TODO check sign (?)
 // Quarter wave-plate
-export const glass = [
-  tensor.product(
-    direction.identity,
-    polarization.globalPhase(TAU / 4)
-  )
-];
+export const glass = tensor.product(
+  direction.identity,
+  polarization.globalPhase(TAU / 4)
+);
 
 // Quarter wave-plate phase, but with opposite sign
-export const vacuumJar = [
-  tensor.product(
-    direction.identity,
-    polarization.globalPhase(-TAU / 4)
-  )
-];
+export const vacuumJar = tensor.product(
+  direction.identity,
+  polarization.globalPhase(-TAU / 4)
+);
 
-export const absorber = [
-  tensor.product(
-    direction.identity,
-    polarization.globalAbsorption(0.5)
-  )
-];
+
+export const absorber = tensor.product(
+  direction.identity,
+  polarization.globalAbsorption(0.5)
+);
 
 // TODO check if this should be tensor.product or something else
 // TODO check sign
-export const sugarSolution = [
-  tensor.product(
-    direction.identity,
-    polarization.rotation(TAU / 4)
-  )
-];
+export const sugarSolution = tensor.product(
+  direction.identity,
+  polarization.rotation(TAU / 4)
+);
 
 // it's not just a product; we need some kind of co-variant product
 export const polarizer = _.range(4).map((rotation) =>

@@ -91,6 +91,12 @@ export class Simulation {
         return acc;
       }
       const tile = this.board.tileMatrix[entry.i][entry.j];
+
+      // debugging
+      if (tile.type.name !== "vacuum") {
+        console.log(tile);
+      }
+      
       const transition = tile.transitionAmplitudes;
       _.each(transition[entry.to], (change) => {
         const binKey = [entry.i, entry.j, change.to].join('_');
