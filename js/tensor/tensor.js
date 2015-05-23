@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import {EPSILON} from '../const';
 
 //// One-particle identity matrix looks like that:
 //
@@ -69,44 +68,6 @@ export function sum(sm1, sm2) {
 
   // TODO removing zeros?
   return result;
-}
-
-export function propagateState(state0, transitionSm) {
-  const state = {},
-        absorptionProbs = {};
-  let absorptionProb;
-
-  _.forEach(state0, function (v0, k0) {
-    absorptionProb = Math.pow(v0.re, 2) + Math.pow(v0.im, 2);
-
-    // TODO we should return some {state, absorptionProbs} here
-    if (!transitionSm[k0]) {
-      return;
-    }
-
-    _.forEach(transitionSm[k0], function (out) {
-      const diffRe = v0.re * out.re - v0.im * out.im;
-      const diffIm = v0.re * out.im + v0.im * out.re;
-      if (_.has(state, out.to)) {
-        state[out.to].re += diffRe;
-        state[out.to].im += diffIm;
-        // TODO purging zero probs here or later?
-        // TODO or maybe reducing only in the last step?
-      } else {
-        state[out.to] = {re: diffRe, im: diffIm};
-      }
-      absorptionProb -= Math.pow(diffRe, 2) + Math.pow(diffIm, 2);
-    });
-
-    if (absorptionProb > EPSILON) {
-      absorptionProbs[k0] = absorptionProb;
-    }
-  });
-
-  return {
-    state: state,
-    absorptionProbs: absorptionProbs,
-  };
 }
 
 // Create a tensor that has the same complex number values for all indices.
