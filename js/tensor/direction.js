@@ -61,34 +61,3 @@ export const mirror = _.range(4).map((rotation) => {
     return acc;
   }, {});
 });
-
-// it may be not as simple if we include polarization
-export const splitter = _.range(4).map((rotation) => {
-  return _.reduce(directions, (acc, direction) => {
-    const reflectedDirection = planeReflectionDirection(direction, rotation);
-    if (reflectedDirection === direction) {
-      // When beam goes parallel to splitter surface, act like vacuum
-      acc[direction] = [{
-        to: direction,
-        re: 1,
-        im: 0
-      }];
-    } else {
-      // When there's a chance for reflection:
-      // thin beam splitter = 1/√2 vacuum + i/√2 thin mirror
-      acc[direction] = [
-        {
-          to: direction,
-          re: Math.SQRT1_2,
-          im: 0,
-        },
-        {
-          to: reflectedDirection,
-          re: 0,
-          im: Math.SQRT1_2,
-        },
-      ];
-    }
-    return acc;
-  }, {});
-});

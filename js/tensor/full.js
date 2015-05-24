@@ -43,11 +43,16 @@ export const thinMirror = _.range(4).map((rotation) =>
   )
 );
 
-// TODO check if thinSplitter should use polarization.reflectPhase
 export const thinSplitter = _.range(4).map((rotation) =>
-  tensor.product(
-    direction.splitter[rotation],
-    polarization.reflectPhase
+  tensor.sum(
+    tensor.byConstant(
+      identity,
+      {re: Math.SQRT1_2, im: 0}
+    ),
+    tensor.byConstant(
+      thinMirror[rotation],
+      {re: 0, im: Math.SQRT1_2}
+    )
   )
 );
 
@@ -91,11 +96,10 @@ export const absorber = tensor.product(
   polarization.globalAbsorption(0.5)
 );
 
-// TODO check if this should be tensor.product or something else
 // TODO check sign
 export const sugarSolution = tensor.product(
   direction.identity,
-  polarization.rotation(TAU / 4)
+  polarization.rotation(TAU / 8)
 );
 
 // it's not just a product; we need some kind of co-variant product
