@@ -112,8 +112,9 @@ export class Simulation {
         tile = this.board.tileMatrix[entry.i][entry.j];
         const transitionAmps = tile.transitionAmplitudes[entry.to]
         const transmitted = _.chain(transitionAmps)
-          .map((change) => change.re * change.re + change.re * change.re)
-          .sum();
+          .map((change) => change.re * change.re + change.im * change.im)
+          .sum()
+          .value();
 
         a = (1 - transmitted) * a;
 
