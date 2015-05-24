@@ -93,6 +93,8 @@ export class SVGParticleAnimation extends ParticleAnimation {
         this.nextFrame.bind(this),
         animationStepDuration
       );
+    } else {
+      this.exitParticles();
     }
   }
 
@@ -134,6 +136,14 @@ export class SVGParticleAnimation extends ParticleAnimation {
         return `translate(${x}, ${y}) scale(${s})`;
       });
   };
+
+  exitParticles() {
+    this.particleGroup.selectAll('.particle')
+      .transition().duration(animationStepDuration)
+        .style('opacity', 0)
+        .delay(animationStepDuration)
+        .remove();
+  }
 }
 
 export class CanvasParticleAnimation extends ParticleAnimation {
