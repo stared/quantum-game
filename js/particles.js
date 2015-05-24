@@ -31,6 +31,11 @@ class Particle {
   get endY() {
     return tileSize * (this.j + velocityJ[this.dir]) + tileSize / 2;
   }
+
+  get prob() {
+    return this.hRe*this.hRe + this.hIm*this.hIm + this.vRe*this.vRe + this.vIm*this.vIm;
+  }
+
 }
 
 export class ParticleAnimation {
@@ -109,7 +114,7 @@ export class ParticleAnimation {
         transform: (d) => `translate(${d.startX},${d.startY})`
       })
       .style({
-        opacity: (d) => d.re * d.re + d.im * d.im
+        opacity: (d) => d.prob
       });
 
     particles
