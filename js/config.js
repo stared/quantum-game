@@ -10,7 +10,9 @@ export const maxIterations = 1000;
 export const animationStepDuration = 600;
 // Oscillations per tile
 export const oscillations = 1;
-// Horizonstal oscillation scale (px)
+// Horizontal oscillation scale (px)
 export const polarizationScaleH = 15;
 // Vertical oscillation scale (factor)
 export const polarizationScaleV = 0.7;
+// Canvas resize throttling in ms
+export const resizeThrottle = 100;

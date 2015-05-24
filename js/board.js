@@ -49,7 +49,6 @@ export class Board {
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
-    this.drawParticles();
   }
 
   resizeSvg() {
@@ -82,16 +81,6 @@ export class Board {
         width: tileSize,
         height: tileSize,
       });
-  }
-
-  /**
-   * Draw particle layer. Particles will be drawn by Particle class
-   * when the simulation runs.
-   */
-  drawParticles() {
-    this.svg
-      .append('g')
-      .attr('class', 'particles');
   }
 
   /**
@@ -267,7 +256,7 @@ export class Board {
     if (this.particleAnimation) {
       this.particleAnimation.stop();
     }
-    this.particleAnimation = new particles.ParticleAnimation(this.simulation.history, this);
+    this.particleAnimation = new particles.SVGParticleAnimation(this.simulation.history, this);
     this.particleAnimation.play();
   }
 
