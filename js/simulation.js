@@ -47,7 +47,9 @@ export class Simulation {
    */
   propagate() {
     const lastState = _.last(this.history);
-    const newState = this.interact(this.displace(lastState));
+    const displacedState = this.displace(lastState);
+    this.absorb(displacedState);
+    const newState = this.interact(displacedState);
     this.history.push(newState);
 
     // debugging purpose
@@ -73,6 +75,44 @@ export class Simulation {
               re: entry.re,
               im: entry.im};
     });
+  }
+
+ absorb(state) {
+
+    // Calculate all absorption probabilites.
+    const bins = _.map(state, (entry) => {
+
+      let a = entry.re*entry.re + entry.im*entry.im;
+
+      // Check if particle is out of bound
+      if (
+           entry.i < 0 || entry.i >= this.board.level.width
+        || entry.j < 0 || entry.j >= this.board.level.height
+      ) {
+        a = a * 1;
+      } else {
+
+        const transitionAmps = this.board.tileMatrix[entry.i][entry.j].transitionAmplitudes[entry.to];
+        const transmitted = _.chain(transitionAmps)
+        .map((change) => change.re * change.re + change.re * change.re)
+        .sum();
+
+        a = (1 - transmitted) * a;
+
+      }
+
+      return {i:           entry.i,
+              j:           entry.j,
+              to:          entry.to,
+              probability: a};
+
+    })
+    .filter((entry) =>
+      entry.probability > EPSILON
+    );
+
+    console.log("absorbed", bins);
+
   }
 
   /**
