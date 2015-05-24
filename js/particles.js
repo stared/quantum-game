@@ -68,12 +68,15 @@ export class ParticleAnimation {
   }
 
   updateParticles() {
+
     const particles = this.particleGroup
       .selectAll('.particle')
       .data(this.history[this.stepNo]);
+
     particles
       .exit()
       .remove();
+
     particles
       .enter()
       .append('use')
@@ -81,6 +84,7 @@ export class ParticleAnimation {
         'xlink:href': '#particle',
         'class': 'particle'
       });
+
     particles
       .attr({
         transform: (d) => `translate(${d.startX},${d.startY})`
@@ -88,11 +92,24 @@ export class ParticleAnimation {
       .style({
         opacity: (d) => d.re * d.re + d.im * d.im
       });
+
     particles
       .interrupt()
       .transition()
       .ease([0, 1])
       .duration(animationStepDuration)
-      .attr('transform', (d) => `translate(${d.endX},${d.endY})`);
+      .attrTween('transform', (d) => (t) => {
+        const x = (1 - t) * d.startX + t * d.endX;
+        const y = (1 - t) * d.startY + t * d.endY;
+        const s = 1;
+        return `translate(${x}, ${y}) scale(${s})`;
+      })
+      // .attrTween("cy", (d) => (t) =>
+      //   5 * Math.sin(5 * 2 * Math.PI * t)
+      // )
+      // .attrTween("r",  (d) => (t) =>
+      //   7 + 3 * Math.sin(5 * 2 * Math.PI * t - 0)
+      // );
+
   }
 }
