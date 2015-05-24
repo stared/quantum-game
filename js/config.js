@@ -7,4 +7,10 @@ export const repositionSpeed = 250;
 // Maximum iteration count
 export const maxIterations = 1000;
 // Animation step duration in ms
-export const animationStepDuration = 300;
+export const animationStepDuration = 600;
+// Oscillations per tile
+export const oscillations = 1;
+// Horizonstal oscillation scale (px)
+export const polarizationScaleH = 15;
+// Vertical oscillation scale (factor)
+export const polarizationScaleV = 0.7;

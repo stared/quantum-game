@@ -1,8 +1,8 @@
 /*global window:false*/
 import _ from 'lodash';
 
-import {velocityI, velocityJ} from './const';
-import {animationStepDuration, tileSize} from './config';
+import {TAU, velocityI, velocityJ, perpendicularI, perpendicularJ} from './const';
+import {animationStepDuration, tileSize, oscillations, polarizationScaleH, polarizationScaleV} from './config';
 
 class Particle {
 
@@ -123,17 +123,12 @@ export class ParticleAnimation {
       .ease([0, 1])
       .duration(animationStepDuration)
       .attrTween('transform', (d) => (t) => {
-        const x = (1 - t) * d.startX + t * d.endX;
-        const y = (1 - t) * d.startY + t * d.endY;
-        const s = 1;
+        const h = polarizationScaleH * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
+        const x = (1 - t) * d.startX + t * d.endX + perpendicularI[d.dir] * h;
+        const y = (1 - t) * d.startY + t * d.endY + perpendicularJ[d.dir] * h;
+        const s = 1 + polarizationScaleV * (d.vRe * Math.cos(oscillations * TAU * t) + d.vIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
         return `translate(${x}, ${y}) scale(${s})`;
       })
-      // .attrTween("cy", (d) => (t) =>
-      //   5 * Math.sin(5 * 2 * Math.PI * t)
-      // )
-      // .attrTween("r",  (d) => (t) =>
-      //   7 + 3 * Math.sin(5 * 2 * Math.PI * t - 0)
-      // );
 
   }
 }
