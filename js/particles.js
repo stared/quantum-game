@@ -5,24 +5,31 @@ import {velocityI, velocityJ} from './const';
 import {animationStepDuration, tileSize} from './config';
 
 class Particle {
-  constructor(i, j, to, re, im) {
+
+  constructor(i, j, dir, hRe, hIm, vRe, vIm) {
     this.i = i;
     this.j = j;
-    this.to = to;
-    this.re = re;
-    this.im = im;
+    this.dir = dir;
+    this.hRe = hRe;
+    this.hIm = hIm;
+    this.vRe = vRe;
+    this.vIm = vIm;
   }
+
   get startX() {
     return tileSize * this.i + tileSize / 2;
   }
+
   get endX() {
-    return tileSize * (this.i + velocityI[this.to[0]]) + tileSize / 2;
+    return tileSize * (this.i + velocityI[this.dir]) + tileSize / 2;
   }
+
   get startY() {
     return tileSize * this.j + tileSize / 2;
   }
+
   get endY() {
-    return tileSize * (this.j + velocityJ[this.to[0]]) + tileSize / 2;
+    return tileSize * (this.j + velocityJ[this.dir]) + tileSize / 2;
   }
 }
 
@@ -30,11 +37,23 @@ export class ParticleAnimation {
 
   constructor(history, board) {
 
-    this.history = history.map((state) =>
-      _.values(state).map((val) =>
-        new Particle(val.i, val.j, val.to, val.re, val.im)
-      )
-    );
+    this.history = history.map((state) => {
+      // console.log("groupBy", _.groupBy(state, (val) => `${val.i},${val.j},${val.to[0]}`))
+      return _.chain(state)
+        .groupBy((val) => `${val.i},${val.j},${val.to[0]}`)
+        .mapValues((ray) => {
+          const rayind = _.indexBy(ray, (val) => val.to[1]);
+
+          const hRe = rayind['-'] ? rayind['-'].re : 0;
+          const hIm = rayind['-'] ? rayind['-'].im : 0;
+          const vRe = rayind['|'] ? rayind['|'].re : 0;
+          const vIm = rayind['|'] ? rayind['|'].im : 0;
+
+          return new Particle(ray[0].i, ray[0].j, ray[0].to[0], hRe, hIm, vRe, vIm);
+        })
+        .values()
+        .value();
+    });
 
     this.board = board;
     this.stepNo = 0;
