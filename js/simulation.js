@@ -38,6 +38,11 @@ export class Simulation {
           return accJ;
         }, accI);
       }, []);
+
+    // debugging purpose
+    window.console.log("Simulation started:");
+    window.console.log(print.stateToStr(initialState));
+
     this.history = [initialState];
   }
 
@@ -45,17 +50,29 @@ export class Simulation {
    * Make one propagation step and save it in history.
    * Additionally, return it.
    */
-  propagate() {
+  propagate(quantum = true) {
+
     const lastState = _.last(this.history);
     const displacedState = this.displace(lastState);
-    this.absorb(displacedState);
-    const newState = this.interact(displacedState);
+    let absorbed = null;
+    if (quantum) {
+      absorbed = this.absorb(displacedState);
+    }
+    let newState = this.interact(displacedState);
+    if (quantum) {
+      newState = this.normalize(newState);
+    }
+
     this.history.push(newState);
 
-    // debugging purpose
-    window.console.log(print.stateToStr(newState));
+    if (absorbed !== null) {
+      window.console.log("absorbed", absorbed);
+      return [];
+    } else {
+      window.console.log(print.stateToStr(newState));
+      return newState;      
+    }
 
-    return newState;
   }
 
   /**
@@ -83,6 +100,7 @@ export class Simulation {
     const bins = _.map(state, (entry) => {
 
       let a = entry.re*entry.re + entry.im*entry.im;
+      let tile = null;
 
       // Check if particle is out of bound
       if (
@@ -91,11 +109,11 @@ export class Simulation {
       ) {
         a = a * 1;
       } else {
-
-        const transitionAmps = this.board.tileMatrix[entry.i][entry.j].transitionAmplitudes[entry.to];
+        tile = this.board.tileMatrix[entry.i][entry.j];
+        const transitionAmps = tile.transitionAmplitudes[entry.to]
         const transmitted = _.chain(transitionAmps)
-        .map((change) => change.re * change.re + change.re * change.re)
-        .sum();
+          .map((change) => change.re * change.re + change.re * change.re)
+          .sum();
 
         a = (1 - transmitted) * a;
 
@@ -104,14 +122,24 @@ export class Simulation {
       return {i:           entry.i,
               j:           entry.j,
               to:          entry.to,
+              tile:        tile,
               probability: a};
-
     })
     .filter((entry) =>
       entry.probability > EPSILON
     );
 
-    console.log("absorbed", bins);
+    const rand = Math.random();
+    let probSum = 0;
+
+    for (let k = 0; k < bins.length; k++) {
+      probSum += bins[k].probability;
+      if (probSum > rand) {
+        return bins[k];
+      }
+    }
+
+    return null;
 
   }
 
@@ -163,6 +191,23 @@ export class Simulation {
     );
   }
 
+  normalize(state) {
+
+    let norm = _.chain(state)
+      .map((entry) => entry.re * entry.re + entry.im * entry.im)
+      .sum();
+
+    norm = Math.sqrt(norm);
+
+    return state.map((entry) =>
+      _.assign(entry, {
+        re: entry.re / norm,
+        im: entry.im / norm
+      })
+    );
+
+  }
+
   /**
    * Propagate until:
    * - all probabilities go to 0
@@ -171,7 +216,7 @@ export class Simulation {
   propagateToEnd() {
     let stepNo, lastStep;
     for (stepNo = 0; stepNo < maxIterations; ++stepNo) {
-      lastStep = this.propagate();
+      lastStep = this.propagate(true);
       if (!lastStep.length) {
         break;
       }
