@@ -45,13 +45,12 @@ export const levels =  [
     width:  13,
     height: 10,
     tiles: [ 
-      {i: 2, j: 3, name: 'Source', frozen: true},
+      {i: 0, j: 3, name: 'Source'},
       {i: 4, j: 3, name: 'ThinSplitter', rotation: 1},
 
       {i: 0, j: 0, name: 'ThinMirror'},
       {i: 0, j: 1, name: 'ThinSplitter'},
       {i: 0, j: 2, name: 'ThinSplitter'},
-      {i: 0, j: 3, name: 'ThinSplitter'},
       {i: 0, j: 4, name: 'ThinSplitter', rotation: 3},
       {i: 0, j: 5, name: 'ThinSplitter', rotation: 3},
       {i: 0, j: 6, name: 'ThinSplitter'},
@@ -69,7 +68,7 @@ export const levels =  [
 
       {i: 4, j: 3, name: 'ThinSplitter', rotation: 1},
       {i: 5, j: 3, name: 'ThinSplitter', rotation: 1},
-      {i: 6, j: 3, name: 'ThinSplitter'},
+      {i: 6, j: 3, name: 'ThinSplitter', rotation: 1},
     ]
   }
 ];

@@ -17,3 +17,22 @@ window.gameBoard = gameBoard;
 window.document.getElementById('play').onclick = function () {
   gameBoard.play();
 };
+
+window.document.getElementById('select-level').onclick = function () {
+
+  const levelSelector = d3.select('body').append('div')
+    .attr('id', 'level-selector');
+
+  levelSelector.append('ul').selectAll('.level-item')
+    .data(level.levels)
+    .enter()
+      .append('li')
+        .attr('class', 'level-item')
+        .text((d) => d.name)
+        .on('click', (d) => {
+          gameBoard.level = new level.Level(d);
+          gameBoard.reset();
+          levelSelector.remove();
+        });
+
+};

@@ -45,3 +45,38 @@ body {
     height: 40px;
     z-index: 10;
 }
+
+#select-level {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 80px;
+    height: 40px;
+    z-index: 10;
+}
+
+#level-selector
+{
+    position: fixed;
+    bottom: 200px;
+    right: 200px;
+    padding: 12px;
+    width: 300px;
+    background: #000;
+    color: #aaa;
+    border: solid 1px #aaa;
+    border-radius: 4px;
+    z-index: 20;
+    opacity: 0.8;
+}
+
+li.level-item:before {
+    content: "\269B";
+    margin: 0 1em;
+}
+
+li.level-item
+{
+    list-style: none;
+    font-size: 20px;
+}
