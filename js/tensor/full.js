@@ -61,15 +61,15 @@ export const polarizingSplitter = _.range(2).map((rotation) => {
   const mirrorRotation = 2 * rotation + 1;
   return _.reduce(direction.directions, (acc, dir) => {
     const reflectedDirection = direction.planeReflectionDirection(dir, mirrorRotation);
-    // Polarization | passes through
-    acc[`${dir}|`] = [{
-      to: `${dir}|`,
+    // Polarization - passes through
+    acc[`${dir}-`] = [{
+      to: `${dir}-`,
       re: 1,
       im: 0,
     }];
-    // Polarization - gets reflected
-    acc[`${dir}-`] = [{
-      to: `${reflectedDirection}-`,
+    // Polarization | gets reflected
+    acc[`${dir}|`] = [{
+      to: `${reflectedDirection}|`,
       re: 1,
       im: 0,
     }];
