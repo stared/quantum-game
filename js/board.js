@@ -126,7 +126,7 @@ export class Board {
       .attr({
         'xlink:href': (d) => `#${d.type.name}`,
         'class': 'element',
-        transform: (d) => `rotate(${d.type.rotationAngle * d.rotation},0,0)`
+        transform: (d) => `rotate(${-d.type.rotationAngle * d.rotation},0,0)`
       });
   }
 
@@ -156,13 +156,13 @@ export class Board {
         // Assure that rotation animation is clockwise
         const startAngle = d.type.rotationAngle * (d.rotation - 1);
         element
-          .attr('transform', `rotate(${startAngle},0,0)`);
+          .attr('transform', `rotate(${-startAngle},0,0)`);
         // Rotation animation
         const endAngle = d.type.rotationAngle * d.rotation;
         element
           .transition()
           .duration(rotationSpeed)
-          .attr('transform', `rotate(${endAngle},0,0)`);
+          .attr('transform', `rotate(${-endAngle},0,0)`);
       });
   }
 

@@ -34,10 +34,9 @@ export function pointReflectionDirection(direction) {
 
 // Reflection direction basing on plane's rotation (- / | \)
 export function planeReflectionDirection(direction, rotation) {
-  const mirrorPlane = rotation * 45;
-  const normalPlane = mirrorPlane + 90;
+  const mirrorPlaneAngle = rotation * 45;
   const incidentAngle = directionToAngle(direction);
-  const reflectedAngle = (2 * normalPlane - incidentAngle + 360) % 360;
+  const reflectedAngle = (2 * mirrorPlaneAngle - incidentAngle + 360) % 360;
   return angleToDirection(reflectedAngle);
 }
 
