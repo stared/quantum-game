@@ -109,8 +109,8 @@ export class Simulation {
         a = a * 1;
       } else {
         tile = this.board.tileMatrix[entry.i][entry.j];
-        const transitionAmps = tile.transitionAmplitudes[entry.to];
-        const transmitted = _.chain(transitionAmps)
+        const transitionAmps = tile.transitionAmplitudes.map.get(entry.to);
+        const transmitted = _.chain([...transitionAmps.values()])
           .map((change) => change.re * change.re + change.im * change.im)
           .sum()
           .value();
@@ -159,9 +159,9 @@ export class Simulation {
       }
       const tile = this.board.tileMatrix[entry.i][entry.j];
 
-      const transition = tile.transitionAmplitudes;
-      _.each(transition[entry.to], (change) => {
-        const binKey = [entry.i, entry.j, change.to].join('_');
+      const transition = tile.transitionAmplitudes.map.get(entry.to);
+      for (let [to, change] of transition) {
+        const binKey = [entry.i, entry.j, to].join('_');
         // (a + bi)(c + di) = (ac - bd) + i(ad + bc)
         const re = entry.re * change.re - entry.im * change.im;
         const im = entry.re * change.im + entry.im * change.re;
@@ -172,11 +172,11 @@ export class Simulation {
         } else {
           acc[binKey] = {i:  entry.i,
                          j:  entry.j,
-                         to: change.to,
+                         to: to,
                          re: re,
                          im: im};
         }
-      });
+      }
       return acc;
     }, {});
     // Remove keys; filter out zeroes

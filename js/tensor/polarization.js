@@ -1,19 +1,19 @@
-import * as tensor from './tensor';
+import {Tensor} from './tensor';
 import {TAU} from '../const';
 
 export const polarizations = ['-', '|'];
 
-export const identity = tensor.fill(polarizations, 1, 0);
-export const zero = tensor.fill(polarizations, 0, 0);
+export const identity = Tensor.fill(polarizations, {re: 1, im: 0});
+export const zero = Tensor.fill(polarizations, {re: 0, im: 0});
 
-export const source = {
-  '-': [{to: '-', re: 1, im: 0}],
-};
+export const source = Tensor.fromObject({
+  '-': {'-': {re: 1, im: 0}},
+});
 
-export const reflectPhase = {
-  '-': [{to: '-', re: -1, im: 0}],
-  '|': [{to: '|', re: 1, im: 0}],
-};
+export const reflectPhase = Tensor.fromObject({
+  '-': {'-': {re: -1, im: 0}},
+  '|': {'|': {re: 1, im: 0}},
+});
 
 /**
  * Creates polarization rotation matrix for given angle alpha.
@@ -21,11 +21,11 @@ export const reflectPhase = {
  */
 // TODO check the sign of rotation
 // TODO tests
-export const rotation = (alpha) => ({
-  '-': [{to: '-', re: Math.cos(alpha), im: 0},
-        {to: '|', re: Math.sin(alpha), im: 0}],
-  '|': [{to: '-', re: -Math.sin(alpha), im: 0},
-        {to: '|', re: Math.cos(alpha), im: 0}],
+export const rotation = (alpha) => Tensor.fromObject({
+  '-': {'-': {re: Math.cos(alpha), im: 0},
+        '|': {re: Math.sin(alpha), im: 0}},
+  '|': {'-': {re: -Math.sin(alpha), im: 0},
+        '|': {re: Math.cos(alpha), im: 0}},
 });
 
 /**
@@ -33,11 +33,11 @@ export const rotation = (alpha) => ({
  * Sample usage: polarizer.
  */
 // TODO tests
-export const projection = (alpha) => ({
-  '-': [{to: '-', re: Math.cos(alpha) * Math.cos(alpha), im: 0},
-        {to: '|', re: Math.cos(alpha) * Math.sin(alpha), im: 0}],
-  '|': [{to: '-', re: Math.cos(alpha) * Math.sin(alpha), im: 0},
-        {to: '|', re: Math.sin(alpha) * Math.sin(alpha), im: 0}],
+export const projection = (alpha) => Tensor.fromObject({
+  '-': {'-': {re: Math.cos(alpha) * Math.cos(alpha), im: 0},
+        '|': {re: Math.cos(alpha) * Math.sin(alpha), im: 0}},
+  '|': {'-': {re: Math.cos(alpha) * Math.sin(alpha), im: 0},
+        '|': {re: Math.sin(alpha) * Math.sin(alpha), im: 0}},
 });
 
 // note to myself:
@@ -48,8 +48,8 @@ export const projection = (alpha) => ({
 // TODO better description
 // TODO tests
 export const phaseShift = (alpha, phi) => (
-  tensor.sum(
-    tensor.byConstant(
+  Tensor.sum(
+    Tensor.byConstant(
       projection(alpha),
       {re: Math.cos(phi), im: Math.sin(phi)}
     ),
@@ -63,6 +63,10 @@ export const phaseShift = (alpha, phi) => (
 // but it might be simpler to keep them there
 // or maybe use just tensor.byConstant?
 
-export const globalPhase = (phi) => tensor.fill(polarizations, Math.cos(phi), Math.sin(phi));
+export const globalPhase = (phi) => Tensor.fill(
+  polarizations, {re: Math.cos(phi), im: Math.sin(phi)}
+);
 
-export const globalAbsorption = (transmission) => tensor.fill(polarizations, Math.sqrt(transmission), 0);
+export const globalAbsorption = (transmission) => Tensor.fill(
+  polarizations, {re: Math.sqrt(transmission), im: 0}
+);

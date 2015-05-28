@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as tensor from './tensor';
+import {Tensor} from './tensor';
 
 // Moving directions. We allow only four of them:
 export const directions = ['>', '^', '<', 'v'];
@@ -22,8 +22,8 @@ export function angleToDirection(angle) {
   }['' + angle];
 }
 
-export const identity = tensor.fill(directions, 1, 0);
-export const zero = tensor.fill(directions, 0, 0);
+export const identity = Tensor.fill(directions, {re: 1, im: 0});
+export const zero = Tensor.fill(directions, {re: 0, im: 0});
 
 // Reflection direction: reflecting from point
 export function pointReflectionDirection(direction) {
@@ -40,23 +40,22 @@ export function planeReflectionDirection(direction, rotation) {
   return angleToDirection(reflectedAngle);
 }
 
-export const cube = _.reduce(directions, (acc, direction) => {
-    acc[direction] = [{
-      to: pointReflectionDirection(direction),
-      re: 1,
-      im: 0,
-    }];
+export const cube = Tensor.fromObject(
+  _.reduce(directions, (acc, dirFrom) => {
+    const dirTo = pointReflectionDirection(dirFrom);
+    acc[dirFrom] = {};
+    acc[dirFrom][dirTo] = {re: 1, im: 0};
     return acc;
-  }, {}
+  }, {})
 );
 
 export const mirror = _.range(4).map((rotation) => {
-  return _.reduce(directions, (acc, direction) => {
-    acc[direction] = [{
-      to: planeReflectionDirection(direction, rotation),
-      re: 1,
-      im: 0,
-    }];
-    return acc;
-  }, {});
+  return Tensor.fromObject(
+    _.reduce(directions, (acc, dirFrom) => {
+      const dirTo = planeReflectionDirection(dirFrom, rotation);
+      acc[dirFrom] = {};
+      acc[dirFrom][dirTo] = {re: 1, im: 0};
+      return acc;
+    }, {})
+  );
 });
