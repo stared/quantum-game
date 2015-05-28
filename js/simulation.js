@@ -70,7 +70,7 @@ export class Simulation {
       return [];
     } else {
       window.console.log(print.stateToStr(newState));
-      return newState;      
+      return newState;
     }
 
   }
@@ -94,12 +94,11 @@ export class Simulation {
     });
   }
 
- absorb(state) {
-
-    // Calculate all absorption probabilites.
+  absorb(state) {
+    // Calculate all absorption probabilities.
     const bins = _.map(state, (entry) => {
 
-      let a = entry.re*entry.re + entry.im*entry.im;
+      let a = entry.re * entry.re + entry.im * entry.im;
       let tile = null;
 
       // Check if particle is out of bound
@@ -110,14 +109,13 @@ export class Simulation {
         a = a * 1;
       } else {
         tile = this.board.tileMatrix[entry.i][entry.j];
-        const transitionAmps = tile.transitionAmplitudes[entry.to]
+        const transitionAmps = tile.transitionAmplitudes[entry.to];
         const transmitted = _.chain(transitionAmps)
           .map((change) => change.re * change.re + change.im * change.im)
           .sum()
           .value();
 
         a = (1 - transmitted) * a;
-
       }
 
       return {i:           entry.i,
@@ -161,11 +159,6 @@ export class Simulation {
       }
       const tile = this.board.tileMatrix[entry.i][entry.j];
 
-      // debugging
-      if (tile.type.name !== "vacuum") {
-        console.log(tile);
-      }
-      
       const transition = tile.transitionAmplitudes;
       _.each(transition[entry.to], (change) => {
         const binKey = [entry.i, entry.j, change.to].join('_');
