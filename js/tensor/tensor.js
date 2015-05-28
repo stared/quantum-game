@@ -22,6 +22,9 @@ import _ from 'lodash';
 //
 //// sm stands for 'sparse matrix', not 'sado-maso'!
 
+// TODO consider making Tensor class
+// TODO consider using Set instead of Array and Map instead of Object
+
 export function product(sm1, sm2) {
   const result = {};
 

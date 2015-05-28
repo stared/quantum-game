@@ -79,3 +79,43 @@ describe('product', () => {
     expect(tensor.byConstant(matrix, factor)).toEqual(product);
   });
 });
+
+describe('sum', () => {
+  it('should add sparse matrices', () => {
+    const first = {
+      A: [
+        {to: 'A', re: 1, im: 0},
+        {to: 'B', re: 2, im: 3},
+      ],
+      B: [
+        {to: 'B', re: -1, im: 0},
+        {to: 'C', re: 2, im: 3},
+      ],
+    };
+    const second = {
+      B: [
+        {to: 'A', re: 1, im: 0},
+        {to: 'B', re: 2, im: 3},
+      ],
+      C: [
+        {to: 'B', re: -1, im: 0},
+      ],
+    };
+    const sum = {
+      A: [
+        {to: 'A', re: 1, im: 0},
+        {to: 'B', re: 2, im: 3},
+      ],
+      B: [
+        // As long as we use Arrays instead of Sets, order matters
+        {to: 'B', re: 1, im: 3},
+        {to: 'C', re: 2, im: 3},
+        {to: 'A', re: 1, im: 0},
+      ],
+      C: [
+        {to: 'B', re: -1, im: 0},
+      ],
+    };
+    expect(tensor.sum(first, second)).toEqual(sum);
+  });
+});
