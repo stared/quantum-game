@@ -149,7 +149,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
 export class CanvasParticleAnimation extends ParticleAnimation {
   constructor(history, board) {
     super(history, board);
-    this.canvas = null
+    this.canvas = null;
     this.ctx = null;
     this.startTime = 0;
     // Prepare throttled version of resizeCanvas
