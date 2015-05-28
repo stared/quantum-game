@@ -20,10 +20,12 @@ window.document.getElementById('play').onclick = function () {
 
 window.document.getElementById('select-level').onclick = function () {
 
+  d3.select('#level-selector').remove();
+
   const levelSelector = d3.select('body').append('div')
     .attr('id', 'level-selector');
 
-  levelSelector.append('ul').selectAll('.level-item')
+  levelSelector.append('ul').attr('class', 'level-item').selectAll('li')
     .data(level.levels)
     .enter()
       .append('li')

@@ -58,10 +58,11 @@ body {
 #level-selector
 {
     position: fixed;
-    bottom: 200px;
-    right: 200px;
+    top: 15%;
+    left: 25%;
+    width: 50%;
+    height: 70%;
     padding: 12px;
-    width: 300px;
     background: #000;
     color: #aaa;
     border: solid 1px #aaa;
@@ -70,13 +71,31 @@ body {
     opacity: 0.8;
 }
 
+ul.level-item {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+li.level-item {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
 li.level-item:before {
-    content: "\269B";
-    margin: 0 1em;
+  content: "\269B";
+  padding-right: 5px;
 }
 
 li.level-item
 {
     list-style: none;
     font-size: 20px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+li.level-item:hover
+{
+    color: #fff;
 }
