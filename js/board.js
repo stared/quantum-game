@@ -61,6 +61,9 @@ export class Board {
    * Draw background - a grid of squares.
    */
   drawBackground() {
+
+    this.svg.select('.background').remove();
+
     this.svg
       .append('g')
       .attr('class', 'background')
@@ -97,6 +100,9 @@ export class Board {
   }
 
   spawnTiles() {
+
+    this.svg.select('.board').remove();
+    
     this.tileSelection = this.svg
       .append('g')
       .attr('class', 'board')
