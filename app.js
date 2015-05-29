@@ -30,7 +30,7 @@ window.document.getElementById('select-level').onclick = function () {
     .enter()
       .append('li')
         .attr('class', 'level-item')
-        .text((d) => d.name)
+        .text((d) => `${d.group}: ${d.name}`)
         .on('click', (d) => {
           gameBoard.level = new level.Level(d);
           gameBoard.reset();

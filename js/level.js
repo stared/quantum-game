@@ -10,6 +10,7 @@ export class Level {
 export const levels =  [
   {
     name:   "Test1",
+    group:  "Blah blah",
     width:  13,
     height: 10,
     tiles: [ 
@@ -42,6 +43,7 @@ export const levels =  [
   },
   {
     name:   "Test Beam splitters",
+    group:  "Blah blah",
     width:  13,
     height: 10,
     tiles: [ 
@@ -70,5 +72,60 @@ export const levels =  [
       {i: 5, j: 3, name: 'ThinSplitter', rotation: 1},
       {i: 6, j: 3, name: 'ThinSplitter', rotation: 1},
     ]
-  }
+  },
+  {
+    name:   "1. Introducing mirrors",
+    group:  "Prototype",
+    texts: {
+      before: "Lead the way!",
+    },
+    width:  13,
+    height: 10,
+    tiles: [ 
+      {i: 2, j: 4, name: 'Source', frozen: true},
+      {i: 4, j: 4, name: 'ThinMirror', rotation: 3},
+      {i: 5, j: 4, name: 'Rock', frozen: true},
+      {i: 4, j: 6, name: 'ThinMirror', frozen: true, rotation: 3},
+      {i: 8, j: 6, name: 'ThinMirror', rotation: 1},
+      {i: 8, j: 3, name: 'Detector', frozen: true, rotation: 1},
+    ]
+  },
+  {
+    name:   "2. Introducing beam splitters",
+    group:  "Prototype",
+    texts: {
+      before: "Sometimes in order to join you need to break.",
+    },
+    width:  13,
+    height: 10,
+    tiles: [ 
+      {i: 1, j: 7, name: 'Source', frozen: true},
+      {i: 4, j: 7, name: 'ThinSplitter', rotation: 1},
+      {i: 8, j: 7, name: 'ThinMirror', frozen: true, rotation: 1},
+      {i: 4, j: 4, name: 'ThinMirror', rotation: 1},
+      {i: 8, j: 4, name: 'ThinSplitter', frozen: true, rotation: 1},
+      {i: 8, j: 1, name: 'Mine', frozen: true},
+      {i: 10, j: 4, name: 'Detector', frozen: true},
+    ]
+  },
+  {
+    name:   "3. Changing interference",
+    group:  "Prototype",
+    texts: {
+      before: "Comebacks can turn out either way.",
+    },
+    width:  13,
+    height: 10,
+    tiles: [ 
+      {i: 1, j: 7, name: 'Source', frozen: true},
+      {i: 4, j: 7, name: 'ThinSplitter', frozen: true, rotation: 1},
+      {i: 8, j: 7, name: 'ThinMirror', rotation: 1},
+      {i: 4, j: 4, name: 'ThinMirror', rotation: 1},
+      {i: 4, j: 5, name: 'Glass'},
+      {i: 4, j: 6, name: 'Glass'},
+      {i: 8, j: 4, name: 'ThinSplitter', rotation: 1},
+      {i: 8, j: 1, name: 'Detector', frozen: true, rotation: 1},
+      {i: 10, j: 4, name: 'Mine', frozen: true},
+    ]
+  },
 ];
