@@ -80,7 +80,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
   play() {
     this.particleGroup = this.board.svg
       .append('g')
-      .attr('class', 'board');
+      .attr('class', 'particles');
     this.nextFrame();
   }
 
