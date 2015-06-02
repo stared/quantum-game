@@ -82,11 +82,15 @@ export class SVGParticleAnimation extends ParticleAnimation {
     this.particleGroup = this.board.svg
       .append('g')
       .attr('class', 'particles');
+    this.measurementTextGroup = this.board.svg
+      .append('g')
+      .attr('class', 'measurement-texts');
     this.nextFrame();
   }
 
   nextFrame() {
     this.updateParticles();
+    this.displayMeasurementTexts();
     this.stepNo++;
 
     if (this.stepNo < this.history.length - 1) {
@@ -96,6 +100,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
       );
     } else {
       this.exitParticles();
+      this.displayMeasurementTexts();
     }
   }
 
@@ -144,6 +149,42 @@ export class SVGParticleAnimation extends ParticleAnimation {
         .style('opacity', 0)
         .delay(animationStepDuration)
         .remove();
+  }
+
+  displayMeasurementTexts() {
+
+    _.forEach(this.measurementHistory[this.stepNo], (measurement) => {
+      this.measurementTextGroup.datum(measurement)
+        .append('text')
+          .attr('class', 'measurement-text')
+          .attr('x', (d) => tileSize * d.i + tileSize / 2)
+          .attr('y', (d) => tileSize * d.j + tileSize / 2)
+          .style('font-size', (d) => { window.console.log("d", d); return 20; })
+          .text((d) => d.measured ? "Click!" : "Not there...")
+          .transition().duration(animationStepDuration)
+            .style('font-size', 60)
+            .style('opacity', 0)
+            .delay(animationStepDuration)
+              .remove();
+    });
+
+  //   const measurementTexts = this.measurementTextGroup
+  //     .selectAll('.measurement-text')
+  //     .data(this.measurementHistory[this.stepNo], () => Math.random());
+  //
+  //     measurementTexts.enter()
+  //       .append('text')
+  //         .attr('class', 'measurement-text')
+  //         .attr('x', (d) => tileSize * d.i + tileSize / 2)
+  //         .attr('y', (d) => tileSize * d.j + tileSize / 2)
+  //         .style('font-size', (d) => { window.console.log("d", d); return 20; })
+  //         .text((d) => d.measured ? "Click!" : "Not there...")
+  //         .transition().duration(animationStepDuration)
+  //           .style('font-size', 60)
+  //           .style('opacity', 0)
+  //           .delay(animationStepDuration)
+  //             .remove();
+  //
   }
 }
 

@@ -63,3 +63,7 @@ use.hitbox:hover {
   stroke: #555;
   stroke-width: 1;
 }
+
+.measurement-text {
+  text-anchor: middle;
+}
