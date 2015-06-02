@@ -100,7 +100,10 @@ export class SVGParticleAnimation extends ParticleAnimation {
       );
     } else {
       this.exitParticles();
-      this.displayMeasurementTexts();
+      window.setTimeout(
+        this.displayMeasurementTexts.bind(this),
+        animationStepDuration
+      );
     }
   }
 
@@ -160,31 +163,13 @@ export class SVGParticleAnimation extends ParticleAnimation {
           .attr('x', (d) => tileSize * d.i + tileSize / 2)
           .attr('y', (d) => tileSize * d.j + tileSize / 2)
           .style('font-size', (d) => { window.console.log("d", d); return 20; })
-          .text((d) => d.measured ? "Click!" : "Not there...")
-          .transition().duration(animationStepDuration)
+          .text((d) => d.measured ? "click!" : "not here...")
+          .transition().duration(2 * animationStepDuration)
             .style('font-size', 60)
             .style('opacity', 0)
-            .delay(animationStepDuration)
-              .remove();
+            .remove();
     });
 
-  //   const measurementTexts = this.measurementTextGroup
-  //     .selectAll('.measurement-text')
-  //     .data(this.measurementHistory[this.stepNo], () => Math.random());
-  //
-  //     measurementTexts.enter()
-  //       .append('text')
-  //         .attr('class', 'measurement-text')
-  //         .attr('x', (d) => tileSize * d.i + tileSize / 2)
-  //         .attr('y', (d) => tileSize * d.j + tileSize / 2)
-  //         .style('font-size', (d) => { window.console.log("d", d); return 20; })
-  //         .text((d) => d.measured ? "Click!" : "Not there...")
-  //         .transition().duration(animationStepDuration)
-  //           .style('font-size', 60)
-  //           .style('opacity', 0)
-  //           .delay(animationStepDuration)
-  //             .remove();
-  //
   }
 }
 
