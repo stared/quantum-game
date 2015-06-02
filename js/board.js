@@ -12,7 +12,6 @@ export class Board {
     this.svg = svg;
     this.tileMatrix = [];
     this.tileList = [];
-    this.tileSelection = d3.select();
   }
 
   clearTiles() {
@@ -91,21 +90,23 @@ export class Board {
    * Also, bind click and drag events.
    */
   drawBoard() {
-    this.spawnTiles();
-    this.keepNodeReference();
-    this.drawTiles();
-    this.drawHitboxes();
-    this.bindClick();
-    this.bindDrag();
-  }
-
-  spawnTiles() {
 
     this.svg.select('.board').remove();
-
-    this.tileSelection = this.svg
+    const boardGroup = this.svg
       .append('g')
-      .attr('class', 'board')
+      .attr('class', 'board');
+
+    const tileSelection = this.spawnTiles(boardGroup);
+    this.keepNodeReference(tileSelection);
+    this.drawTiles(tileSelection);
+    this.drawHitboxes(tileSelection);
+    this.bindClick(tileSelection);
+    this.bindDrag(tileSelection);
+  }
+
+  spawnTiles(boardGroup) {
+
+    return boardGroup
       .selectAll('.tile')
       .data(_.filter(
         this.tileList,
@@ -119,15 +120,15 @@ export class Board {
       });
   }
 
-  keepNodeReference() {
-    this.tileSelection
+  keepNodeReference(tileSelection) {
+    tileSelection
       .each(function (d) {
         d.node = this;
       });
   }
 
-  drawTiles() {
-    this.tileSelection
+  drawTiles(tileSelection) {
+    tileSelection
       .append('use')
       .attr({
         'xlink:href': (d) => `#${d.type.name}`,
@@ -136,8 +137,8 @@ export class Board {
       });
   }
 
-  drawHitboxes() {
-    this.tileSelection
+  drawHitboxes(tileSelection) {
+    tileSelection
       .append('use')
       .attr({
         'xlink:href': '#hitbox',
@@ -145,8 +146,8 @@ export class Board {
       });
   }
 
-  bindClick() {
-    this.tileSelection
+  bindClick(tileSelection) {
+    tileSelection
       .select('.hitbox')
       .on('click', function (d) {
         // Avoid rotation when dragged
@@ -172,7 +173,7 @@ export class Board {
       });
   }
 
-  bindDrag() {
+  bindDrag(tileSelection) {
     function reposition(data, elem) {
       delete data.newI;
       delete data.newJ;
@@ -245,7 +246,7 @@ export class Board {
         reposition(target, targetElem);
       });
 
-    this.tileSelection
+    tileSelection
       .call(drag);
   }
 
