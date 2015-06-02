@@ -102,7 +102,7 @@ export class Board {
   spawnTiles() {
 
     this.svg.select('.board').remove();
-    
+
     this.tileSelection = this.svg
       .append('g')
       .attr('class', 'board')
@@ -262,7 +262,7 @@ export class Board {
     if (this.particleAnimation) {
       this.particleAnimation.stop();
     }
-    this.particleAnimation = new particles.SVGParticleAnimation(this.simulation.history, this);
+    this.particleAnimation = new particles.SVGParticleAnimation(this, this.simulation.history, this.simulation.measurementHistory);
     this.particleAnimation.play();
   }
 

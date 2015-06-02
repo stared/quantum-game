@@ -41,7 +41,7 @@ class Particle {
 }
 
 class ParticleAnimation {
-  constructor(history, board) {
+  constructor(board, history, measurementHistory) {
 
     this.history = history.map((state) => {
       return _.chain(state)
@@ -60,14 +60,15 @@ class ParticleAnimation {
         .value();
     });
 
+    this.measurementHistory = measurementHistory;
     this.board = board;
     this.stepNo = 0;
   }
 }
 
 export class SVGParticleAnimation extends ParticleAnimation {
-  constructor(history, board) {
-    super(history, board);
+  constructor(board, history, measurementHistory) {
+    super(board, history, measurementHistory);
     this.particleGroup = null;
     this.currentTimeout = 0;
   }
@@ -147,8 +148,8 @@ export class SVGParticleAnimation extends ParticleAnimation {
 }
 
 export class CanvasParticleAnimation extends ParticleAnimation {
-  constructor(history, board) {
-    super(history, board);
+  constructor(board, history, measurementHistory) {
+    super(board, history, measurementHistory);
     this.canvas = null;
     this.ctx = null;
     this.startTime = 0;
