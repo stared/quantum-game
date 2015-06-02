@@ -92,11 +92,11 @@ export class Board {
   drawBoard() {
 
     this.svg.select('.board').remove();
-    const boardGroup = this.svg
+    this.boardGroup = this.svg
       .append('g')
       .attr('class', 'board');
 
-    const tileSelection = this.spawnTiles(boardGroup);
+    const tileSelection = this.spawnTiles();
     this.keepNodeReference(tileSelection);
     this.drawTiles(tileSelection);
     this.drawHitboxes(tileSelection);
@@ -104,9 +104,28 @@ export class Board {
     this.bindDrag(tileSelection);
   }
 
-  spawnTiles(boardGroup) {
+   addTile(tile, i, j) {
+    // TODO remove if something is there
+    this.tileMatrix[i,j] = tile;
 
-    return boardGroup
+    const tileSelection = this.boardGroup
+      .datum(tile)
+      .append('g')
+      .attr({
+        'class': 'tile',
+        transform: (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`
+      });
+
+    this.keepNodeReference(tileSelection);
+    this.drawTiles(tileSelection);
+    this.drawHitboxes(tileSelection);
+    this.bindClick(tileSelection);
+    this.bindDrag(tileSelection);
+  }
+
+  spawnTiles() {
+
+    return this.boardGroup
       .selectAll('.tile')
       .data(_.filter(
         this.tileList,

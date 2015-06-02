@@ -13,6 +13,7 @@ gameBoard.reset();
 
 // for debugging purposes
 window.gameBoard = gameBoard;
+window.tile = tile;
 
 window.document.getElementById('play').onclick = function () {
   gameBoard.play();
