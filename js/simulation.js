@@ -10,6 +10,7 @@ export class Simulation {
   constructor(board) {
     this.board = board;
     this.history = [];
+    this.measurementHistory = [];
   }
 
   /**
@@ -43,7 +44,8 @@ export class Simulation {
     window.console.log("Simulation started:");
     window.console.log(print.stateToStr(initialState));
 
-    this.history = [initialState];
+    this.history.push(initialState);
+    this.measurementHistory.push([]);
   }
 
   /**
@@ -64,12 +66,11 @@ export class Simulation {
     }
 
     this.history.push(newState);
+    this.measurementHistory.push(absorbed);
 
-    if (absorbed !== null) {
-      window.console.log("absorbed", absorbed);
+    if (_.any(absorbed, 'measured')) {
       return [];
     } else {
-      window.console.log(print.stateToStr(newState));
       return newState;
     }
 
@@ -122,7 +123,8 @@ export class Simulation {
               j:           entry.j,
               to:          entry.to,
               tile:        tile,
-              probability: a};
+              probability: a,
+              measured:    false};
     })
     .filter((entry) =>
       entry.probability > EPSILON
@@ -134,11 +136,11 @@ export class Simulation {
     for (let k = 0; k < bins.length; k++) {
       probSum += bins[k].probability;
       if (probSum > rand) {
-        return bins[k];
+        bins[k].measured = true;
       }
     }
 
-    return null;
+    return bins;
 
   }
 
