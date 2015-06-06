@@ -11,7 +11,6 @@ export class Board {
     this.level = level;
     this.svg = svg;
     this.tileMatrix = [];
-    this.tileList = [];
   }
 
   clearTiles() {
@@ -21,14 +20,13 @@ export class Board {
             new tile.Tile(tile.Vacuum, 0, false, i, j)
         )
     );
-    // Clear tile list
-    this.tileList = [];
     return this;
   }
 
   reset() {
     // Clear tiles
     this.clearTiles();
+
     // Fill board with proper tiles
     _.each(this.level.tileRecipes, (tileRecipe) => {
       if (!_.has(tile, tileRecipe.name)) {
@@ -42,8 +40,7 @@ export class Board {
         tileRecipe.j
       );
     });
-    // Generate flat list
-    this.tileList = _.flatten(this.tileMatrix);
+
     // Initial drawing
     this.resizeSvg();
     this.drawBackground();
@@ -67,7 +64,7 @@ export class Board {
       .append('g')
       .attr('class', 'background')
       .selectAll('.tile')
-      .data(this.tileList)
+      .data(_.flatten(this.tileMatrix))
       .enter()
       .append('rect')
       .attr({
@@ -125,12 +122,14 @@ export class Board {
 
   spawnTiles() {
 
+    const tileList = _.chain(this.tileMatrix)
+      .flatten()
+      .filter((t) => t.type !== tile.Vacuum)
+      .value();
+
     return this.boardGroup
       .selectAll('.tile')
-      .data(_.filter(
-        this.tileList,
-        (t) => t.type !== tile.Vacuum
-      ))
+      .data(tileList)
       .enter()
       .append('g')
       .attr({
