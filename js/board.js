@@ -106,7 +106,7 @@ export class Board {
 
    addTile(tile, i, j) {
     // TODO remove if something is there
-    this.tileMatrix[i,j] = tile;
+    this.tileMatrix[i][j] = tile;
 
     const tileSelection = this.boardGroup
       .datum(tile)
