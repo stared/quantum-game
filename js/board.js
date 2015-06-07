@@ -48,8 +48,9 @@ export class Board {
   }
 
   resizeSvg() {
+    // NOTE no idea why does height need to be +2
     this.svg.attr({
-      viewBox: `0 0 ${tileSize * this.level.width} ${tileSize * this.level.height}`
+      viewBox: `${-tileSize} ${-tileSize} ${tileSize * (this.level.width + 1)} ${tileSize * (this.level.height + 2)}`
     });
   }
 

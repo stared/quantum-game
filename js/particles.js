@@ -76,6 +76,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
   stop() {
     window.clearTimeout(this.currentTimeout);
     this.particleGroup.remove();
+    this.measurementTextGroup.remove();
   }
 
   play() {
@@ -162,10 +163,10 @@ export class SVGParticleAnimation extends ParticleAnimation {
           .attr('class', 'measurement-text')
           .attr('x', (d) => tileSize * d.i + tileSize / 2)
           .attr('y', (d) => tileSize * d.j + tileSize / 2)
-          .style('font-size', (d) => { window.console.log("d", d); return 20; })
+          .style('font-size', '20px')
           .text((d) => d.measured ? "click!" : "not here...")
           .transition().duration(2 * animationStepDuration)
-            .style('font-size', 60)
+            .style('font-size', '60px')
             .style('opacity', 0)
             .remove();
     });
