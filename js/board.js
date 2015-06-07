@@ -220,11 +220,15 @@ export class Board {
     drag
       .on('dragstart', (source) => {
         d3.event.sourceEvent.stopPropagation();
-
-        // Move element to the top
-        this.svg.select('.board')[0][0].appendChild(source.node);
+        source.top = false;
       })
       .on('drag', function (source) {
+        // Move element to the top
+        if (!source.top) {
+          // TODO still there are problems in Safari
+          source.node.parentNode.appendChild(source.node);
+          source.top = true;
+        }
         // Is it impossible to drag item?
         if (source.frozen) {
           return;
