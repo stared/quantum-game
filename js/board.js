@@ -101,12 +101,12 @@ export class Board {
     this.bindDrag(tileSelection);
   }
 
-   addTile(tile, i, j) {
-    // TODO remove if something is there
-    this.tileMatrix[i][j] = tile;
+   addTile(tileObj) {
+    this.removeTile(tileObj.i, tileObj.j);
+    this.tileMatrix[tileObj.i][tileObj.j] = tileObj;
 
     const tileSelection = this.boardGroup
-      .datum(tile)
+      .datum(tileObj)
       .append('g')
       .attr({
         'class': 'tile',
@@ -118,6 +118,14 @@ export class Board {
     this.drawHitboxes(tileSelection);
     this.bindClick(tileSelection);
     this.bindDrag(tileSelection);
+  }
+
+  removeTile(i, j) {
+    window.console.log("remove tile", this.tileMatrix[i][j]);
+    if (this.tileMatrix[i][j].node) {
+      this.tileMatrix[i][j].node.remove();
+    }
+    this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
   spawnTiles() {
