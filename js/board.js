@@ -101,7 +101,12 @@ export class Board {
     this.bindDrag(tileSelection);
   }
 
-   addTile(tileObj) {
+  addTile(name, i, j) {
+    this.addTileFromObj(tile.tileSimpler(name, i, j));
+  }
+
+  // NOTE maybe some better naming to distinguish: tile (as physics) from tile (physics + drawing) and library ('tile.js')
+  addTileFromObj(tileObj) {
     this.removeTile(tileObj.i, tileObj.j);
     this.tileMatrix[tileObj.i][tileObj.j] = tileObj;
 
@@ -121,7 +126,6 @@ export class Board {
   }
 
   removeTile(i, j) {
-    window.console.log("remove tile", this.tileMatrix[i][j]);
     if (this.tileMatrix[i][j].node) {
       this.tileMatrix[i][j].node.remove();
     }

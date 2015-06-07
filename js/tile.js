@@ -131,3 +131,26 @@ export class Tile {
     return this.type.transition(this.rotation);
   }
 }
+
+// NOTE maybe there is a simpler way to genarate it
+const nameToConst = {
+  'vacuum': Vacuum,
+  'source': Source,
+  'corner-cube': CornerCube,
+  'thin-mirror': ThinMirror,
+  'thin-splitter': ThinSplitter,
+  'polarizing-splitter': PolarizingSplitter,
+  'polarizer': Polarizer,
+  'phase-plate': PhasePlate,
+  'sugar-solution': SugarSolution,
+  'mine': Mine,
+  'rock': Rock,
+  'glass': Glass,
+  'vacuum-jar': VacuumJar,
+  'absorber': Absorber,
+  'detector': Detector,
+};
+
+export const tileSimpler = (name, i = 0, j = 0) => {
+  return new Tile(nameToConst[name], 0, false, i, j);
+};

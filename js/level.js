@@ -7,13 +7,13 @@ export class Level {
   }
 }
 
-export const levels =  [
+export const levels = [
   {
     name:   "Test1",
     group:  "Blah blah",
     width:  13,
     height: 10,
-    tiles: [ 
+    tiles: [
       {i: 2, j: 3, name: 'Source', frozen: true},
       {i: 4, j: 3, name: 'ThinBeamSplitter', rotation: 1},
 
@@ -42,35 +42,12 @@ export const levels =  [
     ]
   },
   {
-    name:   "Test Beam splitters",
+    name:   "Only source",
     group:  "Blah blah",
     width:  13,
     height: 10,
-    tiles: [ 
-      {i: 0, j: 3, name: 'Source'},
-      {i: 4, j: 3, name: 'ThinSplitter', rotation: 1},
-
-      {i: 0, j: 0, name: 'ThinMirror'},
-      {i: 0, j: 1, name: 'ThinSplitter'},
-      {i: 0, j: 2, name: 'ThinSplitter'},
-      {i: 0, j: 4, name: 'ThinSplitter', rotation: 3},
-      {i: 0, j: 5, name: 'ThinSplitter', rotation: 3},
-      {i: 0, j: 6, name: 'ThinSplitter'},
-      {i: 0, j: 7, name: 'ThinSplitter'},
-      {i: 0, j: 8, name: 'ThinSplitter'},
-      {i: 0, j: 9, name: 'ThinSplitter'},
-      {i: 1, j: 0, name: 'ThinSplitter', rotation: 2},
-      {i: 1, j: 1, name: 'ThinSplitter'},
-      {i: 1, j: 2, name: 'ThinSplitter'},
-
-      {i: 8, j: 0, name: 'ThinSplitter'},
-      {i: 8, j: 1, name: 'ThinSplitter'},
-      {i: 8, j: 2, name: 'ThinSplitter'},
-      {i: 8, j: 3, name: 'ThinSplitter'},
-
-      {i: 4, j: 3, name: 'ThinSplitter', rotation: 1},
-      {i: 5, j: 3, name: 'ThinSplitter', rotation: 1},
-      {i: 6, j: 3, name: 'ThinSplitter', rotation: 1},
+    tiles: [
+      {i: 0, j: 0, name: 'Source'},
     ]
   },
   {
@@ -81,7 +58,7 @@ export const levels =  [
     },
     width:  13,
     height: 10,
-    tiles: [ 
+    tiles: [
       {i: 2, j: 4, name: 'Source', frozen: true},
       {i: 4, j: 4, name: 'ThinMirror', rotation: 3},
       {i: 5, j: 4, name: 'Rock', frozen: true},
@@ -98,7 +75,7 @@ export const levels =  [
     },
     width:  13,
     height: 10,
-    tiles: [ 
+    tiles: [
       {i: 1, j: 7, name: 'Source', frozen: true},
       {i: 4, j: 7, name: 'ThinSplitter', rotation: 1},
       {i: 8, j: 7, name: 'ThinMirror', frozen: true, rotation: 1},
@@ -116,7 +93,7 @@ export const levels =  [
     },
     width:  13,
     height: 10,
-    tiles: [ 
+    tiles: [
       {i: 1, j: 7, name: 'Source', frozen: true},
       {i: 4, j: 7, name: 'ThinSplitter', frozen: true, rotation: 1},
       {i: 8, j: 7, name: 'ThinMirror', rotation: 1},
