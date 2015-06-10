@@ -6,7 +6,7 @@ html, body {
     box-sizing: border-box;
 }
 body {
-    padding: 1vw;
+    /*padding: 1vw;*/
 
     /* fallback/image non-cover color */
     background-color: #225566;
