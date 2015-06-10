@@ -63,7 +63,11 @@ export class Board {
       .append('g')
       .attr('class', 'background')
       .selectAll('.tile')
-      .data(_.flatten(this.tileMatrix))
+      .data(_.chain(this.tileMatrix)  // NOTE I cannot just clone due to d.x and d.y getters
+        .flatten()
+        .map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j))
+        .value()
+      )
       .enter()
       .append('rect')
       .attr({
@@ -94,8 +98,10 @@ export class Board {
               .attr('class', 'tile-item')
               .text((name) => name)
               .on('click', (name) => {
-                this.addTile(name, d.i, d.j);
-                window.console.log("dblclick added", d);
+                if (name !== 'vacuum') {
+                  this.addTile(name, d.i, d.j);
+                  window.console.log("dblclick added", d);
+                }
                 tileSelector.remove();
               });
       });
