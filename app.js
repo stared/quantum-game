@@ -24,7 +24,8 @@ window.document.getElementById('select-level').onclick = function () {
   d3.select('#level-selector').remove();
 
   const levelSelector = d3.select('body').append('div')
-    .attr('id', 'level-selector');
+    .attr('id', 'level-selector')
+    .attr('class', 'item-selector');
 
   levelSelector.append('ul').attr('class', 'level-item').selectAll('li')
     .data(level.levels)

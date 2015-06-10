@@ -133,7 +133,7 @@ export class Tile {
 }
 
 // NOTE maybe there is a simpler way to genarate it
-const nameToConst = {
+export const nameToConst = {
   'vacuum': Vacuum,
   'source': Source,
   'corner-cube': CornerCube,

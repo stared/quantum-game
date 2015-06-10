@@ -80,6 +80,26 @@ export class Board {
         y: (d) => d.y,
         width: tileSize,
         height: tileSize,
+      })
+      // NOTE adding with double click only for dev mode
+      .on('dblclick', (d) => {
+        d3.select('#tile-selector').remove();
+
+        const tileSelector = d3.select('body').append('div')
+          .attr('id', 'tile-selector')
+          .attr('class', 'item-selector');
+
+        tileSelector.append('ul').attr('class', 'tile-item').selectAll('li')
+          .data(_.keys(tile.nameToConst))
+          .enter()
+            .append('li')
+              .attr('class', 'tile-item')
+              .text((name) => name)
+              .on('click', (name) => {
+                this.addTile(name, d.i, d.j);
+                window.console.log("dblclick added", d);
+                tileSelector.remove();
+              });
       });
   }
 
@@ -201,6 +221,11 @@ export class Board {
           .transition()
           .duration(rotationSpeed)
           .attr('transform', `rotate(${-endAngle},0,0)`);
+      })
+      // NOTE removing with double click only for dev mode
+      .on('dblclick', (d) => {
+        window.console.log("dblclick removed:", d);
+        this.removeTile(d.i, d.j);
       });
   }
 
