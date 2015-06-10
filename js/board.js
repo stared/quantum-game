@@ -29,11 +29,9 @@ export class Board {
 
     // Fill board with proper tiles
     _.each(this.level.tileRecipes, (tileRecipe) => {
-      if (!_.has(tile, tileRecipe.name)) {
-        return;
-      }
       this.tileMatrix[tileRecipe.i][tileRecipe.j] = new tile.Tile(
-        tile[tileRecipe.name],
+        // TODO decide on tile identifiers
+        tile[tileRecipe.name] || tile.nameToConst[tileRecipe.name],
         tileRecipe.rotation || 0,
         !!tileRecipe.frozen,
         tileRecipe.i,
@@ -325,6 +323,33 @@ export class Board {
     }
     this.particleAnimation = new particles.SVGParticleAnimation(this, this.simulation.history, this.simulation.measurementHistory);
     this.particleAnimation.play();
+  }
+
+  exportBoard() {
+    // should match interface from level.js
+    return {
+      name:   this.level.name,
+      group:  this.level.group,
+      width:  this.level.width,
+      height: this.level.height,
+      tiles:  _.chain(this.tileMatrix)
+        .flatten()
+        .filter((d) => d.type.name !== 'vacuum')
+        .map((d) => ({
+          i: d.i,
+          j: d.j,
+          name: d.type.name,
+          rotation: d.rotation,
+          frozen: d.frozen,
+        })),
+    };
+  }
+
+  clipBoard() {
+    window.prompt(
+      "Copy board to clipboard: Ctrl+C, Enter",
+      JSON.stringify(this.exportBoard(), null, 2)
+    );
   }
 
 }

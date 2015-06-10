@@ -1,6 +1,7 @@
 export class Level {
   constructor(levelRecipe) {
     this.name = levelRecipe.name;
+    this.group = levelRecipe.group;
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
     this.tileRecipes = levelRecipe.tiles;
@@ -105,4 +106,61 @@ export const levels = [
       {i: 10, j: 4, name: 'Mine', frozen: true},
     ]
   },
+  {
+    "name": "2. Introducing beam splitters",
+    "group": "Clipboarded",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 7,
+        "name": "source",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 4,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 7,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 1,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 8,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 8,
+        "j": 7,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 10,
+        "j": 4,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": true
+      }
+    ]
+  }
 ];

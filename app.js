@@ -40,3 +40,7 @@ window.document.getElementById('select-level').onclick = function () {
         });
 
 };
+
+window.document.getElementById('clip-board').onclick = function () {
+  gameBoard.clipBoard();
+};

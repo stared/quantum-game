@@ -55,6 +55,15 @@ body {
     z-index: 10;
 }
 
+#clip-board {
+    position: fixed;
+    bottom: 140px;
+    right: 20px;
+    width: 80px;
+    height: 40px;
+    z-index: 10;
+}
+
 .item-selector
 {
     -webkit-column-count: 2; /* Chrome, Safari, Opera */
