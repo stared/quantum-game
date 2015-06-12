@@ -68,7 +68,7 @@ export const polarizingSplitter = _.range(2).map((rotation) => {
     acc[`${dir}-`][`${dir}-`] = {re: 1, im: 0};
     // Polarization | gets reflected
     acc[`${dir}|`] = {};
-    acc[`${dir}|`][`${reflectedDirection}-`] = {re: 1, im: 0};
+    acc[`${dir}|`][`${reflectedDirection}|`] = {re: 1, im: 0};
     return acc;
   }, {}));
 });
