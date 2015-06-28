@@ -25,9 +25,9 @@
     "jsx": true
   },
   "rules": {
-    "comma-dangle": "always-multiline",
-    "no-var": true,
-    "quotes": "single",
-    "key-spacing": true
+    "comma-dangle": [1, "always-multiline"],
+    "no-var": 2,
+    "quotes": [1, "single"],
+    "key-spacing": 1
   }
 }
