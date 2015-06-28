@@ -59,7 +59,7 @@ use.hitbox:hover {
 
 .absorber {
   fill: black;
-  fill-opacity: 0.5;
+  fill-opacity: 0.4;
   stroke: #555;
   stroke-width: 1;
 }

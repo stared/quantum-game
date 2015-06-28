@@ -97,15 +97,19 @@
           <rect x="-30" y="-4" width="60" height="8" transform="rotate(90)"/>
           <rect x="-30" y="-4" width="60" height="8" transform="rotate(135)"/>
         </g>
+        <g id="mine-absorbed">
+          <circle r="40" fill="yellow"/>
+          <circle r="20" fill="red"/>
+        </g>
         <g id="glass">
           <rect class="glass glass-edge" x="-20" y="-20" width="40" height="40" rx="5" ry="5"/>
         </g>
         <g id="vacuum-jar">
-           <rect class="glass-edge" x="-20" y="-20" width="40" height="40" style="fill:none"/>
-           <line x1="-35" y1="-35" x2="-20" y2="-20" style="stroke:#555; stroke-width:3"/>
-           <line x1="35" y1="-35" x2="20" y2="-20" style="stroke:#555; stroke-width:3"/>
-           <line x1="-35" y1="35" x2="-20" y2="20" style="stroke:#555; stroke-width:3"/>
-           <line x1="35" y1="35" x2="20" y2="20" style="stroke:#555; stroke-width:3"/>
+           <rect class="glass-edge" x="-20" y="-20" width="40" height="40" rx="5" ry="5" style="fill:none"/>
+           <line x1="-50" y1="-50" x2="-20" y2="-20" style="stroke:#555; stroke-width:1"/>
+           <line x1="50" y1="-50" x2="20" y2="-20" style="stroke:#555; stroke-width:1"/>
+           <line x1="-50" y1="50" x2="-20" y2="20" style="stroke:#555; stroke-width:1"/>
+           <line x1="50" y1="50" x2="20" y2="20" style="stroke:#555; stroke-width:1"/>
         </g>
         <g id="corner-cube">
           <rect x="-25" y="-25" width="50" height="50" style="fill:lightgrey"/>
@@ -113,7 +117,7 @@
           <line x1="25" y1="-25" x2="-25" y2="25" style="stroke:#555; stroke-width:3"/>
         </g>
         <g id="absorber">
-          <circle class="absorber" r="25"/>
+          <rect class="absorber" x="-20" y="-20" width="40" height="40" rx="5" ry="5"/>
         </g>
         <g id="rock">
           <path
@@ -127,6 +131,18 @@
                    A 35 35 0 0 1 -25 35
                    A 5 5 0 0 1 -25 25"
           stroke="black" stroke-width="2" fill="red"/>
+          <path d="M 10 0
+                   c 0 -15 15 -15 15 0
+                   c 5 15 15 -15 15 5"
+            stroke="black" stroke-width="2" fill="none"/>
+        </g>
+        <g id="detector-absorbed">
+          <path d="M -25,25
+                   A 25 25 0 0 0 -25 -25
+                   A 5 5 0 0 1 -25 -35
+                   A 35 35 0 0 1 -25 35
+                   A 5 5 0 0 1 -25 25"
+          stroke="black" stroke-width="2" fill="green"/>
           <path d="M 10 0
                    c 0 -15 15 -15 15 0
                    c 5 15 15 -15 15 5"
