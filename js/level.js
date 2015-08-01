@@ -109,6 +109,9 @@ export const levels = [
   {
     "name": "2. Introducing beam splitters",
     "group": "Clipboarded",
+    "texts": {
+      "before": "Sometimes in order to join you need to break.",
+    },
     "width": 13,
     "height": 10,
     "tiles": [
@@ -162,5 +165,1285 @@ export const levels = [
         "frozen": true
       }
     ]
-  }
+  },
+  {
+    "name": "4. Breaking interference",
+    "group": "Prototype",
+    "texts": {
+      "before": "Interference is fragile.",
+    },
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 6,
+        "name": "detector",
+        "rotation": 2,
+        "frozen": true
+      },
+      {
+        "i": 3,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 3,
+        "j": 6,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 3,
+        "j": 8,
+        "name": "detector",
+        "rotation": 3,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 4,
+        "name": "rock",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 2,
+        "name": "source",
+        "rotation": 3,
+        "frozen": true
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 9,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": true
+      }
+    ]
+  },
+  {
+    "name": "Mirrors and polarization - not sure",
+    "group": "Test",
+    "texts": {
+      "before": "Try moving sugar solution - it will cancel (not sure if its OK)",
+    },
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 2,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 2,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 6,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "So close yet so far",
+    "group": "Playing",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 0,
+        "j": 2,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 1,
+        "j": 1,
+        "name": "detector",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 1,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 2,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 3,
+        "name": "glass",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 2,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 6,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "5. Apples to apples",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 1,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 1,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 1,
+        "name": "polarizer",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 4,
+        "name": "polarizer",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "polarizer",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 6,
+        "name": "polarizer",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 11,
+        "j": 4,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 11,
+        "j": 6,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "Sagnac-Michelson-Morley",
+    "group": "Advanced",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 3,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 4,
+        "name": "glass",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 6,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 8,
+        "name": "source",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 11,
+        "j": 6,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "6. Sagnac interferometer",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 4,
+        "j": 4,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 6,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 2,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 8,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 2,
+        "name": "source",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 8,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 4,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 6,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "7. Michaelson-Morley",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 3,
+        "j": 5,
+        "name": "source",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 5,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 8,
+        "name": "detector",
+        "rotation": 3,
+        "frozen": true
+      },
+      {
+        "i": 10,
+        "j": 5,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "8. Make it all pass (miscoppied plus pol error)",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 0,
+        "j": 3,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 0,
+        "j": 4,
+        "name": "detector",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 1,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 3,
+        "name": "polarizer",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 4,
+        "name": "polarizer",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 3,
+        "name": "polarizer",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 4,
+        "name": "polarizer",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 3,
+        "name": "polarizer",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 12,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 12,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "9. Sugar recycling",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 3,
+        "j": 5,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 5,
+        "name": "polarizer",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 5,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 7,
+        "name": "polarizer",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 8,
+        "name": "detector",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 5,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 5,
+        "name": "polarizer",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 5,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "10. Interference was never easy",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 5,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 5,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 9,
+        "name": "detector",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 5,
+        "name": "glass",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 1,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 5,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 9,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 1,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 5,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 9,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 5,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 5,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 12,
+        "j": 5,
+        "name": "source",
+        "rotation": 2,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "11. Interfrenzy",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 0,
+        "j": 1,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 1,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 3,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 7,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 1,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 3,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 7,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 9,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 7,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 9,
+        "name": "detector",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 11,
+        "j": 7,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "12. The sign thing",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 2,
+        "name": "detector",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 0,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 2,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 6,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 9,
+        "name": "source",
+        "rotation": 1,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "13. No leakage",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 0,
+        "j": 4,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 7,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 7,
+        "name": "glass",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 7,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 7,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 12,
+        "j": 4,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "14. Both need it",
+    "group": "Prototype",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 2,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 2,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 8,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 2,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 4,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 8,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 6,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 8,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 2,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 6,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": false
+      }
+    ]
+  },
 ];
