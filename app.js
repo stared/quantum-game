@@ -8,7 +8,7 @@ import * as board from './js/board';
 
 const demoLevel = new level.Level(level.levels[0]);
 
-const gameBoard = new board.Board(demoLevel, d3.select('svg'));
+const gameBoard = new board.Board(demoLevel, d3.select('svg'), d3.select('#helper'));
 gameBoard.reset();
 
 // for debugging purposes

@@ -3,6 +3,7 @@
     "directories": {},
     "dependencies": {
       "d3": "github:mbostock/d3@^3.5.5",
+      "katex": "npm:katex@^0.5.1",
       "lodash": "npm:lodash@^3.8.0",
       "normalize.css": "github:necolas/normalize.css@^3.0.3"
     },

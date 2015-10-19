@@ -64,6 +64,25 @@ body {
     z-index: 10;
 }
 
+#helper {
+    transform: scale3d(0.3, 0.3, 1.0);
+    transform-origin: right top;
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    z-index: 10;
+    background: #fff;
+    color: #000;
+    border: solid 1px #aaa;
+    border-radius: 4px;
+    z-index: 20;
+    opacity: 0.8;
+}
+
+#helper:hover {
+    transform: none;
+}
+
 .item-selector
 {
     -webkit-column-count: 2; /* Chrome, Safari, Opera */

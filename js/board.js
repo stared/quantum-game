@@ -1,16 +1,19 @@
 import _ from 'lodash';
 import d3 from 'd3';
+import katex from 'katex';
 
 import {tileSize, rotationSpeed, repositionSpeed} from './config';
 import * as tile from './tile';
 import * as simulation from './simulation';
 import * as particles from './particles';
+import {tensorToLaTeX} from './print';
 
 export class Board {
-  constructor(level, svg) {
+  constructor(level, svg, helper) {
     this.level = level;
     this.svg = svg;
     this.tileMatrix = [];
+    this.helper = helper;
   }
 
   clearTiles() {
@@ -202,6 +205,9 @@ export class Board {
   }
 
   bindClick(tileSelection) {
+
+    const helper = this.helper;
+
     tileSelection
       .select('.hitbox')
       .on('click', function (d) {
@@ -225,6 +231,8 @@ export class Board {
           .transition()
           .duration(rotationSpeed)
           .attr('transform', `rotate(${-endAngle},0,0)`);
+
+        helper.html(katex.renderToString(tensorToLaTeX(d.transitionAmplitudes.map)));
       })
       // NOTE removing with double click only for dev mode
       .on('dblclick', (d) => {
@@ -277,6 +285,11 @@ export class Board {
 
         // Find source element
         const sourceElem = d3.select(source.node);
+
+        // // Some condition for tray
+        // if (source.newI > this.level.width) {
+        //
+        // }
 
         // Drag ended outside of board? Reposition source and return.
         if (
