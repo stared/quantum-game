@@ -28,7 +28,7 @@ export const tensorToLaTeX = (tensor) => {
     .map((outputBase) => basis
       .map((inputBase) => {
           let matrixElement = tensor.get(inputBase).get(outputBase);
-          if (matrixElement === undefined || matrixElement === 0) {
+          if (matrixElement === undefined || (matrixElement.re === 0 && matrixElement.im === 0)) {
             return "0";
           } else {
             if (matrixElement.re !== 0 && matrixElement.im !== 0) {
