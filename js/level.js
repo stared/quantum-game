@@ -1446,4 +1446,54 @@ export const levels = [
       }
     ]
   },
+  {
+    "name": "Sugar vs mirrors",
+    "group": "Examples",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 3,
+        "j": 3,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 5,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 5,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 5,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      }
+    ]
+  },
 ];
