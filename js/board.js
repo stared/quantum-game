@@ -121,20 +121,17 @@ export class Board {
       .append('g')
       .attr('class', 'board');
 
-    const tileSelection = this.spawnTiles();
-    this.keepNodeReference(tileSelection);
-    this.drawTiles(tileSelection);
-    this.drawHitboxes(tileSelection);
-    this.bindClick(tileSelection);
-    this.bindDrag(tileSelection);
+    _.flatten(this.tileMatrix)
+        .filter((t) => t.type !== tile.Vacuum)
+        .forEach((t) => this.addTileFromObj(t));
   }
 
   addTile(name, i, j) {
     this.addTileFromObj(tile.tileSimpler(name, i, j));
   }
 
-  // NOTE maybe some better naming to distinguish: tile (as physics) from tile (physics + drawing) and library ('tile.js')
   addTileFromObj(tileObj) {
+
     this.removeTile(tileObj.i, tileObj.j);
     this.tileMatrix[tileObj.i][tileObj.j] = tileObj;
 
