@@ -102,7 +102,7 @@ export class Board {
               .text((name) => name)
               .on('click', (name) => {
                 if (name !== 'vacuum') {
-                  this.addTile(name, d.i, d.j);
+                  this.addTile(tile.tileSimpler(name, d.i, d.j));
                   window.console.log("dblclick added", d);
                 }
                 tileSelector.remove();
@@ -123,14 +123,10 @@ export class Board {
 
     _.flatten(this.tileMatrix)
         .filter((t) => t.type !== tile.Vacuum)
-        .forEach((t) => this.addTileFromObj(t));
+        .forEach((t) => this.addTile(t));
   }
 
-  addTile(name, i, j) {
-    this.addTileFromObj(tile.tileSimpler(name, i, j));
-  }
-
-  addTileFromObj(tileObj) {
+  addTile(tileObj) {
 
     this.removeTile(tileObj.i, tileObj.j);
     this.tileMatrix[tileObj.i][tileObj.j] = tileObj;
