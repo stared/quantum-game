@@ -1,5 +1,6 @@
 import * as config from './config';
 import * as full from './tensor/full';
+import d3 from 'd3';
 
 export const Vacuum = {
   name: 'vacuum',
@@ -117,6 +118,31 @@ export class Tile {
     this.frozen = frozen;
     this.i = i;
     this.j = j;
+    // this.g // d3 group selector in which it is
+  }
+
+  draw() {
+  }
+
+  rotate() {
+
+    const element = this.g.select('.element');
+    this.rotation = (this.rotation + 1) % this.type.maxRotation;
+
+    // Assure that rotation animation is clockwise
+    const startAngle = this.type.rotationAngle * (this.rotation - 1);
+    element
+      .attr('transform', `rotate(${-startAngle},0,0)`);
+
+    // Rotation animation
+    const endAngle = this.type.rotationAngle * this.rotation;
+    element
+      .transition()
+      .duration(config.rotationSpeed)
+      .attr('transform', `rotate(${-endAngle},0,0)`);
+  }
+
+  absorbAnimaton() {
   }
 
   get x() {

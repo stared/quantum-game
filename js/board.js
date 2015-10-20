@@ -182,6 +182,7 @@ export class Board {
     tileSelection
       .each(function (d) {
         d.node = this;
+        d.g = d3.select(d.node);
       });
   }
 
@@ -211,26 +212,18 @@ export class Board {
     tileSelection
       .select('.hitbox')
       .on('click', function (d) {
+
         // Avoid rotation when dragged
         if (d3.event.defaultPrevented) {
           return;
         }
+
         // Avoid rotation when frozen
         if (d.frozen) {
           return;
         }
-        const element = d3.select(d.node).select('.element');
-        d.rotation = (d.rotation + 1) % d.type.maxRotation;
-        // Assure that rotation animation is clockwise
-        const startAngle = d.type.rotationAngle * (d.rotation - 1);
-        element
-          .attr('transform', `rotate(${-startAngle},0,0)`);
-        // Rotation animation
-        const endAngle = d.type.rotationAngle * d.rotation;
-        element
-          .transition()
-          .duration(rotationSpeed)
-          .attr('transform', `rotate(${-endAngle},0,0)`);
+
+        d.rotate();
 
         helper.html(katex.renderToString(tensorToLaTeX(d.transitionAmplitudes.map)));
       })
