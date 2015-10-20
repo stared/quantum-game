@@ -1,6 +1,5 @@
 import * as config from './config';
 import * as full from './tensor/full';
-import d3 from 'd3';
 
 export const Vacuum = {
   name: 'vacuum',

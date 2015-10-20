@@ -16,16 +16,6 @@ export class Board {
     this.helper = helper;
   }
 
-  clearTiles() {
-    // Create matrix filled with Vacuum
-    this.tileMatrix = _.range(this.level.width).map((i) =>
-        _.range(this.level.height).map((j) =>
-            new tile.Tile(tile.Vacuum, 0, false, i, j)
-        )
-    );
-    return this;
-  }
-
   reset() {
     // Clear tiles
     this.clearTiles();
@@ -46,6 +36,15 @@ export class Board {
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
+  }
+
+  clearTiles() {
+    // Create matrix filled with Vacuum
+    this.tileMatrix = _.range(this.level.width).map((i) =>
+        _.range(this.level.height).map((j) =>
+            new tile.Tile(tile.Vacuum, 0, false, i, j)
+        )
+    );
   }
 
   resizeSvg() {
@@ -86,8 +85,8 @@ export class Board {
         width: tileSize,
         height: tileSize,
       })
-      // NOTE adding with double click only for dev mode
       .on('dblclick', (d) => {
+        // NOTE adding with double click only for dev mode
         d3.select('#tile-selector').remove();
 
         const tileSelector = d3.select('body').append('div')
@@ -134,16 +133,44 @@ export class Board {
     const tileSelection = this.boardGroup
       .datum(tileObj)
       .append('g')
-      .attr({
-        'class': 'tile',
-        transform: (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`
-      });
+        .attr('class', 'tile')
+        .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`);
 
-    this.keepNodeReference(tileSelection);
-    this.drawTiles(tileSelection);
-    this.drawHitboxes(tileSelection);
-    this.bindClick(tileSelection);
+    tileObj.g = tileSelection;
+    // DOM element for g
+    tileObj.node = tileSelection[0][0];
+
+    tileObj.draw();
+
+    // hitbox
+    tileSelection
+      .append('use')
+        .attr('xlink:href', '#hitbox')
+        .attr('class', 'hitbox')
+        .on('click', (d) => {
+
+          // Avoid rotation when dragged
+          if (d3.event.defaultPrevented) {
+            return;
+          }
+
+          // Avoid rotation when frozen
+          if (d.frozen) {
+            return;
+          }
+
+          d.rotate();
+          this.helper.html(katex.renderToString(tensorToLaTeX(d.transitionAmplitudes.map)));
+
+        })
+        .on('dblclick', (d) => {
+          // NOTE removing with double click only for dev mode
+          window.console.log("dblclick removed:", d);
+          this.removeTile(d.i, d.j);
+        });
+
     this.bindDrag(tileSelection);
+
   }
 
   removeTile(i, j) {
@@ -153,76 +180,10 @@ export class Board {
     this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
-  spawnTiles() {
-
-    const tileList = _.chain(this.tileMatrix)
-      .flatten()
-      .filter((t) => t.type !== tile.Vacuum)
-      .value();
-
-    return this.boardGroup
-      .selectAll('.tile')
-      .data(tileList)
-      .enter()
-      .append('g')
-      .attr({
-        'class': 'tile',
-        transform: (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`
-      });
-  }
-
-  keepNodeReference(tileSelection) {
-    tileSelection
-      .each(function (d) {
-        d.node = this;
-        d.g = d3.select(d.node);
-      });
-  }
-
-  drawTiles(tileSelection) {
-    tileSelection
-      .each((d) => d.draw());
-  }
-
-  drawHitboxes(tileSelection) {
-    tileSelection
-      .append('use')
-      .attr({
-        'xlink:href': '#hitbox',
-        'class': 'hitbox',
-      });
-  }
-
-  bindClick(tileSelection) {
-
-    const helper = this.helper;
-
-    tileSelection
-      .select('.hitbox')
-      .on('click', function (d) {
-
-        // Avoid rotation when dragged
-        if (d3.event.defaultPrevented) {
-          return;
-        }
-
-        // Avoid rotation when frozen
-        if (d.frozen) {
-          return;
-        }
-
-        d.rotate();
-
-        helper.html(katex.renderToString(tensorToLaTeX(d.transitionAmplitudes.map)));
-      })
-      // NOTE removing with double click only for dev mode
-      .on('dblclick', (d) => {
-        window.console.log("dblclick removed:", d);
-        this.removeTile(d.i, d.j);
-      });
-  }
-
   bindDrag(tileSelection) {
+    //
+    // NOTE refactor and enable tray dropping
+    //
     function reposition(data, elem) {
       delete data.newI;
       delete data.newJ;
