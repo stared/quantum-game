@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 import katex from 'katex';
 
-import {tileSize, rotationSpeed, repositionSpeed} from './config';
+import {tileSize, repositionSpeed} from './config';
 import * as tile from './tile';
 import * as simulation from './simulation';
 import * as particles from './particles';
@@ -188,12 +188,7 @@ export class Board {
 
   drawTiles(tileSelection) {
     tileSelection
-      .append('use')
-      .attr({
-        'xlink:href': (d) => `#${d.type.name}`,
-        'class': 'element',
-        transform: (d) => `rotate(${-d.type.rotationAngle * d.rotation},0,0)`
-      });
+      .each((d) => d.draw());
   }
 
   drawHitboxes(tileSelection) {

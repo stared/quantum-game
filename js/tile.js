@@ -122,6 +122,12 @@ export class Tile {
   }
 
   draw() {
+
+    this.g.append('use')
+      .attr('xlink:href', (d) => `#${this.type.name}`)
+      .attr('class', 'element')
+      .attr('transform', (d) => `rotate(${-this.type.rotationAngle * this.rotation},0,0)`);
+
   }
 
   rotate() {
