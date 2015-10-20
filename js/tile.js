@@ -117,6 +117,45 @@ export class Tile {
     this.frozen = frozen;
     this.i = i;
     this.j = j;
+    // this.g // d3 group selector in which it is
+  }
+
+  draw() {
+
+    this.g.append('use')
+      .attr('xlink:href', (d) => `#${this.type.name}`)
+      .attr('class', 'element')
+      .attr('transform', (d) => `rotate(${-this.type.rotationAngle * this.rotation},0,0)`);
+
+  }
+
+  rotate() {
+
+    const element = this.g.select('.element');
+    this.rotation = (this.rotation + 1) % this.type.maxRotation;
+
+    // Assure that rotation animation is clockwise
+    const startAngle = this.type.rotationAngle * (this.rotation - 1);
+    element
+      .attr('transform', `rotate(${-startAngle},0,0)`);
+
+    // Rotation animation
+    const endAngle = this.type.rotationAngle * this.rotation;
+    element
+      .transition()
+      .duration(config.rotationSpeed)
+      .attr('transform', `rotate(${-endAngle},0,0)`);
+
+  }
+
+  absorbAnimaton() {
+
+    this.g.select('.element')
+      .style('opacity', 0.3)
+      .transition()
+        .duration(config.absorptionDuration)
+        .style('opacity', 1);
+
   }
 
   get x() {
