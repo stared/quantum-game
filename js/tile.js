@@ -146,9 +146,17 @@ export class Tile {
       .transition()
       .duration(config.rotationSpeed)
       .attr('transform', `rotate(${-endAngle},0,0)`);
+
   }
 
   absorbAnimaton() {
+
+    this.g.select('.element')
+      .style('opacity', 0.3)
+      .transition()
+        .duration(config.absorptionDuration)
+        .style('opacity', 1);
+
   }
 
   get x() {

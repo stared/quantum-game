@@ -169,6 +169,9 @@ export class SVGParticleAnimation extends ParticleAnimation {
             .style('font-size', '60px')
             .style('opacity', 0)
             .remove();
+
+      this.measurementTextGroup.datum(measurement)
+        .each((d) => (d.measured && d.tile != null) ? d.tile.absorbAnimaton() : null);
     });
 
   }
