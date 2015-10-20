@@ -28,6 +28,10 @@
     "comma-dangle": [1, "always-multiline"],
     "no-var": 2,
     "quotes": [1, "single"],
-    "key-spacing": 1
+    "key-spacing": 0,
+    "no-alert": 0
+  },
+  "env": {
+    "browser": true
   }
 }

@@ -41,7 +41,7 @@ export class Simulation {
       }, []);
 
     // debugging purpose
-    window.console.log("Simulation started:");
+    window.console.log('Simulation started:');
     window.console.log(print.stateToStr(initialState));
 
     this.history.push(initialState);
@@ -198,7 +198,7 @@ export class Simulation {
     return state.map((entry) =>
       _.assign(entry, {
         re: entry.re / norm,
-        im: entry.im / norm
+        im: entry.im / norm,
       })
     );
 

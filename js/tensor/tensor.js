@@ -60,7 +60,7 @@ export class Tensor {
     const outerMap = new Map(null);
     const outerKeys = new Set([
       ...t1.map.keys(),
-      ...t2.map.keys()
+      ...t2.map.keys(),
     ]);
     for (let outerKey of outerKeys) {
       const innerMap = new Map(null);

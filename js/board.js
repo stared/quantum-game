@@ -48,10 +48,8 @@ export class Board {
   }
 
   resizeSvg() {
-    this.svg.attr({
-      // top left width height
-      viewBox: `${-tileSize} ${-tileSize} ${tileSize * (this.level.width + 2)} ${tileSize * (this.level.height + 2)}`
-    });
+    // top left width height
+    this.svg.attr('viewBox', `${-tileSize} ${-tileSize} ${tileSize * (this.level.width + 2)} ${tileSize * (this.level.height + 2)}`);
   }
 
   /**
@@ -102,7 +100,7 @@ export class Board {
               .on('click', (name) => {
                 if (name !== 'vacuum') {
                   this.addTile(tile.tileSimpler(name, d.i, d.j));
-                  window.console.log("dblclick added", d);
+                  window.console.log('dblclick added', d);
                 }
                 tileSelector.remove();
               });
@@ -165,7 +163,7 @@ export class Board {
         })
         .on('dblclick', (d) => {
           // NOTE removing with double click only for dev mode
-          window.console.log("dblclick removed:", d);
+          window.console.log('dblclick removed:', d);
           this.removeTile(d.i, d.j);
         });
 
@@ -308,7 +306,7 @@ export class Board {
 
   clipBoard() {
     window.prompt(
-      "Copy board to clipboard: Ctrl+C, Enter",
+      'Copy board to clipboard: Ctrl+C, Enter',
       JSON.stringify(this.exportBoard(), null, 2)
     );
   }
