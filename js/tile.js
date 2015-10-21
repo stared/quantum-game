@@ -72,6 +72,29 @@ export const Mine = {
   maxRotation: 1, // []
   rotationAngle: 360,
   transition: () => full.zero,
+  absorbAnimaton: (g) => {
+
+    const gDom = g[0][0];
+    gDom.parentNode.appendChild(gDom);
+
+    g.select('.element')
+      .style('opacity', 0)
+      .transition()
+        .delay(config.absorptionDuration / 3)
+        .duration(config.absorptionDuration)
+        .style('opacity', 1);
+
+    g.append('circle')
+      .attr('r', 50)
+      .style('fill', 'red')
+      .transition()
+        .duration(config.absorptionDuration / 3)
+        .ease('linear')
+        .attr('r', 2000)
+        .style('fill', 'yellow')
+        .style('opacity', 0)
+        .remove();
+  },
 };
 
 // or a brick?
@@ -150,11 +173,17 @@ export class Tile {
 
   absorbAnimaton() {
 
-    this.g.select('.element')
-      .style('opacity', 0.3)
-      .transition()
-        .duration(config.absorptionDuration)
-        .style('opacity', 1);
+    // NOTE or maybe just class inheritance?
+    if (this.type.absorbAnimaton !== undefined) {
+      // this does not pass this
+      this.type.absorbAnimaton(this.g);
+    } else {
+      this.g.select('.element')
+        .style('opacity', 0.3)
+        .transition()
+          .duration(config.absorptionDuration)
+          .style('opacity', 1);
+    }
 
   }
 

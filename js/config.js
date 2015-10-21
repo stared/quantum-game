@@ -17,4 +17,4 @@ export const polarizationScaleV = 0.7;
 // Canvas resize throttling in ms
 export const resizeThrottle = 100;
 // Absorption animation duration in ms
-export const absorptionDuration = 3000;
+export const absorptionDuration = 2000;
