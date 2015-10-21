@@ -72,19 +72,19 @@ export const Mine = {
   maxRotation: 1, // []
   rotationAngle: 360,
   transition: () => full.zero,
-  absorbAnimaton: (g) => {
+  absorbAnimaton: (that) => {
 
-    const gDom = g[0][0];
+    const gDom = that.g[0][0];
     gDom.parentNode.appendChild(gDom);
 
-    g.select('.element')
+    that.g.select('.element')
       .style('opacity', 0)
       .transition()
         .delay(config.absorptionDuration / 3)
         .duration(config.absorptionDuration)
         .style('opacity', 1);
 
-    g.append('circle')
+    that.g.append('circle')
       .attr('r', 50)
       .style('fill', 'red')
       .transition()
@@ -131,6 +131,18 @@ export const Detector = {
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
   transition: () => full.zero,
+  absorbAnimaton: (that) => {
+
+    that.g.append('use')
+      .attr('xlink:href', '#detector-absorbed')
+      .attr('class', 'absorbed')
+      .attr('transform', `rotate(${-that.type.rotationAngle * that.rotation},0,0)`)
+      .transition()
+        .duration(config.absorptionDuration)
+        .style('opacity', 0)
+        .remove();
+
+  },
 };
 
 export class Tile {
@@ -175,8 +187,7 @@ export class Tile {
 
     // NOTE or maybe just class inheritance?
     if (this.type.absorbAnimaton !== undefined) {
-      // this does not pass this
-      this.type.absorbAnimaton(this.g);
+      this.type.absorbAnimaton(this);
     } else {
       this.g.select('.element')
         .style('opacity', 0.3)
