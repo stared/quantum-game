@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import d3 from 'd3';
-import katex from 'katex';
 
 import {tileSize, repositionSpeed} from './config';
 import * as tile from './tile';
@@ -158,7 +157,7 @@ export class Board {
           }
 
           d.rotate();
-          this.helper.html(katex.renderToString(tensorToLaTeX(d.transitionAmplitudes.map)));
+          this.helper.html(tensorToLaTeX(d.transitionAmplitudes.map));
 
         })
         .on('dblclick', (d) => {

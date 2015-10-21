@@ -1,3 +1,5 @@
+import katex from 'katex';
+
 // displaying and printing states, operators etc
 // as of now mostly for debugging purpose
 
@@ -47,5 +49,5 @@ export const tensorToLaTeX = (tensor) => {
       ).join(' & ')
     )
     .join('\\\\');
-  return `\\begin{bmatrix}${arrayContent}\\end{bmatrix}`;
+  return katex.renderToString(`\\begin{bmatrix}${arrayContent}\\end{bmatrix}`);
 };
