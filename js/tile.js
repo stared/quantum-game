@@ -5,7 +5,7 @@ export const Vacuum = {
   name: 'vacuum',
   maxRotation: 1,
   rotationAngle: 0,
-  transition: () => full.identity
+  transition: () => full.identity,
 };
 
 export const Source = {
@@ -13,7 +13,7 @@ export const Source = {
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
   transition: () => full.zero,
-  generation: (rotation) => full.source[rotation]
+  generation: (rotation) => full.source[rotation],
 };
 
 // maybe will be changed to a typical, one-side corner sube
@@ -21,14 +21,14 @@ export const CornerCube = {
   name: 'corner-cube',
   maxRotation: 1,
   rotationAngle: 0,
-  transition: () => full.cornerCube
+  transition: () => full.cornerCube,
 };
 
 export const ThinMirror = {
   name: 'thin-mirror',
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.thinMirror[rotation]
+  transition: (rotation) => full.thinMirror[rotation],
 };
 
 // most likely it will fo as "BeamSplitter"
@@ -36,42 +36,42 @@ export const ThinSplitter = {
   name: 'thin-splitter',
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.thinSplitter[rotation]
+  transition: (rotation) => full.thinSplitter[rotation],
 };
 
 export const PolarizingSplitter = {
   name: 'polarizing-splitter',
   maxRotation: 2, // / \
   rotationAngle: 90,
-  transition: (rotation) => full.polarizingSplitter[rotation]
+  transition: (rotation) => full.polarizingSplitter[rotation],
 };
 
 export const Polarizer = {
   name: 'polarizer',
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.polarizer[rotation]
+  transition: (rotation) => full.polarizer[rotation],
 };
 
 export const PhasePlate = {
   name: 'phase-plate',
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.phasePlate[rotation]
+  transition: (rotation) => full.phasePlate[rotation],
 };
 
 export const SugarSolution = {
   name: 'sugar-solution',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.sugarSolution
+  transition: () => full.sugarSolution,
 };
 
 export const Mine = {
   name: 'mine',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.zero
+  transition: () => full.zero,
 };
 
 // or a brick?
@@ -79,35 +79,35 @@ export const Rock = {
   name: 'rock',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.zero
+  transition: () => full.zero,
 };
 
 export const Glass = {
   name: 'glass',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.glass
+  transition: () => full.glass,
 };
 
 export const VacuumJar = {
   name: 'vacuum-jar',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.vacuumJar
+  transition: () => full.vacuumJar,
 };
 
 export const Absorber = {
   name: 'absorber',
   maxRotation: 1, // []
   rotationAngle: 360,
-  transition: () => full.absorber
+  transition: () => full.absorber,
 };
 
 export const Detector = {
   name: 'detector',
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
-  transition: () => full.zero
+  transition: () => full.zero,
 };
 
 export class Tile {
@@ -123,9 +123,9 @@ export class Tile {
   draw() {
 
     this.g.append('use')
-      .attr('xlink:href', (d) => `#${this.type.name}`)
+      .attr('xlink:href', () => `#${this.type.name}`)
       .attr('class', 'element')
-      .attr('transform', (d) => `rotate(${-this.type.rotationAngle * this.rotation},0,0)`);
+      .attr('transform', () => `rotate(${-this.type.rotationAngle * this.rotation},0,0)`);
 
   }
 
