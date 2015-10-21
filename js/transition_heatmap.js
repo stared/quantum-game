@@ -13,6 +13,18 @@ const complexToColor = (z) => {
   }
 };
 
+// see http://www.fileformat.info/info/unicode/block/arrows/utf8test.htm
+const prettierArrows = {
+  '>': '\u21e2',  // ⇢
+  '^': '\u21e1',  // ⇡
+  '<': '\u21e0',  // ⇠
+  'v': '\u21e3',  // ⇣
+  '-': '\u2194',  // ↔
+  '|': '\u2195',  // ↕
+};
+
+const prettifyBasis = (basis) => `${prettierArrows[basis[0]]}${prettierArrows[basis[1]]}`;
+
 export class TransitionHeatmap {
   constructor(selector, size=300) {
     this.svg = selector.append('svg')
@@ -46,13 +58,13 @@ export class TransitionHeatmap {
 
     this.labels = labels;
 
+    const position = _.zipObject(labels.map((d, i) => [d, i]));
+
     const scale = d3.scale.linear()
       .domain([-1, labels.length])
       .range([0, this.size]);
 
     const squareSize = scale(1) - scale(0);
-
-    const position = _.zipObject(labels.map((d, i) => [d, i]));
 
     // in (top) basis labels
 
@@ -68,7 +80,7 @@ export class TransitionHeatmap {
       .attr('x', scale(-0.5))
       .attr('y', (d, i) => scale(i + 0.5))
       .style('text-anchor', 'middle')
-      .text((d) => d);
+      .text(prettifyBasis);
 
     this.labelIn.exit()
       .remove();
@@ -87,7 +99,7 @@ export class TransitionHeatmap {
       .attr('x', (d, i) => scale(i + 0.5))
       .attr('y', scale(-0.5))
       .style('text-anchor', 'middle')
-      .text((d) => d);
+      .text(prettifyBasis);
 
     this.labelOut.exit()
       .remove();
