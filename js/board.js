@@ -6,13 +6,15 @@ import * as tile from './tile';
 import * as simulation from './simulation';
 import * as particles from './particles';
 import {tensorToLaTeX} from './print';
+import {TransitionHeatmap} from './transition_heatmap';
 
 export class Board {
   constructor(level, svg, helper) {
     this.level = level;
     this.svg = svg;
     this.tileMatrix = [];
-    this.helper = helper;
+    this.helper = helper.append('div').attr('class', 'katex-helper');
+    this.transitionHeatmap = new TransitionHeatmap(helper);
   }
 
   reset() {
@@ -158,6 +160,7 @@ export class Board {
 
           d.rotate();
           this.helper.html(tensorToLaTeX(d.transitionAmplitudes.map));
+          this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
 
         })
         .on('dblclick', (d) => {
