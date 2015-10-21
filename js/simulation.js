@@ -137,6 +137,7 @@ export class Simulation {
       probSum += bins[k].probability;
       if (probSum > rand) {
         bins[k].measured = true;
+        break;
       }
     }
 
