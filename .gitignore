@@ -3,3 +3,4 @@
 /.idea
 /jspm_packages
 /node_modules
+/bundled/build.*
