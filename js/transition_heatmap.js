@@ -2,6 +2,7 @@ import d3 from 'd3';
 import _ from 'lodash';
 import {TAU} from './const';
 
+const toggleDuraton = 1000;
 
 const complexToColor = (z) => {
   if (z.re === 0 && z.im === 0) {
@@ -25,21 +26,25 @@ const prettierArrows = {
 
 const prettifyBasis = (basis) => `${prettierArrows[basis[0]]}${prettierArrows[basis[1]]}`;
 
+const basisDirPol = ['>-', '>|', '^-', '^|', '<-', '<|', 'v-', 'v|'];
+const basisPolDir = ['>-', '^-', '<-', 'v-', '>|', '^|', '<|', 'v|'];
+
 export class TransitionHeatmap {
   constructor(selector, size=300) {
     this.svg = selector.append('svg')
       .attr('class', 'transition-heatmap')
       .attr('width', size)
-      .attr('height', size);
+      .attr('height', size)
+      .on('click', () => this.toggleBasis());
 
     this.size = size;
+    this.basis = basisDirPol;
   }
 
   updateFromTensor(tensor) {
 
-    const basis = ['>-', '>|', '^-', '^|', '<-', '<|', 'v-', 'v|'];
-    const arrayContent = basis
-      .map((outputBase) => basis
+    const arrayContent = this.basis
+      .map((outputBase) => this.basis
         .map((inputBase) => {
           const element = tensor.get(inputBase).get(outputBase) || {re: 0, im: 0};
           return {
@@ -51,12 +56,22 @@ export class TransitionHeatmap {
         })
       );
 
-    this.update(basis, _.flatten(arrayContent));
+    this.update(this.basis, _.flatten(arrayContent));
+  }
+
+  toggleBasis() {
+
+    if (this.basis === basisDirPol) {
+      this.basis = basisPolDir;
+    } else {
+      this.basis = basisDirPol;
+    }
+
+    this.update(this.basis);
+
   }
 
   update(labels, matrixElements=null) {
-
-    this.labels = labels;
 
     const position = _.zipObject(labels.map((d, i) => [d, i]));
 
@@ -78,9 +93,11 @@ export class TransitionHeatmap {
 
     this.labelIn
       .attr('x', scale(-0.5))
-      .attr('y', (d, i) => scale(i + 0.5))
       .style('text-anchor', 'middle')
-      .text(prettifyBasis);
+      .text(prettifyBasis)
+      .transition()
+        .duration(toggleDuraton)
+        .attr('y', (d, i) => scale(i + 0.5));
 
     this.labelIn.exit()
       .remove();
@@ -96,10 +113,12 @@ export class TransitionHeatmap {
         .attr('class', 'label-out');
 
     this.labelOut
-      .attr('x', (d, i) => scale(i + 0.5))
       .attr('y', scale(-0.5))
       .style('text-anchor', 'middle')
-      .text(prettifyBasis);
+      .text(prettifyBasis)
+      .transition()
+        .duration(toggleDuraton)
+        .attr('x', (d, i) => scale(i + 0.5));
 
     this.labelOut.exit()
       .remove();
@@ -119,11 +138,13 @@ export class TransitionHeatmap {
     }
 
     this.matrixElement
-      .attr('x', (d) => scale(position[d.from]))
-      .attr('y', (d) => scale(position[d.to]))
       .attr('width', squareSize)
       .attr('height', squareSize)
-      .style('fill', complexToColor);
+      .style('fill', complexToColor)
+      .transition()
+        .duration(toggleDuraton)
+          .attr('y', (d) => scale(position[d.to]))
+          .attr('x', (d) => scale(position[d.from]));
 
     this.matrixElement.exit()
       .remove();
