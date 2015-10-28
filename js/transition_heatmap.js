@@ -4,15 +4,17 @@ import {TAU} from './const';
 
 const toggleDuraton = 1000;
 
-const complexToColor = (z) => {
+const complexToPureColor = (z) => {
   if (z.re === 0 && z.im === 0) {
     return '#ffffff';
   } else {
     const angleInDegrees = (Math.atan2(z.im, z.re) * 360 / TAU + 360) % 360;
-    const r = Math.sqrt(z.re * z.re + z.im * z.im);
-    return d3.hsl(angleInDegrees, 1, 1 - r / 2).toString();
+    // NOTE for color (light theme) it would be: d3.hsl(angleInDegrees, 1, 1 - r / 2)
+    return d3.hsl(angleInDegrees, 1, 0.5).toString();
   }
 };
+
+const complexToOpacity = (z) => Math.sqrt(z.re * z.re + z.im * z.im);
 
 // see http://www.fileformat.info/info/unicode/block/arrows/utf8test.htm
 const prettierArrows = {
@@ -140,7 +142,8 @@ export class TransitionHeatmap {
     this.matrixElement
       .attr('width', squareSize)
       .attr('height', squareSize)
-      .style('fill', complexToColor)
+      .style('fill', complexToPureColor)
+      .style('opacity', complexToOpacity)
       .transition()
         .duration(toggleDuraton)
           .attr('y', (d) => scale(position[d.to]))
