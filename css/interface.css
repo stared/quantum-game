@@ -92,6 +92,19 @@ body {
     stroke-width: 2px;
 }
 
+div.tooltip {
+    position: fixed;
+    text-align: left;
+    padding: 8px;
+    font: 12px sans-serif;
+    background: #000;
+    color: #ddd;
+    border: solid 1px #aaa;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 30;
+}
+
 .item-selector
 {
     -webkit-column-count: 2; /* Chrome, Safari, Opera */

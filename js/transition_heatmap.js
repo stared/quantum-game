@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import _ from 'lodash';
 import {TAU} from './const';
+import {Tooltip} from './tooltip';
 
 const toggleDuraton = 1000;
 
@@ -39,6 +40,7 @@ export class TransitionHeatmap {
       .attr('height', size)
       .on('click', () => this.toggleBasis());
 
+    this.tooltip = new Tooltip(selector);
     this.size = size;
     this.basis = basisDirPol;
   }
@@ -135,7 +137,16 @@ export class TransitionHeatmap {
 
       this.matrixElement.enter()
         .append('rect')
-          .attr('class', 'matrix-element');
+          .attr('class', 'matrix-element')
+          .on('mouseover', (d) => {
+            const r = Math.sqrt(d.re * d.re + d.im * d.im);
+            const phi = Math.atan2(d.im, d.re) / TAU;
+            this.tooltip.show(
+              `${d.re.toFixed(3)} + ${d.im.toFixed(3)}<i>i</i><br>
+              = ${r.toFixed(3)} exp(${phi.toFixed(3)} </i>i \u03C4</i>)`
+            );
+          })
+          .on('mouseout', () => this.tooltip.out());
 
     }
 
