@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import _ from 'lodash';
-import {TAU} from './const';
+import {TAU, EPSILON} from './const';
 import {Tooltip} from './tooltip';
 
 const toggleDuraton = 1000;
@@ -33,7 +33,7 @@ const basisDirPol = ['>-', '>|', '^-', '^|', '<-', '<|', 'v-', 'v|'];
 const basisPolDir = ['>-', '^-', '<-', 'v-', '>|', '^|', '<|', 'v|'];
 
 export class TransitionHeatmap {
-  constructor(selector, size=300) {
+  constructor(selector, size=200) {
     this.svg = selector.append('svg')
       .attr('class', 'transition-heatmap')
       .attr('width', size)
@@ -141,10 +141,13 @@ export class TransitionHeatmap {
           .on('mouseover', (d) => {
             const r = Math.sqrt(d.re * d.re + d.im * d.im);
             const phi = Math.atan2(d.im, d.re) / TAU;
-            this.tooltip.show(
-              `${d.re.toFixed(3)} + ${d.im.toFixed(3)}<i>i</i><br>
-              = ${r.toFixed(3)} exp(${phi.toFixed(3)} </i>i \u03C4</i>)`
-            );
+            const sign = d.im >= 0 ? '+' : '-';
+            if (r > EPSILON) {
+              this.tooltip.show(
+                `${d.re.toFixed(3)} ${sign} ${Math.abs(d.im).toFixed(3)} <i>i</i><br>
+                = ${r.toFixed(3)} exp(${phi.toFixed(3)} <i>i \u03C4</i>)`
+              );
+            }
           })
           .on('mouseout', () => this.tooltip.out());
 
