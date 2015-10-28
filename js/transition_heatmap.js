@@ -140,14 +140,14 @@ export class TransitionHeatmap {
     }
 
     this.matrixElement
-      .attr('width', squareSize)
-      .attr('height', squareSize)
+      .attr('width', squareSize - 1)
+      .attr('height', squareSize - 1)
       .style('fill', complexToPureColor)
       .style('opacity', complexToOpacity)
       .transition()
         .duration(toggleDuraton)
-          .attr('y', (d) => scale(position[d.to]))
-          .attr('x', (d) => scale(position[d.from]));
+          .attr('y', (d) => scale(position[d.to]) + 0.5)
+          .attr('x', (d) => scale(position[d.from]) + 0.5);
 
     this.matrixElement.exit()
       .remove();

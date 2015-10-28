@@ -87,6 +87,11 @@ body {
     transform: none;
 }
 
+.matrix-element:hover {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
 .item-selector
 {
     -webkit-column-count: 2; /* Chrome, Safari, Opera */
