@@ -100,19 +100,31 @@ export const sugarSolution = Tensor.product(
   polarization.rotation(TAU / 8)
 );
 
-// it's not just a product; we need some kind of co-variant product
+// TODO make the formula easier or at least understand it
+// TODO still some issues with the setup:  -> pol/ mirror|
 export const polarizer = _.range(4).map((rotation) =>
-  Tensor.product(
-    direction.identity,
-    polarization.projection(rotation * TAU / 8)
+  Tensor.sumList(
+    direction.diode.map((directionGo, i) =>
+      Tensor.product(
+        directionGo,
+        polarization.projection((1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8)
+      )
+    )
   )
 );
 
-// it's not just a product; we need some kind of co-variant product
+// NOTE same notes as for polarizer
 export const phasePlate = _.range(4).map((rotation) =>
-  Tensor.product(
-    direction.identity,
-    polarization.phaseShift(rotation * TAU / 8, TAU / 4)
+  Tensor.sumList(
+    direction.diode.map((directionGo, i) =>
+      Tensor.product(
+        directionGo,
+        polarization.phaseShift(
+          (1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8,
+          TAU / 4
+        )
+      )
+    )
   )
 );
 

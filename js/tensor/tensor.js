@@ -83,6 +83,10 @@ export class Tensor {
     return new Tensor(outerMap);
   }
 
+  static sumList(ts) {
+    return ts.reduce((acc, t) => Tensor.sum(acc, t));
+  }
+
   sum(t) {
     return Tensor.sum(this, t);
   }
