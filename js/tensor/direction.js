@@ -61,3 +61,15 @@ export const mirror = _.range(4).map((rotation) => {
     }, {})
   );
 });
+
+export const diode = _.range(4).map((rotation) => {
+  return Tensor.fromObject(
+    _.reduce(directions, (acc, dirFrom) => {
+      acc[dirFrom] = {};
+      if (dirFrom === directions[rotation]) {
+        acc[dirFrom][dirFrom] = {re: 1, im: 0};
+      }
+      return acc;
+    }, {})
+  );
+});

@@ -31,6 +31,7 @@ export const levels = [
       {i: 1, j: 0, name: 'VacuumJar'},
       {i: 1, j: 1, name: 'Absorber'},
       {i: 1, j: 2, name: 'Detector'},
+      {i: 1, j: 3, name: 'FaradayRotator'},
 
       {i: 8, j: 0, name: 'ThinMirror'},
       {i: 8, j: 1, name: 'ThinSplitter'},

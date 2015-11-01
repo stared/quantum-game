@@ -145,6 +145,13 @@ export const Detector = {
   },
 };
 
+export const FaradayRotator = {
+  name: 'faraday-rotator',
+  maxRotation: 4, // > ^ < v
+  rotationAngle: 90,
+  transition: (rotation) => full.faradayRotator[rotation],
+};
+
 export class Tile {
   constructor(type = Vacuum, rotation = 0, frozen = true, i = 0, j = 0) {
     this.type = type;
@@ -228,6 +235,7 @@ export const nameToConst = {
   'vacuum-jar': VacuumJar,
   'absorber': Absorber,
   'detector': Detector,
+  'faraday-rotator': FaradayRotator,
 };
 
 export const tileSimpler = (name, i = 0, j = 0) => {

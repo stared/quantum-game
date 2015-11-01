@@ -46,7 +46,7 @@ export const thinMirror = _.range(4).map((rotation) =>
 );
 
 // NOTE 50% chance to go -> - ->
-// (I am not decided if it is a desired behavior or not) 
+// (I am not decided if it is a desired behavior or not)
 export const thinSplitter = _.range(4).map((rotation) =>
   Tensor.sum(
     Tensor.byConstant(
@@ -113,5 +113,18 @@ export const phasePlate = _.range(4).map((rotation) =>
   Tensor.product(
     direction.identity,
     polarization.phaseShift(rotation * TAU / 8, TAU / 4)
+  )
+);
+
+export const faradayRotator = _.range(4).map((rotation) =>
+  Tensor.sum(
+    Tensor.product(
+      direction.diode[rotation],
+      polarization.rotation(TAU / 8)
+    ),
+    Tensor.product(
+      direction.diode[(rotation + 2) % 4],
+      polarization.rotation(- TAU / 8)
+    )
   )
 );

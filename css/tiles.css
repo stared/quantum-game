@@ -64,6 +64,16 @@ use.hitbox:hover {
   stroke-width: 1;
 }
 
+.wire {
+  stroke: #6b00ff;
+  stroke-width: 2;
+}
+
+.wire-back {
+  opacity: 0.5;
+  stroke-width: 3;
+}
+
 .measurement-text {
   text-anchor: middle;
 }
