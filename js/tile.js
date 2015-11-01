@@ -51,6 +51,14 @@ export const Polarizer = {
   maxRotation: 4, // - / | \
   rotationAngle: 45,
   transition: (rotation) => full.polarizer[rotation],
+  drawUnrotablePart: (that) => {
+    that.g.append('line')
+      .attr('class', 'wire')
+      .attr('x1', 25 / Math.sqrt(2))
+      .attr('x2', 35)
+      .attr('y1', 25 / Math.sqrt(2))
+      .attr('y2', 35);
+  },
 };
 
 export const PhasePlate = {
@@ -58,6 +66,14 @@ export const PhasePlate = {
   maxRotation: 4, // - / | \
   rotationAngle: 45,
   transition: (rotation) => full.phasePlate[rotation],
+  drawUnrotablePart: (that) => {
+    that.g.append('line')
+      .attr('class', 'wire')
+      .attr('x1', 25 / Math.sqrt(2))
+      .attr('x2', 35)
+      .attr('y1', 25 / Math.sqrt(2))
+      .attr('y2', 35);
+  },
 };
 
 export const SugarSolution = {
@@ -163,6 +179,10 @@ export class Tile {
   }
 
   draw() {
+
+    if (this.type.drawUnrotablePart !== undefined) {
+      this.type.drawUnrotablePart(this);
+    }
 
     this.g.append('use')
       .attr('xlink:href', () => `#${this.type.name}`)
