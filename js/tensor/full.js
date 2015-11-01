@@ -45,6 +45,8 @@ export const thinMirror = _.range(4).map((rotation) =>
   )
 );
 
+// NOTE 50% chance to go -> - ->
+// (I am not decided if it is a desired behavior or not) 
 export const thinSplitter = _.range(4).map((rotation) =>
   Tensor.sum(
     Tensor.byConstant(

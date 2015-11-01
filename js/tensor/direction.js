@@ -54,7 +54,9 @@ export const mirror = _.range(4).map((rotation) => {
     _.reduce(directions, (acc, dirFrom) => {
       const dirTo = planeReflectionDirection(dirFrom, rotation);
       acc[dirFrom] = {};
-      acc[dirFrom][dirTo] = {re: 1, im: 0};
+      if (dirFrom !== dirTo) {
+        acc[dirFrom][dirTo] = {re: 1, im: 0};
+      }
       return acc;
     }, {})
   );
