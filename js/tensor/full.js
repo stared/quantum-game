@@ -27,7 +27,7 @@ export const zero = Tensor.product(
 // TODO Make it easy to distinguish types of things.
 export const source = _.range(4).map((rotation) => {
   return [{
-    to: `${direction.directions[rotation]}-`,
+    to: `${direction.directions[rotation]}|`,
     re: 1.0,
     im: 0.0,
   }];
