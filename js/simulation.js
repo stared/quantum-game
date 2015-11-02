@@ -68,6 +68,12 @@ export class Simulation {
     this.history.push(newState);
     this.measurementHistory.push(absorbed);
 
+    // debugging
+    window.console.log(print.stateToStr(displacedState));
+    if (absorbed.length > 0) {
+      window.console.log(print.absorbedToStr(absorbed));
+    }
+
     if (_.any(absorbed, 'measured')) {
       return [];
     } else {

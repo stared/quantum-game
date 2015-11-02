@@ -51,3 +51,10 @@ export const tensorToLaTeX = (tensor) => {
     .join('\\\\');
   return katex.renderToString(`\\begin{bmatrix}${arrayContent}\\end{bmatrix}`);
 };
+
+export const absorbedToStr = (absorbed) =>
+  absorbed
+    .map((a) =>
+      `${a.measured ? '!!!' : '...'} ${(100 * a.probability).toFixed(0)}% (${a.i},${a.j},${a.to}) ${a.tile != null ? a.tile.type.name : 'out'}`
+    )
+    .join('\n');
