@@ -1497,4 +1497,342 @@ export const levels = [
       }
     ]
   },
+  {
+    "name": "Nine polarizing beam splitters",
+    "group": "Puzzles",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 2,
+        "j": 2,
+        "name": "source",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 2,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 4,
+        "name": "faraday-rotator",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 4,
+        "j": 6,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 6,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 8,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 8,
+        "j": 6,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "faraday-rotator",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 6,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": true
+      }
+    ]
+  },
+  {
+    "name": "Nine polarizing - hardcore mode",
+    "group": "Puzzles",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 2,
+        "j": 2,
+        "name": "source",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 2,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 2,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 3,
+        "j": 4,
+        "name": "faraday-rotator",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 6,
+        "name": "faraday-rotator",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 0,
+        "name": "thin-mirror",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 1,
+        "name": "faraday-rotator",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 4,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 4,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 4,
+        "j": 6,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 4,
+        "j": 8,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 0,
+        "name": "thin-mirror",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 1,
+        "name": "faraday-rotator",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 6,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 8,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 0,
+        "name": "thin-mirror",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 1,
+        "name": "faraday-rotator",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 2,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 8,
+        "j": 4,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 8,
+        "j": 6,
+        "name": "polarizing-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 7,
+        "name": "faraday-rotator",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 8,
+        "name": "thin-mirror",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 2,
+        "name": "faraday-rotator",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 4,
+        "name": "faraday-rotator",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 2,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 6,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": true
+      }
+    ]
+  }
 ];
