@@ -2,6 +2,8 @@
   "jspm": {
     "directories": {},
     "dependencies": {
+      "camel-case": "npm:camel-case@^1.2.0",
+      "change-case": "npm:change-case@^2.3.0",
       "d3": "github:mbostock/d3@^3.5.5",
       "katex": "npm:katex@^0.5.1",
       "lodash": "npm:lodash@^3.8.0",
