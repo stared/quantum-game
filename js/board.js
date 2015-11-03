@@ -1,11 +1,17 @@
 import _ from 'lodash';
 import d3 from 'd3';
+import changeCase from 'change-case';
 
 import {tileSize, repositionSpeed} from './config';
 import * as tile from './tile';
 import * as simulation from './simulation';
 import * as particles from './particles';
 import {TransitionHeatmap} from './transition_heatmap';
+
+function tileSimpler(name, i, j) {
+  const tileClass = tile[changeCase.pascalCase(name)];
+  return new Tile(tileClass, 0, false, i, j);
+}
 
 export class Board {
   constructor(level, svg, helper) {
@@ -22,8 +28,7 @@ export class Board {
     // Fill board with proper tiles
     _.each(this.level.tileRecipes, (tileRecipe) => {
       this.tileMatrix[tileRecipe.i][tileRecipe.j] = new tile.Tile(
-        // TODO decide on tile identifiers
-        tile[tileRecipe.name] || tile.nameToConst[tileRecipe.name],
+        tile[changeCase.pascalCase(tileRecipe.name)],
         tileRecipe.rotation || 0,
         !!tileRecipe.frozen,
         tileRecipe.i,
@@ -91,14 +96,14 @@ export class Board {
           .attr('class', 'item-selector');
 
         tileSelector.append('ul').attr('class', 'tile-item').selectAll('li')
-          .data(_.keys(tile.nameToConst))
+          .data(tile.allTiles)
           .enter()
             .append('li')
               .attr('class', 'tile-item')
               .text((name) => name)
               .on('click', (name) => {
                 if (name !== 'vacuum') {
-                  this.addTile(tile.tileSimpler(name, d.i, d.j));
+                  this.addTile(tileSimpler(name, d.i, d.j));
                   window.console.log('dblclick added', d);
                 }
                 tileSelector.remove();
