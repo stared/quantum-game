@@ -3,9 +3,10 @@ import d3 from 'd3';
 import changeCase from 'change-case';
 
 import {tileSize, repositionSpeed} from './config';
-import * as tile from './tile';
-import * as simulation from './simulation';
 import * as particles from './particles';
+import * as simulation from './simulation';
+import {Stock} from './stock';
+import * as tile from './tile';
 import {TransitionHeatmap} from './transition_heatmap';
 
 function tileSimpler(name, i, j) {
@@ -19,6 +20,7 @@ export class Board {
     this.svg = svg;
     this.tileMatrix = [];
     this.transitionHeatmap = new TransitionHeatmap(helper);
+    this.stock = new Stock(level);
   }
 
   reset() {
