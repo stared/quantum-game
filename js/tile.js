@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import * as config from './config';
 import * as full from './tensor/full';
 
@@ -256,3 +258,5 @@ export const allTiles = [
   'detector',
   'faraday-rotator',
 ];
+
+export const nonVacuumTiles = _.without(allTiles, 'vacuum');

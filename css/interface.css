@@ -143,3 +143,22 @@ li:hover
 {
     color: #fff;
 }
+
+.stock-bg {
+    fill: rgba(255, 255, 255, 0.9);
+    stroke: rgb(240, 240, 240);
+    stroke-width: 5px;
+}
+
+.stock .tile text {
+    font-family: monospace;
+    font-size: 24px;
+    font-weight: bold;
+    fill: #333;
+}
+.stock .tile.stock--available {
+    opacity: 1;
+}
+.stock .tile.stock--depleted {
+    opacity: 0.5;
+}

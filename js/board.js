@@ -3,14 +3,15 @@ import d3 from 'd3';
 import changeCase from 'change-case';
 
 import {tileSize, repositionSpeed} from './config';
-import * as tile from './tile';
-import * as simulation from './simulation';
 import * as particles from './particles';
+import * as simulation from './simulation';
+import {Stock} from './stock';
+import * as tile from './tile';
 import {TransitionHeatmap} from './transition_heatmap';
 
 function tileSimpler(name, i, j) {
   const tileClass = tile[changeCase.pascalCase(name)];
-  return new Tile(tileClass, 0, false, i, j);
+  return new tile.Tile(tileClass, 0, false, i, j);
 }
 
 export class Board {
@@ -40,6 +41,7 @@ export class Board {
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
+    this.drawStock();
   }
 
   clearTiles() {
@@ -52,8 +54,12 @@ export class Board {
   }
 
   resizeSvg() {
+    const margin = 1;
+    const stockColumns = 2;
+    const width = this.level.width + 2 * margin + stockColumns;
+    const height = this.level.height + 2 * margin;
     // top left width height
-    this.svg.attr('viewBox', `${-tileSize} ${-tileSize} ${tileSize * (this.level.width + 2)} ${tileSize * (this.level.height + 2)}`);
+    this.svg.attr('viewBox', `${-tileSize} ${-tileSize} ${tileSize * width} ${tileSize * height}`);
   }
 
   /**
@@ -109,6 +115,64 @@ export class Board {
                 tileSelector.remove();
               });
       });
+  }
+
+  drawStock() {
+    // Reset stock object
+    this.stock = new Stock(this.level);
+    // Reset element
+    this.svg.select('.stock').remove();
+    this.stockGroup = this.svg
+      .append('g')
+      .attr('class', 'stock');
+    const stockNames = this.stock.usedStockNames();
+    // Add background
+    const maxColumns = Math.ceil(stockNames.length / this.level.height);
+    this.stockGroup
+      .append('rect')
+      .attr('width', maxColumns * tileSize)
+      .attr('height', this.level.height * tileSize)
+      .attr('transform', `translate(${(this.level.width + 1) * tileSize},0)`)
+      .attr('class', 'stock-bg');
+    // Create cells
+    let column = 0;
+    let row = 0;
+    _.forEach(stockNames, (stockName) => {
+      this.addStockCell(stockName, row, column);
+      row++;
+      if (row >= this.level.height) {
+        row = 0;
+        column++;
+      }
+    });
+  }
+
+  addStockCell(stockName, row, column) {
+    const i = this.level.width + 1 + column;
+    const j = row;
+    const tileObj = tileSimpler(stockName, i, j);
+    const tileSelection = this.stockGroup
+      .datum({
+        stockItem: this.stock.stock[stockName],
+        tileObj: tileObj,
+      })
+      .append('g')
+        .attr('transform', (d) => `translate(${d.tileObj.x + tileSize / 2},${d.tileObj.y + tileSize / 2})`)
+        .attr('class', (d) => {
+          if (d.stockItem.currentCount > 0) {
+            return 'tile stock--available';
+          } else {
+            return 'tile stock--depleted';
+          }
+        });
+    tileObj.g = tileSelection;
+    // Draw tile
+    tileObj.draw();
+    // Draw count
+    tileSelection
+      .append('text')
+      .attr('transform', `translate(${tileSize / 4},${tileSize / 2})`)
+      .html((d) => d.stockItem.currentCount);
   }
 
   /**

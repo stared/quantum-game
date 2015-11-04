@@ -5,6 +5,7 @@ export class Level {
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
     this.tileRecipes = levelRecipe.tiles;
+    this.initialStock = levelRecipe.stock;
   }
 }
 
@@ -16,7 +17,6 @@ export const levels = [
     height: 10,
     tiles: [
       {i: 2, j: 3, name: 'Source', frozen: true},
-      {i: 4, j: 3, name: 'ThinBeamSplitter', rotation: 1},
 
       {i: 0, j: 0, name: 'ThinMirror'},
       {i: 0, j: 1, name: 'ThinSplitter'},
@@ -41,7 +41,12 @@ export const levels = [
       {i: 4, j: 3, name: 'ThinSplitter', rotation: 1},
       {i: 5, j: 3, name: 'ThinSplitter', rotation: 1},
       {i: 6, j: 3, name: 'Rock'},
-    ]
+    ],
+    stock: {
+      'thin-mirror': 3,
+      'thin-splitter': 2,
+      'phase-plate': 3,
+    },
   },
   {
     name:   "Only source",
