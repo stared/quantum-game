@@ -1,6 +1,7 @@
 /*global window:false*/
 import 'normalize.css';
 import d3 from 'd3';
+import _ from 'lodash';
 
 import * as tile from './js/tile';
 import * as level from './js/level';
@@ -28,7 +29,7 @@ window.document.getElementById('select-level').onclick = function () {
     .attr('class', 'item-selector');
 
   levelSelector.append('ul').attr('class', 'level-item').selectAll('li')
-    .data(level.levels)
+    .data(_.sortBy(level.levels, (level) => `${level.group} ${level.name}`))
     .enter()
       .append('li')
         .attr('class', 'level-item')
