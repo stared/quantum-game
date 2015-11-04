@@ -155,6 +155,8 @@ li:hover
     font-size: 24px;
     font-weight: bold;
     fill: #333;
+   -moz-user-select: -moz-none;
+   -webkit-user-select: none;
 }
 .stock .tile.stock--available {
     opacity: 1;

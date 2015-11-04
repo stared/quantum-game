@@ -92,29 +92,30 @@ export class Board {
         y: (d) => d.y,
         width: tileSize,
         height: tileSize,
-      })
-      .on('dblclick', (d) => {
-        // NOTE adding with double click only for dev mode
-        d3.select('#tile-selector').remove();
-
-        const tileSelector = d3.select('body').append('div')
-          .attr('id', 'tile-selector')
-          .attr('class', 'item-selector');
-
-        tileSelector.append('ul').attr('class', 'tile-item').selectAll('li')
-          .data(tile.allTiles)
-          .enter()
-            .append('li')
-              .attr('class', 'tile-item')
-              .text((name) => name)
-              .on('click', (name) => {
-                if (name !== 'vacuum') {
-                  this.addTile(tileSimpler(name, d.i, d.j));
-                  window.console.log('dblclick added', d);
-                }
-                tileSelector.remove();
-              });
       });
+      // TODO(pathes): remove doubleclick tile creation
+      // .on('dblclick', (d) => {
+      //   // NOTE adding with double click only for dev mode
+      //   d3.select('#tile-selector').remove();
+
+      //   const tileSelector = d3.select('body').append('div')
+      //     .attr('id', 'tile-selector')
+      //     .attr('class', 'item-selector');
+
+      //   tileSelector.append('ul').attr('class', 'tile-item').selectAll('li')
+      //     .data(tile.allTiles)
+      //     .enter()
+      //       .append('li')
+      //         .attr('class', 'tile-item')
+      //         .text((name) => name)
+      //         .on('click', (name) => {
+      //           if (name !== 'vacuum') {
+      //             this.addTile(tileSimpler(name, d.i, d.j));
+      //             window.console.log('dblclick added', d);
+      //           }
+      //           tileSelector.remove();
+      //         });
+      // });
   }
 
   drawStock() {
@@ -151,13 +152,12 @@ export class Board {
     const i = this.level.width + 1 + column;
     const j = row;
     const tileObj = tileSimpler(stockName, i, j);
+    // Additional information in tile - store stock data
+    tileObj.stockItem = this.stock.stock[stockName];
     const tileSelection = this.stockGroup
-      .datum({
-        stockItem: this.stock.stock[stockName],
-        tileObj: tileObj,
-      })
+      .datum(tileObj)
       .append('g')
-        .attr('transform', (d) => `translate(${d.tileObj.x + tileSize / 2},${d.tileObj.y + tileSize / 2})`)
+        .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
         .attr('class', (d) => {
           if (d.stockItem.currentCount > 0) {
             return 'tile stock--available';
@@ -166,13 +166,21 @@ export class Board {
           }
         });
     tileObj.g = tileSelection;
+    // DOM element for g
+    tileObj.node = tileSelection[0][0];
     // Draw tile
     tileObj.draw();
     // Draw count
     tileSelection
       .append('text')
-      .attr('transform', `translate(${tileSize / 4},${tileSize / 2})`)
-      .html((d) => d.stockItem.currentCount);
+        .attr('transform', `translate(${tileSize / 4},${tileSize / 2})`)
+        .html((d) => d.stockItem.currentCount);
+    // Draw hitbox
+    tileSelection
+      .append('use')
+        .attr('xlink:href', '#hitbox')
+        .attr('class', 'hitbox');
+    this.bindDrag(tileSelection);
   }
 
   /**
@@ -228,12 +236,13 @@ export class Board {
           d.rotate();
           this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
 
-        })
-        .on('dblclick', (d) => {
-          // NOTE removing with double click only for dev mode
-          window.console.log('dblclick removed:', d);
-          this.removeTile(d.i, d.j);
         });
+        // TODO(pathes): remove doubleclick tile creation
+        // .on('dblclick', (d) => {
+        //   // NOTE removing with double click only for dev mode
+        //   window.console.log('dblclick removed:', d);
+        //   this.removeTile(d.i, d.j);
+        // });
 
     this.bindDrag(tileSelection);
 
@@ -247,15 +256,13 @@ export class Board {
   }
 
   bindDrag(tileSelection) {
-    //
-    // NOTE refactor and enable tray dropping
-    //
-    function reposition(data, elem) {
+
+    function reposition(data, elem, speed = repositionSpeed) {
       delete data.newI;
       delete data.newJ;
       elem
         .transition()
-        .duration(repositionSpeed)
+        .duration(speed)
         .attr(
           'transform',
           `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
@@ -293,24 +300,28 @@ export class Board {
 
         // Find source element
         const sourceElem = d3.select(source.node);
+        const sourceTileName = changeCase.pascalCase(source.type.name);
 
-        // // Some condition for tray
-        // if (source.newI > this.level.width) {
-        //
-        // }
-
-        // Drag ended outside of board? Reposition source and return.
+        // Drag ended outside of board?
         if (
              source.newI < 0 || source.newI >= this.level.width
           || source.newJ < 0 || source.newJ >= this.level.height
         ) {
-          reposition(source, sourceElem);
+          if (source.stockItem) {
+            // Stock tile case: reposition.
+            reposition(source, sourceElem);
+          } else {
+            // Board tile case: remove the tile and increase the counter in stock.
+            this.stock.stock[sourceTileName].currentCount++;
+            this.removeTile(source.i, source.j);
+          }
           return;
         }
 
         // Find target and target element
         const target = this.tileMatrix[source.newI][source.newJ];
         const targetElem = d3.select(target.node || null);
+        const targetTileName = changeCase.pascalCase(target.type.name);
 
         // Is it impossible to swap items? Reposition source and return.
         if (source.frozen || target.frozen) {
@@ -318,17 +329,37 @@ export class Board {
           return;
         }
 
-        // Swap items in matrix
-        [this.tileMatrix[source.i][source.j], this.tileMatrix[target.i][target.j]] =
-        [this.tileMatrix[target.i][target.j], this.tileMatrix[source.i][source.j]];
+        // Is it impossible to create item because stock limit depleted?
+        if (source.stockItem.currentCount <= 0) {
+          reposition(source, sourceElem);
+          return;
+        }
+        console.log(source.stockItem);
 
-        // Swap items positions
-        [source.i, source.j, target.i, target.j] =
-        [target.i, target.j, source.i, source.j];
-
-        // Reposition both elements
-        reposition(source, sourceElem);
-        reposition(target, targetElem);
+        if (source.stockItem) {
+          // Stock tile case:
+          // Remove the target element
+          if (targetTileName !== 'Vacuum') {
+            this.removeTile(target.i, target.j);
+            this.stock.stock[targetTileName].currentCount++;
+          }
+          // Create new element in place of the old one
+          this.addTile(tileSimpler(sourceTileName, target.i, target.j));
+          this.stock.stock[sourceTileName].currentCount--;
+          // Reposition instantly the stock element
+          reposition(source, sourceElem, 0);
+        } else {
+          // Board tile case:
+          // Swap items in matrix
+          [this.tileMatrix[source.i][source.j], this.tileMatrix[target.i][target.j]] =
+          [this.tileMatrix[target.i][target.j], this.tileMatrix[source.i][source.j]];
+          // Swap items positions
+          [source.i, source.j, target.i, target.j] =
+          [target.i, target.j, source.i, source.j];
+          // Reposition both elements
+          reposition(source, sourceElem);
+          reposition(target, targetElem);
+        }
       });
 
     tileSelection
