@@ -244,13 +244,10 @@ export class Board {
           d.rotate();
           this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
 
-        });
-        // TODO(pathes): remove doubleclick tile creation
-        // .on('dblclick', (d) => {
-        //   // NOTE removing with double click only for dev mode
-        //   window.console.log('dblclick removed:', d);
-        //   this.removeTile(d.i, d.j);
-        // });
+        })
+        .on('mouseover', (d) =>
+          this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map)
+        );
 
     this.bindDrag(tileSelection);
 
@@ -343,7 +340,7 @@ export class Board {
           if (source.stockItem.currentCount <= 0) {
             reposition(source, sourceElem);
             return;
-          }          
+          }
         }
 
         if (source.stockItem) {
