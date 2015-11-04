@@ -17,6 +17,7 @@ System.config({
   "map": {
     "babel": "npm:babel-core@5.4.3",
     "babel-runtime": "npm:babel-runtime@5.4.3",
+    "camel-case": "npm:camel-case@1.2.0",
     "change-case": "npm:change-case@2.3.0",
     "core-js": "npm:core-js@0.9.10",
     "d3": "github:mbostock/d3@3.5.6",

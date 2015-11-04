@@ -5,6 +5,17 @@ import {EPSILON, velocityI, velocityJ} from './const';
 import {maxIterations} from './config';
 import * as print from './print';
 
+const zAbs = (z) =>
+  z.re * z.re + z.im * z.im
+
+const intensityPerPosition = (state) =>
+  _(state)
+    .groupBy((entry) => `${entry.i} ${entry.j}`)
+    .mapValues((groupedEntry) =>
+      _.sum(groupedEntry, zAbs)
+    )
+    .value()
+
 export class Simulation {
 
   constructor(board) {
@@ -56,11 +67,9 @@ export class Simulation {
 
     const lastState = _.last(this.history);
     const displacedState = this.displace(lastState);
-    let absorbed = null;
-    if (quantum) {
-      absorbed = this.absorb(displacedState);
-    }
     let newState = this.interact(displacedState);
+    const absorbed = this.absorb(displacedState, newState);
+
     if (quantum) {
       newState = this.normalize(newState);
     }
@@ -101,40 +110,29 @@ export class Simulation {
     });
   }
 
-  absorb(state) {
-    // Calculate all absorption probabilities.
-    const bins = _.map(state, (entry) => {
+  absorb(stateOld, stateNew) {
 
-      let a = entry.re * entry.re + entry.im * entry.im;
-      let tile = null;
+    const intensityOld = intensityPerPosition(stateOld);
+    const intensityNew = intensityPerPosition(stateNew);
 
-      // Check if particle is out of bound
-      if (
-           entry.i < 0 || entry.i >= this.board.level.width
-        || entry.j < 0 || entry.j >= this.board.level.height
-      ) {
-        a = a * 1;
-      } else {
-        tile = this.board.tileMatrix[entry.i][entry.j];
-        const transitionAmps = tile.transitionAmplitudes.map.get(entry.to);
-        const transmitted = _.chain([...transitionAmps.values()])
-          .map((change) => change.re * change.re + change.im * change.im)
-          .sum()
-          .value();
+    const bins = _(intensityOld)
+      .mapValues((prob, location) =>
+        prob - (intensityNew[location] || 0)
+      )
+      .pick((prob) => prob > EPSILON)
+      .map((prob, location) => {
+        return {
+          probability: prob,
+          measured: false,
+          i: parseInt(location.split(' ')[0]),
+          j: parseInt(location.split(' ')[1]),
+        };
+      })
+      .value();
 
-        a = (1 - transmitted) * a;
-      }
-
-      return {i:           entry.i,
-              j:           entry.j,
-              to:          entry.to,
-              tile:        tile,
-              probability: a,
-              measured:    false};
-    })
-    .filter((entry) =>
-      entry.probability > EPSILON
-    );
+    bins.forEach((each) => {
+      each.tile = this.board.tileMatrix[each.i] && this.board.tileMatrix[each.i][each.j];
+    });
 
     const rand = Math.random();
     let probSum = 0;
