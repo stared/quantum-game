@@ -157,7 +157,28 @@ export class Board {
     const tileSelection = this.stockGroup
       .datum(tileObj)
       .append('g')
-        .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
+        .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`);
+    tileObj.g = tileSelection;
+    // DOM element for g
+    tileObj.node = tileSelection[0][0];
+    // Draw tile
+    tileObj.draw();
+    // Draw count
+    const tileCount = tileSelection
+      .append('text')
+        .attr('transform', `translate(${tileSize / 4},${tileSize / 2})`);
+    // Draw hitbox
+    tileSelection
+      .append('use')
+        .attr('xlink:href', '#hitbox')
+        .attr('class', 'hitbox');
+    // Bind drag handler
+    this.bindDrag(tileSelection);
+    // Store counter updater in stock
+    tileObj.stockItem.update = () => {
+      tileCount
+        .html((d) => d.stockItem.currentCount);
+      tileSelection
         .attr('class', (d) => {
           if (d.stockItem.currentCount > 0) {
             return 'tile stock--available';
@@ -165,22 +186,9 @@ export class Board {
             return 'tile stock--depleted';
           }
         });
-    tileObj.g = tileSelection;
-    // DOM element for g
-    tileObj.node = tileSelection[0][0];
-    // Draw tile
-    tileObj.draw();
-    // Draw count
-    tileSelection
-      .append('text')
-        .attr('transform', `translate(${tileSize / 4},${tileSize / 2})`)
-        .html((d) => d.stockItem.currentCount);
-    // Draw hitbox
-    tileSelection
-      .append('use')
-        .attr('xlink:href', '#hitbox')
-        .attr('class', 'hitbox');
-    this.bindDrag(tileSelection);
+    };
+    // ...and call it immediately.
+    tileObj.stockItem.update();
   }
 
   /**
@@ -313,6 +321,7 @@ export class Board {
           } else {
             // Board tile case: remove the tile and increase the counter in stock.
             this.stock.stock[sourceTileName].currentCount++;
+            this.stock.stock[sourceTileName].update();
             this.removeTile(source.i, source.j);
           }
           return;
@@ -343,10 +352,12 @@ export class Board {
           if (targetTileName !== 'Vacuum') {
             this.removeTile(target.i, target.j);
             this.stock.stock[targetTileName].currentCount++;
+            this.stock.stock[targetTileName].update();
           }
           // Create new element in place of the old one
           this.addTile(tileSimpler(sourceTileName, target.i, target.j));
           this.stock.stock[sourceTileName].currentCount--;
+          this.stock.stock[sourceTileName].update();
           // Reposition instantly the stock element
           reposition(source, sourceElem, 0);
         } else {
