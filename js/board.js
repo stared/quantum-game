@@ -330,11 +330,12 @@ export class Board {
         }
 
         // Is it impossible to create item because stock limit depleted?
-        if (source.stockItem.currentCount <= 0) {
-          reposition(source, sourceElem);
-          return;
+        if (source.stockItem) {
+          if (source.stockItem.currentCount <= 0) {
+            reposition(source, sourceElem);
+            return;
+          }          
         }
-        console.log(source.stockItem);
 
         if (source.stockItem) {
           // Stock tile case:
