@@ -1,3 +1,5 @@
+import {nonVacuumTiles} from './tile';
+
 export class Level {
   constructor(levelRecipe) {
     this.name = levelRecipe.name;
@@ -5,7 +7,14 @@ export class Level {
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
     this.tileRecipes = levelRecipe.tiles;
-    this.initialStock = levelRecipe.stock;
+    this.initialStock = {};
+    if (typeof levelRecipe.stock !== 'string') {
+      this.initialStock = levelRecipe.stock;
+    } else if (levelRecipe.stock === 'all') {
+      nonVacuumTiles.forEach((tile) => {
+        this.initialStock[tile] = (tile === 'source' ? 1 : 99);
+      });
+    }
   }
 }
 
@@ -49,13 +58,12 @@ export const levels = [
     },
   },
   {
-    name:   "Only source",
-    group:  "Blah blah",
+    name:   "Empty",
+    group:  "Development",
     width:  13,
     height: 10,
-    tiles: [
-      {i: 0, j: 0, name: 'Source'},
-    ]
+    tiles: [],
+    stock: 'all',
   },
   {
     name:   "1. Introducing mirrors",
