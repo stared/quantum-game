@@ -48,13 +48,13 @@ use.hitbox:hover {
 }
 
 .polarizer {
-  fill: url(/#polarizing-stripes);
+  fill: url(./#polarizing-stripes);
   stroke: #555;
   stroke-width: 1;
 }
 
 .phase-plate {
-  fill: url(/#phase-stripes);
+  fill: url(./#phase-stripes);
 }
 
 .absorber {

@@ -43,14 +43,14 @@
           </g>
         </g>
         <pattern id="polarizing-stripes" width="4" height="4" patternUnits="userSpaceOnUse">
-          <line x1="0" y1="0" x2="0" y2="4" style="stroke:#555; stroke-width:3" />
+          <line x1="0" y1="0" x2="4" y2="0" style="stroke:#555; stroke-width:3" />
         </pattern>
         <g id="polarizer">
           <circle class="polarizer" r="25"/>
         </g>
         <pattern id="phase-stripes" width="4" height="4" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="2" height="4" style="fill:steelblue;opacity:0.75" />
-          <rect x="2" y="0" width="2" height="4" style="fill:steelblue;opacity:0.25" />
+          <rect x="0" y="0" width="4" height="2" style="fill:steelblue;opacity:0.75" />
+          <rect x="0" y="2" width="4" height="2" style="fill:steelblue;opacity:0.25" />
         </pattern>
         <g id="phase-plate">
           <polygon class="phase-plate glass-edge"
@@ -143,6 +143,19 @@
                    c 5 15 15 -15 15 5"
             stroke="black" stroke-width="2" fill="none"/>
         </g>
+        <g id="faraday-rotator">
+          <line class="wire wire-back" x1="-10" y1="10" x2="-10" y2="-10"/>
+          <line class="wire wire-back" x1="0" y1="10" x2="0" y2="-10"/>
+          <line class="wire wire-back" x1="10" y1="10" x2="10" y2="-10"/>
+          <line class="wire wire-back" x1="20" y1="10" x2="20" y2="-10"/>
+          <line class="wire" x1="20" y1="-10" x2="20" y2="-25"/>
+          <rect class="glass glass-edge" x="-30" y="-10" width="60" height="20"/>
+          <line class="wire" x1="-20" y1="-10" x2="-10" y2="10"/>
+          <line class="wire" x1="-10" y1="-10" x2="0" y2="10"/>
+          <line class="wire" x1="0" y1="-10" x2="10" y2="10"/>
+          <line class="wire" x1="10" y1="-10" x2="20" y2="10"/>
+          <line class="wire" x1="-20" y1="-10" x2="-20" y2="-25"/>
+        </g>
       </defs>
     </svg>
   </div>
@@ -150,6 +163,12 @@
   <button id="select-level">select level</button>
   <button id="play">▶</button>
   <div id="helper"></div>
+  <div id="level-header">
+    <div class="level-text">Aaa</div>
+  </div>
+  <div id="level-footer">
+    <div class="level-text">Bbb</div>
+  </div>
 
    <script src="build.js"></script>
 </body>
