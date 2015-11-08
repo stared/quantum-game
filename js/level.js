@@ -1,4 +1,7 @@
 import {nonVacuumTiles} from './tile';
+import _ from 'lodash';
+
+const DEV_MODE = false;
 
 export class Level {
   constructor(levelRecipe) {
@@ -8,55 +11,23 @@ export class Level {
     this.height = levelRecipe.height;
     this.tileRecipes = levelRecipe.tiles;
     this.initialStock = {};
-    if (typeof levelRecipe.stock !== 'string') {
+    if (typeof levelRecipe.stock === 'object') {
       this.initialStock = levelRecipe.stock;
     } else if (levelRecipe.stock === 'all') {
       nonVacuumTiles.forEach((tile) => {
         this.initialStock[tile] = (tile === 'source' ? 1 : 99);
       });
+    } else if (levelRecipe.stock === 'non-frozen' || !DEV_MODE) {
+      this.tileRecipes = _.filter(levelRecipe.tiles, 'frozen');
+      this.initialStock = _(levelRecipe.tiles)
+        .filter((tile) => !tile.frozen)
+        .countBy('name')
+        .value();
     }
   }
 }
 
 export const levels = [
-  {
-    name:   "Test1",
-    group:  "Blah blah",
-    width:  13,
-    height: 10,
-    tiles: [
-      {i: 2, j: 3, name: 'Source', frozen: true},
-
-      {i: 0, j: 0, name: 'ThinMirror'},
-      {i: 0, j: 1, name: 'ThinSplitter'},
-      {i: 0, j: 2, name: 'PolarizingSplitter'},
-      {i: 0, j: 3, name: 'CornerCube'},
-      {i: 0, j: 4, name: 'Polarizer'},
-      {i: 0, j: 5, name: 'PhasePlate'},
-      {i: 0, j: 6, name: 'SugarSolution'},
-      {i: 0, j: 7, name: 'Mine'},
-      {i: 0, j: 8, name: 'Rock'},
-      {i: 0, j: 9, name: 'Glass'},
-      {i: 1, j: 0, name: 'VacuumJar'},
-      {i: 1, j: 1, name: 'Absorber'},
-      {i: 1, j: 2, name: 'Detector'},
-      {i: 1, j: 3, name: 'FaradayRotator'},
-
-      {i: 8, j: 0, name: 'ThinMirror'},
-      {i: 8, j: 1, name: 'ThinSplitter'},
-      {i: 8, j: 2, name: 'PolarizingSplitter'},
-      {i: 8, j: 3, name: 'CornerCube'},
-
-      {i: 4, j: 3, name: 'ThinSplitter', rotation: 1},
-      {i: 5, j: 3, name: 'ThinSplitter', rotation: 1},
-      {i: 6, j: 3, name: 'Rock'},
-    ],
-    stock: {
-      'thin-mirror': 3,
-      'thin-splitter': 2,
-      'phase-plate': 3,
-    },
-  },
   {
     name:   "Empty",
     group:  "Development",
@@ -1845,6 +1816,126 @@ export const levels = [
         "name": "detector",
         "rotation": 0,
         "frozen": true
+      }
+    ]
+  },
+  {
+    "name": "Polarization fun",
+    "group": "Various",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {
+        "i": 1,
+        "j": 3,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 3,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 4,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 3,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 7,
+        "j": 4,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 3,
+        "name": "phase-plate",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 1,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 9,
+        "j": 3,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 11,
+        "j": 3,
+        "name": "detector",
+        "rotation": 0,
+        "frozen": false
       }
     ]
   }
