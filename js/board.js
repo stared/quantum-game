@@ -413,10 +413,11 @@ export class Board {
   }
 
   // NOTE clipboard has its char (or limit) limit
-  // for other cases
-  // console.log(JSON.stringify(gameBoard.exportBoard(), null, 2))
-  // need to be fired by hand
+  // so it's why there is a console log
   clipBoard() {
+
+    console.log(JSON.stringify(gameBoard.exportBoard(), null, 2));
+
     window.prompt(
       'Copy board to clipboard: Ctrl+C, Enter',
       JSON.stringify(this.exportBoard(), null, 2)
