@@ -9,6 +9,7 @@ export class Level {
     this.group = levelRecipe.group;
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
+    this.texts = levelRecipe.texts || {};
     this.tileRecipes = levelRecipe.tiles;
     this.initialStock = {};
     if (typeof levelRecipe.stock === 'object') {
@@ -35,6 +36,9 @@ export const levels = [
     height: 10,
     tiles: [],
     stock: 'all',
+    texts: {
+      before: "Adventures of a Curious Character",
+    },
   },
   {
     name:   "1. Introducing mirrors",

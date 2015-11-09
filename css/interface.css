@@ -46,6 +46,38 @@ body {
     z-index: 10;
 }
 
+#level-header {
+    position: fixed;
+    top: 5px;
+    width: 100%;
+    margin: 0 auto;
+    height: 25px;
+    text-align: center;
+    z-index: 20;
+}
+
+#level-footer {
+    position: fixed;
+    bottom: 16px;
+    width: 100%;
+    margin: 0 auto;
+    height: 25px;
+    text-align: center;
+    z-index: 20;
+}
+
+.level-text {
+    display: inline-block;
+    padding: 6px;
+    font: 16px sans-serif;
+    background: #000;
+    color: #fff;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+
 #select-level {
     position: fixed;
     bottom: 80px;

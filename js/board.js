@@ -20,6 +20,8 @@ export class Board {
     this.svg = svg;
     this.tileMatrix = [];
     this.transitionHeatmap = new TransitionHeatmap(helper);
+    this.header = d3.select('#level-header .level-text');
+    this.footer = d3.select('#level-footer .level-text');
   }
 
   reset() {
@@ -36,6 +38,17 @@ export class Board {
         tileRecipe.j
       );
     });
+
+    const textBefore = (level) =>
+      level.texts && level.texts.before ? `: "${level.texts.before}"` : ''
+
+    console.log('this.level.texts', this.level.texts);
+
+    // Setting texts
+    this.header.html(`[${this.level.group}] ${this.level.name}${textBefore(this.level)}`);
+
+    // Q: make the goal dependent on the number of detectors?
+    this.footer.html('GOAL: Make the photon fall into a detector, with 100% chance.');
 
     // Initial drawing
     this.resizeSvg();
