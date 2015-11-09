@@ -53,7 +53,7 @@
           <line x1="0" y1="0" x2="4" y2="0" style="stroke:#555; stroke-width:3" />
         </pattern>
         <g id="polarizer">
-          <circle class="polarizer" r="25"/>
+          <circle class="polarizer" fill="url(#polarizing-stripes)" r="25"/>
         </g>
         <pattern id="phase-stripes" width="4" height="4" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="4" height="2" style="fill:steelblue;opacity:0.75" />
@@ -61,6 +61,7 @@
         </pattern>
         <g id="phase-plate">
           <polygon class="phase-plate glass-edge"
+                    fill="url(#phase-stripes)"
                    points="25,-10
                            10,-25
                            -10,-25
