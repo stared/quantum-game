@@ -53,7 +53,7 @@ body {
     margin: 0 auto;
     height: 25px;
     text-align: center;
-    z-index: 20;
+    z-index: 5;
 }
 
 #level-footer {
@@ -63,7 +63,7 @@ body {
     margin: 0 auto;
     height: 25px;
     text-align: center;
-    z-index: 20;
+    z-index: 5;
 }
 
 .level-text {
