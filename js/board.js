@@ -20,6 +20,7 @@ export class Board {
     this.svg = svg;
     this.tileMatrix = [];
     this.transitionHeatmap = new TransitionHeatmap(helper);
+    this.helper = helper;
     this.header = d3.select('#level-header .level-text');
     this.footer = d3.select('#level-footer .level-text');
   }
@@ -256,11 +257,17 @@ export class Board {
 
           d.rotate();
           this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
+          this.helper.select('#element-name').html(d.type.desc.name);
+          this.helper.select('#element-summary').html(d.type.desc.summary);
+          this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
 
         })
-        .on('mouseover', (d) =>
-          this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map)
-        );
+        .on('mouseover', (d) => {
+          this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
+          this.helper.select('#element-name').html(d.type.desc.name);
+          this.helper.select('#element-summary').html(d.type.desc.summary);
+          this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
+        });
 
     this.bindDrag(tileSelection);
 

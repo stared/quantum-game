@@ -100,6 +100,7 @@ body {
     position: fixed;
     top: 50px;
     left: 20px;
+    width: 200px;
     z-index: 10;
     background: #fff;
     color: #000;
@@ -107,6 +108,19 @@ body {
     border-radius: 2px;
     z-index: 20;
     padding: 5px;
+}
+
+#element-name {
+  font-size: 16px;
+}
+
+#element-summary {
+  font-size: 12px;
+}
+
+#element-flavour {
+  font-size: 12px;
+  font-style: italic;
 }
 
 .label-in, .label-out {
