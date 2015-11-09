@@ -137,6 +137,13 @@ export class Board {
     });
   }
 
+  showTileHelper(d) {
+    this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
+    this.helper.select('#element-name').html(d.type.desc.name);
+    this.helper.select('#element-summary').html(d.type.desc.summary);
+    this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
+  }
+
   addStockCell(stockName, row, column) {
     const i = this.level.width + 1 + column;
     const j = row;
@@ -160,7 +167,8 @@ export class Board {
     tileSelection
       .append('use')
         .attr('xlink:href', '#hitbox')
-        .attr('class', 'hitbox');
+        .attr('class', 'hitbox')
+        .on('mouseover', (d) => this.showTileHelper(d));
     // Bind drag handler
     this.bindDrag(tileSelection);
     // Store counter updater in stock
@@ -231,18 +239,10 @@ export class Board {
           }
 
           d.rotate();
-          this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
-          this.helper.select('#element-name').html(d.type.desc.name);
-          this.helper.select('#element-summary').html(d.type.desc.summary);
-          this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
+          this.showTileHelper(d);
 
         })
-        .on('mouseover', (d) => {
-          this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
-          this.helper.select('#element-name').html(d.type.desc.name);
-          this.helper.select('#element-summary').html(d.type.desc.summary);
-          this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
-        });
+        .on('mouseover', (d) => this.showTileHelper(d));
 
     this.bindDrag(tileSelection);
 
