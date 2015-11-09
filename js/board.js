@@ -43,8 +43,6 @@ export class Board {
     const textBefore = (level) =>
       level.texts && level.texts.before ? `: "${level.texts.before}"` : ''
 
-    console.log('this.level.texts', this.level.texts);
-
     // Setting texts
     this.header.html(`[${this.level.group}] ${this.level.name}${textBefore(this.level)}`);
 
@@ -107,29 +105,6 @@ export class Board {
         width: tileSize,
         height: tileSize,
       });
-      // TODO(pathes): remove doubleclick tile creation
-      // .on('dblclick', (d) => {
-      //   // NOTE adding with double click only for dev mode
-      //   d3.select('#tile-selector').remove();
-
-      //   const tileSelector = d3.select('body').append('div')
-      //     .attr('id', 'tile-selector')
-      //     .attr('class', 'item-selector');
-
-      //   tileSelector.append('ul').attr('class', 'tile-item').selectAll('li')
-      //     .data(tile.allTiles)
-      //     .enter()
-      //       .append('li')
-      //         .attr('class', 'tile-item')
-      //         .text((name) => name)
-      //         .on('click', (name) => {
-      //           if (name !== 'vacuum') {
-      //             this.addTile(tileSimpler(name, d.i, d.j));
-      //             window.console.log('dblclick added', d);
-      //           }
-      //           tileSelector.remove();
-      //         });
-      // });
   }
 
   drawStock() {
