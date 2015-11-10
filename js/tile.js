@@ -7,8 +7,8 @@ export const Vacuum = {
   name: 'vacuum',
   desc: {
     name: 'Nothing (except for some air)',
-    flavour: 'Darkness is the best place for light',
-    summary: '',
+    flavour: '',
+    summary: 'Visible light is only 0.03% slower in the air than in the vacuum.',
   },
   maxRotation: 1,
   rotationAngle: 0,
@@ -19,8 +19,8 @@ export const Source = {
   name: 'source',
   desc: {
     name: 'Single Photon Source',
-    flavour: 'a\u2020',
-    summary: '',
+    flavour: 'a\u2020 - an excitation, raise from the vacuum!',
+    summary: 'An on-deman single photon source.',
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
@@ -34,7 +34,7 @@ export const CornerCube = {
   desc: {
     name: 'Corner Cube',
     flavour: 'Like a mirror but rotating, not - reflecting',
-    summary: '',
+    summary: 'Three perpendicular reflective planes makes the the reflectin going the same way. And saves lives on the streets.',
   },
   maxRotation: 1,
   rotationAngle: 0,
@@ -170,7 +170,7 @@ export const Rock = {
   name: 'rock',
   desc: {
     name: 'Rock',
-    flavour: 'Dark and immersive as your sweatheart`s pupils.',
+    flavour: 'Dark and immersive as your sweetheart`s depth of eyes.',
     summary: 'Perhaps coal. I haven`t decided yet.',
   },
   maxRotation: 1, // []
