@@ -19,7 +19,7 @@ export const Source = {
   name: 'source',
   desc: {
     name: 'Single Photon Source',
-    flavour: 'a^\\dagger',
+    flavour: 'a\u2020',
     summary: '',
   },
   maxRotation: 4, // > ^ < v
@@ -103,7 +103,7 @@ export const PhasePlate = {
   desc: {
     name: 'Quater Wave Plate',
     flavour: '',
-    summary: 'It delays one polarization (with darker lines) by \\lambda/4. When applied correctly, it can change linear polarization into circular, and vice versa.',
+    summary: 'It delays one polarization (with darker lines) by \u03BB/4. When applied correctly, it can change linear polarization into circular, and vice versa.',
   },
   maxRotation: 4, // - / | \
   rotationAngle: 45,
@@ -123,7 +123,7 @@ export const SugarSolution = {
   desc: {
     name: 'Sugar Solution',
     flavour: 'Vodka is a solution. But Sugar Solution is the light-twisting solution.',
-    summary: 'Table sugar is a chiral molecule - it does not look the same as its mirror reflection. We put it in an amount, so it rotates polarization by 45\\deg.',
+    summary: 'Table sugar is a chiral molecule - it does not look the same as its mirror reflection. We put it in an amount, so it rotates polarization by 45\u00B0.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -183,7 +183,7 @@ export const Glass = {
   desc: {
     name: 'Glass Slab',
     flavour: '',
-    summary: 'Higher reflective index makes light slower. We set its thickness so it retards phase by  \\lambda/4. Useful for changing interference.',
+    summary: 'Higher reflective index makes light slower. We set its thickness so it retards phase by \u03BB/4. Useful for changing interference.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -195,7 +195,7 @@ export const VacuumJar = {
   desc: {
     name: 'Vacuum Jar',
     flavour: 'Pure timespace without relativistic energy density. Served in a bottle.',
-    summary: 'Even air retards light a bit. We set the thickness of vacuum so it advances phase by  \\lambda/4. Useful for changing interference.',
+    summary: 'Even air retards light a bit. We set the thickness of vacuum so it advances phase by  \u03BB/4. Useful for changing interference.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -243,7 +243,7 @@ export const FaradayRotator = {
   desc: {
     name: 'Faraday Rotator',
     flavour: 'You can go back, but it won`t be the same.',
-    summary: 'Rotates polarization with magnetic field, by 45\\deg. Has different symmetreis than Sugar Solution. A building block for optical diodes.',
+    summary: 'Rotates polarization with magnetic field, by 45\u00B0. Has different symmetreis than Sugar Solution. A building block for optical diodes.',
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
