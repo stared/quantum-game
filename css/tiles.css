@@ -17,11 +17,23 @@ rect.hitbox {
   fill: lightgreen;
   cursor: pointer;
 }
+
 use.hitbox {
   opacity: 0;
 }
+
 use.hitbox:hover {
   opacity: 0.2;
+}
+
+path.triangular {
+  fill: #aaa;
+  stroke: none;
+  opacity: 0;
+}
+
+path.triangular:hover {
+  opacity: 1;
 }
 
 .particle {

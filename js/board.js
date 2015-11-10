@@ -214,7 +214,7 @@ export class Board {
     tileObj.node = tileSelection[0][0];
 
     // frozen background
-    tileSelection
+    const frost = tileSelection
       .append('rect')
         .attr('class', (d) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
         .attr('x', -tileSize / 2)
@@ -246,6 +246,17 @@ export class Board {
 
         })
         .on('mouseover', (d) => this.showTileHelper(d));
+
+    // freeze/unfreeze traingular button
+    tileSelection
+      .append('path')
+        .attr('class', 'triangular')
+        .attr('d', 'M 0 0 L -1 0 L 0 1 Z')
+        .attr('transform', `translate(${tileSize/2},${-tileSize/2}) scale(${tileSize/4})`)
+        .on('click', (d) => {
+          d.frozen = !d.frozen;
+          frost.attr('class', (d) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
+        });
 
     this.bindDrag(tileSelection);
 
