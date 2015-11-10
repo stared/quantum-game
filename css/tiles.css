@@ -3,8 +3,14 @@ g.background rect.tile {
   stroke-width: 2;
   stroke: #aaa;
 }
-g.background rect.tile--frozen {
-  fill: #eee;
+
+rect.frost-nonfrozen {
+  opacity: 0;
+}
+
+rect.frost-frozen {
+  fill: #aaa;
+  opacity: 0.3;
 }
 
 rect.hitbox {

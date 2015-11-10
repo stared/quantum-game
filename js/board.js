@@ -93,13 +93,7 @@ export class Board {
       .enter()
       .append('rect')
       .attr({
-        'class': (d) => {
-          if (d.frozen) {
-            return 'tile tile--frozen';
-          } else {
-            return 'tile';
-          }
-        },
+        class: 'tile',
         x: (d) => d.x,
         y: (d) => d.y,
         width: tileSize,
@@ -218,6 +212,15 @@ export class Board {
     tileObj.g = tileSelection;
     // DOM element for g
     tileObj.node = tileSelection[0][0];
+
+    // frozen background
+    tileSelection
+      .append('rect')
+        .attr('class', (d) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
+        .attr('x', -tileSize / 2)
+        .attr('y', -tileSize / 2)
+        .attr('width', tileSize)
+        .attr('height', tileSize);
 
     tileObj.draw();
 
