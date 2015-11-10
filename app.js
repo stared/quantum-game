@@ -29,7 +29,7 @@ window.document.getElementById('select-level').onclick = function () {
     .attr('class', 'item-selector');
 
   levelSelector.append('ul').attr('class', 'level-item').selectAll('li')
-    .data(_.sortBy(level.levels, (level) => `${level.group} ${level.name}`))
+    .data(_(level.levels).forEach((level, i) => {level.i = i}).sortBy((level) => `${level.group} ${(level.i/1000)}`).value())
     .enter()
       .append('li')
         .attr('class', 'level-item')

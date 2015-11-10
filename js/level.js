@@ -1,7 +1,7 @@
 import {nonVacuumTiles} from './tile';
 import _ from 'lodash';
 
-const DEV_MODE = false;
+const DEV_MODE = true;
 
 export class Level {
   constructor(levelRecipe) {
@@ -31,7 +31,7 @@ export class Level {
 export const levels = [
   {
     name:   "Empty",
-    group:  "Development",
+    group:  "A Dev",
     width:  13,
     height: 10,
     tiles: [],
@@ -42,7 +42,7 @@ export const levels = [
   },
   {
     name:   "1. Introducing mirrors",
-    group:  "Prototype",
+    group:  "Game",
     texts: {
       before: "Lead the way!",
     },
@@ -59,7 +59,7 @@ export const levels = [
   },
   {
     name:   "2. Introducing beam splitters",
-    group:  "Prototype",
+    group:  "Game",
     texts: {
       before: "Sometimes in order to join you need to break.",
     },
@@ -77,7 +77,7 @@ export const levels = [
   },
   {
     name:   "3. Changing interference",
-    group:  "Prototype",
+    group:  "Game",
     texts: {
       before: "Comebacks can turn out either way.",
     },
@@ -96,68 +96,8 @@ export const levels = [
     ]
   },
   {
-    "name": "2. Introducing beam splitters",
-    "group": "Clipboarded",
-    "texts": {
-      "before": "Sometimes in order to join you need to break.",
-    },
-    "width": 13,
-    "height": 10,
-    "tiles": [
-      {
-        "i": 1,
-        "j": 7,
-        "name": "source",
-        "rotation": 0,
-        "frozen": true
-      },
-      {
-        "i": 4,
-        "j": 4,
-        "name": "thin-mirror",
-        "rotation": 1,
-        "frozen": false
-      },
-      {
-        "i": 4,
-        "j": 7,
-        "name": "thin-splitter",
-        "rotation": 1,
-        "frozen": false
-      },
-      {
-        "i": 8,
-        "j": 1,
-        "name": "mine",
-        "rotation": 0,
-        "frozen": true
-      },
-      {
-        "i": 8,
-        "j": 4,
-        "name": "thin-splitter",
-        "rotation": 1,
-        "frozen": true
-      },
-      {
-        "i": 8,
-        "j": 7,
-        "name": "thin-mirror",
-        "rotation": 1,
-        "frozen": true
-      },
-      {
-        "i": 10,
-        "j": 4,
-        "name": "detector",
-        "rotation": 0,
-        "frozen": true
-      }
-    ]
-  },
-  {
     "name": "4. Breaking interference",
-    "group": "Prototype",
+    "group": "Game",
     "texts": {
       "before": "Interference is fragile.",
     },
@@ -224,7 +164,7 @@ export const levels = [
   },
   {
     "name": "Mirrors and polarization - not sure",
-    "group": "Test",
+    "group": "X Test",
     "texts": {
       "before": "Try moving sugar solution - it will cancel (not sure if its OK)",
     },
@@ -291,7 +231,7 @@ export const levels = [
   },
   {
     "name": "So close yet so far",
-    "group": "Playing",
+    "group": "X Playing",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -390,7 +330,7 @@ export const levels = [
   },
   {
     "name": "5. Apples to apples",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -399,14 +339,14 @@ export const levels = [
         "j": 1,
         "name": "source",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
         "j": 1,
         "name": "thin-splitter",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
@@ -427,28 +367,28 @@ export const levels = [
         "j": 4,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
         "j": 1,
         "name": "polarizer",
-        "rotation": 0,
-        "frozen": false
+        "rotation": 2,
+        "frozen": true
       },
       {
         "i": 5,
         "j": 4,
         "name": "polarizer",
-        "rotation": 2,
-        "frozen": false
+        "rotation": 0,
+        "frozen": true
       },
       {
         "i": 7,
         "j": 1,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 7,
@@ -462,41 +402,41 @@ export const levels = [
         "j": 6,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
         "j": 4,
         "name": "polarizer",
-        "rotation": 0,
-        "frozen": false
+        "rotation": 2,
+        "frozen": true
       },
       {
         "i": 9,
         "j": 6,
         "name": "polarizer",
-        "rotation": 2,
-        "frozen": false
+        "rotation": 0,
+        "frozen": true
       },
       {
         "i": 11,
         "j": 4,
         "name": "detector",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 11,
         "j": 6,
         "name": "detector",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
   {
     "name": "Sagnac-Michelson-Morley",
-    "group": "Advanced",
+    "group": "X Advanced",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -567,7 +507,7 @@ export const levels = [
   },
   {
     "name": "6. Sagnac interferometer",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -576,42 +516,42 @@ export const levels = [
         "j": 4,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 4,
         "j": 6,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
         "j": 2,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
         "j": 4,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
         "j": 6,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
         "j": 8,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
@@ -632,34 +572,34 @@ export const levels = [
         "j": 6,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
         "j": 8,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 10,
         "j": 4,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 10,
         "j": 6,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
   {
     "name": "7. Michaelson-Morley",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -701,8 +641,8 @@ export const levels = [
     ]
   },
   {
-    "name": "8. Make it all pass (miscoppied plus pol error)",
-    "group": "Prototype",
+    "name": "8. Make it all pass",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -711,14 +651,14 @@ export const levels = [
         "j": 3,
         "name": "source",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 0,
         "j": 4,
         "name": "detector",
         "rotation": 2,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 1,
@@ -731,15 +671,15 @@ export const levels = [
         "i": 3,
         "j": 3,
         "name": "polarizer",
-        "rotation": 3,
-        "frozen": false
+        "rotation": 1,
+        "frozen": true
       },
       {
         "i": 3,
         "j": 4,
         "name": "polarizer",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 4,
@@ -766,15 +706,15 @@ export const levels = [
         "i": 7,
         "j": 3,
         "name": "polarizer",
-        "rotation": 1,
-        "frozen": false
+        "rotation": 3,
+        "frozen": true
       },
       {
         "i": 7,
         "j": 4,
         "name": "polarizer",
-        "rotation": 2,
-        "frozen": false
+        "rotation": 0,
+        "frozen": true
       },
       {
         "i": 8,
@@ -794,8 +734,8 @@ export const levels = [
         "i": 10,
         "j": 3,
         "name": "polarizer",
-        "rotation": 0,
-        "frozen": false
+        "rotation": 2,
+        "frozen": true
       },
       {
         "i": 10,
@@ -809,20 +749,20 @@ export const levels = [
         "j": 3,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 12,
         "j": 4,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
   {
     "name": "9. Sugar recycling",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -831,21 +771,21 @@ export const levels = [
         "j": 5,
         "name": "source",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 4,
         "j": 5,
         "name": "polarizer",
-        "rotation": 0,
-        "frozen": false
+        "rotation": 2,
+        "frozen": true
       },
       {
         "i": 5,
         "j": 1,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
@@ -865,15 +805,15 @@ export const levels = [
         "i": 5,
         "j": 7,
         "name": "polarizer",
-        "rotation": 0,
-        "frozen": false
+        "rotation": 2,
+        "frozen": true
       },
       {
         "i": 5,
         "j": 8,
         "name": "detector",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
@@ -887,7 +827,7 @@ export const levels = [
         "j": 1,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
@@ -901,21 +841,21 @@ export const levels = [
         "j": 3,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
         "j": 5,
         "name": "polarizer",
-        "rotation": 2,
-        "frozen": false
+        "rotation": 0,
+        "frozen": true
       },
       {
         "i": 9,
         "j": 3,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
@@ -929,13 +869,13 @@ export const levels = [
         "j": 5,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
   {
     "name": "10. Interference was never easy",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1048,7 +988,7 @@ export const levels = [
   },
   {
     "name": "11. Interfrenzy",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1147,7 +1087,7 @@ export const levels = [
   },
   {
     "name": "12. The sign thing",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1232,7 +1172,7 @@ export const levels = [
   },
   {
     "name": "13. No leakage",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1331,7 +1271,7 @@ export const levels = [
   },
   {
     "name": "14. Both need it",
-    "group": "Prototype",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1437,7 +1377,7 @@ export const levels = [
   },
   {
     "name": "Sugar vs mirrors",
-    "group": "Examples",
+    "group": "X Examples",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1487,7 +1427,7 @@ export const levels = [
   },
   {
     "name": "Nine polarizing beam splitters",
-    "group": "Puzzles",
+    "group": "X Puzzles",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1517,7 +1457,7 @@ export const levels = [
         "j": 2,
         "name": "polarizing-splitter",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 4,
@@ -1600,7 +1540,7 @@ export const levels = [
   },
   {
     "name": "Nine polarizing - hardcore mode",
-    "group": "Puzzles",
+    "group": "X Puzzles",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1770,7 +1710,7 @@ export const levels = [
         "j": 6,
         "name": "polarizing-splitter",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
@@ -1825,7 +1765,7 @@ export const levels = [
   },
   {
     "name": "Polarization fun",
-    "group": "Various",
+    "group": "X Various",
     "width": 13,
     "height": 10,
     "tiles": [

@@ -42,15 +42,15 @@
             <line class="beam" x1="-5.6" y1="5.6" x2="5.6" y2="-5.6"/>
           </g>
         </g>
-        <pattern id="polarizing-stripes" width="4" height="4" patternUnits="userSpaceOnUse">
-          <line x1="0" y1="0" x2="4" y2="0" style="stroke:#555; stroke-width:3" />
+        <pattern id="polarizing-stripes" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="6" height="3" style="fill:#555" />
         </pattern>
         <g id="polarizer">
           <circle class="polarizer" fill="url(#polarizing-stripes)" r="25"/>
         </g>
-        <pattern id="phase-stripes" width="4" height="4" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="4" height="2" style="fill:steelblue;opacity:0.75" />
-          <rect x="0" y="2" width="4" height="2" style="fill:steelblue;opacity:0.25" />
+        <pattern id="phase-stripes" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="6" height="3" style="fill:steelblue;opacity:0.75" />
+          <rect x="0" y="4" width="6" height="3" style="fill:steelblue;opacity:0.25" />
         </pattern>
         <g id="phase-plate">
           <polygon class="phase-plate glass-edge"
@@ -163,12 +163,16 @@
   <button id="clip-board">clip board</button>
   <button id="select-level">select level</button>
   <button id="play">▶</button>
-  <div id="helper"></div>
+  <div id="helper">
+    <div id="element-name"></div>
+    <div id="element-summary"></div>
+    <div id="element-flavour"></div>
+  </div>
   <div id="level-header">
-    <div class="level-text">Aaa</div>
+    <div class="level-text"></div>
   </div>
   <div id="level-footer">
-    <div class="level-text">Bbb</div>
+    <div class="level-text"></div>
   </div>
 
    <script src="build.js"></script>
