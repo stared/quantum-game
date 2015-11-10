@@ -558,14 +558,7 @@ export const levels = [
         "j": 2,
         "name": "source",
         "rotation": 3,
-        "frozen": false
-      },
-      {
-        "i": 8,
-        "j": 4,
-        "name": "thin-splitter",
-        "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
@@ -884,13 +877,20 @@ export const levels = [
         "j": 5,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
         "j": 1,
         "name": "thin-mirror",
         "rotation": 1,
+        "frozen": true
+      },
+      {
+        "i": 3,
+        "j": 3,
+        "name": "glass",
+        "rotation": 0,
         "frozen": false
       },
       {
@@ -898,21 +898,14 @@ export const levels = [
         "j": 5,
         "name": "thin-splitter",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
         "j": 9,
         "name": "detector",
         "rotation": 3,
-        "frozen": false
-      },
-      {
-        "i": 4,
-        "j": 5,
-        "name": "glass",
-        "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
@@ -926,14 +919,14 @@ export const levels = [
         "j": 5,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
         "j": 9,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
@@ -947,28 +940,28 @@ export const levels = [
         "j": 5,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
         "j": 9,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
         "j": 1,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 8,
         "j": 5,
         "name": "polarizing-splitter",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 10,
@@ -997,14 +990,14 @@ export const levels = [
         "j": 1,
         "name": "source",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 2,
         "j": 1,
         "name": "thin-splitter",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 2,
@@ -1018,7 +1011,7 @@ export const levels = [
         "j": 7,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
@@ -1039,7 +1032,7 @@ export const levels = [
         "j": 1,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 7,
@@ -1053,14 +1046,14 @@ export const levels = [
         "j": 9,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
         "j": 3,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
@@ -1074,14 +1067,14 @@ export const levels = [
         "j": 9,
         "name": "detector",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 11,
         "j": 7,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
@@ -1096,28 +1089,28 @@ export const levels = [
         "j": 2,
         "name": "detector",
         "rotation": 2,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
         "j": 0,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
         "j": 2,
         "name": "thin-splitter",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
         "j": 6,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
@@ -1152,21 +1145,21 @@ export const levels = [
         "j": 2,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
         "j": 6,
         "name": "thin-splitter",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
         "j": 9,
         "name": "source",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
@@ -1177,25 +1170,18 @@ export const levels = [
     "height": 10,
     "tiles": [
       {
-        "i": 0,
+        "i": 3,
         "j": 4,
         "name": "source",
         "rotation": 0,
         "frozen": false
       },
       {
-        "i": 2,
-        "j": 4,
-        "name": "polarizing-splitter",
-        "rotation": 1,
-        "frozen": false
-      },
-      {
-        "i": 3,
+        "i": 4,
         "j": 4,
         "name": "sugar-solution",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
@@ -1209,7 +1195,7 @@ export const levels = [
         "j": 7,
         "name": "thin-mirror",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 6,
@@ -1226,17 +1212,17 @@ export const levels = [
         "frozen": false
       },
       {
-        "i": 7,
-        "j": 7,
-        "name": "glass",
-        "rotation": 0,
-        "frozen": false
-      },
-      {
         "i": 8,
         "j": 4,
         "name": "polarizing-splitter",
         "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 6,
+        "name": "glass",
+        "rotation": 0,
         "frozen": false
       },
       {
@@ -1251,21 +1237,21 @@ export const levels = [
         "j": 4,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 10,
         "j": 7,
         "name": "thin-mirror",
         "rotation": 1,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 12,
         "j": 4,
         "name": "detector",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
@@ -1280,14 +1266,14 @@ export const levels = [
         "j": 2,
         "name": "source",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
         "j": 2,
         "name": "thin-splitter",
         "rotation": 3,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 3,
@@ -1308,7 +1294,7 @@ export const levels = [
         "j": 8,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 5,
@@ -1329,7 +1315,7 @@ export const levels = [
         "j": 8,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 7,
@@ -1350,28 +1336,28 @@ export const levels = [
         "j": 8,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
         "j": 2,
         "name": "mine",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
         "j": 4,
         "name": "detector",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 9,
         "j": 6,
         "name": "detector",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
