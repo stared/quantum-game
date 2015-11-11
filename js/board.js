@@ -3,6 +3,7 @@ import d3 from 'd3';
 import changeCase from 'change-case';
 
 import {tileSize, repositionSpeed} from './config';
+import {EPSILON} from './const';
 import * as particles from './particles';
 import * as simulation from './simulation';
 import {Stock} from './stock';
@@ -413,9 +414,28 @@ export class Board {
       }))
       .value();
 
-    //
-    // here also some test for level pass/fail
-    //
+    const probsAtDets = absorptionProbabilities.filter((entry) =>
+      this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].type.name === 'detector'
+    );
+
+    const totalProbAtDets = _.sum(probsAtDets, 'probability');
+    const noOfDets = _(this.tileMatrix)
+      .flatten()
+      .filter((tile) => tile.type.name === 'detector')
+      .value().length;
+
+    // what if <1% ar missing? maybe we should choose a smaller EPSILON for it
+    if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON) {
+      if (probsAtDets.length === noOfDets) {
+        this.footer.html('You did it!');
+      } else {
+        this.footer.html(`${noOfDets - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
+      }
+    } else if (totalProbAtDets > EPSILON) {
+      this.footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% chance of detecting a photon at a detector. Try harder!`);
+    } else {
+      this.footer.html('No chance to detect a photon at a detector.');
+    }
 
     if (this.particleAnimation) {
       this.particleAnimation.stop();

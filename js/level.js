@@ -25,6 +25,7 @@ export class Level {
         .countBy('name')
         .value();
     }
+    this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability || 1;
   }
 }
 
@@ -101,6 +102,7 @@ export const levels = [
     "texts": {
       "before": "Interference is fragile.",
     },
+    "requiredDetectionProbability": 0.5,
     "width": 13,
     "height": 10,
     "tiles": [
