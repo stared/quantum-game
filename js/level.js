@@ -1,7 +1,7 @@
 import {nonVacuumTiles} from './tile';
 import _ from 'lodash';
 
-const DEV_MODE = true;
+const DEV_MODE = false;
 
 export class Level {
   constructor(levelRecipe) {

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 
 import {TAU, velocityI, velocityJ, perpendicularI, perpendicularJ} from './const';
-import {animationStepDuration, tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle} from './config';
+import {animationStepDuration, tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle, absorptionDuration, absorptionTextDuration} from './config';
 
 class Particle {
 
@@ -41,7 +41,7 @@ class Particle {
 }
 
 class ParticleAnimation {
-  constructor(board, history, measurementHistory) {
+  constructor(board, history, measurementHistory, absorptionProbabilities) {
 
     this.history = history.map((state) => {
       return _.chain(state)
@@ -61,14 +61,15 @@ class ParticleAnimation {
     });
 
     this.measurementHistory = measurementHistory;
+    this.absorptionProbabilities = absorptionProbabilities;
     this.board = board;
     this.stepNo = 0;
   }
 }
 
 export class SVGParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory) {
-    super(board, history, measurementHistory);
+  constructor(board, history, measurementHistory, absorptionProbabilities) {
+    super(board, history, measurementHistory, absorptionProbabilities);
     this.particleGroup = null;
     this.currentTimeout = 0;
   }
@@ -77,6 +78,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
     window.clearTimeout(this.currentTimeout);
     this.particleGroup.remove();
     this.measurementTextGroup.remove();
+    this.absorptionTextGroup.remove();
   }
 
   play() {
@@ -86,6 +88,9 @@ export class SVGParticleAnimation extends ParticleAnimation {
     this.measurementTextGroup = this.board.svg
       .append('g')
       .attr('class', 'measurement-texts');
+    this.absorptionTextGroup = this.board.svg
+      .append('g')
+      .attr('class', 'absorption-texts');
     this.nextFrame();
   }
 
@@ -100,6 +105,10 @@ export class SVGParticleAnimation extends ParticleAnimation {
         animationStepDuration
       );
     } else {
+      window.setTimeout(
+        this.displayAbsorptionTexts.bind(this),
+        absorptionDuration
+      );
       this.exitParticles();
       window.setTimeout(
         this.displayMeasurementTexts.bind(this),
@@ -175,6 +184,27 @@ export class SVGParticleAnimation extends ParticleAnimation {
     });
 
   }
+
+  displayAbsorptionTexts() {
+
+    // or instead of texts - a heatmap of colorful tiles?
+
+    this.absorptionTextGroup
+      .selectAll('.absorption-text')
+      .data(this.absorptionProbabilities)
+      .enter()
+        .append('text')
+          .attr('class', 'absorption-text')
+          .attr('x', (d) => tileSize * d.i + tileSize / 2)
+          .attr('y', (d) => tileSize * d.j + tileSize / 2)
+          .text((d) => (100 * d.probability).toFixed(0) + '%')
+          .transition().duration(absorptionTextDuration)
+            .style('opacity', 0)
+            .remove();
+
+  }
+
+
 }
 
 export class CanvasParticleAnimation extends ParticleAnimation {

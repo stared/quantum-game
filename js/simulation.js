@@ -18,10 +18,11 @@ const intensityPerPosition = (state) =>
 
 export class Simulation {
 
-  constructor(board) {
+  constructor(board, logging) {
     this.board = board;
     this.history = [];
     this.measurementHistory = [];
+    this.logging = (logging == 'logging');
   }
 
   /**
@@ -51,9 +52,10 @@ export class Simulation {
         }, accI);
       }, []);
 
-    // debugging purpose
-    window.console.log('Simulation started:');
-    window.console.log(print.stateToStr(initialState));
+    if (this.logging) {
+      window.console.log('Simulation started:');
+      window.console.log(print.stateToStr(initialState));
+    }
 
     this.history.push(initialState);
     this.measurementHistory.push([]);
@@ -63,7 +65,7 @@ export class Simulation {
    * Make one propagation step and save it in history.
    * Additionally, return it.
    */
-  propagate(quantum = true) {
+  propagate(quantum) {
 
     const lastState = _.last(this.history);
     const displacedState = this.displace(lastState);
@@ -77,13 +79,14 @@ export class Simulation {
     this.history.push(newState);
     this.measurementHistory.push(absorbed);
 
-    // debugging
-    window.console.log(print.stateToStr(displacedState));
-    if (absorbed.length > 0) {
-      window.console.log(print.absorbedToStr(absorbed));
+    if (this.logging) {
+      window.console.log(print.stateToStr(displacedState));
+      if (absorbed.length > 0) {
+        window.console.log(print.absorbedToStr(absorbed));
+      }
     }
 
-    if (_.any(absorbed, 'measured')) {
+    if (_.any(absorbed, 'measured') && quantum) {
       return [];
     } else {
       return newState;
@@ -214,10 +217,10 @@ export class Simulation {
    * - all probabilities go to 0
    * - iteration limit is reached
    */
-  propagateToEnd() {
+  propagateToEnd(quantum = true) {
     let stepNo, lastStep;
     for (stepNo = 0; stepNo < maxIterations; ++stepNo) {
-      lastStep = this.propagate(true);
+      lastStep = this.propagate(quantum);
       if (!lastStep.length) {
         break;
       }

@@ -389,15 +389,38 @@ export class Board {
    */
   play() {
 
-    this.simulation = new simulation.Simulation(this);
+    // non-deterministic quantum simulation
+    // (for animations)
+    this.simulationQ = new simulation.Simulation(this, 'logging');
+    this.simulationQ.initialize();
+    this.simulationQ.propagateToEnd(true);
 
-    this.simulation.initialize();
-    this.simulation.propagateToEnd();
+    // deterministic classical simulation / quantum many-run probability
+    // for winning conditions
+    this.simulationC = new simulation.Simulation(this);
+    this.simulationC.initialize();
+    this.simulationC.propagateToEnd(false);
+    const absorptionProbabilities = _(this.simulationC.measurementHistory)
+      .flatten()
+      .groupBy((entry) => `${entry.i} ${entry.j}`)
+      .mapValues((groupedEntry) =>
+        _.sum(groupedEntry, 'probability')
+      )
+      .map((probability, location) => ({
+        probability: probability,
+        i: parseInt(location.split(' ')[0]),
+        j: parseInt(location.split(' ')[1]),
+      }))
+      .value();
+
+    //
+    // here also some test for level pass/fail
+    //
 
     if (this.particleAnimation) {
       this.particleAnimation.stop();
     }
-    this.particleAnimation = new particles.SVGParticleAnimation(this, this.simulation.history, this.simulation.measurementHistory);
+    this.particleAnimation = new particles.SVGParticleAnimation(this, this.simulationQ.history, this.simulationQ.measurementHistory, absorptionProbabilities);
     this.particleAnimation.play();
   }
 

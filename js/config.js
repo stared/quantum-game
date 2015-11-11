@@ -18,3 +18,5 @@ export const polarizationScaleV = 0.7;
 export const resizeThrottle = 100;
 // Absorption animation duration (ms)
 export const absorptionDuration = 2000;
+// Absorption test duration (ms)
+export const absorptionTextDuration = 4000;

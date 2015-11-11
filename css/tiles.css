@@ -45,6 +45,11 @@ path.triangular:hover {
   stroke-width: 2;
 }
 
+.absorption-text {
+  font-size: 40px;
+  text-anchor: middle;
+}
+
 .element {
   cursor: default;
 }
