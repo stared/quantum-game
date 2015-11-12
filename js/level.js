@@ -1,7 +1,6 @@
 import {nonVacuumTiles} from './tile';
+import {DEV_MODE} from './config';
 import _ from 'lodash';
-
-const DEV_MODE = false;
 
 export class Level {
   constructor(levelRecipe) {
@@ -14,7 +13,7 @@ export class Level {
     this.initialStock = {};
     if (typeof levelRecipe.stock === 'object') {
       this.initialStock = levelRecipe.stock;
-    } else if (levelRecipe.stock === 'all') {
+    } else if (levelRecipe.stock === 'all' || DEV_MODE) {
       nonVacuumTiles.forEach((tile) => {
         this.initialStock[tile] = (tile === 'source' ? 1 : 99);
       });

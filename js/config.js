@@ -1,3 +1,5 @@
+// Developer mode (especially for editing levels)
+export const DEV_MODE = false;
 // Tile size (px)
 export const tileSize = 100;
 // Rotation speed (ms)
