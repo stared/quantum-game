@@ -508,86 +508,107 @@ export const levels = [
     ]
   },
   {
-    "name": "6. Sagnac interferometer",
+    "name": "6. Sagnac interferemeter",
     "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
       {
-        "i": 4,
-        "j": 4,
-        "name": "mine",
-        "rotation": 0,
-        "frozen": true
-      },
-      {
-        "i": 4,
-        "j": 6,
-        "name": "mine",
-        "rotation": 0,
-        "frozen": true
-      },
-      {
-        "i": 6,
-        "j": 2,
-        "name": "mine",
-        "rotation": 0,
-        "frozen": true
-      },
-      {
-        "i": 6,
-        "j": 4,
-        "name": "thin-mirror",
-        "rotation": 1,
-        "frozen": true
-      },
-      {
-        "i": 6,
-        "j": 6,
-        "name": "thin-mirror",
-        "rotation": 3,
-        "frozen": true
-      },
-      {
-        "i": 6,
-        "j": 8,
-        "name": "mine",
-        "rotation": 0,
-        "frozen": true
-      },
-      {
-        "i": 8,
-        "j": 2,
+        "i": 2,
+        "j": 3,
         "name": "source",
-        "rotation": 3,
+        "rotation": 0,
         "frozen": true
       },
       {
-        "i": 8,
+        "i": 3,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 4,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 5,
+        "j": 1,
+        "name": "mine",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 5,
+        "j": 3,
+        "name": "polarizing-splitter",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 5,
         "j": 6,
-        "name": "thin-mirror",
+        "name": "mine",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 6,
+        "j": 3,
+        "name": "sugar-solution",
+        "rotation": 0,
+        "frozen": true
+      },
+      {
+        "i": 7,
+        "j": 1,
+        "name": "detector",
         "rotation": 1,
         "frozen": true
       },
       {
-        "i": 8,
-        "j": 8,
-        "name": "mine",
-        "rotation": 0,
+        "i": 7,
+        "j": 3,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": true
+      },
+      {
+        "i": 7,
+        "j": 6,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": true
+      },
+      {
+        "i": 10,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
         "frozen": true
       },
       {
         "i": 10,
         "j": 4,
-        "name": "mine",
-        "rotation": 0,
-        "frozen": true
+        "name": "faraday-rotator",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 10,
+        "j": 5,
+        "name": "faraday-rotator",
+        "rotation": 1,
+        "frozen": false
       },
       {
         "i": 10,
         "j": 6,
-        "name": "mine",
-        "rotation": 0,
+        "name": "thin-mirror",
+        "rotation": 1,
         "frozen": true
       }
     ]
@@ -812,6 +833,13 @@ export const levels = [
       },
       {
         "i": 6,
+        "j": 1,
+        "name": "polarizer",
+        "rotation": 2,
+        "frozen": true
+      },
+      {
+        "i": 6,
         "j": 5,
         "name": "sugar-solution",
         "rotation": 0,
@@ -977,7 +1005,7 @@ export const levels = [
         "j": 5,
         "name": "source",
         "rotation": 2,
-        "frozen": false
+        "frozen": true
       }
     ]
   },
@@ -1176,7 +1204,7 @@ export const levels = [
         "j": 4,
         "name": "source",
         "rotation": 0,
-        "frozen": false
+        "frozen": true
       },
       {
         "i": 4,
