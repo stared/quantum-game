@@ -171,6 +171,7 @@ export const levels = [
     },
     "width": 13,
     "height": 10,
+    "stock": {},
     "tiles": [
       {
         "i": 1,
@@ -1395,6 +1396,7 @@ export const levels = [
     "group": "X Examples",
     "width": 13,
     "height": 10,
+    "stock": {},
     "tiles": [
       {
         "i": 3,
@@ -1783,6 +1785,7 @@ export const levels = [
     "group": "X Various",
     "width": 13,
     "height": 10,
+    "stock": {},
     "tiles": [
       {
         "i": 1,
@@ -1894,6 +1897,136 @@ export const levels = [
         "j": 3,
         "name": "detector",
         "rotation": 0,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "Geometrical series - detection",
+    "group": "X Test",
+    "width": 13,
+    "height": 10,
+    "stock": {},
+    "tiles": [
+      {
+        "i": 3,
+        "j": 3,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 1,
+        "name": "detector",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 3,
+        "name": "thin-splitter",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 6,
+        "j": 5,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 3,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 8,
+        "j": 5,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      }
+    ]
+  },
+  {
+    "name": "Geometrical series - train",
+    "group": "X Test",
+    "width": 13,
+    "height": 10,
+    "stock": {},
+    "tiles": [
+      {
+        "i": 0,
+        "j": 0,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 0,
+        "j": 9,
+        "name": "detector",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 1,
+        "j": 2,
+        "name": "source",
+        "rotation": 0,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 2,
+        "name": "thin-splitter",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 2,
+        "j": 9,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 1,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 3,
+        "j": 2,
+        "name": "thin-mirror",
+        "rotation": 1,
+        "frozen": false
+      },
+      {
+        "i": 12,
+        "j": 0,
+        "name": "thin-mirror",
+        "rotation": 3,
+        "frozen": false
+      },
+      {
+        "i": 12,
+        "j": 9,
+        "name": "thin-mirror",
+        "rotation": 1,
         "frozen": false
       }
     ]
