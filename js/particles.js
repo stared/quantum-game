@@ -135,12 +135,8 @@ export class SVGParticleAnimation extends ParticleAnimation {
       });
 
     particles
-      .attr({
-        transform: (d) => `translate(${d.startX},${d.startY})`
-      })
-      .style({
-        opacity: (d) => d.prob
-      });
+      .attr('transform', (d) => `translate(${d.startX},${d.startY})`)
+      .style('opacity', (d) => Math.sqrt(d.prob));
 
     particles
       .interrupt()
