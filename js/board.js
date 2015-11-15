@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import d3 from 'd3';
 import changeCase from 'change-case';
+import stringify from 'json-stringify-pretty-compact';
 
 import {tileSize, repositionSpeed, DEV_MODE} from './config';
 import {EPSILON} from './const';
@@ -485,11 +486,11 @@ export class Board {
   // so it's why there is a console log
   clipBoard() {
 
-    console.log(JSON.stringify(gameBoard.exportBoard(), null, 2));
+    console.log(stringify(gameBoard.exportBoard(), {maxLength: 100, indent: 2}));
 
     window.prompt(
       'Copy board to clipboard: Ctrl+C, Enter',
-      JSON.stringify(this.exportBoard(), null, 2)
+      stringify(this.exportBoard(), {maxLength: 100, indent: 2})
     );
   }
 
