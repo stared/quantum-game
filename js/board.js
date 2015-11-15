@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import d3 from 'd3';
-import changeCase from 'change-case';
 import stringify from 'json-stringify-pretty-compact';
 
 import {tileSize, repositionSpeed, DEV_MODE} from './config';
@@ -13,7 +12,7 @@ import {TransitionHeatmap} from './transition_heatmap';
 import {Level} from './level';
 
 function tileSimpler(name, i, j) {
-  const tileClass = tile[changeCase.pascalCase(name)];
+  const tileClass = tile[name];
   return new tile.Tile(tileClass, 0, false, i, j);
 }
 
@@ -35,7 +34,7 @@ export class Board {
     // Fill board with proper tiles
     _.each(this.level.tileRecipes, (tileRecipe) => {
       this.tileMatrix[tileRecipe.i][tileRecipe.j] = new tile.Tile(
-        tile[changeCase.pascalCase(tileRecipe.name)],
+        tile[tileRecipe.name],
         tileRecipe.rotation || 0,
         !!tileRecipe.frozen,
         tileRecipe.i,
@@ -321,7 +320,7 @@ export class Board {
 
         // Find source element
         const sourceElem = d3.select(source.node);
-        const sourceTileName = changeCase.pascalCase(source.type.name);
+        const sourceTileName = source.tileName;
 
         // Drag ended outside of board?
         if (
@@ -343,7 +342,7 @@ export class Board {
         // Find target and target element
         const target = this.tileMatrix[source.newI][source.newJ];
         const targetElem = d3.select(target.node || null);
-        const targetTileName = changeCase.pascalCase(target.type.name);
+        const targetTileName = target.tileName;
 
         // Is it impossible to swap items? Reposition source and return.
         if (source.frozen || target.frozen) {
@@ -424,13 +423,13 @@ export class Board {
     window.console.log('absorptionProbabilities', absorptionProbabilities);
 
     const probsAtDets = absorptionProbabilities.filter((entry) =>
-      this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].type.name === 'detector'
+      this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].tileName === 'Detector'
     );
 
     const totalProbAtDets = _.sum(probsAtDets, 'probability');
     const noOfDets = _(this.tileMatrix)
       .flatten()
-      .filter((tile) => tile.type.name === 'detector')
+      .filter((tile) => tile.tileName === 'Detector')
       .value().length;
 
     this.footer.html('Experiment in progress...');
@@ -471,11 +470,11 @@ export class Board {
       height: this.level.height,
       tiles:  _.chain(this.tileMatrix)
         .flatten()
-        .filter((d) => d.type.name !== 'vacuum')
+        .filter((d) => d.tileName !== 'Vacuum')
         .map((d) => ({
           i: d.i,
           j: d.j,
-          name: d.type.name,
+          name: d.tileName,
           rotation: d.rotation,
           frozen: d.frozen,
         })),

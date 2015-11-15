@@ -1,10 +1,11 @@
 import _ from 'lodash';
+import changeCase from 'change-case';
 
 import * as config from './config';
 import * as full from './tensor/full';
 
 export const Vacuum = {
-  name: 'vacuum',
+  svgName: 'vacuum',
   desc: {
     name: 'Nothing (except for some air)',
     flavour: '',
@@ -16,7 +17,7 @@ export const Vacuum = {
 };
 
 export const Source = {
-  name: 'source',
+  svgName: 'source',
   desc: {
     name: 'Single Photon Source',
     flavour: 'a\u2020 - an excitation, raise from the vacuum!',
@@ -30,7 +31,7 @@ export const Source = {
 
 // maybe will be changed to a typical, one-side corner sube
 export const CornerCube = {
-  name: 'corner-cube',
+  svgName: 'corner-cube',
   desc: {
     name: 'Corner Cube',
     flavour: 'Like a mirror but rotating, not - reflecting',
@@ -42,7 +43,7 @@ export const CornerCube = {
 };
 
 export const ThinMirror = {
-  name: 'thin-mirror',
+  svgName: 'thin-mirror',
   desc: {
     name: 'Mirror',
     flavour: 'Making photons in two places at once. And binding them again.',
@@ -55,7 +56,7 @@ export const ThinMirror = {
 
 // most likely it will fo as "BeamSplitter"
 export const ThinSplitter = {
-  name: 'thin-splitter',
+  svgName: 'thin-splitter',
   desc: {
     name: '50%-50% Beam Splitter',
     flavour: 'A thin slice of glass does amazing things!',
@@ -67,7 +68,7 @@ export const ThinSplitter = {
 };
 
 export const PolarizingSplitter = {
-  name: 'polarizing-splitter',
+  svgName: 'polarizing-splitter',
   desc: {
     name: 'Polarizing Beam Splitter',
     flavour: '',
@@ -79,7 +80,7 @@ export const PolarizingSplitter = {
 };
 
 export const Polarizer = {
-  name: 'polarizer',
+  svgName: 'polarizer',
   desc: {
     name: 'Absorptive Polarizer',
     flavour: '',
@@ -99,7 +100,7 @@ export const Polarizer = {
 };
 
 export const PhasePlate = {
-  name: 'phase-plate',
+  svgName: 'phase-plate',
   desc: {
     name: 'Quater Wave Plate',
     flavour: '',
@@ -119,7 +120,7 @@ export const PhasePlate = {
 };
 
 export const SugarSolution = {
-  name: 'sugar-solution',
+  svgName: 'sugar-solution',
   desc: {
     name: 'Sugar Solution',
     flavour: 'Vodka is a solution. But Sugar Solution is the light-twisting solution.',
@@ -131,7 +132,7 @@ export const SugarSolution = {
 };
 
 export const Mine = {
-  name: 'mine',
+  svgName: 'mine',
   desc: {
     name: 'Light-Sensitive Bomb',
     flavour: 'If it does NOT click, you will have sunglasses... and a pair of hands.',
@@ -167,7 +168,7 @@ export const Mine = {
 
 // or a brick?
 export const Rock = {
-  name: 'rock',
+  svgName: 'rock',
   desc: {
     name: 'Rock',
     flavour: 'Dark and immersive as your sweetheart`s depth of eyes.',
@@ -179,7 +180,7 @@ export const Rock = {
 };
 
 export const Glass = {
-  name: 'glass',
+  svgName: 'glass',
   desc: {
     name: 'Glass Slab',
     flavour: '',
@@ -191,7 +192,7 @@ export const Glass = {
 };
 
 export const VacuumJar = {
-  name: 'vacuum-jar',
+  svgName: 'vacuum-jar',
   desc: {
     name: 'Vacuum Jar',
     flavour: 'Pure timespace without relativistic energy density. Served in a bottle.',
@@ -203,7 +204,7 @@ export const VacuumJar = {
 };
 
 export const Absorber = {
-  name: 'absorber',
+  svgName: 'absorber',
   desc: {
     name: 'Absorber / Neutral-Density Filter',
     flavour: 'To click or not to click?',
@@ -215,7 +216,7 @@ export const Absorber = {
 };
 
 export const Detector = {
-  name: 'detector',
+  svgName: 'detector',
   desc: {
     name: 'Single Photon Detector',
     flavour: '',
@@ -239,7 +240,7 @@ export const Detector = {
 };
 
 export const FaradayRotator = {
-  name: 'faraday-rotator',
+  svgName: 'faraday-rotator',
   desc: {
     name: 'Faraday Rotator',
     flavour: 'You can go back, but it won`t be the same.',
@@ -267,7 +268,7 @@ export class Tile {
     }
 
     this.g.append('use')
-      .attr('xlink:href', () => `#${this.type.name}`)
+      .attr('xlink:href', () => `#${this.type.svgName}`)
       .attr('class', 'element')
       .attr('transform', () => `rotate(${-this.type.rotationAngle * this.rotation},0,0)`);
 
@@ -318,25 +319,29 @@ export class Tile {
   get transitionAmplitudes() {
     return this.type.transition(this.rotation);
   }
+
+  get tileName() {
+    return changeCase.pascalCase(this.type.svgName);
+  }
 }
 
 export const allTiles = [
-  'vacuum',
-  'source',
-  'corner-cube',
-  'thin-mirror',
-  'thin-splitter',
-  'polarizing-splitter',
-  'polarizer',
-  'phase-plate',
-  'sugar-solution',
-  'mine',
-  'rock',
-  'glass',
-  'vacuum-jar',
-  'absorber',
-  'detector',
-  'faraday-rotator',
+  'Vacuum',
+  'Source',
+  'CornerCube',
+  'ThinMirror',
+  'ThinSplitter',
+  'PolarizingSplitter',
+  'Polarizer',
+  'PhasePlate',
+  'SugarSolution',
+  'Mine',
+  'Rock',
+  'Glass',
+  'VacuumJar',
+  'Absorber',
+  'Detector',
+  'FaradayRotator',
 ];
 
-export const nonVacuumTiles = _.without(allTiles, 'vacuum');
+export const nonVacuumTiles = _.without(allTiles, 'Vacuum');

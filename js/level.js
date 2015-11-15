@@ -16,7 +16,7 @@ export class Level {
       this.initialStock = levelRecipe.stock;
     } else if (levelRecipe.stock === 'all' || DEV_MODE) {
       nonVacuumTiles.forEach((tile) => {
-        this.initialStock[tile] = (tile === 'source' ? 1 : 99);
+        this.initialStock[tile] = (tile === 'Source' ? 1 : 99);
       });
     } else if (levelRecipe.stock === 'non-frozen' || !DEV_MODE) {
       this.tileRecipes = _.filter(levelRecipe.tiles, 'frozen');

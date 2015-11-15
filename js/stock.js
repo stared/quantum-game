@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import changeCase from 'change-case';
 
 import * as tile from './tile';
 
@@ -14,14 +13,14 @@ export class Stock {
   initialCount(level) {
     // Initialize empty stock - map from all non-vacuum tiles to their count: 0
     _.forEach(tile.nonVacuumTiles, (tileName) => {
-      this.stock[changeCase.pascalCase(tileName)] = {
+      this.stock[tileName] = {
         currentCount: 0,
       };
     });
     // Go through the level's initial stock
     if (level.initialStock) {
       _.forEach(level.initialStock, (tileCount, tileName) => {
-        this.stock[changeCase.pascalCase(tileName)].currentCount = tileCount;
+        this.stock[tileName].currentCount = tileCount;
       });
     }
   }
@@ -30,14 +29,14 @@ export class Stock {
   maxCount(level) {
     // Copy stock information to maxStock
     _.forEach(tile.nonVacuumTiles, (tileName) => {
-      this.stock[changeCase.pascalCase(tileName)].maxCount =
-        this.stock[changeCase.pascalCase(tileName)].currentCount;
+      this.stock[tileName].maxCount =
+        this.stock[tileName].currentCount;
     });
     // Go through the level's initial tiles
     if (level.tileRecipes) {
       _.forEach(level.tileRecipes, (tileDef) => {
         if (!tileDef.frozen) {
-          this.stock[changeCase.pascalCase(tileDef.name)].maxCount++;
+          this.stock[tileDef.name].maxCount++;
         }
       });
     }
@@ -49,7 +48,6 @@ export class Stock {
   usedStockNames() {
     const usedStockNames = [];
     _.forEach(tile.nonVacuumTiles, (tileName) => {
-      tileName = changeCase.pascalCase(tileName);
       if (this.stock[tileName].maxCount > 0) {
         usedStockNames.push(tileName);
       }
