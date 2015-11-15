@@ -9,6 +9,7 @@ import * as simulation from './simulation';
 import {Stock} from './stock';
 import * as tile from './tile';
 import {TransitionHeatmap} from './transition_heatmap';
+import {Level} from './level';
 
 function tileSimpler(name, i, j) {
   const tileClass = tile[changeCase.pascalCase(name)];
@@ -48,7 +49,9 @@ export class Board {
     this.header.html(`[${this.level.group}] ${this.level.name}${textBefore(this.level)}`);
 
     // Q: make the goal dependent on the number of detectors?
-    this.footer.html('GOAL: Make the photon fall into a detector, with 100% chance.');
+    this.footer
+      .html('GOAL: Make the photon fall into a detector, with 100% chance.')
+      .on('click', () => {});
 
     // Initial drawing
     this.resizeSvg();
@@ -416,6 +419,9 @@ export class Board {
       }))
       .value();
 
+    // debugging, mostly the for numerical accuracy
+    window.console.log('absorptionProbabilities', absorptionProbabilities);
+
     const probsAtDets = absorptionProbabilities.filter((entry) =>
       this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].type.name === 'detector'
     );
@@ -426,23 +432,32 @@ export class Board {
       .filter((tile) => tile.type.name === 'detector')
       .value().length;
 
-    // what if <1% ar missing? maybe we should choose a smaller EPSILON for it
-    if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON) {
-      if (probsAtDets.length === noOfDets) {
-        this.footer.html('You did it!');
+    this.footer.html('Experiment in progress...');
+
+    const footerCallback = () => {
+      // what if <1% ar missing? maybe we should choose a smaller EPSILON for it
+      if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON) {
+        if (probsAtDets.length === noOfDets) {
+          this.footer.html('You did it! [Click to proceed to the next level.]');
+          this.footer.on('click', () => {
+            window.console.log('click on the next level');
+            this.level = new Level(this.level.next);
+            this.reset();
+          });
+        } else {
+          this.footer.html(`${noOfDets - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
+        }
+      } else if (totalProbAtDets > EPSILON) {
+        this.footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% chance of detecting a photon at a detector. Try harder!`);
       } else {
-        this.footer.html(`${noOfDets - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
+        this.footer.html('No chance to detect a photon at a detector.');
       }
-    } else if (totalProbAtDets > EPSILON) {
-      this.footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% chance of detecting a photon at a detector. Try harder!`);
-    } else {
-      this.footer.html('No chance to detect a photon at a detector.');
-    }
+    };
 
     if (this.particleAnimation) {
       this.particleAnimation.stop();
     }
-    this.particleAnimation = new particles.SVGParticleAnimation(this, this.simulationQ.history, this.simulationQ.measurementHistory, absorptionProbabilities);
+    this.particleAnimation = new particles.SVGParticleAnimation(this, this.simulationQ.history, this.simulationQ.measurementHistory, absorptionProbabilities, footerCallback);
     this.particleAnimation.play();
   }
 

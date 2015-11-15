@@ -73,7 +73,7 @@ body {
     background: #000;
     color: #fff;
     border-radius: 4px;
-    pointer-events: none;
+    cursor: default;
     opacity: 0.8;
 }
 

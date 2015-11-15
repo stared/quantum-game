@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 export class Level {
   constructor(levelRecipe) {
+    this.next = levelRecipe.next;
     this.name = levelRecipe.name;
     this.group = levelRecipe.group;
     this.width = levelRecipe.width;
@@ -28,7 +29,7 @@ export class Level {
   }
 }
 
-export const levels = [
+const levelsRaw = [
   {
     name:   "Empty",
     group:  "A Dev",
@@ -2032,3 +2033,14 @@ export const levels = [
     ]
   }
 ];
+
+export const levels = _(levelsRaw)
+  .forEach((level, i) => {
+    level.i = i;
+  })
+  .sortBy((level) => `${level.group} ${(level.i/1000)}`)
+  .value();
+
+levels.forEach((level, i) => {
+  level.next = levels[i + 1];
+});

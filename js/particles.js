@@ -41,7 +41,7 @@ class Particle {
 }
 
 class ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities) {
+  constructor(board, history, measurementHistory, absorptionProbabilities, callback) {
 
     this.history = history.map((state) => {
       return _.chain(state)
@@ -62,14 +62,15 @@ class ParticleAnimation {
 
     this.measurementHistory = measurementHistory;
     this.absorptionProbabilities = absorptionProbabilities;
+    this.callback = callback;
     this.board = board;
     this.stepNo = 0;
   }
 }
 
 export class SVGParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities) {
-    super(board, history, measurementHistory, absorptionProbabilities);
+  constructor(board, history, measurementHistory, absorptionProbabilities, callback) {
+    super(board, history, measurementHistory, absorptionProbabilities, callback);
     this.particleGroup = null;
     this.currentTimeout = 0;
   }
@@ -113,6 +114,10 @@ export class SVGParticleAnimation extends ParticleAnimation {
       window.setTimeout(
         this.displayMeasurementTexts.bind(this),
         animationStepDuration
+      );
+      window.setTimeout(
+        this.callback.bind(this),
+        absorptionDuration
       );
     }
   }
