@@ -252,7 +252,7 @@ export class Board {
         .on('mouseover', (d) => this.showTileHelper(d));
 
     // freeze/unfreeze traingular button
-    if (DEV_MODE) {
+    if (this.level.kind === 'dev' || DEV_MODE) {
       tileSelection
         .append('path')
           .attr('class', 'triangular')
@@ -440,9 +440,10 @@ export class Board {
         if (probsAtDets.length === noOfDets) {
           this.footer.html('You did it! [Click to proceed to the next level.]');
           this.footer.on('click', () => {
-            window.console.log('click on the next level');
-            this.level = new Level(this.level.next);
-            this.reset();
+            if (this.level.kind === 'level') {
+              this.level = new Level(this.level.next);
+              this.reset();
+            }
           });
         } else {
           this.footer.html(`${noOfDets - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);

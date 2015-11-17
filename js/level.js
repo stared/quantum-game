@@ -26,6 +26,14 @@ export class Level {
         .value();
     }
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability || 1;
+
+    if (levelRecipe.stock === 'all') {
+      this.kind = 'dev';
+    } else if (levelRecipe.group === 'Game') {
+      this.kind = 'level';
+    } else {
+      this.kind = 'other';
+    }
   }
 }
 
