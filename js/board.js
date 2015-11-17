@@ -482,16 +482,12 @@ export class Board {
     };
   }
 
-  // NOTE clipboard has its char (or limit) limit
-  // so it's why there is a console log
-  clipBoard() {
+  clipBoard(link) {
 
-    console.log(stringify(gameBoard.exportBoard(), {maxLength: 100, indent: 2}));
+    const levelJSON = stringify(gameBoard.exportBoard(), {maxLength: 100, indent: 2});
+    link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`;
+    console.log(levelJSON);
 
-    window.prompt(
-      'Copy board to clipboard: Ctrl+C, Enter',
-      stringify(this.exportBoard(), {maxLength: 100, indent: 2})
-    );
   }
 
 }
