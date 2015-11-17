@@ -6,7 +6,7 @@ import {maxIterations} from './config';
 import * as print from './print';
 
 const zAbs = (z) =>
-  z.re * z.re + z.im * z.im
+  z.re * z.re + z.im * z.im;
 
 const intensityPerPosition = (state) =>
   _(state)
@@ -14,7 +14,7 @@ const intensityPerPosition = (state) =>
     .mapValues((groupedEntry) =>
       _.sum(groupedEntry, zAbs)
     )
-    .value()
+    .value();
 
 export class Simulation {
 
@@ -22,7 +22,7 @@ export class Simulation {
     this.board = board;
     this.history = [];
     this.measurementHistory = [];
-    this.logging = (logging == 'logging');
+    this.logging = (logging === 'logging');
   }
 
   /**
@@ -46,7 +46,8 @@ export class Simulation {
                        j:  j,
                        to: emission.to,
                        re: emission.re,
-                       im: emission.im});
+                       im: emission.im,
+                      });
           });
           return accJ;
         }, accI);
@@ -109,7 +110,8 @@ export class Simulation {
               j:  newJ,
               to: entry.to,
               re: entry.re,
-              im: entry.im};
+              im: entry.im,
+            };
     });
   }
 
@@ -184,7 +186,8 @@ export class Simulation {
                          j:  entry.j,
                          to: to,
                          re: re,
-                         im: im};
+                         im: im,
+                        };
         }
       }
       return acc;

@@ -523,7 +523,7 @@ export const levels = _(levelsRaw)
   .forEach((level, i) => {
     level.i = i;
   })
-  .sortBy((level) => `${level.group} ${(level.i/1000)}`)
+  .sortBy((level) => `${level.group} ${1e6 + level.i}`)
   .value();
 
 levels.forEach((level, i) => {

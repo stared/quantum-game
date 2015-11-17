@@ -10,7 +10,7 @@ export const componentToStr = (component) => {
     if (component.im > 0) {
       amplitudeStr = `(${component.re.toFixed(3)} + ${component.im.toFixed(3)}i)`;
     } else {
-      amplitudeStr = `(${component.re.toFixed(3)} - ${Math.abs(component.im.toFixed(3))}i)`;
+      amplitudeStr = `(${component.re.toFixed(3)} - ${Math.abs(component.im).toFixed(3)}i)`;
     }
   } else if (component.re === 0) {
     amplitudeStr = `(${component.im.toFixed(3)}i)`;

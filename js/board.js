@@ -43,7 +43,7 @@ export class Board {
     });
 
     const textBefore = (level) =>
-      level.texts && level.texts.before ? `: "${level.texts.before}"` : ''
+      level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
 
     // Setting texts
     this.header.html(`[${this.level.group}] ${this.level.name}${textBefore(this.level)}`);
@@ -97,7 +97,7 @@ export class Board {
       .enter()
       .append('rect')
       .attr({
-        class: 'tile',
+        'class': 'tile',
         x: (d) => d.x,
         y: (d) => d.y,
         width: tileSize,
@@ -262,10 +262,10 @@ export class Board {
         .append('path')
           .attr('class', 'triangular')
           .attr('d', 'M 0 0 L -1 0 L 0 1 Z')
-          .attr('transform', `translate(${tileSize/2},${-tileSize/2}) scale(${tileSize/4})`)
+          .attr('transform', `translate(${tileSize / 2},${-tileSize / 2}) scale(${tileSize / 4})`)
           .on('click', (d) => {
             d.frozen = !d.frozen;
-            frost.attr('class', (d) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
+            frost.attr('class', (d2) => d2.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
           });
     }
 
@@ -448,7 +448,7 @@ export class Board {
     const totalProbAtDets = _.sum(probsAtDets, 'probability');
     const noOfDets = _(this.tileMatrix)
       .flatten()
-      .filter((tile) => tile.tileName === 'Detector')
+      .filter((tile2) => tile2.tileName === 'Detector')
       .value().length;
 
     this.footer.html('Experiment in progress...');
@@ -502,11 +502,9 @@ export class Board {
   }
 
   clipBoard(link) {
-
-    const levelJSON = stringify(gameBoard.exportBoard(), {maxLength: 100, indent: 2});
+    const levelJSON = stringify(this.exportBoard(), {maxLength: 100, indent: 2});
     link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`;
-    console.log(levelJSON);
-
+    window.console.log(levelJSON);
   }
 
 }

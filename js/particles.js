@@ -73,7 +73,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
     super(board, history, measurementHistory, absorptionProbabilities, callback);
     this.particleGroup = null;
     this.currentTimeout = 0;
-    this.distrubed = false;
+    this.disturbed = false;
   }
 
   stop() {
@@ -142,7 +142,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
       .append('use')
       .attr({
         'xlink:href': '#particle',
-        'class': 'particle'
+        'class': 'particle',
       });
 
     particles
@@ -180,7 +180,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
           .attr('x', (d) => tileSize * d.i + tileSize / 2)
           .attr('y', (d) => tileSize * d.j + tileSize / 2)
           .style('font-size', '20px')
-          .text((d) => d.measured ? "click!" : "not here...")
+          .text((d) => d.measured ? 'click!' : 'not here...')
           .transition().duration(2 * animationStepDuration)
             .style('font-size', '60px')
             .style('opacity', 0)

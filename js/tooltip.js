@@ -21,7 +21,7 @@ export class Tooltip {
       .style('opacity', 0);
   }
 
-  destory() {
+  destroy() {
     this.tooltip.remove();
   }
 
