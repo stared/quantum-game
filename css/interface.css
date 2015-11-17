@@ -37,13 +37,18 @@ body {
     z-index: 4;
     cursor: pointer;
 }
-#play {
+#animation-controls {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 40px;
     height: 40px;
     z-index: 10;
+}
+#animation-controls button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 30px;
 }
 
 #level-header {

@@ -400,6 +400,16 @@ export class Board {
   }
 
   /**
+   * Set up animation controls - bind events to buttons
+   * @param animationControls d3-wrapped container for control buttons
+   */
+  setAnimationControls(animationControls) {
+    // Don't let d3 bind clicked element as `this` to methods.
+    const board = this;
+    animationControls.select('.play').on('click', this.play.bind(board));
+  }
+
+  /**
    * Generate history and play animation.
    */
   play() {

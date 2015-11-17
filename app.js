@@ -1,7 +1,6 @@
 /*global window:false*/
 import 'normalize.css';
 import d3 from 'd3';
-import _ from 'lodash';
 
 import * as tile from './js/tile';
 import * as level from './js/level';
@@ -16,12 +15,9 @@ gameBoard.reset();
 window.gameBoard = gameBoard;
 window.tile = tile;
 
-window.document.getElementById('play').onclick = function () {
-  gameBoard.play();
-};
+gameBoard.setAnimationControls(d3.select('#animation-controls'));
 
-window.document.getElementById('select-level').onclick = function () {
-
+d3.select('#select-level').on('click', () => {
   d3.select('#level-selector').remove();
 
   const levelSelector = d3.select('body').append('div')
@@ -39,9 +35,8 @@ window.document.getElementById('select-level').onclick = function () {
           gameBoard.reset();
           levelSelector.remove();
         });
+});
 
-};
-
-window.document.getElementById('clip-board-a').onclick = function () {
+d3.select('#clip-board-a').on('click', function () {
   gameBoard.clipBoard(this);
-};
+});
