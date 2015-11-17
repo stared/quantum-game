@@ -22,6 +22,7 @@ System.config({
     "clean-css": "npm:clean-css@3.4.6",
     "core-js": "npm:core-js@0.9.10",
     "d3": "github:mbostock/d3@3.5.6",
+    "json": "github:systemjs/plugin-json@0.1.0",
     "json-stringify-pretty-compact": "npm:json-stringify-pretty-compact@1.0.1",
     "katex": "npm:katex@0.5.1",
     "lodash": "npm:lodash@3.10.1",
