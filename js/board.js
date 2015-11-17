@@ -245,6 +245,11 @@ export class Board {
             return;
           }
 
+          if (this.particleAnimation) {
+            this.particleAnimation.disturbed = true;
+            this.footer.html('Experiment disturbed! Quantum states are fragile...');
+          }
+
           d.rotate();
           this.showTileHelper(d);
 
@@ -294,6 +299,10 @@ export class Board {
       .on('dragstart', (source) => {
         d3.event.sourceEvent.stopPropagation();
         source.top = false;
+        if (this.particleAnimation) {
+          this.particleAnimation.disturbed = true;
+          this.footer.html('Experiment disturbed! Quantum states are fragile...');
+        }
       })
       .on('drag', function (source) {
         // Move element to the top

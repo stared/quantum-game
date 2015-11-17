@@ -73,6 +73,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
     super(board, history, measurementHistory, absorptionProbabilities, callback);
     this.particleGroup = null;
     this.currentTimeout = 0;
+    this.distrubed = false;
   }
 
   stop() {
@@ -96,6 +97,11 @@ export class SVGParticleAnimation extends ParticleAnimation {
   }
 
   nextFrame() {
+    if (this.disturbed) {
+      this.exitParticles();
+      return;
+    }
+
     this.updateParticles();
     this.displayMeasurementTexts();
     this.stepNo++;
