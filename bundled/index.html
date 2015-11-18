@@ -163,11 +163,32 @@
   <a id="clip-board-a" download="level.json"><button id="clip-board">level JSON</button></a>
   <button id="select-level">select level</button>
   <div id="animation-controls">
-      <button class="stop" disabled>◼</button>
-      <button class="play">►</button>
-      <button class="backward" disabled>⏪</button>
-      <button class="forward" disabled>⏩</button>
+      <button class="stop">
+          <svg width="16" height="16">
+              <rect class="animation-control" width="16" height="16" x="0" y="0"></rect>
+          </svg>
+      </button>
+      <button class="play">
+          <svg width="20" height="16">
+              <path class="animation-control" d="M0 0 L10 8 L0 16 Z"></path>
+              <rect class="animation-control" width="4" height="16" x="10" y="0"></rect>
+              <rect class="animation-control" width="4" height="16" x="16" y="0"></rect>
+          </svg>
+      </button>
+      <button class="backward" disabled>
+          <svg width="16" height="16">
+              <path class="animation-control" d="M8 0 L0 8 L8 16 Z"></path>
+              <path class="animation-control" d="M16 0 L8 8 L16 16 Z"></path>
+          </svg>
+      </button>
+      <button class="forward">
+          <svg width="16" height="16">
+              <path class="animation-control" d="M0 0 L8 8 L0 16 Z"></path>
+              <path class="animation-control" d="M8 0 L16 8 L8 16 Z"></path>
+          </svg>
+      </button>
   </div>
+
   <div id="helper">
     <div id="element-name"></div>
     <div id="element-summary"></div>

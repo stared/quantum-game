@@ -65,6 +65,38 @@ class ParticleAnimation {
     this.callback = callback;
     this.board = board;
     this.stepNo = 0;
+    this.playing = false;
+  }
+
+  initialize() {
+    throw new Error('initialize() unimplemented');
+  }
+
+  play() {
+    if (!this.playing) {
+      this.nextFrame(true);
+      this.playing = true;
+    }
+  }
+
+  stop() {
+    this.pause();
+  }
+
+  pause() {
+    this.playing = false;
+  }
+
+  forward() {
+    this.nextFrame(false);
+  }
+
+  backward() {
+    throw new Error('backward() unimplemented');
+  }
+
+  nextFrame() {
+    throw new Error('nextFrame() unimplemented');
   }
 }
 
@@ -77,13 +109,18 @@ export class SVGParticleAnimation extends ParticleAnimation {
   }
 
   stop() {
-    window.clearTimeout(this.currentTimeout);
+    super.stop();
     this.particleGroup.remove();
     this.measurementTextGroup.remove();
     this.absorptionTextGroup.remove();
   }
 
-  play() {
+  pause() {
+    super.pause();
+    window.clearTimeout(this.currentTimeout);
+  }
+
+  initialize() {
     this.particleGroup = this.board.svg
       .append('g')
       .attr('class', 'particles');
@@ -93,10 +130,14 @@ export class SVGParticleAnimation extends ParticleAnimation {
     this.absorptionTextGroup = this.board.svg
       .append('g')
       .attr('class', 'absorption-texts');
-    this.nextFrame();
   }
 
-  nextFrame() {
+  /**
+   * Make next frame of animation, possibly setting the timeout for the
+   * next frame of animation.
+   * @param repeat Boolean saying if there should be setTimeout.
+   */
+  nextFrame(repeat) {
     if (this.disturbed) {
       this.exitParticles();
       return;
@@ -107,10 +148,13 @@ export class SVGParticleAnimation extends ParticleAnimation {
     this.stepNo++;
 
     if (this.stepNo < this.history.length - 1) {
-      this.currentTimeout = window.setTimeout(
-        this.nextFrame.bind(this),
-        animationStepDuration
-      );
+      // Set timeout only if ordered to do so
+      if (repeat) {
+        this.currentTimeout = window.setTimeout(
+          this.nextFrame.bind(this, true),
+          animationStepDuration
+        );
+      }
     } else {
       window.setTimeout(
         this.displayAbsorptionTexts.bind(this),
@@ -215,8 +259,8 @@ export class SVGParticleAnimation extends ParticleAnimation {
 }
 
 export class CanvasParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory) {
-    super(board, history, measurementHistory);
+  constructor(board, history, measurementHistory, absorptionProbabilities, callback) {
+    super(board, history, measurementHistory, absorptionProbabilities, callback);
     this.canvas = null;
     this.ctx = null;
     this.startTime = 0;
@@ -227,13 +271,14 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   }
 
   stop() {
+    super.stop();
     window.removeEventListener('resize', this.throttledResizeCanvas);
     if (this.canvas) {
       this.canvas.remove();
     }
   }
 
-  play() {
+  initialize() {
     // Create canvas, get context
     this.canvas = d3.select('#game')
       .append('canvas');
@@ -245,7 +290,6 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     // Set resize event handler
     window.addEventListener('resize', this.throttledResizeCanvas);
     this.startTime = new Date().getTime();
-    window.requestAnimationFrame(this.nextFrame.bind(this));
   }
 
   resizeCanvas() {

@@ -411,13 +411,16 @@ export class Board {
   setAnimationControls(animationControls) {
     // Don't let d3 bind clicked element as `this` to methods.
     const board = this;
+    animationControls.select('.stop').on('click', this.stop.bind(board));
     animationControls.select('.play').on('click', this.play.bind(board));
+    animationControls.select('.backward').on('click', this.backward.bind(board));
+    animationControls.select('.forward').on('click', this.forward.bind(board));
   }
 
   /**
-   * Generate history and play animation.
+   * Generate history.
    */
-  play() {
+  generateHistory() {
 
     // non-deterministic quantum simulation
     // (for animations)
@@ -430,12 +433,12 @@ export class Board {
     this.simulationC = new simulation.Simulation(this);
     this.simulationC.initialize();
     this.simulationC.propagateToEnd(false);
-    const absorptionProbabilities = _(this.simulationC.measurementHistory)
+    this.absorptionProbabilities = _(this.simulationC.measurementHistory)
       .flatten()
       .groupBy((entry) => `${entry.i} ${entry.j}`)
       .mapValues((groupedEntry) =>
         _.sum(groupedEntry, 'probability')
-      )
+    )
       .map((probability, location) => ({
         probability: probability,
         i: parseInt(location.split(' ')[0]),
@@ -444,9 +447,15 @@ export class Board {
       .value();
 
     // debugging, mostly the for numerical accuracy
-    window.console.log('absorptionProbabilities', absorptionProbabilities);
+    window.console.log('absorptionProbabilities', this.absorptionProbabilities);
+  }
 
-    const probsAtDets = absorptionProbabilities.filter((entry) =>
+  /**
+   * Generate footer callback.
+   * @returns {Function} footer callback
+   */
+  generateFooterCallback() {
+    const probsAtDets = this.absorptionProbabilities.filter((entry) =>
       this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].tileName === 'Detector'
     );
 
@@ -474,13 +483,58 @@ export class Board {
       } else {
         this.footer.html('No chance to detect a photon at a detector.');
       }
+      delete this.particleAnimation;
     };
 
+    return footerCallback;
+  }
+
+  /**
+   * Play animation. Generate history if necessary.
+   */
+  play() {
+    if (!this.particleAnimation) {
+      this.generateHistory();
+      this.particleAnimation = new particles.SVGParticleAnimation(
+        this,
+        this.simulationQ.history,
+        this.simulationQ.measurementHistory,
+        this.absorptionProbabilities,
+        this.generateFooterCallback());
+      this.particleAnimation.initialize();
+    }
+    if (this.particleAnimation.playing) {
+      this.particleAnimation.pause();
+    } else {
+      this.particleAnimation.play();
+    }
+  }
+
+  stop() {
     if (this.particleAnimation) {
       this.particleAnimation.stop();
+      delete this.particleAnimation;
     }
-    this.particleAnimation = new particles.SVGParticleAnimation(this, this.simulationQ.history, this.simulationQ.measurementHistory, absorptionProbabilities, footerCallback);
-    this.particleAnimation.play();
+  }
+
+  forward() {
+    if (this.particleAnimation) {
+      if (this.particleAnimation.playing) {
+        this.particleAnimation.pause();
+      } else {
+        this.particleAnimation.forward();
+      }
+    }
+  }
+
+  backward() {
+    if (this.particleAnimation) {
+      if (this.particleAnimation.playing) {
+        this.particleAnimation.pause();
+      } else {
+        this.particleAnimation.backward();
+      }
+    }
   }
 
   exportBoard() {
