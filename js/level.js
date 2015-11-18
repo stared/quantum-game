@@ -30,6 +30,7 @@ export class Level {
         .value();
     }
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability || 1;
+    this.detectorsToFeed = levelRecipe.detectorsToFeed || _.filter(levelRecipe.tiles, (tile) => tile.frozen && tile.name === 'Detector').length;
 
     if (levelRecipe.stock === 'all') {
       this.kind = 'dev';

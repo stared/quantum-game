@@ -47,11 +47,16 @@ export class Board {
 
     // Setting texts
     this.header.html(`[${this.level.group}] ${this.level.name}${textBefore(this.level)}`);
+    this.footer.on('click', () => {});
 
-    // Q: make the goal dependent on the number of detectors?
-    this.footer
-      .html('GOAL: Make the photon fall into a detector, with 100% chance.')
-      .on('click', () => {});
+    if (this.level.detectorsToFeed === 0) {
+      this.footer.html('GOAL: No goals! Freedom to do whatever you like. :)');
+    } else if (this.level.detectorsToFeed === 1) {
+      this.footer.html(`GOAL: Make the photon fall into a detector, with ${(100 * this.level.requiredDetectionProbability).toFixed(0)}% chance.`);
+    }
+    else {
+      this.footer.html(`GOAL: Make the photon fall into ${this.level.detectorsToFeed} detectors, some probability to each, total of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%.`);
+    }
 
     // Initial drawing
     this.resizeSvg();
@@ -446,29 +451,27 @@ export class Board {
     );
 
     const totalProbAtDets = _.sum(probsAtDets, 'probability');
-    const noOfDets = _(this.tileMatrix)
-      .flatten()
-      .filter((tile2) => tile2.tileName === 'Detector')
-      .value().length;
 
     this.footer.html('Experiment in progress...');
 
     const footerCallback = () => {
       // what if <1% ar missing? maybe we should choose a smaller EPSILON for it
       if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON) {
-        if (probsAtDets.length === noOfDets) {
-          this.footer.html('You did it! [Click to proceed to the next level.]');
-          this.footer.on('click', () => {
-            if (this.level.kind === 'level') {
+        if (probsAtDets.length === this.level.detectorsToFeed) {
+          if (this.level.kind === 'level') {
+            this.footer.html('You did it! [Click to proceed to the next level.]');
+            this.footer.on('click', () => {
               this.level = new Level(this.level.next);
               this.reset();
-            }
-          });
+            });
+          } else {
+            this.footer.html('You did it!');
+          }
         } else {
-          this.footer.html(`${noOfDets - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
+          this.footer.html(`${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
         }
       } else if (totalProbAtDets > EPSILON) {
-        this.footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% chance of detecting a photon at a detector. Try harder!`);
+        this.footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`);
       } else {
         this.footer.html('No chance to detect a photon at a detector.');
       }
