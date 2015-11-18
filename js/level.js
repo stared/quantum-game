@@ -3,7 +3,8 @@ import _ from 'lodash';
 import {nonVacuumTiles} from './tile';
 import {DEV_MODE} from './config';
 
-import levelsRaw from '../data/levels.json!';
+import levelsGame from '../data/levels_game.json!';
+import levelsOther from '../data/levels_other.json!';
 
 
 export class Level {
@@ -46,7 +47,8 @@ export class Level {
 }
 
 // below it's a quick&dirty hack to make the level ordering sensible
-export const levels = _(levelsRaw)
+export const levels = _(levelsGame)
+  .concat(levelsOther)
   .forEach((level, i) => {
     level.i = i;
   })
