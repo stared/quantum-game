@@ -1,5 +1,7 @@
 export const TAU = 2 * Math.PI;
 export const EPSILON = 1e-5;
+// for level-winning conditions 1% seems to be fine
+export const EPSILON_DETECTION = 0.01;
 export const velocityI = {
   '>': 1,
   '^': 0,

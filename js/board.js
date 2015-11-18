@@ -3,7 +3,7 @@ import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
 import {tileSize, repositionSpeed, DEV_MODE} from './config';
-import {EPSILON} from './const';
+import {EPSILON_DETECTION} from './const';
 import * as particles from './particles';
 import * as simulation from './simulation';
 import {Stock} from './stock';
@@ -455,8 +455,7 @@ export class Board {
     this.footer.html('Experiment in progress...');
 
     const footerCallback = () => {
-      // what if <1% ar missing? maybe we should choose a smaller EPSILON for it
-      if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON) {
+      if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON_DETECTION) {
         if (probsAtDets.length === this.level.detectorsToFeed) {
           if (this.level.kind === 'level') {
             this.footer.html('You did it! [Click to proceed to the next level.]');
@@ -470,7 +469,7 @@ export class Board {
         } else {
           this.footer.html(`${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
         }
-      } else if (totalProbAtDets > EPSILON) {
+      } else if (totalProbAtDets > EPSILON_DETECTION) {
         this.footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`);
       } else {
         this.footer.html('No chance to detect a photon at a detector.');

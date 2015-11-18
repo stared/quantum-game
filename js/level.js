@@ -16,6 +16,9 @@ export class Level {
     this.texts = levelRecipe.texts || {};
     this.tileRecipes = levelRecipe.tiles;
     this.initialStock = {};
+    if (levelRecipe.stock == null && _.filter(levelRecipe.tiles, 'frozen').length === 0) {
+      levelRecipe.stock = 'all';
+    }
     if (typeof levelRecipe.stock === 'object') {
       this.initialStock = levelRecipe.stock;
     } else if (levelRecipe.stock === 'all' || DEV_MODE) {
