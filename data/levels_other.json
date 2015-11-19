@@ -189,7 +189,7 @@
       {"i": 6, "j": 4, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 7, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": false},
       {"i": 7, "j": 4, "name": "ThinMirror", "rotation": 1, "frozen": false},
-      {"i": 8, "j": 3, "name": "PhasePlate", "rotation": 1, "frozen": false},
+      {"i": 8, "j": 3, "name": "QuaterWavePlate", "rotation": 1, "frozen": false},
       {"i": 9, "j": 1, "name": "Mine", "rotation": 0, "frozen": false},
       {"i": 9, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": false},
       {"i": 11, "j": 3, "name": "Detector", "rotation": 0, "frozen": false}

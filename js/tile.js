@@ -140,8 +140,8 @@ export const PolarizerWE = {
   },
 };
 
-export const PhasePlate = {
-  svgName: 'phase-plate',
+export const QuaterWavePlate = {
+  svgName: 'quater-wave-plate',
   desc: {
     name: 'Quater Wave Plate',
     flavour: '',
@@ -149,7 +149,7 @@ export const PhasePlate = {
   },
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.phasePlate[rotation],
+  transition: (rotation) => full.quaterWavePlate[rotation],
   drawUnrotablePart: (that) => {
     that.g.append('line')
       .attr('class', 'wire')
@@ -375,7 +375,7 @@ export const allTiles = [
   'PolarizingSplitter',
   'PolarizerNS',
   'PolarizerWE',
-  'PhasePlate',
+  'QuaterWavePlate',
   'SugarSolution',
   'Mine',
   'Rock',

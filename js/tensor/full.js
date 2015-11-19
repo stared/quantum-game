@@ -149,7 +149,7 @@ export const polarizerWE = _.range(4).map((rotation) =>
 );
 
 // NOTE same notes as for polarizer
-export const phasePlate = _.range(4).map((rotation) =>
+export const quaterWavePlate = _.range(4).map((rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) =>
       Tensor.product(
