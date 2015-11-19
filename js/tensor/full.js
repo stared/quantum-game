@@ -101,7 +101,6 @@ export const sugarSolution = Tensor.product(
 );
 
 // TODO make the formula easier or at least understand it
-// TODO still some issues with the setup:  -> pol/ mirror|
 export const polarizer = _.range(4).map((rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) =>
@@ -110,6 +109,42 @@ export const polarizer = _.range(4).map((rotation) =>
         polarization.projection((1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8)
       )
     )
+  )
+);
+
+export const polarizerNS = _.range(4).map((rotation) =>
+  Tensor.sumList(
+    direction.diode.map((directionGo, i) => {
+      if (i === 1 || i === 3) {
+        return Tensor.product(
+          directionGo,
+          polarization.projection((1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8)
+        );
+      } else {
+        return Tensor.product(
+          directionGo,
+          polarization.identity
+        );
+      }
+    })
+  )
+);
+
+export const polarizerWE = _.range(4).map((rotation) =>
+  Tensor.sumList(
+    direction.diode.map((directionGo, i) => {
+      if (i === 0 || i === 2) {
+        return Tensor.product(
+          directionGo,
+          polarization.projection((1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8)
+        );
+      } else {
+        return Tensor.product(
+          directionGo,
+          polarization.identity
+        );
+      }
+    })
   )
 );
 

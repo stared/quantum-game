@@ -79,6 +79,7 @@ export const PolarizingSplitter = {
   transition: (rotation) => full.polarizingSplitter[rotation],
 };
 
+// deprecated
 export const Polarizer = {
   svgName: 'polarizer',
   desc: {
@@ -96,6 +97,46 @@ export const Polarizer = {
       .attr('x2', 35)
       .attr('y1', 25 / Math.sqrt(2))
       .attr('y2', 35);
+  },
+};
+
+export const PolarizerNS = {
+  svgName: 'polarizer-n-s',
+  desc: {
+    name: 'Absorptive Polarizer (North-South)',
+    flavour: '',
+    summary: 'Anisotropic polymer strands capture electric oscillations parallel to them. Used in photography.',
+  },
+  maxRotation: 4, // - / | \
+  rotationAngle: 45,
+  transition: (rotation) => full.polarizerNS[rotation],
+  drawUnrotablePart: (that) => {
+    that.g.append('line')
+      .attr('class', 'wire')
+      .attr('x1', 0)
+      .attr('x2', 0)
+      .attr('y1', 25)
+      .attr('y2', 50);
+  },
+};
+
+export const PolarizerWE = {
+  svgName: 'polarizer-w-e',
+  desc: {
+    name: 'Absorptive Polarizer (West-East)',
+    flavour: '',
+    summary: 'Anisotropic polymer strands capture electric oscillations parallel to them. Used in photography.',
+  },
+  maxRotation: 4, // - / | \
+  rotationAngle: 45,
+  transition: (rotation) => full.polarizerWE[rotation],
+  drawUnrotablePart: (that) => {
+    that.g.append('line')
+      .attr('class', 'wire')
+      .attr('x1', 25)
+      .attr('x2', 50)
+      .attr('y1', 0)
+      .attr('y2', 0);
   },
 };
 
@@ -332,7 +373,8 @@ export const allTiles = [
   'ThinMirror',
   'ThinSplitter',
   'PolarizingSplitter',
-  'Polarizer',
+  'PolarizerNS',
+  'PolarizerWE',
   'PhasePlate',
   'SugarSolution',
   'Mine',
