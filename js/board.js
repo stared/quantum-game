@@ -251,7 +251,7 @@ export class Board {
           }
 
           if (this.particleAnimation) {
-            this.particleAnimation.disturbed = true;
+            this.stop();
             this.footer.html('Experiment disturbed! Quantum states are fragile...');
           }
 
@@ -305,7 +305,7 @@ export class Board {
         d3.event.sourceEvent.stopPropagation();
         source.top = false;
         if (this.particleAnimation) {
-          this.particleAnimation.disturbed = true;
+          this.stop();
           this.footer.html('Experiment disturbed! Quantum states are fragile...');
         }
       })
@@ -483,7 +483,7 @@ export class Board {
       } else {
         this.footer.html('No chance to detect a photon at a detector.');
       }
-      delete this.particleAnimation;
+      this.particleAnimation = null;
     };
 
     return footerCallback;
@@ -513,7 +513,7 @@ export class Board {
   stop() {
     if (this.particleAnimation) {
       this.particleAnimation.stop();
-      delete this.particleAnimation;
+      this.particleAnimation = null;
     }
   }
 

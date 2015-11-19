@@ -69,18 +69,25 @@ class ParticleAnimation {
   }
 
   initialize() {
-    throw new Error('initialize() unimplemented');
+    this.measurementTextGroup = this.board.svg
+      .append('g')
+      .attr('class', 'measurement-texts');
+    this.absorptionTextGroup = this.board.svg
+      .append('g')
+      .attr('class', 'absorption-texts');
   }
 
   play() {
     if (!this.playing) {
-      this.nextFrame(true);
       this.playing = true;
+      this.nextFrame();
     }
   }
 
   stop() {
     this.pause();
+    this.measurementTextGroup.remove();
+    this.absorptionTextGroup.remove();
   }
 
   pause() {
@@ -88,7 +95,7 @@ class ParticleAnimation {
   }
 
   forward() {
-    this.nextFrame(false);
+    this.nextFrame();
   }
 
   backward() {
@@ -98,6 +105,64 @@ class ParticleAnimation {
   nextFrame() {
     throw new Error('nextFrame() unimplemented');
   }
+
+  finish() {
+    window.setTimeout(
+      this.displayAbsorptionTexts.bind(this),
+      absorptionDuration
+    );
+    const lastStep = this.measurementHistory.length - 1;
+    window.setTimeout(
+      this.displayMeasurementTexts.bind(this, lastStep),
+      animationStepDuration
+    );
+    window.setTimeout(
+      this.callback.bind(this),
+      absorptionDuration
+    );
+    // Make text groups disappear
+    window.setTimeout(
+      this.stop.bind(this),
+      absorptionDuration + absorptionTextDuration
+    );
+  }
+
+  displayMeasurementTexts(stepNo) {
+    _.forEach(this.measurementHistory[stepNo], (measurement) => {
+      this.measurementTextGroup.datum(measurement)
+        .append('text')
+        .attr('class', 'measurement-text')
+        .attr('x', (d) => tileSize * d.i + tileSize / 2)
+        .attr('y', (d) => tileSize * d.j + tileSize / 2)
+        .style('font-size', '20px')
+        .text((d) => d.measured ? 'click!' : 'not here...')
+        .transition().duration(2 * animationStepDuration)
+        .style('font-size', '60px')
+        .style('opacity', 0)
+        .remove();
+
+      this.measurementTextGroup.datum(measurement)
+        .each((d) => (d.measured && d.tile != null) ? d.tile.absorbAnimaton() : null);
+    });
+
+  }
+
+  displayAbsorptionTexts() {
+    // TODO(pmigdal): instead of texts - a heatmap of colorful tiles?
+    this.absorptionTextGroup
+      .selectAll('.absorption-text')
+      .data(this.absorptionProbabilities)
+      .enter()
+      .append('text')
+      .attr('class', 'absorption-text')
+      .attr('x', (d) => tileSize * d.i + tileSize / 2)
+      .attr('y', (d) => tileSize * d.j + tileSize / 2)
+      .text((d) => (100 * d.probability).toFixed(0) + '%')
+      .transition().duration(absorptionTextDuration)
+      .style('opacity', 0)
+      .remove();
+
+  }
 }
 
 export class SVGParticleAnimation extends ParticleAnimation {
@@ -105,14 +170,6 @@ export class SVGParticleAnimation extends ParticleAnimation {
     super(board, history, measurementHistory, absorptionProbabilities, callback);
     this.particleGroup = null;
     this.currentTimeout = 0;
-    this.disturbed = false;
-  }
-
-  stop() {
-    super.stop();
-    this.particleGroup.remove();
-    this.measurementTextGroup.remove();
-    this.absorptionTextGroup.remove();
   }
 
   pause() {
@@ -120,55 +177,42 @@ export class SVGParticleAnimation extends ParticleAnimation {
     window.clearTimeout(this.currentTimeout);
   }
 
+  stop() {
+    super.stop();
+    this.exitParticles();
+  }
+
   initialize() {
+    super.initialize();
     this.particleGroup = this.board.svg
       .append('g')
       .attr('class', 'particles');
-    this.measurementTextGroup = this.board.svg
-      .append('g')
-      .attr('class', 'measurement-texts');
-    this.absorptionTextGroup = this.board.svg
-      .append('g')
-      .attr('class', 'absorption-texts');
+  }
+
+  finish() {
+    super.finish();
+    this.exitParticles();
   }
 
   /**
    * Make next frame of animation, possibly setting the timeout for the
    * next frame of animation.
-   * @param repeat Boolean saying if there should be setTimeout.
    */
-  nextFrame(repeat) {
-    if (this.disturbed) {
-      this.exitParticles();
-      return;
-    }
-
+  nextFrame() {
     this.updateParticles();
-    this.displayMeasurementTexts();
+    this.displayMeasurementTexts(this.stepNo);
     this.stepNo++;
 
     if (this.stepNo < this.history.length - 1) {
-      // Set timeout only if ordered to do so
-      if (repeat) {
+      // Set timeout only if playing
+      if (this.playing) {
         this.currentTimeout = window.setTimeout(
-          this.nextFrame.bind(this, true),
+          this.nextFrame.bind(this),
           animationStepDuration
         );
       }
     } else {
-      window.setTimeout(
-        this.displayAbsorptionTexts.bind(this),
-        absorptionDuration
-      );
-      this.exitParticles();
-      window.setTimeout(
-        this.displayMeasurementTexts.bind(this),
-        animationStepDuration
-      );
-      window.setTimeout(
-        this.callback.bind(this),
-        absorptionDuration
-      );
+      this.finish();
     }
   }
 
@@ -214,48 +258,6 @@ export class SVGParticleAnimation extends ParticleAnimation {
         .delay(animationStepDuration)
         .remove();
   }
-
-  displayMeasurementTexts() {
-
-    _.forEach(this.measurementHistory[this.stepNo], (measurement) => {
-      this.measurementTextGroup.datum(measurement)
-        .append('text')
-          .attr('class', 'measurement-text')
-          .attr('x', (d) => tileSize * d.i + tileSize / 2)
-          .attr('y', (d) => tileSize * d.j + tileSize / 2)
-          .style('font-size', '20px')
-          .text((d) => d.measured ? 'click!' : 'not here...')
-          .transition().duration(2 * animationStepDuration)
-            .style('font-size', '60px')
-            .style('opacity', 0)
-            .remove();
-
-      this.measurementTextGroup.datum(measurement)
-        .each((d) => (d.measured && d.tile != null) ? d.tile.absorbAnimaton() : null);
-    });
-
-  }
-
-  displayAbsorptionTexts() {
-
-    // or instead of texts - a heatmap of colorful tiles?
-
-    this.absorptionTextGroup
-      .selectAll('.absorption-text')
-      .data(this.absorptionProbabilities)
-      .enter()
-        .append('text')
-          .attr('class', 'absorption-text')
-          .attr('x', (d) => tileSize * d.i + tileSize / 2)
-          .attr('y', (d) => tileSize * d.j + tileSize / 2)
-          .text((d) => (100 * d.probability).toFixed(0) + '%')
-          .transition().duration(absorptionTextDuration)
-            .style('opacity', 0)
-            .remove();
-
-  }
-
-
 }
 
 export class CanvasParticleAnimation extends ParticleAnimation {
@@ -264,10 +266,19 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     this.canvas = null;
     this.ctx = null;
     this.startTime = 0;
+    this.pauseTime = 0;
     // Prepare throttled version of resizeCanvas
     this.throttledResizeCanvas =
       _.throttle(this.resizeCanvas, resizeThrottle)
       .bind(this);
+  }
+
+  updateStartTime() {
+    // If we paused, we have to change startTime for animation to work.
+    if (!this.playing && this.startTime <= this.pauseTime) {
+      const time = new Date().getTime();
+      this.startTime += time - this.pauseTime;
+    }
   }
 
   stop() {
@@ -278,7 +289,18 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
   }
 
+  play() {
+    this.updateStartTime();
+    super.play();
+  }
+
+  forward() {
+    this.updateStartTime();
+    super.forward();
+  }
+
   initialize() {
+    super.initialize();
     // Create canvas, get context
     this.canvas = d3.select('#game')
       .append('canvas');
@@ -311,13 +333,24 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   nextFrame() {
     const time = new Date().getTime();
     const stepFloat = (time - this.startTime) / animationStepDuration;
+    const oldStepNo = this.stepNo;
     this.stepNo = Math.floor(stepFloat);
+    const stepIncreased = this.stepNo > oldStepNo;
 
-    if (this.stepNo < this.history.length) {
+    if (this.stepNo < this.history.length - 1) {
       this.updateParticles(stepFloat - this.stepNo);
-      window.requestAnimationFrame(this.nextFrame.bind(this));
+      if (stepIncreased) {
+        this.displayMeasurementTexts(this.stepNo);
+      }
+      // Request next frame if playing or if the animation didn't manage
+      // to get to the keyframe.
+      if (this.playing || !stepIncreased) {
+        window.requestAnimationFrame(this.nextFrame.bind(this));
+      } else {
+        this.pauseTime = time;
+      }
     } else {
-      this.stop();
+      this.finish();
     }
   }
 
