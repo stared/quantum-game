@@ -21,7 +21,9 @@ export class Board {
     this.level = level;
     this.svg = svg;
     this.tileMatrix = [];
-    this.transitionHeatmap = new TransitionHeatmap(helper);
+    if (DEV_MODE) {
+      this.transitionHeatmap = new TransitionHeatmap(helper);
+    }
     this.helper = helper;
     this.header = d3.select('#level-header .level-text');
     this.footer = d3.select('#level-footer .level-text');
@@ -141,7 +143,9 @@ export class Board {
   }
 
   showTileHelper(d) {
-    this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
+    if (DEV_MODE) {
+      this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
+    }
     this.helper.select('#element-name').html(d.type.desc.name);
     this.helper.select('#element-summary').html(d.type.desc.summary);
     this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');

@@ -109,10 +109,10 @@ body {
 
 #helper {
     position: fixed;
-    top: 50px;
-    left: 20px;
-    width: 200px;
-    z-index: 10;
+    top: 5px;
+    left: 5px;
+    width: 300px;
+    z-index: 4;
     background: #fff;
     color: #000;
     border: solid 1px #aaa;
