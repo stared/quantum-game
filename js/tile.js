@@ -140,6 +140,7 @@ export const PolarizerWE = {
   },
 };
 
+// deprecated
 export const QuaterWavePlate = {
   svgName: 'quater-wave-plate',
   desc: {
@@ -157,6 +158,46 @@ export const QuaterWavePlate = {
       .attr('x2', 35)
       .attr('y1', 25 / Math.sqrt(2))
       .attr('y2', 35);
+  },
+};
+
+export const QuaterWavePlateNS = {
+  svgName: 'quater-wave-plate-n-s',
+  desc: {
+    name: 'Quater Wave Plate (North-South)',
+    flavour: '',
+    summary: 'It delays one polarization (with darker lines) by \u03BB/4. When applied correctly, it can change linear polarization into circular, and vice versa.',
+  },
+  maxRotation: 4, // - / | \
+  rotationAngle: 45,
+  transition: (rotation) => full.quaterWavePlateNS[rotation],
+  drawUnrotablePart: (that) => {
+    that.g.append('line')
+      .attr('class', 'wire')
+      .attr('x1', 0)
+      .attr('x2', 0)
+      .attr('y1', 25)
+      .attr('y2', 50);
+  },
+};
+
+export const QuaterWavePlateWE = {
+  svgName: 'quater-wave-plate-w-e',
+  desc: {
+    name: 'Quater Wave Plate (West-East)',
+    flavour: '',
+    summary: 'It delays one polarization (with darker lines) by \u03BB/4. When applied correctly, it can change linear polarization into circular, and vice versa.',
+  },
+  maxRotation: 4, // - / | \
+  rotationAngle: 45,
+  transition: (rotation) => full.quaterWavePlateWE[rotation],
+  drawUnrotablePart: (that) => {
+    that.g.append('line')
+      .attr('class', 'wire')
+      .attr('x1', 25)
+      .attr('x2', 50)
+      .attr('y1', 0)
+      .attr('y2', 0);
   },
 };
 
@@ -375,7 +416,8 @@ export const allTiles = [
   'PolarizingSplitter',
   'PolarizerNS',
   'PolarizerWE',
-  'QuaterWavePlate',
+  'QuaterWavePlateNS',
+  'QuaterWavePlateWE',
   'SugarSolution',
   'Mine',
   'Rock',

@@ -163,6 +163,48 @@ export const quaterWavePlate = _.range(4).map((rotation) =>
   )
 );
 
+export const quaterWavePlateNS = _.range(4).map((rotation) =>
+  Tensor.sumList(
+    direction.diode.map((directionGo, i) => {
+      if (i === 1 || i === 3) {
+        return Tensor.product(
+          directionGo,
+          polarization.phaseShift(
+            (1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8,
+            TAU / 4
+          )
+        );
+      } else {
+        return Tensor.product(
+          directionGo,
+          polarization.identity
+        );
+      }
+    })
+  )
+);
+
+export const quaterWavePlateWE = _.range(4).map((rotation) =>
+  Tensor.sumList(
+    direction.diode.map((directionGo, i) => {
+      if (i === 0 || i === 2) {
+        return Tensor.product(
+          directionGo,
+          polarization.phaseShift(
+            (1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8,
+            TAU / 4
+          )
+        );
+      } else {
+        return Tensor.product(
+          directionGo,
+          polarization.identity
+        );
+      }
+    })
+  )
+);
+
 export const faradayRotator = _.range(4).map((rotation) =>
   Tensor.sum(
     Tensor.product(
