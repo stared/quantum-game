@@ -14,14 +14,18 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
-    files: [],
+    files: [
+      {
+        pattern: 'data/**/*.json', included: false,
+      },
+    ],
 
     jspm: {
       useBundles: true,
       loadFiles: [
         'js/**/*.js',
-        'js/**/*.spec.js'
-      ]
+        'js/**/*.spec.js',
+      ],
     },
 
 
@@ -66,6 +70,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: false,
   });
 };
