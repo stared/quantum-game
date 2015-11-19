@@ -19,6 +19,7 @@ gameBoard.setAnimationControls(d3.select('#animation-controls'));
 
 d3.select('#select-level').on('click', () => {
   d3.select('#level-selector').remove();
+  gameBoard.stop();
 
   const levelSelector = d3.select('body').append('div')
     .attr('id', 'level-selector')
