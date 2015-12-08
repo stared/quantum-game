@@ -251,6 +251,9 @@ export class Board {
 
           // Avoid rotation when frozen
           if (d.frozen) {
+            if (d.tileName === 'Source') {
+              this.play();
+            }
             return;
           }
 
