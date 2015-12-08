@@ -88,6 +88,13 @@ body {
     opacity: 0.8;
 }
 
+.text-success {
+  color: #0f0;
+}
+
+.text-failure {
+  color: #f00;
+}
 
 #select-level {
     position: fixed;

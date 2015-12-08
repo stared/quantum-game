@@ -49,7 +49,9 @@ export class Board {
 
     // Setting texts
     this.header.html(`[${this.level.group}] ${this.level.name}${textBefore(this.level)}`);
-    this.footer.on('click', () => {});
+    this.footer
+      .attr('class', 'level-text')
+      .on('click', () => {});
 
     if (this.level.detectorsToFeed === 0) {
       this.footer.html('GOAL: No goals! Freedom to do whatever you like. :)');
@@ -259,7 +261,9 @@ export class Board {
 
           if (this.particleAnimation) {
             this.stop();
-            this.footer.html('Experiment disturbed! Quantum states are fragile...');
+            this.footer
+              .attr('class', 'level-text text-failure')
+              .html('Experiment disturbed! Quantum states are fragile...');
           }
 
           d.rotate();
@@ -313,7 +317,9 @@ export class Board {
         source.top = false;
         if (this.particleAnimation) {
           this.stop();
-          this.footer.html('Experiment disturbed! Quantum states are fragile...');
+          this.footer
+            .attr('class', 'level-text text-failure')
+            .html('Experiment disturbed! Quantum states are fragile...');
         }
       })
       .on('drag', function (source) {
@@ -468,27 +474,39 @@ export class Board {
 
     const totalProbAtDets = _.sum(probsAtDets, 'probability');
 
-    this.footer.html('Experiment in progress...');
+    this.footer
+      .attr('class', 'level-text')
+      .html('Experiment in progress...');
 
     const footerCallback = () => {
       if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON_DETECTION) {
         if (probsAtDets.length === this.level.detectorsToFeed) {
           if (this.level.kind === 'level') {
-            this.footer.html('You did it! [Click to proceed to the next level.]');
-            this.footer.on('click', () => {
-              this.level = new Level(this.level.next);
-              this.reset();
-            });
+            this.footer
+              .attr('class', 'level-text text-success')
+              .html('You did it! [Click to proceed to the next level.]')
+              .on('click', () => {
+                this.level = new Level(this.level.next);
+                this.reset();
+              });
           } else {
-            this.footer.html('You did it!');
+            this.footer
+              .attr('class', 'level-text text-success')
+              .html('You did it!');
           }
         } else {
-          this.footer.html(`${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
+          this.footer
+            .attr('class', 'level-text text-failure')
+            .html(`${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
         }
       } else if (totalProbAtDets > EPSILON_DETECTION) {
-        this.footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`);
+        this
+          .attr('class', 'level-text text-failure')
+          .footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`);
       } else {
-        this.footer.html('No chance to detect a photon at a detector.');
+        this.footer
+          .attr('class', 'level-text text-failure')
+          .html('No chance to detect a photon at a detector.');
       }
       this.particleAnimation = null;
     };
