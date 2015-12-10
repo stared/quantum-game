@@ -98,6 +98,21 @@
     ]
   },
   {
+    "name": "5.5 Three polarizers",
+    "group": "Game",
+    "texts": {"before": "Block light so it can pass."},
+    "requiredDetectionProbability": 0.25,
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 2, "j": 3, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 4, "j": 3, "name": "PolarizerWE", "rotation": 2, "frozen": true},
+      {"i": 6, "j": 3, "name": "PolarizerWE", "rotation": 3, "frozen": false},
+      {"i": 8, "j": 3, "name": "PolarizerWE", "rotation": 0, "frozen": true},
+      {"i": 10, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
+    ]
+  },
+  {
     "name": "6. Sagnac interferemeter",
     "group": "Game",
     "width": 13,
