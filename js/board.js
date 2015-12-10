@@ -48,7 +48,7 @@ export class Board {
       level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
 
     // Setting texts
-    this.header.html(`[${this.level.group}] ${this.level.name}${textBefore(this.level)}`);
+    this.header.html(`[${this.level.group}] ${this.level.i}. ${this.level.name}${textBefore(this.level)}`);
     this.footer
       .attr('class', 'level-text')
       .on('click', () => {});

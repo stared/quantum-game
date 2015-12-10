@@ -30,7 +30,7 @@ d3.select('#select-level').on('click', () => {
     .enter()
       .append('li')
         .attr('class', 'level-item')
-        .text((d) => `${d.group}: ${d.name}`)
+        .text((d) => `[${d.group}] ${d.i}. ${d.name}`)
         .on('click', (d) => {
           gameBoard.level = new level.Level(d);
           gameBoard.reset();

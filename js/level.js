@@ -12,6 +12,7 @@ export class Level {
     this.next = levelRecipe.next;
     this.name = levelRecipe.name;
     this.group = levelRecipe.group;
+    this.i = levelRecipe.i;
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
     this.texts = levelRecipe.texts || {};
@@ -59,3 +60,11 @@ levels.forEach((level, i) => {
   level.next = levels[i + 1];
   delete level.i;
 });
+
+// ordering within groups
+_(levels)
+  .groupBy('group')
+  .forEach((group) =>
+    group.forEach((level, i) => level.i = i + 1)
+  )
+  .value();

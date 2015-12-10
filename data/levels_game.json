@@ -9,7 +9,7 @@
     "texts": {"before": "Adventures of a Curious Character"}
   },
   {
-    "name": "1. Introducing mirrors",
+    "name": "Introducing mirrors",
     "group": "Game",
     "texts": {"before": "Lead the way!"},
     "width": 13,
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "name": "2. Introducing beam splitters",
+    "name": "Introducing beam splitters",
     "group": "Game",
     "texts": {"before": "Sometimes in order to join you need to break."},
     "width": 13,
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "name": "3. Changing interference",
+    "name": "Changing interference",
     "group": "Game",
     "texts": {"before": "Comebacks can turn out either way."},
     "width": 13,
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "name": "4. Breaking interference",
+    "name": "Breaking interference",
     "group": "Game",
     "texts": {"before": "Interference is fragile."},
     "requiredDetectionProbability": 0.5,
@@ -76,7 +76,7 @@
     ]
   },
   {
-    "name": "5. Apples to apples",
+    "name": "Apples to apples",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -98,7 +98,7 @@
     ]
   },
   {
-    "name": "5.5 Three polarizers",
+    "name": "Three polarizers",
     "group": "Game",
     "texts": {"before": "Block light so it can pass."},
     "requiredDetectionProbability": 0.25,
@@ -113,7 +113,7 @@
     ]
   },
   {
-    "name": "6. Sagnac interferemeter",
+    "name": "Sagnac interferemeter",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -135,7 +135,7 @@
     ]
   },
   {
-    "name": "7. Michelson-Morley",
+    "name": "Michelson-Morley",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -148,7 +148,7 @@
     ]
   },
   {
-    "name": "8. Make it all pass",
+    "name": "Make it all pass",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -172,7 +172,7 @@
     ]
   },
   {
-    "name": "9. Sugar recycling",
+    "name": "Sugar recycling",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -196,7 +196,7 @@
     ]
   },
   {
-    "name": "10. Interference was never easy",
+    "name": "Interference was never easy",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -219,7 +219,7 @@
     ]
   },
   {
-    "name": "11. Interfrenzy",
+    "name": "Interfrenzy",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -240,7 +240,7 @@
     ]
   },
   {
-    "name": "12. The sign thing",
+    "name": "The sign thing",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -259,7 +259,7 @@
     ]
   },
   {
-    "name": "13. No leakage",
+    "name": "No leakage",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -279,7 +279,7 @@
     ]
   },
   {
-    "name": "14. Both need it",
+    "name": "Both need it",
     "group": "Game",
     "width": 13,
     "height": 10,
