@@ -165,14 +165,14 @@ div.tooltip {
 
 .item-selector
 {
-    -webkit-column-count: 2; /* Chrome, Safari, Opera */
-    -moz-column-count: 2; /* Firefox */
-    column-count: 2;
+    -webkit-column-count: 4; /* Chrome, Safari, Opera */
+    -moz-column-count: 4; /* Firefox */
+    column-count: 4;
     position: fixed;
-    top: 15%;
-    left: 25%;
-    width: 50%;
-    height: 70%;
+    top: 7%;
+    left: 2.5%;
+    width: 95%;
+    height: 80%;
     padding: 12px;
     background: #000;
     color: #aaa;
