@@ -11,22 +11,13 @@ describe('thinSplitter', () => {
     expect(full.thinSplitter.length).toBe(4);
   });
 
-  it('should consist of unitary tensors', () => {
-    _.each(full.thinSplitter, (tensor) => {
+  it('diagonal orientations should consist of unitary tensors', () => {
+    _.each(_.at(full.thinSplitter, [1, 3]), (tensor) => {
       for (let entry of tensor.map.values()) {
         const probabilities = _.sum(_.map([...entry.values()], probability));
         expect(probabilities).toBeCloseTo(1, 5);
       }
     });
-  });
-
-  it('should pass a beam parallel to the element', () => {
-    // 0th element represents splitter's "-" rotation,
-    // so it's parallel to ">" beam direction.
-    const transition = full.thinSplitter[0].map.get('>-');
-
-    expect(transition.size).toBe(1);
-    expect(transition.get('>-')).toBeDefined();
   });
 
   it('should pass half of the beam perpendicular to the element', () => {
