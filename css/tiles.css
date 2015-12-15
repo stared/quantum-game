@@ -42,7 +42,7 @@ path.triangular:hover {
 
 .beam {
   stroke: red;
-  stroke-width: 2;
+  stroke-width: 1.5px;
 }
 
 .absorption-text {
@@ -66,9 +66,9 @@ path.triangular:hover {
 }
 
 .metal {
-  fill: #555;
-  stroke-width: 1;
-  stroke: #999;
+  fill: #222;
+  /*stroke-width: 1;
+  stroke: #999;*/
 }
 
 .polarizer {
