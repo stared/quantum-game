@@ -162,28 +162,22 @@
              style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:1;stroke-dasharray:none" />
         </g>
         <g id="detector">
-          <path d="M -25,25
-                   A 25 25 0 0 0 -25 -25
-                   A 5 5 0 0 1 -25 -35
-                   A 35 35 0 0 1 -25 35
-                   A 5 5 0 0 1 -25 25"
-          stroke="black" stroke-width="2" fill="red"/>
-          <path d="M 10 0
-                   c 0 -15 15 -15 15 0
-                   c 5 15 15 -15 15 5"
-            stroke="black" stroke-width="2" fill="none"/>
+          <path class="wire" d="M 0 0
+                                a 5 5 0 1 1 10 0
+                                a 5 5 0 1 0 10 0
+                                a 5 5 0 1 1 10 0
+                                a 5 5 0 1 0 10 0"/>
+          <path class="metal-case" d="M -30 -30
+                                      a 30 30 0 1 1 0 60"/>
         </g>
         <g id="detector-absorbed">
-          <path d="M -25,25
-                   A 25 25 0 0 0 -25 -25
-                   A 5 5 0 0 1 -25 -35
-                   A 35 35 0 0 1 -25 35
-                   A 5 5 0 0 1 -25 25"
-          stroke="black" stroke-width="2" fill="green"/>
-          <path d="M 10 0
-                   c 0 -15 15 -15 15 0
-                   c 5 15 15 -15 15 5"
-            stroke="black" stroke-width="2" fill="none"/>
+          <path class="wire" d="M 0 0
+                                a 5 5 0 1 1 10 0
+                                a 5 5 0 1 0 10 0
+                                a 5 5 0 1 1 10 0
+                                a 5 5 0 1 0 10 0"/>
+          <path class="metal-case-hot" d="M -30 -30
+                                          a 30 30 0 1 1 0 60"/>
         </g>
         <g id="faraday-rotator">
           <line class="wire wire-back" x1="-10" y1="10" x2="-10" y2="-10"/>

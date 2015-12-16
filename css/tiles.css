@@ -91,8 +91,21 @@ path.triangular:hover {
 }
 
 .wire {
+  fill: none;
   stroke: #6b00ff;
-  stroke-width: 3;
+  stroke-width: 3px;
+}
+
+.metal-case {
+  fill: none;
+  stroke: #222;
+  stroke-width: 8px;
+}
+
+.metal-case-hot {
+  fill: none;
+  stroke: red;
+  stroke-width: 8px;
 }
 
 .wire-back {
