@@ -113,6 +113,17 @@ path.triangular:hover {
   stroke-width: 4;
 }
 
+.eye {
+  stroke: #222;
+  stroke-width: 3px;
+  fill: white;
+}
+
+.eye-iris {
+  stroke: none;
+  fill: #222;
+}
+
 .measurement-text {
   text-anchor: middle;
 }
