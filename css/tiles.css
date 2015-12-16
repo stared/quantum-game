@@ -37,7 +37,7 @@ path.triangular:hover {
 }
 
 .particle {
-  fill: coral;
+  fill: red;
 }
 
 .beam {
@@ -67,8 +67,12 @@ path.triangular:hover {
 
 .metal {
   fill: #222;
-  /*stroke-width: 1;
-  stroke: #999;*/
+}
+
+.silver {
+  fill: lightgrey;
+  stroke: grey;
+  stroke-width: 2;
 }
 
 .polarizer {
