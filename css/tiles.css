@@ -124,6 +124,12 @@ path.triangular:hover {
   fill: #222;
 }
 
+.lemon {
+  fill: #ffff00;
+  stroke: #ffa900;
+  stroke-width: 3px;
+}
+
 .measurement-text {
   text-anchor: middle;
 }
