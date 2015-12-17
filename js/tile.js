@@ -235,14 +235,13 @@ export const Mine = {
         .duration(config.absorptionDuration)
         .style('opacity', 1);
 
-    that.g.append('circle')
-      .attr('r', 50)
-      .style('fill', 'red')
+    that.g.append('use')
+      .attr('xlink:href', '#mine-absorbed')
+      .attr('transform', 'scale(0.1)')
       .transition()
         .duration(config.absorptionDuration / 3)
         .ease('linear')
-        .attr('r', 2000)
-        .style('fill', 'yellow')
+        .attr('transform', 'scale(100)')
         .style('opacity', 0)
         .remove();
   },
