@@ -69,24 +69,17 @@ path.triangular:hover {
   fill: #222;
 }
 
+.metal-edge {
+  stroke: #666;
+  stroke-width: 2px;
+}
+
 .silver {
   fill: lightgrey;
-  stroke: grey;
-  stroke-width: 2;
 }
 
 .dark-silver {
   fill: #aaa;
-  stroke: grey;
-  stroke-width: 2;
-}
-
-.polarizer {
-  stroke: #555;
-  stroke-width: 1;
-}
-
-.quater-wave-plate {
 }
 
 .absorber {
