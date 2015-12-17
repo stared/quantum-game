@@ -133,9 +133,11 @@
            <line x1="50" y1="50" x2="20" y2="20" style="stroke:#555; stroke-width:1"/>
         </g>
         <g id="corner-cube">
-          <rect x="-25" y="-25" width="50" height="50" style="fill:lightgrey"/>
-          <line x1="-25" y1="-25" x2="25" y2="25" style="stroke:#555; stroke-width:3"/>
-          <line x1="25" y1="-25" x2="-25" y2="25" style="stroke:#555; stroke-width:3"/>
+          <g transform="scale(1.2)">
+          <path class="silver" d="M 0 0 l 10 -17.3 l 10 17.3 l -10 17.3 z" />
+          <path class="dark-silver" d="M 0 0 l 10 -17.3 l -20 0 l -10 17.3 z" />
+          <path class="dark-silver" d="M 0 0 l -20 0 l 10 17.3 l 20 0 z" />
+          </g>
         </g>
         <g id="absorber">
           <rect class="absorber" x="-20" y="-20" width="40" height="40" rx="5" ry="5"/>

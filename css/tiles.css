@@ -75,6 +75,12 @@ path.triangular:hover {
   stroke-width: 2;
 }
 
+.dark-silver {
+  fill: #aaa;
+  stroke: grey;
+  stroke-width: 2;
+}
+
 .polarizer {
   stroke: #555;
   stroke-width: 1;
