@@ -500,9 +500,9 @@ export class Board {
             .html(`${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
         }
       } else if (totalProbAtDets > EPSILON_DETECTION) {
-        this
+        this.footer
           .attr('class', 'level-text text-failure')
-          .footer.html(`Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`);
+          .html(`Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`);
       } else {
         this.footer
           .attr('class', 'level-text text-failure')
