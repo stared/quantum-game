@@ -20,6 +20,26 @@
   <link rel="stylesheet" type="text/css" href="css/katex.min.css">
 </head>
 <body>
+  <div class="top-bar">
+      <div class="top-bar__title"></div>
+      <div class="top-bar__subtitle">
+        <div class="top-bar__subtitle__slider">
+          <div class="top-bar__subtitle__description"></div>
+          <div class="top-bar__subtitle__message"></div>
+        </div>
+      </div>
+      <button class="top-bar__menu-button interface-button">
+          <svg width="20" height="20" viewBox="0 0 100 100">
+              <rect class="svg-interface-button" width="50" height="10" x="25" y="30"></rect>
+              <rect class="svg-interface-button" width="50" height="10" x="25" y="45"></rect>
+              <rect class="svg-interface-button" width="50" height="10" x="25" y="60"></rect>
+          </svg>
+      </button>
+      <button class="top-bar__detection interface-button-nohover">
+        <div class="top-bar__detection__caption"></div>
+        <div class="top-bar__detection__value"></div>
+      </button>
+  </div>
 
   <div id="game">
     <svg preserveAspectRatio="xMidYMid meet">
@@ -188,44 +208,40 @@
     </svg>
   </div>
   <a id="clip-board-a" download="level.json"><button id="clip-board">level JSON</button></a>
-  <button id="select-level">select level</button>
-  <div id="animation-controls">
-      <button class="stop">
-          <svg width="16" height="16">
-              <rect class="animation-control" width="16" height="16" x="0" y="0"></rect>
-          </svg>
-      </button>
-      <button class="play">
-          <svg width="20" height="16">
-              <path class="animation-control" d="M0 0 L10 8 L0 16 Z"></path>
-              <rect class="animation-control" width="4" height="16" x="10" y="0"></rect>
-              <rect class="animation-control" width="4" height="16" x="16" y="0"></rect>
-          </svg>
-      </button>
-      <button class="backward" disabled>
-          <svg width="16" height="16">
-              <path class="animation-control" d="M8 0 L0 8 L8 16 Z"></path>
-              <path class="animation-control" d="M16 0 L8 8 L16 16 Z"></path>
-          </svg>
-      </button>
-      <button class="forward">
-          <svg width="16" height="16">
-              <path class="animation-control" d="M0 0 L8 8 L0 16 Z"></path>
-              <path class="animation-control" d="M8 0 L16 8 L8 16 Z"></path>
-          </svg>
-      </button>
+
+  <div class="bottom-bar">
+      <div class="bottom-bar__animation-controls">
+          <button class="bottom-bar__animation-button interface-button stop">
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                  <rect class="svg-interface-button" width="16" height="16" x="0" y="0"></rect>
+              </svg>
+          </button>
+          <button class="bottom-bar__animation-button interface-button play">
+              <svg width="20" height="16" viewBox="0 0 20 16">
+                  <path class="svg-interface-button" d="M0 0 L10 8 L0 16 Z"></path>
+                  <rect class="svg-interface-button" width="4" height="16" x="10" y="0"></rect>
+                  <rect class="svg-interface-button" width="4" height="16" x="16" y="0"></rect>
+              </svg>
+          </button>
+          <button class="bottom-bar__animation-button interface-button backward" disabled>
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                  <path class="svg-interface-button" d="M8 0 L0 8 L8 16 Z"></path>
+                  <path class="svg-interface-button" d="M16 0 L8 8 L16 16 Z"></path>
+              </svg>
+          </button>
+          <button class="bottom-bar__animation-button interface-button forward">
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                  <path class="svg-interface-button" d="M0 0 L8 8 L0 16 Z"></path>
+                  <path class="svg-interface-button" d="M8 0 L16 8 L8 16 Z"></path>
+              </svg>
+          </button>
+      </div>
   </div>
 
   <div id="helper">
     <div id="element-name"></div>
     <div id="element-summary"></div>
     <div id="element-flavour"></div>
-  </div>
-  <div id="level-header">
-    <div class="level-text"></div>
-  </div>
-  <div id="level-footer">
-    <div class="level-text"></div>
   </div>
 </body>
 </html>

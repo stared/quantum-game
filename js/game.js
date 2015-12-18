@@ -4,10 +4,12 @@ import d3 from 'd3';
 import * as tile from './tile';
 import * as level from './level';
 import * as board from './board';
+import * as title_manager from './title_manager';
 
 export class Game {
   constructor() {
     this.gameBoard = null;
+    this.titleManager = null;
   }
 
   htmlReady() {
@@ -21,16 +23,21 @@ export class Game {
 
   createGameBoard() {
     const demoLevel = new level.Level(level.levels[0]);
+    this.titleManager = new title_manager.TitleManager(
+      d3.select('.top-bar__title'),
+      d3.select('.top-bar__subtitle'));
     this.gameBoard = new board.Board(
       demoLevel,
-      d3.select('svg'),
-      d3.select('#helper'));
+      d3.select('#game svg'),
+      d3.select('#helper'),
+      this.titleManager);
     this.gameBoard.reset();
-    this.gameBoard.setAnimationControls(d3.select('#animation-controls'));
+    this.gameBoard.setAnimationControls(
+      d3.select('.bottom-bar__animation-controls'));
   }
 
   bindMenuEvents() {
-    d3.select('#select-level').on('click', () => {
+    d3.select('.top-bar__menu-button ').on('click', () => {
       d3.select('#level-selector').remove();
       this.gameBoard.stop();
 

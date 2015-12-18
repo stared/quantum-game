@@ -3,6 +3,8 @@ html, body {
     height: 100%;
     padding: 0;
     margin: 0;
+    font-size: 0;
+    overflow: hidden;
     box-sizing: border-box;
 }
 body {
@@ -20,9 +22,182 @@ body {
     background-image: -o-linear-gradient(#225566, #447788);
 }
 
-#game {
+/* TODO(pathes): make style for those elements */
+#helper,
+#clip-board-a,
+#clip-board {
+    display: none !important;
+}
+
+.top-bar {
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 10vh;
+    color: white;
+    position: relative;
+    box-shadow: rgba(255, 241, 70, 0.25) 0 0 5px;
+}
+
+.top-bar__title {
+    position: absolute;
+    top: 0;
+    left: 15vw;
+    width: 70vw;
+    height: 5vh;
+    text-align: center;
+    font-size: 3.5vh;
+    line-height: 6vh;
+    vertical-align: middle;
+    font-family: "Roboto";
+    color: white;
+    overflow: hidden;
+}
+
+.top-bar__subtitle {
+    position: absolute;
+    top: 5vh;
+    left: 15vw;
+    width: 70vw;
+    height: 4vh;
+    text-align: center;
+    font-size: 2.5vh;
+    line-height: 4vh;
+    vertical-align: middle;
+    font-family: "Roboto Condensed";
+    color: white;
+    overflow: hidden;
+}
+
+.top-bar__subtitle__slider {
+  position: relative;
+  top: 0;
+  -webkit-transition: top 300ms linear;
+  transition: top 300ms linear;
+}
+
+.top-bar__subtitle__description {
+  height: 4vh;
+  overflow: hidden;
+}
+
+.top-bar__subtitle--message > .top-bar__subtitle__slider {
+  top: -4vh;
+}
+
+.top-bar__subtitle__message--success {
+  color: lime;
+}
+
+.top-bar__subtitle__message--failure {
+  color: red;
+}
+
+.top-bar__subtitle__message--progress {
+  color: yellow;
+}
+
+
+.top-bar__menu-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10vh;
+    height: 10vh;
+}
+.top-bar__menu-button > svg {
     width: 100%;
     height: 100%;
+}
+
+.top-bar__detection {
+  position: absolute;
+  top: 0;
+  right: 2vh;
+  width: 14vh;
+  height: 10vh;
+  font-size: 0;
+  background: none;
+}
+
+.top-bar__detection--success > .top-bar__detection__caption,
+.top-bar__detection--success > .top-bar__detection__value {
+  color: lime;
+  text-shadow: rgba(0, 255, 0, 0.7) 0 0 5px;
+}
+
+.top-bar__detection__caption {
+    width: 14vh;
+    height: 4vh;
+    text-align: center;
+    font-size: 2.5vh;
+    line-height: 5vh;
+    vertical-align: middle;
+    font-family: "Roboto Condensed";
+    color: white;
+    overflow: hidden;
+}
+
+.top-bar__detection__value {
+    width: 14vh;
+    height: 6vh;
+    text-align: center;
+    font-size: 4vh;
+    line-height: 5vh;
+    vertical-align: middle;
+    font-family: "Roboto";
+    font-weight: bold;
+    color: orange;
+    text-shadow: rgba(255, 0, 0, 0.7) 0 0 5px;
+}
+
+.bottom-bar {
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 8vh;
+    color: white;
+    position: relative;
+    box-shadow: rgba(255, 241, 70, 0.25) 0 0 5px;
+}
+
+.bottom-bar__animation-controls {
+    position: absolute;
+    top: 0;
+    left: 15vw;
+    width: 70vw;
+    height: 6vh;
+    padding: 1vh 0;
+    text-align: center;
+}
+
+.bottom-bar__animation-button {
+    padding: 0 1vh !important;
+    height: 6vh;
+}
+
+.bottom-bar__animation-button > svg {
+    width: auto;
+    height: 4vh;
+}
+
+.interface-button,
+.interface-button-nohover {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.interface-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* SVG element classes */
+
+.svg-interface-button {
+    fill: white;
+    stroke: none;
+}
+
+#game {
+    width: 100%;
+    height: 82%;
     /* Allow <svg> to be 100% height */
     font-size: 0;
 }
@@ -75,34 +250,6 @@ body {
     height: 25px;
     text-align: center;
     z-index: 5;
-}
-
-.level-text {
-    display: inline-block;
-    padding: 6px;
-    font: 16px sans-serif;
-    background: #000;
-    color: #fff;
-    border-radius: 4px;
-    cursor: default;
-    opacity: 0.8;
-}
-
-.text-success {
-  color: #0f0;
-}
-
-.text-failure {
-  color: #f00;
-}
-
-#select-level {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 80px;
-    height: 40px;
-    z-index: 10;
 }
 
 #clip-board {
@@ -171,6 +318,7 @@ div.tooltip {
     position: fixed;
     top: 7%;
     left: 2.5%;
+    box-sizing: border-box;
     width: 95%;
     height: 80%;
     padding: 12px;

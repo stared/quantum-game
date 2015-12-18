@@ -17,7 +17,7 @@ function tileSimpler(name, i, j) {
 }
 
 export class Board {
-  constructor(level, svg, helper) {
+  constructor(level, svg, helper, titleManager) {
     this.level = level;
     this.svg = svg;
     this.tileMatrix = [];
@@ -25,11 +25,16 @@ export class Board {
       this.transitionHeatmap = new TransitionHeatmap(helper);
     }
     this.helper = helper;
-    this.header = d3.select('#level-header .level-text');
-    this.footer = d3.select('#level-footer .level-text');
+    this.titleManager = titleManager;
   }
 
   reset() {
+    // Reset detection
+    // TODO(pathes): make a separate component for detection % and next level button
+    d3.select('.top-bar__detection__value').html('0%');
+    d3.select('.top-bar__detection__caption').html('detection');
+    d3.select('.top-bar__detection').classed('top-bar__detection--success', false);
+    d3.select('.top-bar__detection').on('click', _.noop);
     // Clear tiles
     this.clearTiles();
 
@@ -48,19 +53,18 @@ export class Board {
       level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
 
     // Setting texts
-    this.header.html(`[${this.level.group}] ${this.level.i}. ${this.level.name}${textBefore(this.level)}`);
-    this.footer
-      .attr('class', 'level-text')
-      .on('click', () => {});
+    this.titleManager.setTitle(
+      `[${this.level.group}] ${this.level.i}. ${this.level.name}${textBefore(this.level)}`);
 
+    let description;
     if (this.level.detectorsToFeed === 0) {
-      this.footer.html('GOAL: No goals! Freedom to do whatever you like. :)');
+      description = 'GOAL: No goals! Freedom to do whatever you like. :)';
     } else if (this.level.detectorsToFeed === 1) {
-      this.footer.html(`GOAL: Make the photon fall into a detector, with ${(100 * this.level.requiredDetectionProbability).toFixed(0)}% chance.`);
+      description = `GOAL: Make the photon fall into a detector, with ${(100 * this.level.requiredDetectionProbability).toFixed(0)}% chance.`;
+    } else {
+      description = `GOAL: Make the photon fall into ${this.level.detectorsToFeed} detectors, some probability to each, total of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%.`;
     }
-    else {
-      this.footer.html(`GOAL: Make the photon fall into ${this.level.detectorsToFeed} detectors, some probability to each, total of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%.`);
-    }
+    this.titleManager.setDescription(description);
 
     // Initial drawing
     this.resizeSvg();
@@ -261,9 +265,9 @@ export class Board {
 
           if (this.particleAnimation) {
             this.stop();
-            this.footer
-              .attr('class', 'level-text text-failure')
-              .html('Experiment disturbed! Quantum states are fragile...');
+            this.titleManager.displayMessage(
+              'Experiment disturbed! Quantum states are fragile...',
+              'failure');
           }
 
           d.rotate();
@@ -317,9 +321,9 @@ export class Board {
         source.top = false;
         if (this.particleAnimation) {
           this.stop();
-          this.footer
-            .attr('class', 'level-text text-failure')
-            .html('Experiment disturbed! Quantum states are fragile...');
+          this.titleManager.displayMessage(
+            'Experiment disturbed! Quantum states are fragile...',
+            'failure');
         }
       })
       .on('drag', function (source) {
@@ -474,39 +478,42 @@ export class Board {
 
     const totalProbAtDets = _.sum(probsAtDets, 'probability');
 
-    this.footer
-      .attr('class', 'level-text')
-      .html('Experiment in progress...');
+    this.titleManager.displayMessage(
+      'Experiment in progress...',
+      'progress');
 
     const footerCallback = () => {
+      // TODO(pathes): make a separate component for detection % and next level button
+      d3.select('.top-bar__detection__value').html(`${(100 * totalProbAtDets).toFixed(0)}%`);
       if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON_DETECTION) {
         if (probsAtDets.length === this.level.detectorsToFeed) {
+          this.titleManager.displayMessage(
+            'You did it!',
+            'success');
+          // TODO(pathes): make a separate component for detection % and next level button
+          d3.select('.top-bar__detection').classed('top-bar__detection--success', true);
+          // Is there a next level?
           if (this.level.kind === 'level') {
-            this.footer
-              .attr('class', 'level-text text-success')
-              .html('You did it! [Click to proceed to the next level.]')
-              .on('click', () => {
-                this.level = new Level(this.level.next);
-                this.reset();
-              });
-          } else {
-            this.footer
-              .attr('class', 'level-text text-success')
-              .html('You did it!');
+            // TODO(pathes): make a separate component for detection % and next level button
+            d3.select('.top-bar__detection__caption').html('next level »');
+            d3.select('.top-bar__detection').on('click', () => {
+              this.level = new Level(this.level.next);
+              this.reset();
+            });
           }
         } else {
-          this.footer
-            .attr('class', 'level-text text-failure')
-            .html(`${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`);
+          this.titleManager.displayMessage(
+            `${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`,
+            'failure');
         }
       } else if (totalProbAtDets > EPSILON_DETECTION) {
-        this.footer
-          .attr('class', 'level-text text-failure')
-          .html(`Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`);
+        this.titleManager.displayMessage(
+          `Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`,
+          'failure');
       } else {
-        this.footer
-          .attr('class', 'level-text text-failure')
-          .html('No chance to detect a photon at a detector.');
+        this.titleManager.displayMessage(
+          'No chance to detect a photon at a detector.',
+          'failure');
       }
       this.particleAnimation = null;
     };
