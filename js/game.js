@@ -41,6 +41,13 @@ export class Game {
       d3.select('#level-selector').remove();
       this.gameBoard.stop();
 
+      const levelSelectorShadow = d3.select('body').append('div')
+        .attr('class', 'shadow-overlay')
+        .on('click', () => {
+          levelSelectorShadow.remove();
+          levelSelector.remove();
+        });
+
       const levelSelector = d3.select('body').append('div')
         .attr('id', 'level-selector')
         .attr('class', 'item-selector');
@@ -54,6 +61,7 @@ export class Game {
         .on('click', (d) => {
           this.gameBoard.level = new level.Level(d);
           this.gameBoard.reset();
+          levelSelectorShadow.remove();
           levelSelector.remove();
         });
     });
