@@ -65,9 +65,5 @@ export class Game {
           levelSelector.remove();
         });
     });
-
-    d3.select('#clip-board-a').on('click', function () {
-      this.gameBoard.clipBoard(this);
-    });
   }
 }

@@ -23,9 +23,7 @@ body {
 }
 
 /* TODO(pathes): make style for those elements */
-#helper,
-#clip-board-a,
-#clip-board {
+#helper {
     display: none !important;
 }
 
@@ -250,15 +248,6 @@ body {
     height: 25px;
     text-align: center;
     z-index: 5;
-}
-
-#clip-board {
-    position: fixed;
-    bottom: 140px;
-    right: 20px;
-    width: 80px;
-    height: 40px;
-    z-index: 10;
 }
 
 #helper {

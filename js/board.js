@@ -437,6 +437,11 @@ export class Board {
       .on('click', this.backward.bind(board));
     animationControls.select('.forward')
       .on('click', this.forward.bind(board));
+    animationControls.select('#download')
+      .on('click', function () {
+        board.clipBoard(this);
+      });
+
   }
 
   /**
