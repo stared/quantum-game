@@ -428,10 +428,15 @@ export class Board {
   setAnimationControls(animationControls) {
     // Don't let d3 bind clicked element as `this` to methods.
     const board = this;
-    animationControls.select('.stop').on('click', this.stop.bind(board));
-    animationControls.select('.play').on('click', this.play.bind(board));
-    animationControls.select('.backward').on('click', this.backward.bind(board));
-    animationControls.select('.forward').on('click', this.forward.bind(board));
+    animationControls.select('.play')
+      .on('click', this.play.bind(board));
+    animationControls.select('.stop')
+      .on('click', this.stop.bind(board));
+    animationControls.select('.backward')
+      .style('opacity', 0.4)  // as not yet implemented
+      .on('click', this.backward.bind(board));
+    animationControls.select('.forward')
+      .on('click', this.forward.bind(board));
   }
 
   /**
