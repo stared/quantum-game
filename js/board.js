@@ -149,6 +149,13 @@ export class Board {
   }
 
   showTileHelper(d) {
+
+    // temporary hover
+    this.titleManager.displayMessage(
+      `this is: ${d.type.desc.name}`,
+      'hover');
+
+    // things below currently don't work (due to interface changes)
     if (DEV_MODE) {
       this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
     }
