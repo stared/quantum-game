@@ -8,8 +8,12 @@ export const rotationSpeed = 250;
 export const repositionSpeed = 250;
 // Maximum iteration count
 export const maxIterations = 1000;
-// Animation step duration (ms)
+// Default animation step duration (ms)
 export const animationStepDuration = 600;
+// Min animation step duration - for slider (ms)
+export const animationStepDurationMin = 100;
+// Max animation step duration - for slider (ms)
+export const animationStepDurationMax = 2000;
 // Oscillations per tile
 export const oscillations = 1;
 // Horizontal oscillation scale (px)

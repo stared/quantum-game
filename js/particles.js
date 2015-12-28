@@ -3,7 +3,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 
 import {TAU, velocityI, velocityJ, perpendicularI, perpendicularJ} from './const';
-import {animationStepDuration, tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle, absorptionDuration, absorptionTextDuration} from './config';
+import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle, absorptionDuration, absorptionTextDuration} from './config';
 
 class Particle {
 
@@ -62,6 +62,7 @@ class ParticleAnimation {
 
     this.measurementHistory = measurementHistory;
     this.absorptionProbabilities = absorptionProbabilities;
+    this.animationStepDuration = board.animationStepDuration;
     this.callback = callback;
     this.board = board;
     this.stepNo = 0;
@@ -114,11 +115,11 @@ class ParticleAnimation {
     const lastStep = this.measurementHistory.length - 1;
     window.setTimeout(
       this.displayMeasurementTexts.bind(this, lastStep),
-      animationStepDuration
+      this.animationStepDuration
     );
     window.setTimeout(
       this.callback.bind(this),
-      absorptionDuration
+      this.absorptionDuration
     );
     // Make text groups disappear
     window.setTimeout(
@@ -136,7 +137,7 @@ class ParticleAnimation {
         .attr('y', (d) => tileSize * d.j + tileSize / 2)
         .style('font-size', '20px')
         .text((d) => d.measured ? 'click!' : 'not here...')
-        .transition().duration(2 * animationStepDuration)
+        .transition().duration(2 * this.animationStepDuration)
         .style('font-size', '60px')
         .style('opacity', 0)
         .remove();
@@ -208,7 +209,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
       if (this.playing) {
         this.currentTimeout = window.setTimeout(
           this.nextFrame.bind(this),
-          animationStepDuration
+          this.animationStepDuration
         );
       }
     } else {
@@ -241,7 +242,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
       .interrupt()
       .transition()
       .ease([0, 1])
-      .duration(animationStepDuration)
+      .duration(this.animationStepDuration)
       .attrTween('transform', (d) => (t) => {
         const h = polarizationScaleH * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
         const x = (1 - t) * d.startX + t * d.endX + perpendicularI[d.dir] * h;
@@ -253,9 +254,9 @@ export class SVGParticleAnimation extends ParticleAnimation {
 
   exitParticles() {
     this.particleGroup.selectAll('.particle')
-      .transition().duration(animationStepDuration)
+      .transition().duration(this.animationStepDuration)
         .style('opacity', 0)
-        .delay(animationStepDuration)
+        .delay(this.animationStepDuration)
         .remove();
   }
 }
@@ -332,7 +333,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
 
   nextFrame() {
     const time = new Date().getTime();
-    const stepFloat = (time - this.startTime) / animationStepDuration;
+    const stepFloat = (time - this.startTime) / this.animationStepDuration;
     const oldStepNo = this.stepNo;
     this.stepNo = Math.floor(stepFloat);
     const stepIncreased = this.stepNo > oldStepNo;

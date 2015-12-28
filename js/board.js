@@ -2,7 +2,8 @@ import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
-import {tileSize, repositionSpeed, DEV_MODE} from './config';
+import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax} from './config';
+import * as config from './config';
 import {EPSILON_DETECTION} from './const';
 import * as particles from './particles';
 import * as simulation from './simulation';
@@ -26,6 +27,7 @@ export class Board {
     }
     this.helper = helper;
     this.titleManager = titleManager;
+    this.animationStepDuration = animationStepDuration;
   }
 
   reset() {
@@ -449,6 +451,21 @@ export class Board {
     animationControls.select('#download')
       .on('click', function () {
         board.clipBoard(this);
+      });
+
+    const durationToSlider = d3.scale.log()
+      .domain([animationStepDurationMax, animationStepDurationMin])
+      .range([0, 1]);
+
+    animationControls.select('#speed')
+      .on('click', function () {
+        const sliderWidth = this.getBoundingClientRect().width;
+        const mouseX = d3.mouse(this)[0];
+        board.animationStepDuration = durationToSlider.invert(mouseX/sliderWidth);
+        window.console.log(`New speed: ${(1000/board.animationStepDuration).toFixed(2)} tiles/s`);
+
+        d3.select(this).select('rect')
+          .attr('x', 32 * mouseX/sliderWidth - 1);
       });
 
   }
