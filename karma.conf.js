@@ -43,8 +43,8 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['spec', 'progress'],
-
+    reporters: ['spec'],
+    // if progress is needed: $ karma start --reporters progress
 
     specReporter: {
       maxLogLines: 5,         // limit number of lines logged per test
