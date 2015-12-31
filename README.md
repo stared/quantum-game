@@ -1,6 +1,14 @@
 Quantum Game
 ============
 
+Quantum Game - play with photons, superposition and entanglement. With true quantum mechanics underneath.
+
+State: in development (alpha). Release data (estimate): March 2015.
+
+Authors: [Piotr Migdał](http://migdal.wikidot.com/), Patryk Hes, [Michał Krupiński](http://www.fiztaszki.pl/user/3).
+
+Supported by [eNgage III/2014](http://www.fnp.org.pl/laureaci-engage-iii-edycja/) grant.
+
 # Development version
 
 ## Installing
