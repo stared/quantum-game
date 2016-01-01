@@ -477,13 +477,13 @@ export class Board {
 
     // non-deterministic quantum simulation
     // (for animations)
-    this.simulationQ = new simulation.Simulation(this, 'logging');
+    this.simulationQ = new simulation.Simulation(this.tileMatrix, 'logging');
     this.simulationQ.initialize();
     this.simulationQ.propagateToEnd(true);
 
     // deterministic classical simulation / quantum many-run probability
     // for winning conditions
-    this.simulationC = new simulation.Simulation(this);
+    this.simulationC = new simulation.Simulation(this.tileMatrix);
     this.simulationC.initialize();
     this.simulationC.propagateToEnd(false);
     this.absorptionProbabilities = _(this.simulationC.measurementHistory)

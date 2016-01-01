@@ -18,8 +18,10 @@ const intensityPerPosition = (state) =>
 
 export class Simulation {
 
-  constructor(board, logging) {
-    this.board = board;
+  constructor(tileMatrix, logging) {
+    this.tileMatrix = tileMatrix;
+    this.levelHeight = Math.max(...this.tileMatrix.map((row) => row.length || 0));
+    this.levelWidth = this.tileMatrix.length;
     this.history = [];
     this.measurementHistory = [];
     this.logging = (logging === 'logging');
@@ -30,16 +32,17 @@ export class Simulation {
    * containing initial particles state.
    */
   initialize() {
+
     const initialState =
-      _.reduce(_.range(this.board.level.width), (accI, i) => {
-        return _.reduce(_.range(this.board.level.height), (accJ, j) => {
+      _.reduce(_.range(this.levelWidth), (accI, i) => {
+        return _.reduce(_.range(this.levelHeight), (accJ, j) => {
           // Recognize generating tiles by having 'generation' method
-          if (!this.board.tileMatrix[i][j].type.generation) {
+          if (!this.tileMatrix[i][j].type.generation) {
             return accJ;
           }
           const emissions =
-            this.board.tileMatrix[i][j].type.generation(
-              this.board.tileMatrix[i][j].rotation
+            this.tileMatrix[i][j].type.generation(
+              this.tileMatrix[i][j].rotation
             );
           _.forEach(emissions, (emission) => {
             accJ.push({i:  i,
@@ -136,7 +139,7 @@ export class Simulation {
       .value();
 
     bins.forEach((each) => {
-      each.tile = this.board.tileMatrix[each.i] && this.board.tileMatrix[each.i][each.j];
+      each.tile = this.tileMatrix[each.i] && this.tileMatrix[each.i][each.j];
     });
 
     const rand = Math.random();
@@ -164,12 +167,12 @@ export class Simulation {
     const bins = _.reduce(state, (acc, entry) => {
       // Check if particle is out of bound
       if (
-           entry.i < 0 || entry.i >= this.board.level.width
-        || entry.j < 0 || entry.j >= this.board.level.height
+           entry.i < 0 || entry.i >= this.levelWidth
+        || entry.j < 0 || entry.j >= this.levelHeight
       ) {
         return acc;
       }
-      const tile = this.board.tileMatrix[entry.i][entry.j];
+      const tile = this.tileMatrix[entry.i][entry.j];
 
       const transition = tile.transitionAmplitudes.map.get(entry.to);
       for (let [to, change] of transition) {
