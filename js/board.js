@@ -37,11 +37,30 @@ export class Board {
     d3.select('.top-bar__detection__caption').html('detection');
     d3.select('.top-bar__detection').classed('top-bar__detection--success', false);
     d3.select('.top-bar__detection').on('click', _.noop);
-    // Clear tiles
-    this.clearTiles();
 
-    // Fill board with proper tiles
-    _.each(this.level.tileRecipes, (tileRecipe) => {
+    // set tileMatrix according to the recipe
+    this.clearTileMatrix();
+    this.fillTileMatrix(this.level.tileRecipes);
+
+    // Initial drawing
+    this.setHeaderTexts();
+    this.resizeSvg();
+    this.drawBackground();
+    this.drawBoard();
+    this.drawStock();
+  }
+
+  clearTileMatrix() {
+    // Create matrix filled with Vacuum
+    this.tileMatrix = _.range(this.level.width).map((i) =>
+        _.range(this.level.height).map((j) =>
+            new tile.Tile(tile.Vacuum, 0, false, i, j)
+        )
+    );
+  }
+
+  fillTileMatrix(tileRecipes) {
+    _.each(tileRecipes, (tileRecipe) => {
       this.tileMatrix[tileRecipe.i][tileRecipe.j] = new tile.Tile(
         tile[tileRecipe.name],
         tileRecipe.rotation || 0,
@@ -50,11 +69,12 @@ export class Board {
         tileRecipe.j
       );
     });
+  }
 
+  setHeaderTexts() {
     const textBefore = (level) =>
       level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
 
-    // Setting texts
     this.titleManager.setTitle(
       `[${this.level.group}] ${this.level.i}. ${this.level.name}${textBefore(this.level)}`);
 
@@ -67,21 +87,6 @@ export class Board {
       description = `GOAL: Make the photon fall into ${this.level.detectorsToFeed} detectors, some probability to each, total of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%.`;
     }
     this.titleManager.setDescription(description);
-
-    // Initial drawing
-    this.resizeSvg();
-    this.drawBackground();
-    this.drawBoard();
-    this.drawStock();
-  }
-
-  clearTiles() {
-    // Create matrix filled with Vacuum
-    this.tileMatrix = _.range(this.level.width).map((i) =>
-        _.range(this.level.height).map((j) =>
-            new tile.Tile(tile.Vacuum, 0, false, i, j)
-        )
-    );
   }
 
   resizeSvg() {
