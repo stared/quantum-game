@@ -4,13 +4,13 @@ import stringify from 'json-stringify-pretty-compact';
 
 import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax} from './config';
 import * as config from './config';
-import {EPSILON_DETECTION} from './const';
 import * as particles from './particles';
 import * as simulation from './simulation';
 import {Stock} from './stock';
 import * as tile from './tile';
 import {TransitionHeatmap} from './transition_heatmap';
 import {Level} from './level';
+import {WinningStatus} from './winning_status';
 
 function tileSimpler(name, i, j) {
   const tileClass = tile[name];
@@ -486,26 +486,11 @@ export class Board {
     this.simulationQ.initialize();
     this.simulationQ.propagateToEnd(true);
 
-    // deterministic classical simulation / quantum many-run probability
-    // for winning conditions
-    this.simulationC = new simulation.Simulation(this.tileMatrix);
-    this.simulationC.initialize();
-    this.simulationC.propagateToEnd(false);
-    this.absorptionProbabilities = _(this.simulationC.measurementHistory)
-      .flatten()
-      .groupBy((entry) => `${entry.i} ${entry.j}`)
-      .mapValues((groupedEntry) =>
-        _.sum(groupedEntry, 'probability')
-    )
-      .map((probability, location) => ({
-        probability: probability,
-        i: parseInt(location.split(' ')[0]),
-        j: parseInt(location.split(' ')[1]),
-      }))
-      .value();
+    this.winningStatus = new WinningStatus(this.tileMatrix);
+    this.winningStatus.run();
+    this.winningStatus.compareToObjectives(this.level.requiredDetectionProbability, this.level.detectorsToFeed);
+    window.console.log(this.winningStatus);
 
-    // debugging, mostly the for numerical accuracy
-    window.console.log('absorptionProbabilities', this.absorptionProbabilities);
   }
 
   /**
@@ -513,49 +498,31 @@ export class Board {
    * @returns {Function} footer callback
    */
   generateFooterCallback() {
-    const probsAtDets = this.absorptionProbabilities.filter((entry) =>
-      this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].tileName === 'Detector'
-    );
-
-    const totalProbAtDets = _.sum(probsAtDets, 'probability');
 
     this.titleManager.displayMessage(
       'Experiment in progress...',
       'progress');
 
     const footerCallback = () => {
-      // TODO(pathes): make a separate component for detection % and next level button
-      d3.select('.top-bar__detection__value').html(`${(100 * totalProbAtDets).toFixed(0)}%`);
-      if (totalProbAtDets > this.level.requiredDetectionProbability - EPSILON_DETECTION) {
-        if (probsAtDets.length === this.level.detectorsToFeed) {
-          this.titleManager.displayMessage(
-            'You did it!',
-            'success');
+      d3.select('.top-bar__detection__value').html(`${(100 * this.winningStatus.totalProbAtDets).toFixed(0)}%`);
+
+      this.titleManager.displayMessage(
+        this.winningStatus.message,
+        this.winningStatus.isWon ? 'success' : 'failure'
+      );
+
+      if (this.winningStatus.isWon) {
+        d3.select('.top-bar__detection').classed('top-bar__detection--success', true);
+        if (this.level.kind === 'level') {
           // TODO(pathes): make a separate component for detection % and next level button
-          d3.select('.top-bar__detection').classed('top-bar__detection--success', true);
-          // Is there a next level?
-          if (this.level.kind === 'level') {
-            // TODO(pathes): make a separate component for detection % and next level button
-            d3.select('.top-bar__detection__caption').html('next level »');
-            d3.select('.top-bar__detection').on('click', () => {
-              this.level = new Level(this.level.next);
-              this.reset();
-            });
-          }
-        } else {
-          this.titleManager.displayMessage(
-            `${this.level.detectorsToFeed - probsAtDets.length} detector feels sad and forgotten. Be fair! Give some chance to every detector!`,
-            'failure');
+          d3.select('.top-bar__detection__caption').html('next level »');
+          d3.select('.top-bar__detection').on('click', () => {
+            this.level = new Level(this.level.next);
+            this.reset();
+          });
         }
-      } else if (totalProbAtDets > EPSILON_DETECTION) {
-        this.titleManager.displayMessage(
-          `Only ${(100 * totalProbAtDets).toFixed(0)}% (out of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`,
-          'failure');
-      } else {
-        this.titleManager.displayMessage(
-          'No chance to detect a photon at a detector.',
-          'failure');
       }
+
       this.particleAnimation = null;
     };
 
@@ -572,7 +539,7 @@ export class Board {
         this,
         this.simulationQ.history,
         this.simulationQ.measurementHistory,
-        this.absorptionProbabilities,
+        this.winningStatus.absorptionProbabilities,
         this.generateFooterCallback());
       this.particleAnimation.initialize();
     }
