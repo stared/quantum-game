@@ -1,14 +1,13 @@
 import _ from 'lodash';
 
 import {nonVacuumTiles} from './tile';
-import {DEV_MODE} from './config';
 
 import levelsGame from '../data/levels_game.json!';
 import levelsOther from '../data/levels_other.json!';
 
 
 export class Level {
-  constructor(levelRecipe) {
+  constructor(levelRecipe, mode = 'game') {
     this.next = levelRecipe.next;
     this.name = levelRecipe.name;
     this.group = levelRecipe.group;
@@ -21,13 +20,13 @@ export class Level {
     if (levelRecipe.stock == null && _.filter(levelRecipe.tiles, 'frozen').length === 0) {
       levelRecipe.stock = 'all';
     }
-    if (typeof levelRecipe.stock === 'object') {
-      this.initialStock = levelRecipe.stock;
-    } else if (levelRecipe.stock === 'all' || DEV_MODE) {
+    if (typeof levelRecipe.stock === 'object' || mode === 'as_it_is') {
+      this.initialStock = levelRecipe.stock || {};
+    } else if (levelRecipe.stock === 'all' || mode === 'dev') {
       nonVacuumTiles.forEach((tile) => {
         this.initialStock[tile] = (tile === 'Source' ? 1 : 99);
       });
-    } else if (levelRecipe.stock === 'non-frozen' || !DEV_MODE) {
+    } else if (levelRecipe.stock === 'non-frozen' || mode === 'game') {
       this.tileRecipes = _.filter(levelRecipe.tiles, 'frozen');
       this.initialStock = _(levelRecipe.tiles)
         .filter((tile) => !tile.frozen)
