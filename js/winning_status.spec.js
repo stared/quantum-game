@@ -40,7 +40,7 @@ describe('All game levels have solutions', () => {
       winningStatus.compareToObjectives(level.requiredDetectionProbability, level.detectorsToFeed);
 
       it(`${level.i} ${level.name} (${level.detectorsToFeed} detectors at ${(100 * level.requiredDetectionProbability).toFixed(1)}%)`, () => {
-        expect(winningStatus.isWon).toEqual(true);
+        expect(winningStatus.isWon).toBe(true);
       });
 
     });
