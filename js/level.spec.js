@@ -42,7 +42,7 @@ describe('Game levels: source, detector, mines - present, fixed', () => {
       const tileCount = _.countBy(levelRecipe.tiles, 'name');
 
       expect(tileCount['Source']).toBe(1);
-      expect(tileCount['Detector']).toBeGreaterThan(0);
+      expect((tileCount['Detector'] || 0) + (tileCount['Mine'] || 0)).toBeGreaterThan(0);
 
       const nonfrozenCount = _(levelRecipe.tiles)
         .filter((tile) => !tile.frozen)

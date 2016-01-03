@@ -53,45 +53,6 @@
     ]
   },
   {
-    "name": "Attenuate the beam",
-    "group": "X Game candidate",
-    "width": 13,
-    "height": 10,
-    "tiles": [
-      {"i": 1, "j": 3, "name": "Source", "rotation": 0, "frozen": true},
-      {"i": 2, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 3, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 4, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 5, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 6, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 7, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 8, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 9, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 10, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 11, "j": 3, "name": "Mine", "rotation": 0, "frozen": true}
-    ]
-  },
-  {
-    "name": "Match intensities",
-    "group": "X Game candidate",
-    "width": 13,
-    "height": 10,
-    "tiles": [
-      {"i": 5, "j": 5, "name": "Detector", "rotation": 2, "frozen": true},
-      {"i": 5, "j": 7, "name": "Detector", "rotation": 2, "frozen": true},
-      {"i": 9, "j": 3, "name": "ThinMirror", "rotation": 1, "frozen": true},
-      {"i": 9, "j": 5, "name": "ThinSplitter", "rotation": 1, "frozen": true},
-      {"i": 9, "j": 7, "name": "ThinSplitter", "rotation": 1, "frozen": true},
-      {"i": 9, "j": 9, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 11, "j": 1, "name": "Source", "rotation": 3, "frozen": true},
-      {"i": 11, "j": 3, "name": "ThinSplitter", "rotation": 1, "frozen": true},
-      {"i": 11, "j": 4, "name": "Glass", "rotation": 0, "frozen": true},
-      {"i": 11, "j": 5, "name": "Absorber", "rotation": 0, "frozen": false},
-      {"i": 11, "j": 6, "name": "Glass", "rotation": 0, "frozen": true},
-      {"i": 11, "j": 7, "name": "ThinMirror", "rotation": 1, "frozen": true}
-    ]
-  },
-  {
     "name": "Mirrors and polarization - not sure",
     "group": "X Test",
     "texts": {"before": "Try moving sugar solution - it will cancel (not sure if its OK)"},

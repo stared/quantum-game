@@ -33,7 +33,7 @@ export class Level {
         .countBy('name')
         .value();
     }
-    this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability || 1;
+    this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability === undefined ? 1 : levelRecipe.requiredDetectionProbability;
     this.detectorsToFeed = levelRecipe.detectorsToFeed || _.filter(levelRecipe.tiles, (tile) => tile.frozen && tile.name === 'Detector').length;
 
     if (levelRecipe.stock === 'all') {
