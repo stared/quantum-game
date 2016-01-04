@@ -517,8 +517,7 @@ export class Board {
           // TODO(pathes): make a separate component for detection % and next level button
           d3.select('.top-bar__detection__caption').html('next level »');
           d3.select('.top-bar__detection').on('click', () => {
-            this.level = new Level(this.level.next);
-            this.reset();
+            this.loadLevel(this.level.next);
           });
         }
       }
@@ -601,6 +600,11 @@ export class Board {
     const levelJSON = stringify(this.exportBoard(), {maxLength: 100, indent: 2});
     link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`;
     window.console.log(levelJSON);
+  }
+
+  loadLevel(levelRecipe, checkStorage = false) {
+    this.level = new Level(levelRecipe);
+    this.reset();
   }
 
 }

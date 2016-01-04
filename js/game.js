@@ -59,8 +59,7 @@ export class Game {
         .attr('class', 'level-item')
         .text((d) => `[${d.group}] ${d.i}. ${d.name}`)
         .on('click', (d) => {
-          this.gameBoard.level = new level.Level(d);
-          this.gameBoard.reset();
+          this.gameBoard.loadLevel(d);
           levelSelectorShadow.remove();
           levelSelector.remove();
         });
