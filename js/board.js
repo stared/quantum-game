@@ -18,7 +18,7 @@ function tileSimpler(name, i, j) {
 }
 
 export class Board {
-  constructor(level, svg, helper, titleManager) {
+  constructor(level, svg, helper, titleManager, storage) {
     this.level = level;
     this.svg = svg;
     this.tileMatrix = [];
@@ -27,6 +27,7 @@ export class Board {
     }
     this.helper = helper;
     this.titleManager = titleManager;
+    this.storage = storage;
     this.animationStepDuration = animationStepDuration;
   }
 
@@ -593,6 +594,10 @@ export class Board {
           rotation: d.rotation,
           frozen: d.frozen,
         })),
+      stock: _(this.stock.stock)
+        .mapValues((val) => val.currentCount)
+        .pick((count) => count > 0)
+        .value()
     };
   }
 
@@ -602,9 +607,29 @@ export class Board {
     window.console.log(levelJSON);
   }
 
-  loadLevel(levelRecipe, checkStorage = false) {
-    this.level = new Level(levelRecipe);
-    this.reset();
-  }
+  loadLevel(levelRecipe, checkStorage = true) {
 
+    let levelToLoad;
+
+    if (!checkStorage) {
+      levelToLoad = levelRecipe;
+    } else {
+      // save progress
+      // TODO use hash of sorted elements so to ensure levels are unique?
+      this.storage.setItem(
+        `${this.level.group} ${this.level.name}`,
+         stringify(this.exportBoard())
+      );
+
+      if (this.storage.hasOwnProperty(`${levelRecipe.group} ${levelRecipe.name}`)) {
+        levelToLoad = JSON.parse(this.storage.getItem(`${levelRecipe.group} ${levelRecipe.name}`));
+      } else {
+        levelToLoad = levelRecipe;
+      }
+    }
+
+    this.level = new Level(levelToLoad);
+    this.reset();
+
+  }
 }

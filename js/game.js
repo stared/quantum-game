@@ -10,6 +10,7 @@ export class Game {
   constructor() {
     this.gameBoard = null;
     this.titleManager = null;
+    this.storage = localStorage;
   }
 
   htmlReady() {
@@ -30,7 +31,8 @@ export class Game {
       demoLevel,
       d3.select('#game svg'),
       d3.select('#helper'),
-      this.titleManager);
+      this.titleManager,
+      this.storage);
     this.gameBoard.reset();
     this.gameBoard.setAnimationControls(
       d3.select('.bottom-bar__animation-controls'));
