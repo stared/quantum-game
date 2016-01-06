@@ -453,7 +453,18 @@ export class Board {
     animationControls.select('.forward')
       .on('click', this.forward.bind(board));
     animationControls.select('.reset')
-      .on('click', this.reset.bind(board));
+      .on('click', () => {
+        // to reset it to scratch, not only - to the last save
+        this.level.initialStock = this.level.initialStock || {};
+        this.level.tileRecipes
+          .filter((tileRecipe) => !tileRecipe.frozen)
+          .forEach((tileRecipe) => {
+            this.level.initialStock[tileRecipe.name] = (this.level.initialStock[tileRecipe.name] || 0) + 1;
+          });
+        this.level.tileRecipes = this.level.tileRecipes
+          .filter((tileRecipe) => tileRecipe.frozen);
+        this.reset();
+      });
     animationControls.select('#download')
       .on('click', function () {
         board.clipBoard(this);
