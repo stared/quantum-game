@@ -515,7 +515,7 @@
       {"i": 7, "j": 4, "name": "ThinMirror", "rotation": 1, "frozen": false},
       {"i": 7, "j": 6, "name": "ThinMirror", "rotation": 3, "frozen": false},
       {"i": 8, "j": 2, "name": "Rock", "rotation": 0, "frozen": true},
-      {"i": 9, "j": 2, "name": "Source", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 3, "name": "Source", "rotation": 3, "frozen": true},
       {"i": 9, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": true},
       {"i": 9, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": false},
       {"i": 11, "j": 4, "name": "ThinMirror", "rotation": 3, "frozen": false},
