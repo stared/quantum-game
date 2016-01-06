@@ -597,7 +597,7 @@ export class Board {
       stock: _(this.stock.stock)
         .mapValues((val) => val.currentCount)
         .pick((count) => count > 0)
-        .value()
+        .value(),
     };
   }
 
@@ -629,6 +629,8 @@ export class Board {
     }
 
     this.level = new Level(levelToLoad);
+    this.level.i = levelRecipe.i;
+    this.level.next = levelRecipe.next;
     this.reset();
 
   }
