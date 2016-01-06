@@ -202,21 +202,20 @@
       </defs>
     </svg>
   </div>
-  <a id="clip-board-a" download="level.json"><button id="clip-board">level JSON</button></a>
 
   <div class="bottom-bar">
       <div class="bottom-bar__animation-controls">
-          <button class="bottom-bar__animation-button interface-button stop">
-              <svg width="16" height="16" viewBox="0 0 16 16">
-                  <rect class="svg-interface-button" width="16" height="16" x="0" y="0"></rect>
-              </svg>
-          </button>
           <button class="bottom-bar__animation-button interface-button play">
               <svg width="20" height="16" viewBox="0 0 20 16">
                   <path class="svg-interface-button" d="M0 0 L10 8 L0 16 Z"></path>
                   <rect class="svg-interface-button" width="4" height="16" x="10" y="0"></rect>
                   <rect class="svg-interface-button" width="4" height="16" x="16" y="0"></rect>
               </svg>
+          </button>
+          <button class="bottom-bar__animation-button interface-button stop">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <rect class="svg-interface-button" width="16" height="16" x="0" y="0"></rect>
+            </svg>
           </button>
           <button class="bottom-bar__animation-button interface-button backward" disabled>
               <svg width="16" height="16" viewBox="0 0 16 16">
@@ -228,6 +227,24 @@
               <svg width="16" height="16" viewBox="0 0 16 16">
                   <path class="svg-interface-button" d="M0 0 L8 8 L0 16 Z"></path>
                   <path class="svg-interface-button" d="M8 0 L16 8 L8 16 Z"></path>
+              </svg>
+          </button>
+          <button class="bottom-bar__animation-button interface-button reset">
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                  <path class="svg-interface-button" d="M0 16 A 6 6 0 0 0 6 12 V 8 H 0 A 8 8 1 1 1 16 8 H 10 V 12 A 6 6 0 0 0 16 16 Z"></path>
+              </svg>
+          </button>
+          <a id="download" download="level.json">
+            <button class="bottom-bar__animation-button interface-button download">
+                <svg width="16" height="16" viewBox="0 0 16 16">
+                    <path class="svg-interface-button" d="M5 0 V 8 H 0 L 8 16 L 16 8 H 11 V 0 Z"></path>
+                </svg>
+            </button>
+          </a>
+          <button id="speed" class="bottom-bar__animation-button interface-button">
+              <svg width="32" height="16" viewBox="0 0 32 16">
+                  <rect class="svg-interface-button" x="15" y="0" width="2" height="16"></rect>
+                  <path class="svg-interface-button" d="M0 8 L32 4 V12 Z"></path>
               </svg>
           </button>
       </div>
