@@ -23,7 +23,7 @@ export class Game {
   }
 
   createGameBoard() {
-    const demoLevel = new level.Level(level.levels[0]);
+    const demoLevel = new level.Level(level.levels[1]);
     this.titleManager = new title_manager.TitleManager(
       d3.select('.top-bar__title'),
       d3.select('.top-bar__subtitle'));
