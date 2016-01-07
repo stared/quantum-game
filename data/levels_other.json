@@ -1,22 +1,5 @@
 [
   {
-    "name": "Sagnac-Michelson-Morley",
-    "group": "X Advanced",
-    "width": 13,
-    "height": 10,
-    "tiles": [
-      {"i": 3, "j": 6, "name": "ThinMirror", "rotation": 2, "frozen": false},
-      {"i": 7, "j": 2, "name": "ThinMirror", "rotation": 1, "frozen": false},
-      {"i": 7, "j": 4, "name": "ThinMirror", "rotation": 3, "frozen": false},
-      {"i": 8, "j": 4, "name": "Glass", "rotation": 0, "frozen": false},
-      {"i": 9, "j": 2, "name": "ThinMirror", "rotation": 3, "frozen": false},
-      {"i": 9, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 9, "j": 6, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 9, "j": 8, "name": "Source", "rotation": 1, "frozen": false},
-      {"i": 11, "j": 6, "name": "Detector", "rotation": 0, "frozen": false}
-    ]
-  },
-  {
     "name": "Sugar vs mirrors",
     "group": "X Examples",
     "width": 13,

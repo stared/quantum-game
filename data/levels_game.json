@@ -402,6 +402,46 @@
     ]
   },
   {
+    "name": "Sagnac-Michelson-Morley",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 3, "j": 6, "name": "ThinMirror", "rotation": 2, "frozen": false},
+      {"i": 7, "j": 2, "name": "ThinMirror", "rotation": 1, "frozen": true},
+      {"i": 7, "j": 4, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 8, "j": 4, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 9, "j": 2, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 9, "j": 6, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 8, "name": "Source", "rotation": 1, "frozen": true},
+      {"i": 11, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
+    ]
+  },
+  {
+    "name": "Odd reflections",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 1, "j": 3, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 2, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 3, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 4, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 4, "j": 7, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 6, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 7, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 7, "j": 4, "name": "Glass", "rotation": 0, "frozen": true},
+      {"i": 7, "j": 5, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 7, "j": 7, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 9, "j": 7, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 11, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 11, "j": 5, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 11, "j": 7, "name": "ThinMirror", "rotation": 1, "frozen": false}
+    ]
+  },
+  {
     "name": "The sign thing",
     "group": "Game",
     "width": 13,
@@ -544,6 +584,42 @@
       {"i": 10, "j": 4, "name": "ThinMirror", "rotation": 2, "frozen": false},
       {"i": 10, "j": 5, "name": "Rock", "rotation": 0, "frozen": true},
       {"i": 10, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
+    ]
+  },
+  {
+    "name": "Sweet Faraday",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 1, "j": 1, "name": "Detector", "rotation": 2, "frozen": true},
+      {"i": 1, "j": 3, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 1, "j": 5, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 1, "j": 7, "name": "ThinMirror", "rotation": 2, "frozen": true},
+      {"i": 2, "j": 3, "name": "FaradayRotator", "rotation": 0, "frozen": false},
+      {"i": 2, "j": 7, "name": "FaradayRotator", "rotation": 0, "frozen": false},
+      {"i": 3, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 4, "j": 1, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 4, "j": 3, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 4, "j": 5, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 4, "j": 7, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 6, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 6, "j": 7, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 7, "j": 1, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 7, "j": 3, "name": "FaradayRotator", "rotation": 2, "frozen": false},
+      {"i": 7, "j": 5, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 7, "j": 7, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 8, "j": 1, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 8, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 8, "j": 7, "name": "FaradayRotator", "rotation": 0, "frozen": false},
+      {"i": 9, "j": 1, "name": "FaradayRotator", "rotation": 2, "frozen": false},
+      {"i": 9, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 5, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 7, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 10, "j": 1, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 10, "j": 7, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 11, "j": 3, "name": "ThinMirror", "rotation": 2, "frozen": true},
+      {"i": 11, "j": 5, "name": "ThinMirror", "rotation": 2, "frozen": true}
     ]
   },
   {
