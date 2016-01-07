@@ -292,7 +292,7 @@ export class Board {
         .on('mouseover', (d) => this.showTileHelper(d));
 
     // freeze/unfreeze traingular button
-    if (this.level.kind === 'dev' || DEV_MODE) {
+    if (this.level.group === 'A Dev' || DEV_MODE) {
       tileSelection
         .append('path')
           .attr('class', 'triangular')
@@ -525,7 +525,7 @@ export class Board {
 
       if (this.winningStatus.isWon) {
         d3.select('.top-bar__detection').classed('top-bar__detection--success', true);
-        if (this.level.kind === 'level') {
+        if (this.level.group === 'Game') {
           // TODO(pathes): make a separate component for detection % and next level button
           d3.select('.top-bar__detection__caption').html('next level »');
           d3.select('.top-bar__detection').on('click', () => {

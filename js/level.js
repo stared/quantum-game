@@ -35,14 +35,6 @@ export class Level {
     }
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability === undefined ? 1 : levelRecipe.requiredDetectionProbability;
     this.detectorsToFeed = levelRecipe.detectorsToFeed || _.filter(levelRecipe.tiles, (tile) => tile.frozen && tile.name === 'Detector').length;
-
-    if (levelRecipe.stock === 'all') {
-      this.kind = 'dev';
-    } else if (levelRecipe.group === 'Game') {
-      this.kind = 'level';
-    } else {
-      this.kind = 'other';
-    }
   }
 }
 
