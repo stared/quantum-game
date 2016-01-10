@@ -132,3 +132,9 @@ path.triangular:hover {
 .measurement-text {
   text-anchor: middle;
 }
+
+text.stock-count {
+  text-anchor: end;
+  font-size: 24px;
+  stroke: #222;
+}

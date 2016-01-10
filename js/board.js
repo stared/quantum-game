@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
-import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax} from './config';
+import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax, margin, stockColumns} from './config';
 import * as config from './config';
 import * as particles from './particles';
 import * as simulation from './simulation';
@@ -29,6 +29,7 @@ export class Board {
     this.titleManager = titleManager;
     this.storage = storage;
     this.animationStepDuration = animationStepDuration;
+    this.stock = new Stock(svg);
   }
 
   reset() {
@@ -48,7 +49,8 @@ export class Board {
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
-    this.drawStock();
+    this.stock.elementCount(this.level);
+    this.stock.drawStock();
   }
 
   clearTileMatrix() {
@@ -91,8 +93,6 @@ export class Board {
   }
 
   resizeSvg() {
-    const margin = 1;
-    const stockColumns = 2;
     const width = this.level.width + 2 * margin + stockColumns;
     const height = this.level.height + 2 * margin;
     // top left width height
@@ -126,36 +126,6 @@ export class Board {
       });
   }
 
-  drawStock() {
-    // Reset stock object
-    this.stock = new Stock(this.level);
-    // Reset element
-    this.svg.select('.stock').remove();
-    this.stockGroup = this.svg
-      .append('g')
-      .attr('class', 'stock');
-    const stockNames = this.stock.usedStockNames();
-    // Add background
-    const maxColumns = Math.ceil(stockNames.length / this.level.height);
-    this.stockGroup
-      .append('rect')
-      .attr('width', maxColumns * tileSize)
-      .attr('height', this.level.height * tileSize)
-      .attr('transform', `translate(${(this.level.width + 1) * tileSize},0)`)
-      .attr('class', 'stock-bg');
-    // Create cells
-    let column = 0;
-    let row = 0;
-    _.forEach(stockNames, (stockName) => {
-      this.addStockCell(stockName, row, column);
-      row++;
-      if (row >= this.level.height) {
-        row = 0;
-        column++;
-      }
-    });
-  }
-
   showTileHelper(d) {
 
     // temporary hover
@@ -170,50 +140,6 @@ export class Board {
     this.helper.select('#element-name').html(d.type.desc.name);
     this.helper.select('#element-summary').html(d.type.desc.summary);
     this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
-  }
-
-  addStockCell(stockName, row, column) {
-    const i = this.level.width + 1 + column;
-    const j = row;
-    const tileObj = tileSimpler(stockName, i, j);
-    // Additional information in tile - store stock data
-    tileObj.stockItem = this.stock.stock[stockName];
-    const tileSelection = this.stockGroup
-      .datum(tileObj)
-      .append('g')
-        .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`);
-    tileObj.g = tileSelection;
-    // DOM element for g
-    tileObj.node = tileSelection[0][0];
-    // Draw tile
-    tileObj.draw();
-    // Draw count
-    const tileCount = tileSelection
-      .append('text')
-        .attr('transform', `translate(${tileSize / 4},${tileSize / 2})`);
-    // Draw hitbox
-    tileSelection
-      .append('use')
-        .attr('xlink:href', '#hitbox')
-        .attr('class', 'hitbox')
-        .on('mouseover', (d) => this.showTileHelper(d));
-    // Bind drag handler
-    this.bindDrag(tileSelection);
-    // Store counter updater in stock
-    tileObj.stockItem.update = () => {
-      tileCount
-        .html((d) => d.stockItem.currentCount);
-      tileSelection
-        .attr('class', (d) => {
-          if (d.stockItem.currentCount > 0) {
-            return 'tile stock--available';
-          } else {
-            return 'tile stock--depleted';
-          }
-        });
-    };
-    // ...and call it immediately.
-    tileObj.stockItem.update();
   }
 
   /**
@@ -605,10 +531,7 @@ export class Board {
           rotation: d.rotation,
           frozen: d.frozen,
         })),
-      stock: _(this.stock.stock)
-        .mapValues((val) => val.currentCount)
-        .pick((count) => count > 0)
-        .value(),
+      stock: this.stock.stock,
     };
   }
 
