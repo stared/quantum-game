@@ -29,7 +29,7 @@ export class Board {
     this.titleManager = titleManager;
     this.storage = storage;
     this.animationStepDuration = animationStepDuration;
-    this.stock = new Stock(svg);
+    this.stock = new Stock(svg, this.bindDrag);
   }
 
   reset() {
@@ -230,7 +230,7 @@ export class Board {
           });
     }
 
-    this.bindDrag(tileSelection);
+    this.bindDrag(tileSelection, this.stock);
 
   }
 
@@ -241,42 +241,61 @@ export class Board {
     this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
-  bindDrag(tileSelection) {
+  bindDrag(tileSelection, stock) {
 
-    function reposition(data, elem, speed = repositionSpeed) {
+    function reposition(data, keep = true, speed = repositionSpeed) {
       delete data.newI;
       delete data.newJ;
-      elem
+      data.g
         .transition()
         .duration(speed)
         .attr(
           'transform',
           `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
         );
+
+      if (!keep) {
+        data.g.transition()
+          .delay(speed)
+          .remove();
+      }
     }
 
     const drag = d3.behavior.drag();
     drag
       .on('dragstart', (source) => {
+
         d3.event.sourceEvent.stopPropagation();
         source.top = false;
+
+        // are these 'this' OK when run from stock?
         if (this.particleAnimation) {
           this.stop();
           this.titleManager.displayMessage(
             'Experiment disturbed! Quantum states are fragile...',
             'failure');
         }
+
+        // Is it from stock?
+        if (source.fromStock) {
+          stock.regenerateTile(d3.select(source.node.parentNode));
+          stock.updateCount(source.tileName, -1);
+          // FIX I think I cannot move it up DOM hierarchy while dragging
+        }
+
       })
       .on('drag', function (source) {
+
+        // Is it impossible to drag item?
+        if (source.frozen) {
+          return;
+        }
+
         // Move element to the top
         if (!source.top) {
           // TODO still there are problems in Safari
           source.node.parentNode.appendChild(source.node);
           source.top = true;
-        }
-        // Is it impossible to drag item?
-        if (source.frozen) {
-          return;
         }
 
         d3.select(this)
@@ -285,77 +304,54 @@ export class Board {
         source.newJ = Math.floor(d3.event.y / tileSize);
       })
       .on('dragend', (source) => {
+
+        window.console.log('${source.newI} ${source.newJ}', `${source.newI} ${source.newJ}`);
+
         // No drag? Return.
         if (source.newI == null || source.newJ == null) {
+          if (source.fromStock) {
+            source.g.remove();
+          }
           return;
         }
 
-        // Find source element
-        const sourceElem = d3.select(source.node);
-        const sourceTileName = source.tileName;
-
         // Drag ended outside of board?
+        // The put in into the stock!
         if (
              source.newI < 0 || source.newI >= this.level.width
           || source.newJ < 0 || source.newJ >= this.level.height
         ) {
-          if (source.stockItem) {
-            // Stock tile case: reposition.
-            reposition(source, sourceElem);
+          stock.updateCount(source.tileName, +1);
+          if (source.fromStock) {
+            reposition(source, false);
           } else {
-            // Board tile case: remove the tile and increase the counter in stock.
-            this.stock.stock[sourceTileName].currentCount++;
-            this.stock.stock[sourceTileName].update();
             this.removeTile(source.i, source.j);
           }
           return;
         }
 
+        // Otherwise...
         // Find target and target element
         const target = this.tileMatrix[source.newI][source.newJ];
-        const targetElem = d3.select(target.node || null);
-        const targetTileName = target.tileName;
 
-        // Is it impossible to swap items? Reposition source and return.
-        if (source.frozen || target.frozen) {
-          reposition(source, sourceElem);
+        //  Dragged on an occupied tile?
+        if (target.tileName !== 'Vacuum') {
+          if (source.fromStock) {
+            reposition(source, false);
+            stock.updateCount(source.tileName, +1);
+          } else {
+            reposition(source, true);
+          }
           return;
         }
 
-        // Is it impossible to create item because stock limit depleted?
-        if (source.stockItem) {
-          if (source.stockItem.currentCount <= 0) {
-            reposition(source, sourceElem);
-            return;
-          }
-        }
+        // Dragging on and empty tile
+        this.tileMatrix[source.i][source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
+        this.tileMatrix[target.i][target.j] = source;
+        source.i = target.i;
+        source.j = target.j;
+        reposition(source, true);
 
-        if (source.stockItem) {
-          // Stock tile case:
-          // Remove the target element
-          if (targetTileName !== 'Vacuum') {
-            this.removeTile(target.i, target.j);
-            this.stock.stock[targetTileName].currentCount++;
-            this.stock.stock[targetTileName].update();
-          }
-          // Create new element in place of the old one
-          this.addTile(tileSimpler(sourceTileName, target.i, target.j));
-          this.stock.stock[sourceTileName].currentCount--;
-          this.stock.stock[sourceTileName].update();
-          // Reposition instantly the stock element
-          reposition(source, sourceElem, 0);
-        } else {
-          // Board tile case:
-          // Swap items in matrix
-          [this.tileMatrix[source.i][source.j], this.tileMatrix[target.i][target.j]] =
-          [this.tileMatrix[target.i][target.j], this.tileMatrix[source.i][source.j]];
-          // Swap items positions
-          [source.i, source.j, target.i, target.j] =
-          [target.i, target.j, source.i, source.j];
-          // Reposition both elements
-          reposition(source, sourceElem);
-          reposition(target, targetElem);
-        }
       });
 
     tileSelection
