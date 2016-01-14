@@ -5,8 +5,9 @@ import * as tile from './tile';
 import {tileSize} from './config';
 
 export class Stock {
-  constructor(svg, bindDrag) {
+  constructor(svg, board, bindDrag) {
     this.svg = svg;
+    this.board = board;
     this.bindDrag = bindDrag;
   }
 
@@ -15,7 +16,6 @@ export class Stock {
     // optionally also non-frozen tiles
     this.usedTileNames = _.keys(this.stock);  // add some ordering to the stock?
     this.level = level;
-    window.console.log('this.usedTileNames', this.usedTileNames);
   }
 
   drawStock() {
@@ -66,7 +66,7 @@ export class Stock {
       .attr('xlink:href', '#hitbox')
       .attr('class', 'hitbox');
 
-    this.bindDrag(this.stockTiles, this);
+    this.bindDrag(this.stockTiles, this.board, this);
 
   }
 
@@ -81,14 +81,13 @@ export class Stock {
         tileObj.node = this;
         tileObj.fromStock = true;
         tileObj.draw();
-        window.console.log('tileObj', tileObj);
       });
 
     newTile.append('use')
       .attr('xlink:href', '#hitbox')
       .attr('class', 'hitbox');
 
-    this.bindDrag(newTile, this);
+    this.bindDrag(newTile, this.board, this);
 
   }
 

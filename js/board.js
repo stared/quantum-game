@@ -29,7 +29,7 @@ export class Board {
     this.titleManager = titleManager;
     this.storage = storage;
     this.animationStepDuration = animationStepDuration;
-    this.stock = new Stock(svg, this.bindDrag);
+    this.stock = new Stock(svg, this, this.bindDrag);
   }
 
   reset() {
@@ -230,7 +230,7 @@ export class Board {
           });
     }
 
-    this.bindDrag(tileSelection, this.stock);
+    this.bindDrag(tileSelection, this, this.stock);
 
   }
 
@@ -241,11 +241,12 @@ export class Board {
     this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
-  bindDrag(tileSelection, stock) {
+  bindDrag(tileSelection, board, stock) {
 
     function reposition(data, keep = true, speed = repositionSpeed) {
       delete data.newI;
       delete data.newJ;
+
       data.g
         .transition()
         .duration(speed)
@@ -268,10 +269,9 @@ export class Board {
         d3.event.sourceEvent.stopPropagation();
         source.top = false;
 
-        // are these 'this' OK when run from stock?
-        if (this.particleAnimation) {
-          this.stop();
-          this.titleManager.displayMessage(
+        if (board.particleAnimation) {
+          board.stop();
+          board.titleManager.displayMessage(
             'Experiment disturbed! Quantum states are fragile...',
             'failure');
         }
@@ -302,6 +302,9 @@ export class Board {
           .attr('transform', `translate(${d3.event.x},${d3.event.y})`);
         source.newI = Math.floor(d3.event.x / tileSize);
         source.newJ = Math.floor(d3.event.y / tileSize);
+        if (source.fromStock) {
+          source.newI += board.level.width + 1;
+        }
       })
       .on('dragend', (source) => {
 
@@ -318,21 +321,21 @@ export class Board {
         // Drag ended outside of board?
         // The put in into the stock!
         if (
-             source.newI < 0 || source.newI >= this.level.width
-          || source.newJ < 0 || source.newJ >= this.level.height
+             source.newI < 0 || source.newI >= board.level.width
+          || source.newJ < 0 || source.newJ >= board.level.height
         ) {
           stock.updateCount(source.tileName, +1);
           if (source.fromStock) {
             reposition(source, false);
           } else {
-            this.removeTile(source.i, source.j);
+            board.removeTile(source.i, source.j);
           }
           return;
         }
 
         // Otherwise...
         // Find target and target element
-        const target = this.tileMatrix[source.newI][source.newJ];
+        const target = board.tileMatrix[source.newI][source.newJ];
 
         //  Dragged on an occupied tile?
         if (target.tileName !== 'Vacuum') {
@@ -346,10 +349,14 @@ export class Board {
         }
 
         // Dragging on and empty tile
-        this.tileMatrix[source.i][source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
-        this.tileMatrix[target.i][target.j] = source;
+        board.tileMatrix[source.i][source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
+        board.tileMatrix[target.i][target.j] = source;
         source.i = target.i;
         source.j = target.j;
+        if (source.fromStock) {
+          source.fromStock = false;
+          board.boardGroup.node().appendChild(source.node);
+        }
         reposition(source, true);
 
       });
