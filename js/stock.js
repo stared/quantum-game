@@ -3,12 +3,12 @@ import d3 from 'd3';
 
 import * as tile from './tile';
 import {tileSize} from './config';
+import {bindDrag} from './drag_and_drop';
 
 export class Stock {
   constructor(svg, board, bindDrag) {
     this.svg = svg;
     this.board = board;
-    this.bindDrag = bindDrag;
   }
 
   elementCount(level) {
@@ -71,7 +71,7 @@ export class Stock {
       .attr('xlink:href', '#hitbox')
       .attr('class', 'hitbox');
 
-    this.bindDrag(this.stockTiles, this.board, this);
+    bindDrag(this.stockTiles, this.board, this);
 
   }
 
@@ -92,7 +92,7 @@ export class Stock {
       .attr('xlink:href', '#hitbox')
       .attr('class', 'hitbox');
 
-    this.bindDrag(newTile, this.board, this);
+    bindDrag(newTile, this.board, this);
 
   }
 
