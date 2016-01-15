@@ -49,7 +49,8 @@ export class Stock {
 
     const stockSlotsEntered = this.stockSlots.enter()
       .append('g')
-        .attr('class', 'stock-slot');
+        .attr('class', 'stock-slot')
+        .classed('stock-empty', (d) => this.stock[d.name] <= 0);
 
     stockSlotsEntered.append('text')
       .attr('class', 'stock-count')
