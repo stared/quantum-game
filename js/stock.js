@@ -24,36 +24,42 @@ export class Stock {
     this.svg.select('.stock').remove();
     this.stockGroup = this.svg
       .append('g')
-        .attr('class', 'stock')
-        .attr('transform', `translate(${(this.level.width + 1) * tileSize},0)`);
+        .attr('class', 'stock');
 
     // Create background
     const maxRows = this.level.height;
     const maxColumns = Math.ceil(this.usedTileNames.length / maxRows);
+    const iShift = this.level.width + 1;
 
     this.stockGroup.append('rect')
       .attr('width', maxColumns * tileSize)
       .attr('height', maxRows * tileSize)
+      .attr('x', iShift * tileSize)
       .attr('class', 'stock-bg');
+
+    const dataForStockDrawing = _.map(this.usedTileNames, (name, i) => ({
+        name: name,
+        i: Math.floor(i / maxRows) + iShift,
+        j: i % maxRows,
+    }));
 
     this.stockSlots = this.stockGroup
       .selectAll('.stock-slot')
-      .data(this.usedTileNames);
+      .data(dataForStockDrawing);
 
     const stockSlotsEntered = this.stockSlots.enter()
       .append('g')
-        .attr('class', 'stock-slot')
-        .attr('transform', (d, i) => `translate(${Math.floor(i / maxRows) * tileSize},${(i % maxRows) * tileSize})`);
+        .attr('class', 'stock-slot');
 
     stockSlotsEntered.append('text')
       .attr('class', 'stock-count')
-      .attr('transform', `translate(${0.9 * tileSize},${1.0 * tileSize})`)
-      .text((d) => `x ${this.stock[d]}`);
+      .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 1.0) * tileSize})`)
+      .text((d) => `x ${this.stock[d.name]}`);
 
     this.stockTiles = stockSlotsEntered.append('g')
-      .datum((d) => new tile.Tile(tile[d], 0, false))
+      .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
       .attr('class', 'tile')
-      .attr('transform', `translate(${tileSize / 2},${tileSize / 2})`)
+      .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
       .each(function (tileObj) {
         tileObj.g = d3.select(this);
         tileObj.node = this;
@@ -73,9 +79,9 @@ export class Stock {
   regenerateTile(stockSlotG) {
 
     const newTile = stockSlotG.append('g')
-      .datum((d) => new tile.Tile(tile[d], 0, false))
+      .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
       .attr('class', 'tile')
-      .attr('transform', `translate(${tileSize / 2},${tileSize / 2})`)
+      .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
       .each(function (tileObj) {
         tileObj.g = d3.select(this);
         tileObj.node = this;
@@ -98,9 +104,9 @@ export class Stock {
     this.stock[tileName] += change;
 
     this.stockSlots
-      .style('opacity', (d) => this.stock[d] > 0 ? null : 0.5);
+      .style('opacity', (d) => this.stock[d.name] > 0 ? null : 0.5);
     this.stockSlots.select('text')
-      .text((d) => `x ${this.stock[d]}`);
+      .text((d) => `x ${this.stock[d.name]}`);
   }
 
 }

@@ -253,13 +253,13 @@ export class Board {
         .attr(
           'transform',
           `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
-        );
-
-      if (!keep) {
-        data.g.transition()
-          .delay(speed)
-          .remove();
-      }
+        )
+        .delay(speed)
+        .each((d) => {
+          if (!keep) {
+            d.g.remove();
+          }
+        });
     }
 
     const drag = d3.behavior.drag();
@@ -278,9 +278,13 @@ export class Board {
 
         // Is it from stock?
         if (source.fromStock) {
+          window.console.log('stock.stock[source.tileName]', stock.stock[source.tileName]);
+          if (stock.stock[source.tileName] === 0) {
+            source.dontDrag = true;
+            return;
+          }
           stock.regenerateTile(d3.select(source.node.parentNode));
           stock.updateCount(source.tileName, -1);
-          // FIX I think I cannot move it up DOM hierarchy while dragging
         }
 
       })
@@ -288,6 +292,10 @@ export class Board {
 
         // Is it impossible to drag item?
         if (source.frozen) {
+          return;
+        }
+
+        if (source.dontDrag) {
           return;
         }
 
@@ -302,13 +310,13 @@ export class Board {
           .attr('transform', `translate(${d3.event.x},${d3.event.y})`);
         source.newI = Math.floor(d3.event.x / tileSize);
         source.newJ = Math.floor(d3.event.y / tileSize);
-        if (source.fromStock) {
-          source.newI += board.level.width + 1;
-        }
       })
       .on('dragend', (source) => {
 
-        window.console.log('${source.newI} ${source.newJ}', `${source.newI} ${source.newJ}`);
+        if (source.dontDrag) {
+          delete source.dontDrag;
+          return;
+        }
 
         // No drag? Return.
         if (source.newI == null || source.newJ == null) {
@@ -349,7 +357,9 @@ export class Board {
         }
 
         // Dragging on and empty tile
-        board.tileMatrix[source.i][source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
+        if (!source.fromStock) {
+          board.tileMatrix[source.i][source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
+        }
         board.tileMatrix[target.i][target.j] = source;
         source.i = target.i;
         source.j = target.j;
