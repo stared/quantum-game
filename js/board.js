@@ -188,34 +188,48 @@ export class Board {
     tileSelection
       .append('use')
         .attr('xlink:href', '#hitbox')
-        .attr('class', 'hitbox')
-        .on('click', (d) => {
+        .attr('class', 'hitbox');
 
-          // Avoid rotation when dragged
-          if (d3.event.defaultPrevented) {
-            return;
-          }
+    this.clickBehavior(tileSelection, this);
+    this.bindDrag(tileSelection, this, this.stock);
 
-          // Avoid rotation when frozen
-          if (d.frozen) {
-            if (d.tileName === 'Source') {
-              this.play();
-            }
-            return;
-          }
+  }
 
-          if (this.particleAnimation) {
-            this.stop();
-            this.titleManager.displayMessage(
-              'Experiment disturbed! Quantum states are fragile...',
-              'failure');
-          }
+  removeTile(i, j) {
+    if (this.tileMatrix[i][j].node) {
+      this.tileMatrix[i][j].node.remove();
+    }
+    this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
+  }
 
-          d.rotate();
-          this.showTileHelper(d);
+  clickBehavior(tileSelection, board) {
+    tileSelection.select('.hitbox').on('click', (d) => {
 
-        })
-        .on('mouseover', (d) => this.showTileHelper(d));
+      // Avoid rotation when dragged
+      if (d3.event.defaultPrevented) {
+        return;
+      }
+
+      // Avoid rotation when frozen
+      if (d.frozen) {
+        if (d.tileName === 'Source') {
+          board.play();
+        }
+        return;
+      }
+
+      if (board.particleAnimation) {
+        board.stop();
+        board.titleManager.displayMessage(
+          'Experiment disturbed! Quantum states are fragile...',
+          'failure');
+      }
+
+      d.rotate();
+      board.showTileHelper(d);
+
+    })
+    .on('mouseover', (d) => this.showTileHelper(d));
 
     // freeze/unfreeze traingular button
     if (this.level.group === 'A Dev' || DEV_MODE) {
@@ -229,16 +243,6 @@ export class Board {
             frost.attr('class', (d2) => d2.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
           });
     }
-
-    this.bindDrag(tileSelection, this, this.stock);
-
-  }
-
-  removeTile(i, j) {
-    if (this.tileMatrix[i][j].node) {
-      this.tileMatrix[i][j].node.remove();
-    }
-    this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
   bindDrag(tileSelection, board, stock) {
@@ -366,6 +370,7 @@ export class Board {
         if (source.fromStock) {
           source.fromStock = false;
           board.boardGroup.node().appendChild(source.node);
+          board.clickBehavior(source.g, board);
         }
         reposition(source, true);
 
