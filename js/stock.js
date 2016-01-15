@@ -65,7 +65,6 @@ export class Stock {
         tileObj.node = this;
         tileObj.fromStock = true;
         tileObj.draw();
-        window.console.log('tileObj', tileObj);
       });
 
     this.stockTiles.append('use')
@@ -97,14 +96,13 @@ export class Stock {
 
   }
 
-
   updateCount(tileName, change) {
-    _.has(this.stock, tileName)
 
     this.stock[tileName] += change;
 
     this.stockSlots
-      .style('opacity', (d) => this.stock[d.name] > 0 ? null : 0.5);
+      .classed('stock-empty', (d) => this.stock[d.name] <= 0);
+
     this.stockSlots.select('text')
       .text((d) => `x ${this.stock[d.name]}`);
   }

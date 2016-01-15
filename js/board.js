@@ -109,7 +109,7 @@ export class Board {
     this.svg
       .append('g')
       .attr('class', 'background')
-      .selectAll('.tile')
+      .selectAll('.background-tile')
       .data(_.chain(this.tileMatrix)  // NOTE I cannot just clone due to d.x and d.y getters
         .flatten()
         .map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j))
@@ -118,7 +118,7 @@ export class Board {
       .enter()
       .append('rect')
       .attr({
-        'class': 'tile',
+        'class': 'background-tile',
         x: (d) => d.x,
         y: (d) => d.y,
         width: tileSize,
@@ -282,13 +282,13 @@ export class Board {
 
         // Is it from stock?
         if (source.fromStock) {
-          window.console.log('stock.stock[source.tileName]', stock.stock[source.tileName]);
           if (stock.stock[source.tileName] === 0) {
             source.dontDrag = true;
             return;
           }
           stock.regenerateTile(d3.select(source.node.parentNode));
           stock.updateCount(source.tileName, -1);
+          source.g.classed('stock-dragged', true);
         }
 
       })
