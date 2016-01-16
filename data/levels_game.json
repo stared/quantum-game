@@ -663,5 +663,32 @@
       {"i": 10, "j": 7, "name": "Mine", "rotation": 0, "frozen": true},
       {"i": 10, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
     ]
+  },
+  {
+    "name": "A bit of a lot",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "requiredDetectionProbability": 0.75,
+    "tiles": [
+      {"i": 2, "j": 3, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 4, "j": 3, "name": "PolarizerWE", "rotation": 1, "frozen": true},
+      {"i": 4, "j": 7, "name": "Detector", "rotation": 2, "frozen": true},
+      {"i": 5, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 5, "name": "ThinMirror", "rotation": 3, "frozen": false},
+      {"i": 5, "j": 8, "name": "Rock", "rotation": 0, "frozen": true},
+      {"i": 6, "j": 5, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 6, "j": 6, "name": "FaradayRotator", "rotation": 3, "frozen": false},
+      {"i": 6, "j": 7, "name": "PolarizingSplitter", "rotation": 0, "frozen": false},
+      {"i": 6, "j": 8, "name": "Mine", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
+      {"i": 7, "j": 5, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 8, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": false},
+      {"i": 8, "j": 4, "name": "VacuumJar", "rotation": 0, "frozen": false},
+      {"i": 8, "j": 5, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 8, "j": 8, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 10, "j": 5, "name": "Mine", "rotation": 0, "frozen": true}
+    ]
   }
 ]
