@@ -410,7 +410,7 @@
       {"i": 3, "j": 6, "name": "ThinMirror", "rotation": 2, "frozen": false},
       {"i": 7, "j": 2, "name": "ThinMirror", "rotation": 1, "frozen": true},
       {"i": 7, "j": 4, "name": "ThinMirror", "rotation": 3, "frozen": true},
-      {"i": 8, "j": 4, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 8, "j": 4, "name": "VacuumJar", "rotation": 0, "frozen": false},
       {"i": 9, "j": 2, "name": "ThinMirror", "rotation": 3, "frozen": true},
       {"i": 9, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
       {"i": 9, "j": 6, "name": "ThinSplitter", "rotation": 3, "frozen": true},
