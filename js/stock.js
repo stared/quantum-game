@@ -13,7 +13,14 @@ export class Stock {
 
   elementCount(level) {
     this.stock = level.initialStock;
-    // optionally also non-frozen tiles
+
+    // initialize 0-count stock for non-frozen tiles on board
+    level.tileRecipes.forEach((tileRecipe) => {
+      if (!tileRecipe.frozen && !_.has(this.stock, tileRecipe.name)) {
+        this.stock[tileRecipe.name] = 0;
+      }
+    });
+
     this.usedTileNames = _.keys(this.stock);  // add some ordering to the stock?
     this.level = level;
   }
