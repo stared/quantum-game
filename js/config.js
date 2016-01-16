@@ -26,3 +26,7 @@ export const resizeThrottle = 100;
 export const absorptionDuration = 2000;
 // Absorption test duration (ms)
 export const absorptionTextDuration = 4000;
+// Maximal number of stock columns (for interface size)
+export const stockColumns = 2;
+// Margin around the board (in hte number of tiles)
+export const margin = 1;

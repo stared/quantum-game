@@ -1,57 +1,118 @@
 import _ from 'lodash';
+import d3 from 'd3';
 
 import * as tile from './tile';
+import {tileSize} from './config';
+import {bindDrag} from './drag_and_drop';
 
 export class Stock {
-  constructor(level) {
-    this.stock = {};
-    this.initialCount(level);
-    this.maxCount(level);
+  constructor(svg, board, bindDrag) {
+    this.svg = svg;
+    this.board = board;
   }
 
-  // Calculate how many and which tiles there are in the beginning in the stock.
-  initialCount(level) {
-    // Initialize empty stock - map from all non-vacuum tiles to their count: 0
-    _.forEach(tile.nonVacuumTiles, (tileName) => {
-      this.stock[tileName] = {
-        currentCount: 0,
-      };
-    });
-    // Go through the level's initial stock
-    if (level.initialStock) {
-      _.forEach(level.initialStock, (tileCount, tileName) => {
-        this.stock[tileName].currentCount = tileCount;
-      });
-    }
-  }
+  elementCount(level) {
+    this.stock = level.initialStock;
 
-  // Calculate how much tiles there can possibly be in the stock.
-  maxCount(level) {
-    // Copy stock information to maxStock
-    _.forEach(tile.nonVacuumTiles, (tileName) => {
-      this.stock[tileName].maxCount =
-        this.stock[tileName].currentCount;
-    });
-    // Go through the level's initial tiles
-    if (level.tileRecipes) {
-      _.forEach(level.tileRecipes, (tileDef) => {
-        if (!tileDef.frozen) {
-          this.stock[tileDef.name].maxCount++;
-        }
-      });
-    }
-  }
-
-  // Return actually useful stock cells, e.g. filter out those that
-  // have no chance of being used.
-  // Use the ordering of stock items as in tile.nonVacuumTiles.
-  usedStockNames() {
-    const usedStockNames = [];
-    _.forEach(tile.nonVacuumTiles, (tileName) => {
-      if (this.stock[tileName].maxCount > 0) {
-        usedStockNames.push(tileName);
+    // initialize 0-count stock for non-frozen tiles on board
+    level.tileRecipes.forEach((tileRecipe) => {
+      if (!tileRecipe.frozen && !_.has(this.stock, tileRecipe.name)) {
+        this.stock[tileRecipe.name] = 0;
       }
     });
-    return usedStockNames;
+
+    this.usedTileNames = _.keys(this.stock);  // add some ordering to the stock?
+    this.level = level;
   }
+
+  drawStock() {
+
+    // Reset element
+    this.svg.select('.stock').remove();
+    this.stockGroup = this.svg
+      .append('g')
+        .attr('class', 'stock');
+
+    // Create background
+    const maxRows = this.level.height;
+    const maxColumns = Math.ceil(this.usedTileNames.length / maxRows);
+    const iShift = this.level.width + 1;
+
+    this.stockGroup.append('rect')
+      .attr('width', maxColumns * tileSize)
+      .attr('height', maxRows * tileSize)
+      .attr('x', iShift * tileSize)
+      .attr('class', 'stock-bg');
+
+    const dataForStockDrawing = _.map(this.usedTileNames, (name, i) => ({
+        name: name,
+        i: Math.floor(i / maxRows) + iShift,
+        j: i % maxRows,
+    }));
+
+    this.stockSlots = this.stockGroup
+      .selectAll('.stock-slot')
+      .data(dataForStockDrawing);
+
+    const stockSlotsEntered = this.stockSlots.enter()
+      .append('g')
+        .attr('class', 'stock-slot')
+        .classed('stock-empty', (d) => this.stock[d.name] <= 0);
+
+    stockSlotsEntered.append('text')
+      .attr('class', 'stock-count')
+      .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 1.0) * tileSize})`)
+      .text((d) => `x ${this.stock[d.name]}`);
+
+    this.stockTiles = stockSlotsEntered.append('g')
+      .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
+      .attr('class', 'tile')
+      .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
+      .each(function (tileObj) {
+        tileObj.g = d3.select(this);
+        tileObj.node = this;
+        tileObj.fromStock = true;
+        tileObj.draw();
+      });
+
+    this.stockTiles.append('use')
+      .attr('xlink:href', '#hitbox')
+      .attr('class', 'hitbox');
+
+    bindDrag(this.stockTiles, this.board, this);
+
+  }
+
+  regenerateTile(stockSlotG) {
+
+    const newTile = stockSlotG.append('g')
+      .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
+      .attr('class', 'tile')
+      .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
+      .each(function (tileObj) {
+        tileObj.g = d3.select(this);
+        tileObj.node = this;
+        tileObj.fromStock = true;
+        tileObj.draw();
+      });
+
+    newTile.append('use')
+      .attr('xlink:href', '#hitbox')
+      .attr('class', 'hitbox');
+
+    bindDrag(newTile, this.board, this);
+
+  }
+
+  updateCount(tileName, change) {
+
+    this.stock[tileName] += change;
+
+    this.stockSlots
+      .classed('stock-empty', (d) => this.stock[d.name] <= 0);
+
+    this.stockSlots.select('text')
+      .text((d) => `x ${this.stock[d.name]}`);
+  }
+
 }

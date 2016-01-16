@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
-import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax} from './config';
+import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax, margin, stockColumns} from './config';
 import * as config from './config';
 import * as particles from './particles';
 import * as simulation from './simulation';
@@ -11,6 +11,7 @@ import * as tile from './tile';
 import {TransitionHeatmap} from './transition_heatmap';
 import {Level} from './level';
 import {WinningStatus} from './winning_status';
+import {bindDrag} from './drag_and_drop';
 
 function tileSimpler(name, i, j) {
   const tileClass = tile[name];
@@ -29,6 +30,7 @@ export class Board {
     this.titleManager = titleManager;
     this.storage = storage;
     this.animationStepDuration = animationStepDuration;
+    this.stock = new Stock(svg, this);
   }
 
   reset() {
@@ -48,7 +50,8 @@ export class Board {
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
-    this.drawStock();
+    this.stock.elementCount(this.level);
+    this.stock.drawStock();
   }
 
   clearTileMatrix() {
@@ -91,8 +94,6 @@ export class Board {
   }
 
   resizeSvg() {
-    const margin = 1;
-    const stockColumns = 2;
     const width = this.level.width + 2 * margin + stockColumns;
     const height = this.level.height + 2 * margin;
     // top left width height
@@ -109,7 +110,7 @@ export class Board {
     this.svg
       .append('g')
       .attr('class', 'background')
-      .selectAll('.tile')
+      .selectAll('.background-tile')
       .data(_.chain(this.tileMatrix)  // NOTE I cannot just clone due to d.x and d.y getters
         .flatten()
         .map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j))
@@ -118,42 +119,12 @@ export class Board {
       .enter()
       .append('rect')
       .attr({
-        'class': 'tile',
+        'class': 'background-tile',
         x: (d) => d.x,
         y: (d) => d.y,
         width: tileSize,
         height: tileSize,
       });
-  }
-
-  drawStock() {
-    // Reset stock object
-    this.stock = new Stock(this.level);
-    // Reset element
-    this.svg.select('.stock').remove();
-    this.stockGroup = this.svg
-      .append('g')
-      .attr('class', 'stock');
-    const stockNames = this.stock.usedStockNames();
-    // Add background
-    const maxColumns = Math.ceil(stockNames.length / this.level.height);
-    this.stockGroup
-      .append('rect')
-      .attr('width', maxColumns * tileSize)
-      .attr('height', this.level.height * tileSize)
-      .attr('transform', `translate(${(this.level.width + 1) * tileSize},0)`)
-      .attr('class', 'stock-bg');
-    // Create cells
-    let column = 0;
-    let row = 0;
-    _.forEach(stockNames, (stockName) => {
-      this.addStockCell(stockName, row, column);
-      row++;
-      if (row >= this.level.height) {
-        row = 0;
-        column++;
-      }
-    });
   }
 
   showTileHelper(d) {
@@ -170,50 +141,6 @@ export class Board {
     this.helper.select('#element-name').html(d.type.desc.name);
     this.helper.select('#element-summary').html(d.type.desc.summary);
     this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
-  }
-
-  addStockCell(stockName, row, column) {
-    const i = this.level.width + 1 + column;
-    const j = row;
-    const tileObj = tileSimpler(stockName, i, j);
-    // Additional information in tile - store stock data
-    tileObj.stockItem = this.stock.stock[stockName];
-    const tileSelection = this.stockGroup
-      .datum(tileObj)
-      .append('g')
-        .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`);
-    tileObj.g = tileSelection;
-    // DOM element for g
-    tileObj.node = tileSelection[0][0];
-    // Draw tile
-    tileObj.draw();
-    // Draw count
-    const tileCount = tileSelection
-      .append('text')
-        .attr('transform', `translate(${tileSize / 4},${tileSize / 2})`);
-    // Draw hitbox
-    tileSelection
-      .append('use')
-        .attr('xlink:href', '#hitbox')
-        .attr('class', 'hitbox')
-        .on('mouseover', (d) => this.showTileHelper(d));
-    // Bind drag handler
-    this.bindDrag(tileSelection);
-    // Store counter updater in stock
-    tileObj.stockItem.update = () => {
-      tileCount
-        .html((d) => d.stockItem.currentCount);
-      tileSelection
-        .attr('class', (d) => {
-          if (d.stockItem.currentCount > 0) {
-            return 'tile stock--available';
-          } else {
-            return 'tile stock--depleted';
-          }
-        });
-    };
-    // ...and call it immediately.
-    tileObj.stockItem.update();
   }
 
   /**
@@ -262,34 +189,48 @@ export class Board {
     tileSelection
       .append('use')
         .attr('xlink:href', '#hitbox')
-        .attr('class', 'hitbox')
-        .on('click', (d) => {
+        .attr('class', 'hitbox');
 
-          // Avoid rotation when dragged
-          if (d3.event.defaultPrevented) {
-            return;
-          }
+    this.clickBehavior(tileSelection, this);
+    bindDrag(tileSelection, this, this.stock);
 
-          // Avoid rotation when frozen
-          if (d.frozen) {
-            if (d.tileName === 'Source') {
-              this.play();
-            }
-            return;
-          }
+  }
 
-          if (this.particleAnimation) {
-            this.stop();
-            this.titleManager.displayMessage(
-              'Experiment disturbed! Quantum states are fragile...',
-              'failure');
-          }
+  removeTile(i, j) {
+    if (this.tileMatrix[i][j].node) {
+      this.tileMatrix[i][j].node.remove();
+    }
+    this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
+  }
 
-          d.rotate();
-          this.showTileHelper(d);
+  clickBehavior(tileSelection, board) {
+    tileSelection.select('.hitbox').on('click', (d) => {
 
-        })
-        .on('mouseover', (d) => this.showTileHelper(d));
+      // Avoid rotation when dragged
+      if (d3.event.defaultPrevented) {
+        return;
+      }
+
+      // Avoid rotation when frozen
+      if (d.frozen) {
+        if (d.tileName === 'Source') {
+          board.play();
+        }
+        return;
+      }
+
+      if (board.particleAnimation) {
+        board.stop();
+        board.titleManager.displayMessage(
+          'Experiment disturbed! Quantum states are fragile...',
+          'failure');
+      }
+
+      d.rotate();
+      board.showTileHelper(d);
+
+    })
+    .on('mouseover', (d) => this.showTileHelper(d));
 
     // freeze/unfreeze traingular button
     if (this.level.group === 'A Dev' || DEV_MODE) {
@@ -303,137 +244,6 @@ export class Board {
             frost.attr('class', (d2) => d2.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
           });
     }
-
-    this.bindDrag(tileSelection);
-
-  }
-
-  removeTile(i, j) {
-    if (this.tileMatrix[i][j].node) {
-      this.tileMatrix[i][j].node.remove();
-    }
-    this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
-  }
-
-  bindDrag(tileSelection) {
-
-    function reposition(data, elem, speed = repositionSpeed) {
-      delete data.newI;
-      delete data.newJ;
-      elem
-        .transition()
-        .duration(speed)
-        .attr(
-          'transform',
-          `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
-        );
-    }
-
-    const drag = d3.behavior.drag();
-    drag
-      .on('dragstart', (source) => {
-        d3.event.sourceEvent.stopPropagation();
-        source.top = false;
-        if (this.particleAnimation) {
-          this.stop();
-          this.titleManager.displayMessage(
-            'Experiment disturbed! Quantum states are fragile...',
-            'failure');
-        }
-      })
-      .on('drag', function (source) {
-        // Move element to the top
-        if (!source.top) {
-          // TODO still there are problems in Safari
-          source.node.parentNode.appendChild(source.node);
-          source.top = true;
-        }
-        // Is it impossible to drag item?
-        if (source.frozen) {
-          return;
-        }
-
-        d3.select(this)
-          .attr('transform', `translate(${d3.event.x},${d3.event.y})`);
-        source.newI = Math.floor(d3.event.x / tileSize);
-        source.newJ = Math.floor(d3.event.y / tileSize);
-      })
-      .on('dragend', (source) => {
-        // No drag? Return.
-        if (source.newI == null || source.newJ == null) {
-          return;
-        }
-
-        // Find source element
-        const sourceElem = d3.select(source.node);
-        const sourceTileName = source.tileName;
-
-        // Drag ended outside of board?
-        if (
-             source.newI < 0 || source.newI >= this.level.width
-          || source.newJ < 0 || source.newJ >= this.level.height
-        ) {
-          if (source.stockItem) {
-            // Stock tile case: reposition.
-            reposition(source, sourceElem);
-          } else {
-            // Board tile case: remove the tile and increase the counter in stock.
-            this.stock.stock[sourceTileName].currentCount++;
-            this.stock.stock[sourceTileName].update();
-            this.removeTile(source.i, source.j);
-          }
-          return;
-        }
-
-        // Find target and target element
-        const target = this.tileMatrix[source.newI][source.newJ];
-        const targetElem = d3.select(target.node || null);
-        const targetTileName = target.tileName;
-
-        // Is it impossible to swap items? Reposition source and return.
-        if (source.frozen || target.frozen) {
-          reposition(source, sourceElem);
-          return;
-        }
-
-        // Is it impossible to create item because stock limit depleted?
-        if (source.stockItem) {
-          if (source.stockItem.currentCount <= 0) {
-            reposition(source, sourceElem);
-            return;
-          }
-        }
-
-        if (source.stockItem) {
-          // Stock tile case:
-          // Remove the target element
-          if (targetTileName !== 'Vacuum') {
-            this.removeTile(target.i, target.j);
-            this.stock.stock[targetTileName].currentCount++;
-            this.stock.stock[targetTileName].update();
-          }
-          // Create new element in place of the old one
-          this.addTile(tileSimpler(sourceTileName, target.i, target.j));
-          this.stock.stock[sourceTileName].currentCount--;
-          this.stock.stock[sourceTileName].update();
-          // Reposition instantly the stock element
-          reposition(source, sourceElem, 0);
-        } else {
-          // Board tile case:
-          // Swap items in matrix
-          [this.tileMatrix[source.i][source.j], this.tileMatrix[target.i][target.j]] =
-          [this.tileMatrix[target.i][target.j], this.tileMatrix[source.i][source.j]];
-          // Swap items positions
-          [source.i, source.j, target.i, target.j] =
-          [target.i, target.j, source.i, source.j];
-          // Reposition both elements
-          reposition(source, sourceElem);
-          reposition(target, targetElem);
-        }
-      });
-
-    tileSelection
-      .call(drag);
   }
 
   /**
@@ -605,10 +415,7 @@ export class Board {
           rotation: d.rotation,
           frozen: d.frozen,
         })),
-      stock: _(this.stock.stock)
-        .mapValues((val) => val.currentCount)
-        .pick((count) => count > 0)
-        .value(),
+      stock: this.stock.stock,
     };
   }
 
