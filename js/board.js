@@ -425,6 +425,7 @@ export class Board {
 
   clipBoard(link) {
     const levelJSON = stringify(this.exportBoard(), {maxLength: 100, indent: 2});
+    link.download = _.kebabCase(`${this.level.name}_${(new Date()).toISOString()}`) + '.json';
     link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`;
     window.console.log(levelJSON);
   }
