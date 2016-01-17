@@ -416,7 +416,10 @@ export class Board {
           rotation: d.rotation,
           frozen: d.frozen,
         })),
-      stock: this.stock.stock,
+      stock:                        this.stock.stock,
+      requiredDetectionProbability: this.level.requiredDetectionProbability,
+      detectorsToFeed:              this.level.detectorsToFeed,
+      texts:                        this.level.texts,
     };
   }
 
