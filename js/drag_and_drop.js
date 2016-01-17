@@ -127,6 +127,12 @@ export const bindDrag = (tileSelection, board, stock) => {
         source.fromStock = false;
         board.boardGroup.node().appendChild(source.node);
         board.clickBehavior(source.g, board);
+        source.g.insert('rect', ':first-child')
+          .attr('class', (d) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
+          .attr('x', -tileSize / 2)
+          .attr('y', -tileSize / 2)
+          .attr('width', tileSize)
+          .attr('height', tileSize);
       }
       reposition(source, true);
 

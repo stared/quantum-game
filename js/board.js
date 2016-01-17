@@ -175,7 +175,7 @@ export class Board {
     tileObj.node = tileSelection[0][0];
 
     // frozen background
-    const frost = tileSelection
+    tileSelection
       .append('rect')
         .attr('class', (d) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
         .attr('x', -tileSize / 2)
@@ -241,7 +241,8 @@ export class Board {
           .attr('transform', `translate(${tileSize / 2},${-tileSize / 2}) scale(${tileSize / 4})`)
           .on('click', (d) => {
             d.frozen = !d.frozen;
-            frost.attr('class', (d2) => d2.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
+            d.g.select('.frost')
+              .attr('class', d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
           });
     }
   }
