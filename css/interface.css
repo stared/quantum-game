@@ -193,6 +193,55 @@ body {
     stroke: none;
 }
 
+.view--hidden {
+  display: none !important;
+}
+
+.view--inline {
+  display: inline;
+}
+
+/* Level selector */
+
+.view--level-selector {
+  font-size: 12px;
+}
+
+.level-selector {
+  padding: 10px;
+  height: 90vh;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.level-selector > ul {
+  list-style: none;
+  margin-top: 0;
+  margin-left: 0;
+  padding-left: 0;
+  color: #ddd;
+}
+
+.level-selector > ul > li {
+  padding-left: 1em;
+  text-indent: -1em;
+  list-style: none;
+  font-size: 3vh;
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.level-selector > ul > li:before {
+  content: "\269B";
+  padding-right: 5px;
+}
+
+.level-selector > ul > li:hover {
+  color: #fff;
+}
+
+/* Game */
+
 #game {
     width: 100%;
     height: 82%;
@@ -308,48 +357,6 @@ div.tooltip {
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
-}
-
-.item-selector {
-    position: absolute;
-    box-sizing: border-box;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
-    z-index: 20;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    z-index: 20;
-    opacity: 0.8;
-    overflow-y: scroll;
-}
-
-.item-selector ul {
-    list-style: none;
-    margin-top: 0;
-    margin-left: 0;
-    padding-left: 0;
-}
-
-.item-selector li {
-    padding-left: 1em;
-    text-indent: -1em;
-    list-style: none;
-    font-size: 3vh;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-.item-selector li:before {
-    content: "\269B";
-    padding-right: 5px;
-}
-
-.item-selector li:hover
-{
-    color: #fff;
 }
 
 .stock-bg {
