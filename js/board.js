@@ -75,22 +75,26 @@ export class Board {
     });
   }
 
-  setHeaderTexts() {
+  get title() {
     const textBefore = (level) =>
       level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
 
-    this.titleManager.setTitle(
-      `[${this.level.group}] ${this.level.i}. ${this.level.name}${textBefore(this.level)}`);
+    return `[${this.level.group}] ${this.level.i}. ${this.level.name}${textBefore(this.level)}`;
+  }
 
-    let description;
+  get subtitle() {
     if (this.level.detectorsToFeed === 0) {
-      description = 'GOAL: No goals! Freedom to do whatever you like. :)';
+      return 'GOAL: No goals! Freedom to do whatever you like. :)';
     } else if (this.level.detectorsToFeed === 1) {
-      description = `GOAL: Make the photon fall into a detector, with ${(100 * this.level.requiredDetectionProbability).toFixed(0)}% chance.`;
+      return `GOAL: Make the photon fall into a detector, with ${(100 * this.level.requiredDetectionProbability).toFixed(0)}% chance.`;
     } else {
-      description = `GOAL: Make the photon fall into ${this.level.detectorsToFeed} detectors, some probability to each, total of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%.`;
+      return `GOAL: Make the photon fall into ${this.level.detectorsToFeed} detectors, some probability to each, total of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%.`;
     }
-    this.titleManager.setDescription(description);
+  }
+
+  setHeaderTexts() {
+    this.titleManager.setTitle(this.title);
+    this.titleManager.setDescription(this.subtitle);
   }
 
   resizeSvg() {
