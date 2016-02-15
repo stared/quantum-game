@@ -5,7 +5,7 @@ Quantum Game - play with photons, superposition and entanglement. With true quan
 
 Official address: http://quantumgame.io/.
 
-State: in development (alpha). Release data (estimate): March 2016.
+State: in development (alpha). Release data (estimate): 31 March 2016.
 
 Authors: [Piotr Migdał](http://migdal.wikidot.com/), Patryk Hes, [Michał Krupiński](http://www.fiztaszki.pl/user/3).
 
