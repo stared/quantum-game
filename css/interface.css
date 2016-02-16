@@ -27,6 +27,16 @@ body {
     display: none !important;
 }
 
+.svg-defs {
+  /* Can't do display: none; http://stackoverflow.com/questions/25799770 */
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
 .top-bar {
     background-color: rgba(0, 0, 0, 0.6);
     height: 10vh;
@@ -153,13 +163,22 @@ body {
     color: white;
     position: relative;
     box-shadow: rgba(255, 241, 70, 0.25) 0 0 5px;
+    text-align: center;
+}
+
+.bottom-bar__text-button {
+  padding: 0 1vh !important;
+  border: 1px solid lime !important;
+  height: 6vh;
+  font-size: 2vh;
+  color: white;
 }
 
 .bottom-bar__animation-controls {
     position: absolute;
     top: 0;
-    left: 15vw;
-    width: 70vw;
+    left: 5vw;
+    width: 90vw;
     height: 6vh;
     padding: 1vh 0;
     text-align: center;
@@ -173,6 +192,15 @@ body {
 .bottom-bar__animation-button > svg {
     width: auto;
     height: 4vh;
+}
+
+.bottom-bar__animation-button > svg text {
+  font-size: 14px;
+  line-height: 16px;
+  font-family: Roboto;
+  font-weight: bold;
+  text-anchor: middle;
+  fill: white;
 }
 
 .interface-button,
@@ -211,7 +239,7 @@ body {
   padding: 10px;
   height: 90vh;
   box-sizing: border-box;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .level-selector > ul {
@@ -238,6 +266,80 @@ body {
 
 .level-selector > ul > li:hover {
   color: #fff;
+}
+
+/* Encyclopedia selector */
+
+.encyclopedia-selector {
+  height: 82%;
+  overflow-y: auto;
+}
+
+.encyclopedia-selector > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: #ddd;
+}
+
+.encyclopedia-selector > ul > li {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 50%;
+  padding: 1vh;
+  overflow: hidden;
+}
+
+.encyclopedia-selector > ul > li button {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.encyclopedia-selector > ul > li svg {
+  width: 6vh;
+  height: 6vh;
+  background: white;
+  border: 2px solid #ddd;
+  margin-right: 2vw;
+  float: left;
+}
+
+.encyclopedia-selector > ul > li h4 {
+  display: table-cell;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 2.5vh;
+  line-height: 2.5vh;
+  overflow: hidden;
+  height: 8vh;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Encyclopedia item */
+
+.encyclopedia-item {
+  height: 82%;
+  overflow-y: auto;
+}
+
+.encyclopedia-item > article {
+  width: 100vh;
+  max-width: 100vw;
+  min-height: 100%;
+  box-sizing: border-box;
+  background: white;
+  font-size: 2.5vh;
+  margin: 0 auto;
+  padding: 3vh;
+  text-align: center;
+}
+
+.encyclopedia-item > article svg {
+  width: 30vh;
 }
 
 /* Game */

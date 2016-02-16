@@ -22,6 +22,171 @@
   <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 </head>
 <body>
+  <svg class="svg-defs">
+    <defs>
+      <g id="hitbox">
+        <rect class="hitbox" x="-50" y="-50" width="100" height="100"/>
+      </g>
+      <g id="particle">
+        <circle r="10" class="particle" />
+      </g>
+      <g id="polarizing-splitter">
+        <rect class="glass glass-edge" x="-25" y="-25" width="50" height="50"/>
+        <line class="glass-edge" x1="-25" y1="25" x2="25" y2="-25"/>
+      </g>
+      <g id="thin-splitter">
+        <rect class="glass glass-edge" x="-30" y="-3.5" width="60" height="7"/>
+      </g>
+      <g id="thin-mirror">
+        <rect class="dark-silver metal-edge" x="-30" y="-3.5" width="60" height="7"/>
+      </g>
+      <g id="source">
+        <rect class="metal metal-edge" rx="5" ry="5" x="-40" y="-10" width="40" height="20" />
+        <g transform="translate(20, 0)">
+          <line class="beam" x1="-20" y1="0" x2="20" y2="0" />
+          <line class="beam" x1="-20" y1="0" x2="20" y2="0" transform="rotate(45)" />
+          <line class="beam" x1="-20" y1="0" x2="20" y2="0" transform="rotate(90)" />
+          <line class="beam" x1="-20" y1="0" x2="20" y2="0" transform="rotate(135)" />
+          <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(22.5)" />
+          <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(67.5)" />
+          <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(112.5)" />
+          <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(157.5)" />
+        </g>
+      </g>
+      <pattern id="polarizing-stripes" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="6" height="3" style="fill:#555" />
+      </pattern>
+      <g id="polarizer">
+        <circle class="metal-edge" fill="url(#polarizing-stripes)" r="25"/>
+      </g>
+      <g id="polarizer-n-s">
+        <circle class="metal-edge" fill="url(#polarizing-stripes)" r="25"/>
+      </g>
+      <g id="polarizer-w-e">
+        <circle class="metal-edge" fill="url(#polarizing-stripes)" r="25"/>
+      </g>
+      <pattern id="phase-stripes" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="6" height="3" style="fill:steelblue;opacity:0.75" />
+        <rect x="0" y="4" width="6" height="3" style="fill:steelblue;opacity:0.25" />
+      </pattern>
+      <g id="quater-wave-plate">
+        <polygon class="glass-edge"
+                  fill="url(#phase-stripes)"
+                 points="25,-10
+                         10,-25
+                         -10,-25
+                         -25,-10
+                         -25,10
+                         -10,25
+                         10,25
+                         25,10" />
+      </g>
+      <g id="quater-wave-plate-n-s">
+        <polygon class="glass-edge"
+                  fill="url(#phase-stripes)"
+                 points="25,-10
+                         10,-25
+                         -10,-25
+                         -25,-10
+                         -25,10
+                         -10,25
+                         10,25
+                         25,10" />
+      </g>
+      <g id="quater-wave-plate-w-e">
+        <polygon class="glass-edge"
+                  fill="url(#phase-stripes)"
+                 points="25,-10
+                         10,-25
+                         -10,-25
+                         -25,-10
+                         -25,10
+                         -10,25
+                         10,25
+                         25,10" />
+      </g>
+      <g id="sugar-solution">
+        <path class="wire" d="M -30 -25 L -15 -35 L 10 20" />
+        <circle class="lemon" cx="20" cy="-20" r="10"/>
+        <rect class="glass" width="40" height="35" x="-20" y="-5"/>
+        <rect class="glass-edge" fill="none" width="40" height="50" x="-20" y="-20"/>
+      </g>
+      <g id="mine">
+        <circle class="metal" r="20"/>
+        <rect class="metal" x="-30" y="-4" width="60" height="8"/>
+        <rect class="metal" x="-30" y="-4" width="60" height="8" transform="rotate(45)"/>
+        <rect class="metal" x="-30" y="-4" width="60" height="8" transform="rotate(90)"/>
+        <rect class="metal" x="-30" y="-4" width="60" height="8" transform="rotate(135)"/>
+      </g>
+      <g id="mine-absorbed">
+        <circle r="200" fill="yellow"/>
+        <rect fill="red" x="-30" y="-4" width="60" height="8"/>
+        <rect fill="red" x="-30" y="-4" width="60" height="8" transform="rotate(45)"/>
+        <rect fill="red" x="-30" y="-4" width="60" height="8" transform="rotate(90)"/>
+        <rect fill="red" x="-30" y="-4" width="60" height="8" transform="rotate(135)"/>
+        <circle r="20" fill="red"/>
+      </g>
+      <g id="glass">
+        <rect class="glass glass-edge" x="-20" y="-20" width="40" height="40" rx="5" ry="5"/>
+      </g>
+      <g id="vacuum-jar">
+         <rect class="glass-edge" x="-20" y="-20" width="40" height="40" rx="5" ry="5" style="fill:none"/>
+         <line x1="-50" y1="-50" x2="-20" y2="-20" style="stroke:#555; stroke-width:1"/>
+         <line x1="50" y1="-50" x2="20" y2="-20" style="stroke:#555; stroke-width:1"/>
+         <line x1="-50" y1="50" x2="-20" y2="20" style="stroke:#555; stroke-width:1"/>
+         <line x1="50" y1="50" x2="20" y2="20" style="stroke:#555; stroke-width:1"/>
+      </g>
+      <g id="corner-cube">
+        <g transform="scale(1.2)">
+        <path class="silver metal-edge" d="M 0 0 l 10 -17.3 l 10 17.3 l -10 17.3 z" />
+        <path class="dark-silver metal-edge" d="M 0 0 l 10 -17.3 l -20 0 l -10 17.3 z" />
+        <path class="dark-silver metal-edge" d="M 0 0 l -20 0 l 10 17.3 l 20 0 z" />
+        </g>
+      </g>
+      <g id="absorber">
+        <rect class="absorber" x="-20" y="-20" width="40" height="40" rx="5" ry="5"/>
+      </g>
+      <g id="rock">
+          <path class="metal" d="M-80 -150 l-100 100 v150 l150 100 l100 -100 h100 l50 -150 l-100 -100 l-100 50 z" transform="scale(0.14)"/>
+          <circle class="eye" cx="-10" cy= "-10" r="7"/>
+          <circle class="eye-iris" cx="-11" cy= "-8" r="2"/>
+          <circle class="eye" cx="5" cy= "-5" r="7"/>
+          <circle class="eye-iris" cx="4" cy= "-3" r="2"/>
+      </g>
+      <g id="detector">
+        <path class="wire" d="M 0 0
+                              a 5 5 0 1 1 10 0
+                              a 5 5 0 1 0 10 0
+                              a 5 5 0 1 1 10 0
+                              a 5 5 0 1 0 10 0"/>
+        <path class="metal-case" d="M -30 -30
+                                    a 30 30 0 1 1 0 60"/>
+      </g>
+      <g id="detector-absorbed">
+        <path class="wire" d="M 0 0
+                              a 5 5 0 1 1 10 0
+                              a 5 5 0 1 0 10 0
+                              a 5 5 0 1 1 10 0
+                              a 5 5 0 1 0 10 0"/>
+        <path class="metal-case-hot" d="M -30 -30
+                                        a 30 30 0 1 1 0 60"/>
+      </g>
+      <g id="faraday-rotator">
+        <line class="wire wire-back" x1="-10" y1="10" x2="-10" y2="-10"/>
+        <line class="wire wire-back" x1="0" y1="10" x2="0" y2="-10"/>
+        <line class="wire wire-back" x1="10" y1="10" x2="10" y2="-10"/>
+        <line class="wire wire-back" x1="20" y1="10" x2="20" y2="-10"/>
+        <line class="wire" x1="20" y1="-10" x2="20" y2="-25"/>
+        <rect class="glass glass-edge" x="-30" y="-10" width="60" height="20"/>
+        <line class="wire" x1="-20" y1="-10" x2="-10" y2="10"/>
+        <line class="wire" x1="-10" y1="-10" x2="0" y2="10"/>
+        <line class="wire" x1="0" y1="-10" x2="10" y2="10"/>
+        <line class="wire" x1="10" y1="-10" x2="20" y2="10"/>
+        <line class="wire" x1="-20" y1="-10" x2="-20" y2="-25"/>
+      </g>
+    </defs>
+  </svg>
+
   <div class="top-bar">
       <div class="top-bar__title"></div>
       <div class="top-bar__subtitle">
@@ -50,173 +215,37 @@
     </div>
   </div>
 
+  <div class="view view--encyclopedia-selector view--inline view--hidden">
+    <div class="encyclopedia-selector">
+      <ul></ul>
+    </div>
+    <div class="bottom-bar">
+      <button class="bottom-bar__back-to-game-button
+                     bottom-bar__animation-button interface-button">
+        <svg width="100" height="16" viewBox="0 0 100 16">
+            <text x="50" y="12">« Back to game</text>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="view view--encyclopedia-item view--inline view--hidden">
+    <div class="encyclopedia-item">
+    </div>
+    <div class="bottom-bar">
+      <button class="bottom-bar__back-to-encyclopedia-selector-button
+                     bottom-bar__animation-button interface-button">
+        <svg width="100" height="16" viewBox="0 0 100 16">
+            <text x="50" y="12">« Back to list</text>
+        </svg>
+      </button>
+    </div>
+  </div>
+
 
   <div class="view view--game view--inline">
   <div id="game">
-    <svg preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <g id="hitbox">
-          <rect class="hitbox" x="-50" y="-50" width="100" height="100"/>
-        </g>
-        <g id="particle">
-          <circle r="10" class="particle" />
-        </g>
-        <g id="polarizing-splitter">
-          <rect class="glass glass-edge" x="-25" y="-25" width="50" height="50"/>
-          <line class="glass-edge" x1="-25" y1="25" x2="25" y2="-25"/>
-        </g>
-        <g id="thin-splitter">
-          <rect class="glass glass-edge" x="-30" y="-3.5" width="60" height="7"/>
-        </g>
-        <g id="thin-mirror">
-          <rect class="dark-silver metal-edge" x="-30" y="-3.5" width="60" height="7"/>
-        </g>
-        <g id="source">
-          <rect class="metal metal-edge" rx="5" ry="5" x="-40" y="-10" width="40" height="20" />
-          <g transform="translate(20, 0)">
-            <line class="beam" x1="-20" y1="0" x2="20" y2="0" />
-            <line class="beam" x1="-20" y1="0" x2="20" y2="0" transform="rotate(45)" />
-            <line class="beam" x1="-20" y1="0" x2="20" y2="0" transform="rotate(90)" />
-            <line class="beam" x1="-20" y1="0" x2="20" y2="0" transform="rotate(135)" />
-            <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(22.5)" />
-            <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(67.5)" />
-            <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(112.5)" />
-            <line class="beam" x1="-15" y1="0" x2="15" y2="0" transform="rotate(157.5)" />
-          </g>
-        </g>
-        <pattern id="polarizing-stripes" width="6" height="6" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="6" height="3" style="fill:#555" />
-        </pattern>
-        <g id="polarizer">
-          <circle class="metal-edge" fill="url(#polarizing-stripes)" r="25"/>
-        </g>
-        <g id="polarizer-n-s">
-          <circle class="metal-edge" fill="url(#polarizing-stripes)" r="25"/>
-        </g>
-        <g id="polarizer-w-e">
-          <circle class="metal-edge" fill="url(#polarizing-stripes)" r="25"/>
-        </g>
-        <pattern id="phase-stripes" width="6" height="6" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="6" height="3" style="fill:steelblue;opacity:0.75" />
-          <rect x="0" y="4" width="6" height="3" style="fill:steelblue;opacity:0.25" />
-        </pattern>
-        <g id="quater-wave-plate">
-          <polygon class="glass-edge"
-                    fill="url(#phase-stripes)"
-                   points="25,-10
-                           10,-25
-                           -10,-25
-                           -25,-10
-                           -25,10
-                           -10,25
-                           10,25
-                           25,10" />
-        </g>
-        <g id="quater-wave-plate-n-s">
-          <polygon class="glass-edge"
-                    fill="url(#phase-stripes)"
-                   points="25,-10
-                           10,-25
-                           -10,-25
-                           -25,-10
-                           -25,10
-                           -10,25
-                           10,25
-                           25,10" />
-        </g>
-        <g id="quater-wave-plate-w-e">
-          <polygon class="glass-edge"
-                    fill="url(#phase-stripes)"
-                   points="25,-10
-                           10,-25
-                           -10,-25
-                           -25,-10
-                           -25,10
-                           -10,25
-                           10,25
-                           25,10" />
-        </g>
-        <g id="sugar-solution">
-          <path class="wire" d="M -30 -25 L -15 -35 L 10 20" />
-          <circle class="lemon" cx="20" cy="-20" r="10"/>
-          <rect class="glass" width="40" height="35" x="-20" y="-5"/>
-          <rect class="glass-edge" fill="none" width="40" height="50" x="-20" y="-20"/>
-        </g>
-        <g id="mine">
-          <circle class="metal" r="20"/>
-          <rect class="metal" x="-30" y="-4" width="60" height="8"/>
-          <rect class="metal" x="-30" y="-4" width="60" height="8" transform="rotate(45)"/>
-          <rect class="metal" x="-30" y="-4" width="60" height="8" transform="rotate(90)"/>
-          <rect class="metal" x="-30" y="-4" width="60" height="8" transform="rotate(135)"/>
-        </g>
-        <g id="mine-absorbed">
-          <circle r="200" fill="yellow"/>
-          <rect fill="red" x="-30" y="-4" width="60" height="8"/>
-          <rect fill="red" x="-30" y="-4" width="60" height="8" transform="rotate(45)"/>
-          <rect fill="red" x="-30" y="-4" width="60" height="8" transform="rotate(90)"/>
-          <rect fill="red" x="-30" y="-4" width="60" height="8" transform="rotate(135)"/>
-          <circle r="20" fill="red"/>
-        </g>
-        <g id="glass">
-          <rect class="glass glass-edge" x="-20" y="-20" width="40" height="40" rx="5" ry="5"/>
-        </g>
-        <g id="vacuum-jar">
-           <rect class="glass-edge" x="-20" y="-20" width="40" height="40" rx="5" ry="5" style="fill:none"/>
-           <line x1="-50" y1="-50" x2="-20" y2="-20" style="stroke:#555; stroke-width:1"/>
-           <line x1="50" y1="-50" x2="20" y2="-20" style="stroke:#555; stroke-width:1"/>
-           <line x1="-50" y1="50" x2="-20" y2="20" style="stroke:#555; stroke-width:1"/>
-           <line x1="50" y1="50" x2="20" y2="20" style="stroke:#555; stroke-width:1"/>
-        </g>
-        <g id="corner-cube">
-          <g transform="scale(1.2)">
-          <path class="silver metal-edge" d="M 0 0 l 10 -17.3 l 10 17.3 l -10 17.3 z" />
-          <path class="dark-silver metal-edge" d="M 0 0 l 10 -17.3 l -20 0 l -10 17.3 z" />
-          <path class="dark-silver metal-edge" d="M 0 0 l -20 0 l 10 17.3 l 20 0 z" />
-          </g>
-        </g>
-        <g id="absorber">
-          <rect class="absorber" x="-20" y="-20" width="40" height="40" rx="5" ry="5"/>
-        </g>
-        <g id="rock">
-            <path class="metal" d="M-80 -150 l-100 100 v150 l150 100 l100 -100 h100 l50 -150 l-100 -100 l-100 50 z" transform="scale(0.14)"/>
-            <circle class="eye" cx="-10" cy= "-10" r="7"/>
-            <circle class="eye-iris" cx="-11" cy= "-8" r="2"/>
-            <circle class="eye" cx="5" cy= "-5" r="7"/>
-            <circle class="eye-iris" cx="4" cy= "-3" r="2"/>
-        </g>
-        <g id="detector">
-          <path class="wire" d="M 0 0
-                                a 5 5 0 1 1 10 0
-                                a 5 5 0 1 0 10 0
-                                a 5 5 0 1 1 10 0
-                                a 5 5 0 1 0 10 0"/>
-          <path class="metal-case" d="M -30 -30
-                                      a 30 30 0 1 1 0 60"/>
-        </g>
-        <g id="detector-absorbed">
-          <path class="wire" d="M 0 0
-                                a 5 5 0 1 1 10 0
-                                a 5 5 0 1 0 10 0
-                                a 5 5 0 1 1 10 0
-                                a 5 5 0 1 0 10 0"/>
-          <path class="metal-case-hot" d="M -30 -30
-                                          a 30 30 0 1 1 0 60"/>
-        </g>
-        <g id="faraday-rotator">
-          <line class="wire wire-back" x1="-10" y1="10" x2="-10" y2="-10"/>
-          <line class="wire wire-back" x1="0" y1="10" x2="0" y2="-10"/>
-          <line class="wire wire-back" x1="10" y1="10" x2="10" y2="-10"/>
-          <line class="wire wire-back" x1="20" y1="10" x2="20" y2="-10"/>
-          <line class="wire" x1="20" y1="-10" x2="20" y2="-25"/>
-          <rect class="glass glass-edge" x="-30" y="-10" width="60" height="20"/>
-          <line class="wire" x1="-20" y1="-10" x2="-10" y2="10"/>
-          <line class="wire" x1="-10" y1="-10" x2="0" y2="10"/>
-          <line class="wire" x1="0" y1="-10" x2="10" y2="10"/>
-          <line class="wire" x1="10" y1="-10" x2="20" y2="10"/>
-          <line class="wire" x1="-20" y1="-10" x2="-20" y2="-25"/>
-        </g>
-      </defs>
-    </svg>
+    <svg preserveAspectRatio="xMidYMid meet"></svg>
   </div>
 
   <div class="bottom-bar">
@@ -263,9 +292,14 @@
                   <path class="svg-interface-button" d="M0 8 L32 4 V12 Z"></path>
               </svg>
           </button>
+          <button class="bottom-bar__help-button bottom-bar__animation-button interface-button">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <text x="8" y="14" style="font-size: 18px">?</text>
+            </svg>
+          </button>
       </div>
   </div>
-  </div>
+</div>
 
   <div id="helper">
     <div id="element-name"></div>

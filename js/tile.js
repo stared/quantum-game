@@ -58,7 +58,7 @@ export const ThinMirror = {
 export const ThinSplitter = {
   svgName: 'thin-splitter',
   desc: {
-    name: '50%-50% Beam Splitter',
+    name: '50/50 Beam Splitter',
     flavour: 'A thin slice of glass does amazing things!',
     summary: 'A thin slab of glass reflecting half the beam, and transmitting other half of it.',
   },
@@ -206,7 +206,7 @@ export const SugarSolution = {
   desc: {
     name: 'Sugar Solution',
     flavour: 'Vodka is a solution. But Sugar Solution is the light-twisting solution.',
-    summary: 'Table sugar is a chiral molecule - it does not look the same as its mirror reflection. We put it in an amount, so it rotates polarization by 45\u00B0.',
+    summary: 'Table sugar is a chiral molecule – it does not look the same as its mirror reflection. We put it in an amount, so it rotates polarization by 45\u00B0.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -217,7 +217,7 @@ export const Mine = {
   svgName: 'mine',
   desc: {
     name: 'Light-Sensitive Bomb',
-    flavour: 'If it does NOT click, you will have sunglasses... and a pair of hands.',
+    flavour: 'If it does NOT click, you will have sunglasses… and a pair of hands.',
     summary: 'Once it absorbs a single photon, it sets off.',
   },
   maxRotation: 1, // []
@@ -252,8 +252,8 @@ export const Rock = {
   svgName: 'rock',
   desc: {
     name: 'Rock',
-    flavour: 'Dark and immersive as your sweetheart`s depth of eyes.',
-    summary: 'Perhaps coal. I haven`t decided yet.',
+    flavour: 'Dark and immersive as your sweetheart\'s depth of eyes.',
+    summary: 'Perhaps coal. I haven\'t decided yet.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -277,7 +277,7 @@ export const VacuumJar = {
   desc: {
     name: 'Vacuum Jar',
     flavour: 'Pure timespace without relativistic energy density. Served in a bottle.',
-    summary: 'Even air retards light a bit. We set the thickness of vacuum so it advances phase by  \u03BB/4. Useful for changing interference.',
+    summary: 'Even air retards light a bit. We set the thickness of vacuum so it advances phase by \u03BB/4. Useful for changing interference.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -301,7 +301,7 @@ export const Detector = {
   desc: {
     name: 'Single Photon Detector',
     flavour: '',
-    summary: 'Detects and amplifies electric signal from each single photon. Typically, it is the goal to get photon here.',
+    summary: 'Detects and amplifies electric signal from each single photon. Typically, it is the goal to get the photon here.',
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
@@ -324,8 +324,8 @@ export const FaradayRotator = {
   svgName: 'faraday-rotator',
   desc: {
     name: 'Faraday Rotator',
-    flavour: 'You can go back, but it won`t be the same.',
-    summary: 'Rotates polarization with magnetic field, by 45\u00B0. Has different symmetreis than Sugar Solution. A building block for optical diodes.',
+    flavour: 'You can go back, but it won\'t be the same.',
+    summary: 'Rotates polarization with magnetic field by 45\u00B0. Has different symmetries than Sugar Solution. A building block for optical diodes.',
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
@@ -377,7 +377,7 @@ export class Tile {
   absorbAnimaton() {
 
     // NOTE or maybe just class inheritance?
-    if (this.type.absorbAnimaton !== undefined) {
+    if (this.type.absorbAnimaton != null) {
       this.type.absorbAnimaton(this);
     } else {
       this.g.select('.element')
