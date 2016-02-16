@@ -205,6 +205,7 @@ export class Game {
       d3.select('#game svg'),
       d3.select('#helper'),
       this.titleManager,
+      level.levels,
       this.storage);
     this.gameBoard.reset();
     this.gameBoard.setAnimationControls(
