@@ -12,6 +12,7 @@ import {TransitionHeatmap} from './transition_heatmap';
 import {Level} from './level';
 import {WinningStatus} from './winning_status';
 import {bindDrag} from './drag_and_drop';
+import {Logger} from './logger';
 
 function tileSimpler(name, i, j) {
   const tileClass = tile[name];
@@ -33,6 +34,8 @@ export class Board {
     this.storage = storage;
     this.animationStepDuration = animationStepDuration;
     this.stock = new Stock(svg, this);
+    this.logger = new Logger();
+    this.logger.logAction('initialLevel');
   }
 
   reset() {
@@ -220,12 +223,14 @@ export class Board {
       // Avoid rotation when frozen
       if (d.frozen) {
         if (d.tileName === 'Source') {
+          this.logger.logAction('play', {clickingSource: true});
           board.play();
         }
         return;
       }
 
       if (board.particleAnimation) {
+        this.logger.logAction('simulationStop', {cause: 'click on element'});
         board.stop();
         board.titleManager.displayMessage(
           'Experiment disturbed! Quantum states are fragile...',
@@ -233,6 +238,7 @@ export class Board {
       }
 
       d.rotate();
+      this.logger.logAction('rotate', {name: d.tileName, i: d.i, j: d.j, toRotation: d.rotation});
       board.showTileHelper(d);
 
     })
@@ -247,6 +253,7 @@ export class Board {
           .attr('transform', `translate(${tileSize / 2},${-tileSize / 2}) scale(${tileSize / 4})`)
           .on('click', (d) => {
             d.frozen = !d.frozen;
+            this.logger.logAction('changeFreeze', {name: d.tileName, i: d.i, j: d.j, toFrozen: d.frozen});
             d.g.select('.frost')
               .attr('class', d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
           });
@@ -275,6 +282,7 @@ export class Board {
       });
     animationControls.select('#download')
       .on('click', function () {
+        this.logger.logAction('reset');
         board.clipBoard(this);
       });
 
@@ -310,6 +318,15 @@ export class Board {
     this.winningStatus.run();
     this.winningStatus.compareToObjectives(this.level.requiredDetectionProbability, this.level.detectorsToFeed);
     window.console.log(this.winningStatus);
+    this.logger.logAction('run', {
+      isWon: this.winningStatus.isWon,
+      enoughProbability: this.winningStatus.enoughProbability,
+      totalProbAtDets: this.winningStatus.totalProbAtDets,
+      enoughDetectors: this.winningStatus.enoughDetectors,
+      noOfFedDets: this.winningStatus.noOfFedDets,
+      noExplosion: this.winningStatus.noExplosion,
+      probsAtMines: this.winningStatus.probsAtMines,
+    });
 
   }
 
@@ -337,6 +354,7 @@ export class Board {
           // TODO(pathes): make a separate component for detection % and next level button
           d3.select('.top-bar__detection__caption').html('next level »');
           d3.select('.top-bar__detection').on('click', () => {
+            this.logger.logAction('nextLevelButton');
             this.loadLevel(this.level.next);
           });
         }
@@ -352,6 +370,7 @@ export class Board {
    * Play animation. Generate history if necessary.
    */
   play() {
+    this.logger.logAction('simulationPlay');
     if (!this.particleAnimation) {
       this.generateHistory();
       this.particleAnimation = new particles.SVGParticleAnimation(
@@ -370,6 +389,7 @@ export class Board {
   }
 
   stop() {
+    this.logger.logAction('simulationStop');
     if (this.particleAnimation) {
       this.particleAnimation.stop();
       this.particleAnimation = null;
@@ -429,10 +449,15 @@ export class Board {
 
   loadLevel(levelRecipe, checkStorage = true) {
 
+    window.console.log('log from the last level', stringify(this.logger.log));
+    this.logger.save();
+    this.logger.reset();
+
     let levelToLoad;
 
     if (!checkStorage) {
       levelToLoad = levelRecipe;
+      this.logger.logAction('loadLevel', {fromStorage: false});
     } else {
       // save progress
       // TODO use hash of sorted elements so to ensure levels are unique?
@@ -443,6 +468,7 @@ export class Board {
 
       if (this.storage.hasOwnProperty(`${levelRecipe.group} ${levelRecipe.name}`)) {
         levelToLoad = JSON.parse(this.storage.getItem(`${levelRecipe.group} ${levelRecipe.name}`));
+        this.logger.logAction('loadLevel', {fromStorage: true});
       } else {
         levelToLoad = levelRecipe;
       }

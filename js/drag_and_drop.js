@@ -93,6 +93,14 @@ export const bindDrag = (tileSelection, board, stock) => {
         || source.newJ < 0 || source.newJ >= board.level.height
       ) {
         stock.updateCount(source.tileName, +1);
+        board.logger.logAction('drag', {
+          name: source.tileName,
+          fromStock: !!source.fromStock,
+          fromI: source.i,
+          fromJ: source.j,
+          toStock: true,
+          success: !source.fromStock,
+        });
         if (source.fromStock) {
           reposition(source, false);
         } else {
@@ -107,6 +115,16 @@ export const bindDrag = (tileSelection, board, stock) => {
 
       //  Dragged on an occupied tile?
       if (target.tileName !== 'Vacuum') {
+        board.logger.logAction('drag', {
+          name: source.tileName,
+          fromStock: !!source.fromStock,
+          fromI: source.i,
+          fromJ: source.j,
+          toStock: !!source.fromStock,
+          toI: target.i,
+          toJ: target.i,
+          success: false,
+        });
         if (source.fromStock) {
           reposition(source, false);
           stock.updateCount(source.tileName, +1);
@@ -120,6 +138,16 @@ export const bindDrag = (tileSelection, board, stock) => {
       if (!source.fromStock) {
         board.tileMatrix[source.i][source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
       }
+      board.logger.logAction('drag', {
+        name: source.tileName,
+        fromStock: !!source.fromStock,
+        fromI: source.i,
+        fromJ: source.j,
+        toStock: false,
+        toI: target.i,
+        toJ: target.i,
+        success: true,
+      });
       board.tileMatrix[target.i][target.j] = source;
       source.i = target.i;
       source.j = target.j;
