@@ -6,6 +6,7 @@ import * as tile from './tile';
 import * as level from './level';
 import * as board from './board';
 import * as title_manager from './title_manager';
+import {TransitionHeatmap} from './transition_heatmap';
 
 export class View {
   constructor(game) {
@@ -115,8 +116,11 @@ export class EncyclopediaItemView extends View {
     if (!this.game.currentEncyclopediaItem) {
       return;
     }
-    const container = d3.select('.encyclopedia-item')
-      .datum(tile[this.game.currentEncyclopediaItem]);
+
+    const tileData = tile[this.game.currentEncyclopediaItem];
+
+    const container = d3.select('.encyclopedia-item');
+
     container
       .html(null);
     const article = container.append('article');
@@ -124,21 +128,32 @@ export class EncyclopediaItemView extends View {
       .append('svg')
       .attr('viewBox', '0 0 100 100')
       .append('use')
-      .attr('xlink:href', (d) => `#${d.svgName}`)
+      .attr('xlink:href', `#${tileData.svgName}`)
       .attr('transform', 'translate(50, 50)');
     article
       .append('h4')
-      .text((d) => d.desc.name);
+      .text(tileData.desc.name);
     article
       .append('div')
       .classed('content', true)
-      .text((d) => d.desc.summary);
+      .text(tileData.desc.summary);
 
     article
       .append('div')
       .classed('content', true)
       .append('i')
-      .text((d) => `"${d.desc.flavour}"`);
+      .text(`"${tileData.desc.flavour}"`);
+
+    const hm = article
+      .append('div')
+      .attr('class', 'content heatmap');
+
+    // TODO something for rotation...
+    const tileObj = new tile.Tile(tileData);
+    const transitionHeatmap = new TransitionHeatmap(hm);
+    window.console.log('tileObj', tileObj);
+    transitionHeatmap.updateFromTensor(tileObj.transitionAmplitudes.map);
+
   }
   bindMenuEvents() {
     d3.select('.bottom-bar__back-to-encyclopedia-selector-button').on('click', () => {

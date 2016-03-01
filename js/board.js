@@ -8,7 +8,6 @@ import * as particles from './particles';
 import * as simulation from './simulation';
 import {Stock} from './stock';
 import * as tile from './tile';
-import {TransitionHeatmap} from './transition_heatmap';
 import {Level} from './level';
 import {WinningStatus} from './winning_status';
 import {bindDrag} from './drag_and_drop';
@@ -26,9 +25,6 @@ export class Board {
     this.levelsLookup = _.indexBy(levels, (levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`);
     this.svg = svg;
     this.tileMatrix = [];
-    if (DEV_MODE) {
-      this.transitionHeatmap = new TransitionHeatmap(helper);
-    }
     this.helper = helper;
     this.titleManager = titleManager;
     this.storage = storage;
@@ -144,9 +140,6 @@ export class Board {
       'hover');
 
     // things below currently don't work (due to interface changes)
-    if (DEV_MODE) {
-      this.transitionHeatmap.updateFromTensor(d.transitionAmplitudes.map);
-    }
     this.helper.select('#element-name').html(d.type.desc.name);
     this.helper.select('#element-summary').html(d.type.desc.summary);
     this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
