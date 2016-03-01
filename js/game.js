@@ -7,6 +7,7 @@ import * as level from './level';
 import * as board from './board';
 import * as title_manager from './title_manager';
 import {TransitionHeatmap} from './transition_heatmap';
+import {ProgressPearls} from './progress_pearls';
 
 export class View {
   constructor(game) {
@@ -221,12 +222,19 @@ export class Game {
     this.titleManager = new title_manager.TitleManager(
       d3.select('.top-bar__title'),
       d3.select('.top-bar__subtitle'));
+    this.progressPearls = new ProgressPearls(
+      d3.select('#game svg'),
+      level.levels.filter((d) => d.group === 'Game'),
+      this
+    );
+    this.progressPearls.draw();
     this.gameBoard = new board.Board(
       demoLevel,
       d3.select('#game svg'),
       d3.select('#helper'),
       this.titleManager,
       level.levels,
+      this.progressPearls,
       this.storage);
     this.gameBoard.reset();
     this.gameBoard.setAnimationControls(

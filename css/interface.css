@@ -481,3 +481,8 @@ div.tooltip {
 .stock .tile.stock--depleted {
     opacity: 0.5;
 }
+
+.pearl:hover {
+    stroke: black;
+    stroke-width: 2px;
+}

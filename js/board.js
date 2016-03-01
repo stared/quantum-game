@@ -19,7 +19,7 @@ function tileSimpler(name, i, j) {
 }
 
 export class Board {
-  constructor(level, svg, helper, titleManager, levels, storage) {
+  constructor(level, svg, helper, titleManager, levels, progressPearls, storage) {
     this.level = level;
     this.levels = levels;
     this.levelsLookup = _.indexBy(levels, (levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`);
@@ -27,6 +27,7 @@ export class Board {
     this.tileMatrix = [];
     this.helper = helper;
     this.titleManager = titleManager;
+    this.progressPearls = progressPearls;
     this.storage = storage;
     this.animationStepDuration = animationStepDuration;
     this.stock = new Stock(svg, this);
@@ -342,6 +343,14 @@ export class Board {
       );
 
       if (this.winningStatus.isWon) {
+
+        // TODO(migdal): make it more serious
+        this.storage.setItem(
+          `isWon ${this.level.group} ${this.level.name}`,
+           'true'
+        );
+        this.progressPearls.update();
+
         d3.select('.top-bar__detection').classed('top-bar__detection--success', true);
         if (this.level.group === 'Game') {
           // TODO(pathes): make a separate component for detection % and next level button
