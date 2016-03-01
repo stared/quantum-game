@@ -56,3 +56,16 @@ describe('Game levels: source, detector, mines - present, fixed', () => {
     });
   })
 });
+
+describe('Level group-name pairs are unique', () => {
+
+  it(`${levels.length} level names are unique`, () => {
+    const uniqueLength = _(levels)
+      .map((levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`)
+      .uniq()
+      .value()
+      .length;
+    expect(uniqueLength).toBe(levels.length);
+  });
+
+});
