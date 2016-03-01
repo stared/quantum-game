@@ -116,7 +116,7 @@ export class EncyclopediaItemView extends View {
       return;
     }
     const container = d3.select('.encyclopedia-item')
-      .datum(this.game.currentEncyclopediaItem);
+      .datum(tile[this.game.currentEncyclopediaItem]);
     container
       .html(null);
     const article = container.append('article');
@@ -124,15 +124,21 @@ export class EncyclopediaItemView extends View {
       .append('svg')
       .attr('viewBox', '0 0 100 100')
       .append('use')
-      .attr('xlink:href', (d) => `#${tile[d].svgName}`)
+      .attr('xlink:href', (d) => `#${d.svgName}`)
       .attr('transform', 'translate(50, 50)');
     article
       .append('h4')
-      .text((d) => tile[d].desc.name);
+      .text((d) => d.desc.name);
     article
       .append('div')
       .classed('content', true)
-      .text((d) => tile[d].desc.summary);
+      .text((d) => d.desc.summary);
+
+    article
+      .append('div')
+      .classed('content', true)
+      .append('i')
+      .text((d) => `"${d.desc.flavour}"`);
   }
   bindMenuEvents() {
     d3.select('.bottom-bar__back-to-encyclopedia-selector-button').on('click', () => {
