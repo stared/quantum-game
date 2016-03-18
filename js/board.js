@@ -222,7 +222,7 @@ export class Board {
           board.play();
         } else {
           // Do nothing on the board - only play the sound
-          SoundService.play('error');
+          SoundService.playThrottled('error');
         }
         return;
       }
@@ -236,7 +236,7 @@ export class Board {
       }
 
       d.rotate();
-      SoundService.play('blip');
+      SoundService.playThrottled('blip');
       this.logger.logAction('rotate', {name: d.tileName, i: d.i, j: d.j, toRotation: d.rotation});
       board.showTileHelper(d);
 

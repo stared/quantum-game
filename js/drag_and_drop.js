@@ -41,7 +41,7 @@ export const bindDrag = (tileSelection, board, stock) => {
       if (source.fromStock) {
         if (stock.stock[source.tileName] === 0) {
           source.dontDrag = true;
-          SoundService.play('error');
+          SoundService.playThrottled('error');
           return;
         }
         stock.regenerateTile(d3.select(source.node.parentNode));
@@ -51,7 +51,7 @@ export const bindDrag = (tileSelection, board, stock) => {
 
       // Is it impossible to drag item?
       if (source.frozen) {
-        SoundService.play('error');
+        SoundService.playThrottled('error');
       }
     })
     .on('drag', function (source) {
