@@ -1,20 +1,18 @@
 System.config({
-  "baseURL": "/",
-  "transpiler": "babel",
-  "babelOptions": {
+  baseURL: "/",
+  defaultJSExtensions: true,
+  transpiler: "babel",
+  babelOptions: {
     "optional": [
       "runtime"
     ]
   },
-  "paths": {
-    "*": "*.js",
-    "github:*": "jspm_packages/github/*.js",
-    "npm:*": "jspm_packages/npm/*.js"
-  }
-});
+  paths: {
+    "github:*": "jspm_packages/github/*",
+    "npm:*": "jspm_packages/npm/*"
+  },
 
-System.config({
-  "map": {
+  map: {
     "babel": "npm:babel-core@5.4.3",
     "babel-runtime": "npm:babel-runtime@5.4.3",
     "camel-case": "npm:camel-case@1.2.0",
@@ -27,6 +25,7 @@ System.config({
     "katex": "npm:katex@0.5.1",
     "lodash": "npm:lodash@3.10.1",
     "normalize.css": "github:necolas/normalize.css@3.0.3",
+    "soundjs": "github:CreateJS/SoundJS@0.6.2",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -156,6 +155,9 @@ System.config({
     "npm:is-upper-case@1.1.1": {
       "upper-case": "npm:upper-case@1.1.2"
     },
+    "npm:isarray@1.0.0": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
     "npm:katex@0.5.1": {
       "match-at": "npm:match-at@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -195,10 +197,8 @@ System.config({
       "inherits": "npm:inherits@2.0.1",
       "isarray": "npm:isarray@0.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "stream": "github:jspm/nodelibs-stream@0.1.0",
       "stream-browserify": "npm:stream-browserify@1.0.0",
-      "string_decoder": "npm:string_decoder@0.10.31",
-      "util": "github:jspm/nodelibs-util@0.1.0"
+      "string_decoder": "npm:string_decoder@0.10.31"
     },
     "npm:sentence-case@1.1.2": {
       "lower-case": "npm:lower-case@1.1.2"
@@ -241,4 +241,3 @@ System.config({
     }
   }
 });
-

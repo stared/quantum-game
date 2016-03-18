@@ -1,5 +1,6 @@
 import d3 from 'd3';
 import {tileSize, repositionSpeed} from './config';
+import {SoundService} from './sound_service';
 
 export const bindDrag = (tileSelection, board, stock) => {
 
@@ -40,6 +41,7 @@ export const bindDrag = (tileSelection, board, stock) => {
       if (source.fromStock) {
         if (stock.stock[source.tileName] === 0) {
           source.dontDrag = true;
+          SoundService.play('error');
           return;
         }
         stock.regenerateTile(d3.select(source.node.parentNode));
@@ -47,6 +49,10 @@ export const bindDrag = (tileSelection, board, stock) => {
         source.g.classed('stock-dragged', true);
       }
 
+      // Is it impossible to drag item?
+      if (source.frozen) {
+        SoundService.play('error');
+      }
     })
     .on('drag', function (source) {
 

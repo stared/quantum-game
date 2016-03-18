@@ -8,6 +8,7 @@ import * as board from './board';
 import * as title_manager from './title_manager';
 import {TransitionHeatmap} from './transition_heatmap';
 import {ProgressPearls} from './progress_pearls';
+import {SoundService} from './sound_service';
 
 export class View {
   constructor(game) {
@@ -165,6 +166,8 @@ export class EncyclopediaItemView extends View {
 
 export class Game {
   constructor() {
+    // Initialize sound
+    SoundService.initialize();
     // Outer dependencies and controllers
     this.titleManager = null;
     this.storage = localStorage;

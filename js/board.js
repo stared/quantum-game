@@ -12,6 +12,7 @@ import {Level} from './level';
 import {WinningStatus} from './winning_status';
 import {bindDrag} from './drag_and_drop';
 import {Logger} from './logger';
+import {SoundService} from './sound_service';
 
 function tileSimpler(name, i, j) {
   const tileClass = tile[name];
@@ -219,6 +220,9 @@ export class Board {
         if (d.tileName === 'Source') {
           this.logger.logAction('play', {clickingSource: true});
           board.play();
+        } else {
+          // Do nothing on the board - only play the sound
+          SoundService.play('error');
         }
         return;
       }
@@ -232,6 +236,7 @@ export class Board {
       }
 
       d.rotate();
+      SoundService.play('blip');
       this.logger.logAction('rotate', {name: d.tileName, i: d.i, j: d.j, toRotation: d.rotation});
       board.showTileHelper(d);
 
