@@ -153,15 +153,15 @@ describe('polarizerWE', () => {
 });
 
 
-describe('quaterWavePlateNS', () => {
+describe('quarterWavePlateNS', () => {
 
   it('should consist of 4 tensors', () => {
-    expect(full.quaterWavePlateNS.length).toBe(4);
+    expect(full.quarterWavePlateNS.length).toBe(4);
   });
 
   it('should consist of unitary tensors', () => {
 
-    full.quaterWavePlateNS.forEach((tensor) => {
+    full.quarterWavePlateNS.forEach((tensor) => {
       expect(matrixNormOnRandomVector(
         tensor.map
       )).toBeCloseTo(1, 5);
@@ -172,15 +172,15 @@ describe('quaterWavePlateNS', () => {
 });
 
 
-describe('quaterWavePlateWE', () => {
+describe('quarterWavePlateWE', () => {
 
   it('should consist of 4 tensors', () => {
-    expect(full.quaterWavePlateWE.length).toBe(4);
+    expect(full.quarterWavePlateWE.length).toBe(4);
   });
 
   it('should consist of unitary tensors', () => {
 
-    full.quaterWavePlateWE.forEach((tensor) => {
+    full.quarterWavePlateWE.forEach((tensor) => {
       expect(matrixNormOnRandomVector(
         tensor.map
       )).toBeCloseTo(1, 5);

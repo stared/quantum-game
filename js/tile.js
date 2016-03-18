@@ -153,16 +153,16 @@ export const PolarizerWE = {
 };
 
 // deprecated
-export const QuaterWavePlate = {
-  svgName: 'quater-wave-plate',
+export const QuarterWavePlate = {
+  svgName: 'quarter-wave-plate',
   desc: {
-    name: 'Quater Wave Plate',
+    name: 'Quarter Wave Plate',
     flavour: '',
     summary: 'It delays one polarization (with darker lines) by \u03BB/4. When applied correctly, it can change linear polarization into circular, and vice versa.',
   },
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.quaterWavePlate[rotation],
+  transition: (rotation) => full.quarterWavePlate[rotation],
   drawUnrotablePart: (that) => {
     that.g.append('line')
       .attr('class', 'wire')
@@ -173,16 +173,16 @@ export const QuaterWavePlate = {
   },
 };
 
-export const QuaterWavePlateNS = {
-  svgName: 'quater-wave-plate-n-s',
+export const QuarterWavePlateNS = {
+  svgName: 'quarter-wave-plate-n-s',
   desc: {
-    name: 'Quater Wave Plate (North-South)',
+    name: 'Quarter Wave Plate (North-South)',
     flavour: '',
     summary: 'It delays one polarization (with darker lines) by \u03BB/4. When applied correctly, it can change linear polarization into circular, and vice versa.',
   },
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.quaterWavePlateNS[rotation],
+  transition: (rotation) => full.quarterWavePlateNS[rotation],
   drawUnrotablePart: (that) => {
     that.g.append('line')
       .attr('class', 'wire')
@@ -193,16 +193,16 @@ export const QuaterWavePlateNS = {
   },
 };
 
-export const QuaterWavePlateWE = {
-  svgName: 'quater-wave-plate-w-e',
+export const QuarterWavePlateWE = {
+  svgName: 'quarter-wave-plate-w-e',
   desc: {
-    name: 'Quater Wave Plate (West-East)',
+    name: 'Quarter Wave Plate (West-East)',
     flavour: '',
     summary: 'It delays one polarization (with darker lines) by \u03BB/4. When applied correctly, it can change linear polarization into circular, and vice versa.',
   },
   maxRotation: 4, // - / | \
   rotationAngle: 45,
-  transition: (rotation) => full.quaterWavePlateWE[rotation],
+  transition: (rotation) => full.quarterWavePlateWE[rotation],
   drawUnrotablePart: (that) => {
     that.g.append('line')
       .attr('class', 'wire')
@@ -428,8 +428,8 @@ export const allTiles = [
   'PolarizingSplitter',
   'PolarizerNS',
   'PolarizerWE',
-  'QuaterWavePlateNS',
-  'QuaterWavePlateWE',
+  'QuarterWavePlateNS',
+  'QuarterWavePlateWE',
   'SugarSolution',
   'Mine',
   'Rock',

@@ -169,7 +169,7 @@ export const polarizerWE = _.range(4).map((rotation) =>
 );
 
 // NOTE same notes as for polarizer
-export const quaterWavePlate = _.range(4).map((rotation) =>
+export const quarterWavePlate = _.range(4).map((rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) =>
       Tensor.product(
@@ -183,7 +183,7 @@ export const quaterWavePlate = _.range(4).map((rotation) =>
   )
 );
 
-export const quaterWavePlateNS = _.range(4).map((rotation) =>
+export const quarterWavePlateNS = _.range(4).map((rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) => {
       if (i === 1 || i === 3) {
@@ -204,7 +204,7 @@ export const quaterWavePlateNS = _.range(4).map((rotation) =>
   )
 );
 
-export const quaterWavePlateWE = _.range(4).map((rotation) =>
+export const quarterWavePlateWE = _.range(4).map((rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) => {
       if (i === 0 || i === 2) {
