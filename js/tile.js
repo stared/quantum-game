@@ -67,6 +67,18 @@ export const ThinSplitter = {
   transition: (rotation) => full.thinSplitter[rotation],
 };
 
+export const ThinSplitterCoated = {
+  svgName: 'thin-splitter-coated',
+  desc: {
+    name: 'Coated 50/50 Beam Splitter',
+    flavour: 'Like a bread sice with butter',
+    summary: 'A thin slab of glass with a reflective layer - reflecting half the beam, and transmitting other half of it.',
+  },
+  maxRotation: 8, // - / | \ - / | \
+  rotationAngle: 45,
+  transition: (rotation) => full.thinSplitterCoated[rotation],
+};
+
 export const PolarizingSplitter = {
   svgName: 'polarizing-splitter',
   desc: {
@@ -412,6 +424,7 @@ export const allTiles = [
   'CornerCube',
   'ThinMirror',
   'ThinSplitter',
+  'ThinSplitterCoated',
   'PolarizingSplitter',
   'PolarizerNS',
   'PolarizerWE',

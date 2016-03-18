@@ -45,6 +45,13 @@ export const thinMirror = _.range(4).map((rotation) =>
   )
 );
 
+export const thinMirrorCoated = _.range(8).map((rotation) =>
+  Tensor.product(
+    direction.mirrorCoated[rotation],
+    polarization.reflectPhase
+  )
+);
+
 // NOTE 50% chance to go -> - ->
 // (I am not decided if it is a desired behavior or not)
 export const thinSplitter = _.range(4).map((rotation) =>
@@ -56,6 +63,19 @@ export const thinSplitter = _.range(4).map((rotation) =>
     Tensor.byConstant(
       thinMirror[rotation],
       {re: 0, im: Math.SQRT1_2}
+    )
+  )
+);
+
+export const thinSplitterCoated = _.range(8).map((rotation) =>
+  Tensor.sum(
+    Tensor.byConstant(
+      identity,
+      {re: Math.SQRT1_2, im: 0}
+    ),
+    Tensor.byConstant(
+      thinMirrorCoated[rotation],
+      {re: Math.SQRT1_2, im: 0}
     )
   )
 );
