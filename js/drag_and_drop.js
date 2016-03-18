@@ -49,8 +49,8 @@ export const bindDrag = (tileSelection, board, stock) => {
         source.g.classed('stock-dragged', true);
       }
 
-      // Is it impossible to drag item?
-      if (source.frozen) {
+      // Is it impossible to drag item and it's not a Source? Play sound.
+      if (source.frozen && source.tileName !== 'Source') {
         SoundService.playThrottled('error');
       }
     })
