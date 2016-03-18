@@ -5,12 +5,12 @@ console.log(soundjs);
 
 const SOUND_DEFS = {
   blip: {
-    file: 'blip.wav',
+    file: 'blip.mp3',
     throttleMs: 100,
   },
   error: {
-    file: 'error.wav',
-    throttleMs: 500,
+    file: 'error.mp3',
+    throttleMs: 250,
   },
 };
 
@@ -44,7 +44,6 @@ export class SoundService {
   }
 
   static playThrottled(name) {
-    console.log(name);
     SoundService.throttled[name]();
   }
 }
