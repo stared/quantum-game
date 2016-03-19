@@ -67,6 +67,7 @@ class ParticleAnimation {
     this.board = board;
     this.stepNo = 0;
     this.playing = false;
+    this.initialized = false;
   }
 
   initialize() {
@@ -76,9 +77,13 @@ class ParticleAnimation {
     this.absorptionTextGroup = this.board.svg
       .append('g')
       .attr('class', 'absorption-texts');
+    this.initialized = true;
   }
 
   play() {
+    if (!this.initialized) {
+      this.initialize();
+    }
     if (!this.playing) {
       this.playing = true;
       this.nextFrame();
@@ -89,6 +94,7 @@ class ParticleAnimation {
     this.pause();
     this.measurementTextGroup.remove();
     this.absorptionTextGroup.remove();
+    this.initialized = false;
   }
 
   pause() {

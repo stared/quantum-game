@@ -386,8 +386,10 @@ export class Board {
         this.simulationQ.measurementHistory,
         this.winningStatus.absorptionProbabilities,
         this.generateFooterCallback());
-      this.particleAnimation.initialize();
     }
+    // Particle animation should be initialized by `play` method in two cases:
+    // - when it was just created
+    // - when the animation was stopped (thus, uninitialized)
     if (this.particleAnimation.playing) {
       this.particleAnimation.pause();
     } else {
