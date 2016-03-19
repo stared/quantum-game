@@ -361,6 +361,10 @@ body {
     z-index: 4;
     cursor: pointer;
 }
+#game > canvas.helper-canvas {
+  z-index: -1;
+  visibility: hidden;
+}
 #animation-controls {
     position: fixed;
     bottom: 20px;

@@ -270,6 +270,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   constructor(board, history, measurementHistory, absorptionProbabilities, callback) {
     super(board, history, measurementHistory, absorptionProbabilities, callback);
     this.canvas = null;
+    this.helperCanvas = null;
     this.ctx = null;
     this.startTime = 0;
     this.pauseTime = 0;
@@ -293,6 +294,9 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     if (this.canvas) {
       this.canvas.remove();
     }
+    if (this.helperCanvas) {
+      this.helperCanvas.remove();
+    }
   }
 
   play() {
@@ -311,6 +315,11 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     this.canvas = d3.select('#game')
       .append('canvas');
     this.ctx = this.canvas[0][0].getContext('2d');
+    // Similar for helper canvas
+    this.helperCanvas = d3.select('#game')
+      .append('canvas');
+    this.helperCanvas.classed('helper-canvas', true);
+    this.helperCtx = this.helperCanvas[0][0].getContext('2d');
     // Stop animation when clicked on canvas
     this.canvas[0][0].addEventListener('click', this.stop.bind(this));
     // Initial canvas resize
@@ -323,17 +332,21 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   resizeCanvas() {
     // Get the size of #game > svg > .background element
     const box = this.board.svg.select('.background').node().getBoundingClientRect();
-    this.canvas
-      .style({
-        width:  `${Math.round(box.width)}px`,
-        height: `${Math.round(box.height)}px`,
-        top:    `${Math.round(box.top)}px`,
-        left:   `${Math.round(box.left)}px`,
-      })
-      .attr({
-        width:  this.board.level.width * tileSize,
-        height: this.board.level.height * tileSize,
-      });
+    const resizer = (canvas) => {
+      canvas
+        .style({
+          width:  `${Math.round(box.width)}px`,
+          height: `${Math.round(box.height)}px`,
+          top:    `${Math.round(box.top)}px`,
+          left:   `${Math.round(box.left)}px`,
+        })
+        .attr({
+          width:  this.board.level.width * tileSize,
+          height: this.board.level.height * tileSize,
+        });
+    }
+    resizer(this.canvas);
+    resizer(this.helperCanvas);
   }
 
   nextFrame() {
@@ -367,12 +380,23 @@ export class CanvasParticleAnimation extends ParticleAnimation {
    * t is in range [0, 1).
    */
   updateParticles(t) {
+    // Copy image to helper context
+    this.helperCtx.clearRect(
+      0, 0,
+      this.board.level.width * tileSize,
+      this.board.level.height * tileSize
+    );
+    this.helperCtx.globalAlpha = 0.97;
+    this.helperCtx.drawImage(this.canvas[0][0], 0, 0);
+    // Draw image from helper context, a bit faded-out
     this.ctx.clearRect(
       0, 0,
       this.board.level.width * tileSize,
       this.board.level.height * tileSize
     );
-    this.ctx.fillStyle = 'coral';
+    this.ctx.drawImage(this.helperCanvas[0][0], 0, 0);
+    // Actual drawing
+    this.ctx.fillStyle = 'red';
     _.each(this.history[this.stepNo], (d) => {
       this.ctx.beginPath();
       this.ctx.globalAlpha = d.prob;
@@ -388,5 +412,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
       this.ctx.arc(x, y, s, 0, 360, false);
       this.ctx.fill();
     });
+    // Reset alpha
+    this.ctx.globalAlpha = 1;
   }
 }

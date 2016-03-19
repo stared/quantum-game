@@ -380,7 +380,7 @@ export class Board {
     this.logger.logAction('simulationPlay');
     if (!this.particleAnimation) {
       this.generateHistory();
-      this.particleAnimation = new particles.SVGParticleAnimation(
+      this.particleAnimation = new particles.CanvasParticleAnimation(
         this,
         this.simulationQ.history,
         this.simulationQ.measurementHistory,
