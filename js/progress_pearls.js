@@ -21,6 +21,7 @@ export class ProgressPearls {
         .attr('cx', -0.75 * tileSize)
         .attr('cy', (d, i) => 0.25 * tileSize * i + 0.5 * tileSize)
         .on('click', (d) => {
+          this.game.gameBoard.stop();
           this.game.gameBoard.loadLevel(d);
         });
 
