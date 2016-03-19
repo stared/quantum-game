@@ -29,7 +29,7 @@ export class WinningStatus {
 
     this.probsAtDets = _(this.absorptionProbabilities)
       .filter((entry) =>
-        this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].tileName === 'Detector'
+        this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].tileName === 'Detector' || this.tileMatrix[entry.i][entry.j].tileName === 'DetectorFour'
       )
       .pluck('probability')
       .value();

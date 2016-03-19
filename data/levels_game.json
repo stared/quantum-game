@@ -195,7 +195,7 @@
       {"i": 7, "j": 2, "name": "Mine", "rotation": 0, "frozen": true},
       {"i": 7, "j": 4, "name": "ThinSplitter", "rotation": 1, "frozen": false},
       {"i": 7, "j": 8, "name": "ThinMirror", "rotation": 1, "frozen": true},
-      {"i": 9, "j": 4, "name": "Detector", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 4, "name": "DetectorFour", "rotation": 0, "frozen": true},
       {"i": 9, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": true}
     ]
   },
