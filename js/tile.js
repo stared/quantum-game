@@ -3,6 +3,7 @@ import changeCase from 'change-case';
 
 import * as config from './config';
 import * as full from './tensor/full';
+import {SoundService} from './sound_service';
 
 export const Vacuum = {
   svgName: 'vacuum',
@@ -235,6 +236,9 @@ export const Mine = {
   maxRotation: 1, // []
   rotationAngle: 360,
   transition: () => full.zero,
+  absorbSound: () => {
+    SoundService.play('mine');
+  },
   absorbAnimation: (that) => {
 
     const gDom = that.g[0][0];
@@ -270,6 +274,9 @@ export const Rock = {
   maxRotation: 1, // []
   rotationAngle: 360,
   transition: () => full.zero,
+  absorbSound: () => {
+    SoundService.play('rock');
+  },
 };
 
 export const Glass = {
@@ -306,6 +313,9 @@ export const Absorber = {
   maxRotation: 1, // []
   rotationAngle: 360,
   transition: () => full.absorber,
+  absorbSound: () => {
+    SoundService.play('absorber');
+  },
 };
 
 export const Detector = {
@@ -318,6 +328,9 @@ export const Detector = {
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
   transition: () => full.zero,
+  absorbSound: () => {
+    SoundService.play('detector');
+  },
   absorbAnimation: (that) => {
 
     that.g.append('use')
@@ -328,7 +341,6 @@ export const Detector = {
         .duration(config.absorptionDuration)
         .style('opacity', 0)
         .remove();
-
   },
 };
 
@@ -384,6 +396,10 @@ export class Tile {
       .duration(config.rotationSpeed)
       .attr('transform', `rotate(${-endAngle},0,0)`);
 
+  }
+
+  absorbSound() {
+    (this.type.absorbSound || _.noop)();
   }
 
   absorbAnimation() {

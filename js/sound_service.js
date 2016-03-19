@@ -12,6 +12,22 @@ const SOUND_DEFS = {
     file: 'error.mp3',
     throttleMs: 250,
   },
+  detector: {
+    file: 'detector.mp3',
+    throttleMs: 100,
+  },
+  mine: {
+    file: 'mine.mp3',
+    throttleMs: 1000,
+  },
+  rock: {
+    file: 'rock.mp3',
+    throttleMs: 1000,
+  },
+  absorber: {
+    file: 'absorber.mp3',
+    throttleMs: 1000,
+  },
 };
 
 

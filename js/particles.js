@@ -143,7 +143,12 @@ class ParticleAnimation {
         .remove();
 
       this.measurementTextGroup.datum(measurement)
-        .each((d) => (d.measured && d.tile != null) ? d.tile.absorbAnimation() : null);
+        .each((d) => {
+          if (d.measured && d.tile != null) {
+            d.tile.absorbSound();
+            d.tile.absorbAnimation();
+          }
+        });
     });
 
   }
