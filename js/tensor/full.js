@@ -33,6 +33,13 @@ export const source = _.range(4).map((rotation) => {
   }];
 });
 
+export const detector = _.range(4).map((rotation) =>
+  Tensor.product(
+    direction.absorbOneDirReflectOther[rotation],
+    polarization.reflectPhase
+  )
+);
+
 export const cornerCube = Tensor.product(
   direction.cube,
   polarization.identity

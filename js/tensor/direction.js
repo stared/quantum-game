@@ -87,3 +87,16 @@ export const diode = _.range(4).map((rotation) => {
     }, {})
   );
 });
+
+export const absorbOneDirReflectOther = _.range(4).map((rotation) => {
+  return Tensor.fromObject(
+    _.reduce(directions, (acc, dirFrom, iFrom) => {
+      const dirTo = pointReflectionDirection(dirFrom);
+      acc[dirFrom] = {};
+      if (rotation !== iFrom) {
+        acc[dirFrom][dirTo] = {re: 1, im: 0};
+      }
+      return acc;
+    }, {})
+  );
+});

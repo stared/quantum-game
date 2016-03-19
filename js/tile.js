@@ -327,6 +327,30 @@ export const Detector = {
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
+  transition: (rotation) => full.detector[rotation],
+  absorbAnimaton: (that) => {
+
+    that.g.append('use')
+      .attr('xlink:href', '#detector-excitation')
+      .attr('class', 'absorbed')
+      .attr('transform', `rotate(${-that.type.rotationAngle * that.rotation},0,0)`)
+      .transition()
+        .duration(config.absorptionDuration)
+        .style('opacity', 0)
+        .remove();
+
+  },
+};
+
+export const DetectorFour = {
+  svgName: 'detector-four',
+  desc: {
+    name: 'Single Photon Detector',
+    flavour: '',
+    summary: 'Detects and amplifies electric signal from each single photon. Typically, it is the goal to get the photon here.',
+  },
+  maxRotation: 1, // []
+  rotationAngle: 360,
   transition: () => full.zero,
   absorbSound: () => {
     SoundService.play('detector');
@@ -334,7 +358,7 @@ export const Detector = {
   absorbAnimation: (that) => {
 
     that.g.append('use')
-      .attr('xlink:href', '#detector-absorbed')
+      .attr('xlink:href', '#detector-four-excitation')
       .attr('class', 'absorbed')
       .attr('transform', `rotate(${-that.type.rotationAngle * that.rotation},0,0)`)
       .transition()
@@ -453,6 +477,7 @@ export const allTiles = [
   'VacuumJar',
   'Absorber',
   'Detector',
+  'DetectorFour',
   'FaradayRotator',
 ];
 
