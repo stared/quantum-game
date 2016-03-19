@@ -21,10 +21,14 @@ module.exports = function(config) {
     ],
 
     jspm: {
+      config: 'config.js',
+      packages: 'jspm_packages/',
       useBundles: true,
       loadFiles: [
-        'js/**/*.js',
         'js/**/*.spec.js',
+      ],
+      serveFiles: [
+        'js/**/*.js',
       ],
     },
 
