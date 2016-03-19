@@ -361,7 +361,8 @@ body {
     z-index: 4;
     cursor: pointer;
 }
-#game > canvas.helper-canvas {
+#game > canvas.canvas--helper,
+#game > canvas.canvas--hidden {
   z-index: -1;
   visibility: hidden;
 }

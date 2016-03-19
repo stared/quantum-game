@@ -297,17 +297,13 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   stop() {
     super.stop();
     window.removeEventListener('resize', this.throttledResizeCanvas);
-    if (this.canvas) {
-      this.canvas.remove();
-    }
-    if (this.helperCanvas) {
-      this.helperCanvas.remove();
-    }
+    this.canvas.classed('canvas--hidden', true);
   }
 
   play() {
     this.updateStartTime();
     super.play();
+    this.canvas.classed('canvas--hidden', false);
   }
 
   forward() {
@@ -318,13 +314,10 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   initialize() {
     super.initialize();
     // Create canvas, get context
-    this.canvas = d3.select('#game')
-      .append('canvas');
+    this.canvas = d3.select('#gameCanvas');
     this.ctx = this.canvas[0][0].getContext('2d');
     // Similar for helper canvas
-    this.helperCanvas = d3.select('#game')
-      .append('canvas');
-    this.helperCanvas.classed('helper-canvas', true);
+    this.helperCanvas = d3.select('#gameHelperCanvas');
     this.helperCtx = this.helperCanvas[0][0].getContext('2d');
     // Stop animation when clicked on canvas
     this.canvas[0][0].addEventListener('click', this.stop.bind(this));
@@ -408,8 +401,11 @@ export class CanvasParticleAnimation extends ParticleAnimation {
 
   finish() {
     super.finish();
-    window.setInterval(() => { this.clearAlpha(0.8); }, 50, 20);
-    window.setTimeout(() => { this.clearAlpha(0); }, 1100);
+    const interval = window.setInterval(() => { this.clearAlpha(0.8); }, 50);
+    window.setTimeout(() => {
+      window.clearInterval(interval);
+      this.clearAlpha(0);
+    }, 1100);
   }
 
   /**
