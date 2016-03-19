@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import * as soundjs from 'soundjs';
 
-console.log(soundjs);
-
 const SOUND_DEFS = {
   blip: {
     file: 'blip.mp3',
