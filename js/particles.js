@@ -143,7 +143,7 @@ class ParticleAnimation {
         .remove();
 
       this.measurementTextGroup.datum(measurement)
-        .each((d) => (d.measured && d.tile != null) ? d.tile.absorbAnimaton() : null);
+        .each((d) => (d.measured && d.tile != null) ? d.tile.absorbAnimation() : null);
     });
 
   }

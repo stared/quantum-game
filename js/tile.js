@@ -235,7 +235,7 @@ export const Mine = {
   maxRotation: 1, // []
   rotationAngle: 360,
   transition: () => full.zero,
-  absorbAnimaton: (that) => {
+  absorbAnimation: (that) => {
 
     const gDom = that.g[0][0];
     gDom.parentNode.appendChild(gDom);
@@ -318,7 +318,7 @@ export const Detector = {
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
   transition: () => full.zero,
-  absorbAnimaton: (that) => {
+  absorbAnimation: (that) => {
 
     that.g.append('use')
       .attr('xlink:href', '#detector-absorbed')
@@ -386,11 +386,11 @@ export class Tile {
 
   }
 
-  absorbAnimaton() {
+  absorbAnimation() {
 
     // NOTE or maybe just class inheritance?
-    if (this.type.absorbAnimaton != null) {
-      this.type.absorbAnimaton(this);
+    if (this.type.absorbAnimation != null) {
+      this.type.absorbAnimation(this);
     } else {
       this.g.select('.element')
         .style('opacity', 0.3)
