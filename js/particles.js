@@ -386,21 +386,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
    * t is in range [0, 1).
    */
   updateParticles(t) {
-    // Copy image to helper context
-    this.helperCtx.clearRect(
-      0, 0,
-      this.board.level.width * tileSize,
-      this.board.level.height * tileSize
-    );
-    this.helperCtx.globalAlpha = 0.97;
-    this.helperCtx.drawImage(this.canvas[0][0], 0, 0);
-    // Draw image from helper context, a bit faded-out
-    this.ctx.clearRect(
-      0, 0,
-      this.board.level.width * tileSize,
-      this.board.level.height * tileSize
-    );
-    this.ctx.drawImage(this.helperCanvas[0][0], 0, 0);
+    this.clearAlpha(0.95);
     // Actual drawing
     this.ctx.fillStyle = 'red';
     _.each(this.history[this.stepNo], (d) => {
@@ -418,7 +404,40 @@ export class CanvasParticleAnimation extends ParticleAnimation {
       this.ctx.arc(x, y, s, 0, 360, false);
       this.ctx.fill();
     });
-    // Reset alpha
-    this.ctx.globalAlpha = 1;
   }
+
+  finish() {
+    super.finish();
+    window.setInterval(() => { this.clearAlpha(0.8); }, 50, 20);
+    window.setTimeout(() => { this.clearAlpha(0); }, 1100);
+  }
+
+  /**
+   * clearRect with alpha support.
+   * alpha - how much (in terms of transparency) of previous frame stays.
+   * clearAlpha(0) should work like clearRect().
+   */
+   clearAlpha(alpha) {
+     // Reset alpha
+     this.ctx.globalAlpha = 1;
+     // Copy image to helper context
+     if (alpha > 0) {
+       this.helperCtx.clearRect(
+         0, 0,
+         this.board.level.width * tileSize,
+         this.board.level.height * tileSize
+       );
+       this.helperCtx.globalAlpha = alpha;
+       this.helperCtx.drawImage(this.canvas[0][0], 0, 0);
+     }
+     // Draw image from helper context, a bit faded-out
+     this.ctx.clearRect(
+       0, 0,
+       this.board.level.width * tileSize,
+       this.board.level.height * tileSize
+     );
+     if (alpha > 0) {
+       this.ctx.drawImage(this.helperCanvas[0][0], 0, 0);
+     }
+   }
 }
