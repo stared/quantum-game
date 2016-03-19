@@ -92,8 +92,7 @@ class ParticleAnimation {
 
   stop() {
     this.pause();
-    this.measurementTextGroup.remove();
-    this.absorptionTextGroup.remove();
+    this.removeTexts();
     this.initialized = false;
   }
 
@@ -113,6 +112,11 @@ class ParticleAnimation {
     throw new Error('nextFrame() unimplemented');
   }
 
+  removeTexts() {
+    this.measurementTextGroup.remove();
+    this.absorptionTextGroup.remove();
+  }
+
   finish() {
     window.setTimeout(
       this.displayAbsorptionTexts.bind(this),
@@ -129,7 +133,7 @@ class ParticleAnimation {
     );
     // Make text groups disappear
     window.setTimeout(
-      this.stop.bind(this),
+      this.removeTexts.bind(this),
       absorptionDuration + absorptionTextDuration
     );
   }
@@ -323,6 +327,8 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     this.canvas[0][0].addEventListener('click', this.stop.bind(this));
     // Initial canvas resize
     this.resizeCanvas();
+    // Cancel old clearing events
+    CanvasParticleAnimation.stopClearing();
     // Set resize event handler
     window.addEventListener('resize', this.throttledResizeCanvas);
     this.startTime = new Date().getTime();
@@ -401,11 +407,37 @@ export class CanvasParticleAnimation extends ParticleAnimation {
 
   finish() {
     super.finish();
-    const interval = window.setInterval(() => { this.clearAlpha(0.8); }, 50);
-    window.setTimeout(() => {
-      window.clearInterval(interval);
+    this.startClearing();
+  }
+
+  startClearing() {
+    // There may be multiple existing instances of CanvasParticleAnimation
+    // at the same time - if player presses `play` just after previous animation
+    // has ended. There may be an overlap between old animation clearing
+    // and new animation.
+    // Global counter allowing one animation to cancel clearing of the other one.
+    CanvasParticleAnimation.clearingFramesLeft = 20;
+    this.clearing();
+  }
+
+  clearing() {
+    if (
+      CanvasParticleAnimation.clearingFramesLeft == null
+      || CanvasParticleAnimation.clearingFramesLeft <= 0
+    ) {
+      return;
+    }
+    if (CanvasParticleAnimation.clearingFramesLeft === 1) {
       this.clearAlpha(0);
-    }, 1100);
+      return;
+    }
+    CanvasParticleAnimation.clearingFramesLeft--;
+    this.clearAlpha(0.8);
+    window.setTimeout(this.clearing.bind(this), 50);
+  }
+
+  static stopClearing() {
+    CanvasParticleAnimation.clearingFramesLeft = 0;
   }
 
   /**
