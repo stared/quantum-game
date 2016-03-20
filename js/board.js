@@ -484,6 +484,6 @@ export class Board {
     this.level.i = levelRecipe.i;
     this.level.next = levelRecipe.next;
     this.reset();
-
+    this.progressPearls.update();
   }
 }

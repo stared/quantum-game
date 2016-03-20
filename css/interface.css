@@ -487,7 +487,26 @@ div.tooltip {
     opacity: 0.5;
 }
 
-.pearl:hover {
-    stroke: black;
-    stroke-width: 2px;
+.pearl {
+  fill: red;
+  stroke: brown;
+  stroke-width: 4px;
+  cursor: pointer;
+}
+.pearl:not(.pearl--current):hover {
+  stroke: black;
+}
+.pearl--passed {
+  fill: lime;
+  stroke: green;
+}
+.pearl--current {
+  stroke: red;
+  fill-opacity: 0;
+}
+.pearl--current.pearl--passed {
+  stroke: lime;
+}
+.pearl--current:hover {
+  fill-opacity: 0.5;
 }

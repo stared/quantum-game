@@ -254,4 +254,11 @@ export class Game {
       this.setView('encyclopediaSelector');
     });
   }
+
+  currentLevelName() {
+    if (this.gameBoard == null) {
+      return null;
+    }
+    return this.gameBoard.level.name;
+  }
 }

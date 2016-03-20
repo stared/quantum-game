@@ -36,12 +36,11 @@ export class ProgressPearls {
     // TODO(migdal) current level indicator (line? perspective? dot?)
 
     this.pearls
-      .style('fill', (d) => {
-        if (this.game.storage.getItem(`isWon ${d.group} ${d.name}`) === 'true') {
-          return '#0f0';
-        } else {
-          return '#f00';
-        }
+      .classed('pearl--passed', (d) => {
+        return this.game.storage.getItem(`isWon ${d.group} ${d.name}`) === 'true';
+      })
+      .classed('pearl--current', (d) => {
+        return this.game.currentLevelName() === d.name;
       });
   }
 
