@@ -331,7 +331,7 @@ export const Detector = {
   absorbSound: () => {
     SoundService.play('detector');
   },
-  absorbAnimaton: (that) => {
+  absorbAnimation: (that) => {
 
     that.g.append('use')
       .attr('xlink:href', '#detector-excitation')
