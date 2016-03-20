@@ -22,6 +22,10 @@ export const polarizationScaleH = 15;
 export const polarizationScaleV = 0.7;
 // Canvas resize throttling (ms)
 export const resizeThrottle = 100;
+// How often we should draw particles on canvas, measured in light units.
+// Example: when set to 20, there should be 20 drawings of dot every time
+// when photon travels one tile.
+export const canvasDrawFrequency = 20;
 // Absorption animation duration (ms)
 export const absorptionDuration = 2000;
 // Absorption test duration (ms)

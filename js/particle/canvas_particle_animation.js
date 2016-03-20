@@ -3,7 +3,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 
 import {TAU, perpendicularI, perpendicularJ} from '../const';
-import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle} from '../config';
+import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle, canvasDrawFrequency} from '../config';
 import {ParticleAnimation} from './particle_animation';
 
 export class CanvasParticleAnimation extends ParticleAnimation {
@@ -62,6 +62,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     // Set resize event handler
     window.addEventListener('resize', this.throttledResizeCanvas);
     this.startTime = new Date().getTime();
+    this.lastStepFloat = 0;
   }
 
   resizeCanvas() {
@@ -92,10 +93,14 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     const stepIncreased = this.stepNo > oldStepNo;
 
     if (this.stepNo < this.history.length - 1) {
-      this.updateParticles(stepFloat - this.stepNo);
+      const relativeStepNo = stepFloat - this.stepNo;
+      const relativeLastStepNo = this.lastStepFloat - this.stepNo;
+      this.updateParticles(relativeStepNo, relativeLastStepNo);
       if (stepIncreased) {
         this.displayMeasurementTexts(this.stepNo);
       }
+      // Update last step
+      this.lastStepFloat = stepFloat;
       // Request next frame if playing or if the animation didn't manage
       // to get to the keyframe.
       if (this.playing || !stepIncreased) {
@@ -109,16 +114,37 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   }
 
   /**
+   *
+   */
+  updateParticles(stepFloat, lastStepFloat) {
+    const substepStart = Math.round(lastStepFloat * canvasDrawFrequency);
+    const substepEnd = Math.round(stepFloat * canvasDrawFrequency);
+    for (let substep = substepStart; substep <= substepEnd; ++substep) {
+      this.updateParticlesHelper(substep / canvasDrawFrequency);
+    }
+  }
+
+  /**
    * Draw particles basing on current step (this.stepNo)
    * and t, which represents how far we are in progression
    * from step stepNo to step (stepNo + 1).
-   * t is in range [0, 1).
+   *
+   * `t` usually should be in range [0, 1).
+   * It may happen that it's below 0, e.g. when we draw particles from previous
+   * frame.
    */
-  updateParticles(t) {
+  updateParticlesHelper(t) {
     this.clearAlpha(0.95);
+    // Determine which step to access. It is possible that we progressed with
+    // this.stepNo, but we have still to draw some dots from previous step.
+    let stepNo = this.stepNo;
+    while (t < 0) {
+      stepNo--;
+      t += 1;
+    }
     // Actual drawing
     this.ctx.fillStyle = 'red';
-    _.each(this.history[this.stepNo], (d) => {
+    _.each(this.history[stepNo], (d) => {
       this.ctx.beginPath();
       this.ctx.globalAlpha = d.prob;
       const h = polarizationScaleH * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
