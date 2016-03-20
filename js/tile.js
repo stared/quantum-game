@@ -328,6 +328,9 @@ export const Detector = {
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
   transition: (rotation) => full.detector[rotation],
+  absorbSound: () => {
+    SoundService.play('detector');
+  },
   absorbAnimaton: (that) => {
 
     that.g.append('use')
