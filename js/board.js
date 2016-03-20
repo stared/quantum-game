@@ -278,7 +278,7 @@ export class Board {
       .on('click', this.forward.bind(board));
     animationControls.select('.reset')
       .on('click', () => {
-        this.loadLevel(this.levelsLookup[`${this.level.group} ${this.level.name}`], false);
+        this.reloadLevel(false);
       });
     animationControls.select('#download')
       .on('click', function () {
@@ -455,7 +455,7 @@ export class Board {
     window.console.log(levelJSON);
   }
 
-  loadLevel(levelRecipe, checkStorage = true) {
+  loadLevel(levelRecipe, checkStorage = true, dev = false) {
 
     window.console.log('log from the last level', stringify(this.logger.log));
     this.logger.save();
@@ -477,11 +477,16 @@ export class Board {
       }
     }
 
-    this.level = new Level(levelToLoad);
+    this.level = new Level(levelToLoad, dev ? 'dev' : 'game');
     this.level.i = levelRecipe.i;
     this.level.next = levelRecipe.next;
     this.reset();
     this.progressPearls.update();
+  }
+
+  // dev = true only from console
+  reloadLevel(dev) {
+    this.loadLevel(this.levelsLookup[`${this.level.group} ${this.level.name}`], false, dev);
   }
 
   saveProgress() {
