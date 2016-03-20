@@ -333,7 +333,7 @@ export const Detector = {
   },
   absorbAnimation: (that) => {
 
-    // maybe until element move ornext run?
+    // maybe until element move or next run?
     that.g.append('use')
       .attr('xlink:href', '#detector-excitation')
       .attr('class', 'absorbed')
@@ -372,14 +372,27 @@ export const DetectorFour = {
   },
   absorbAnimation: (that) => {
 
+    // maybe until element move or next run?
     that.g.append('use')
-      .attr('xlink:href', '#detector-four-excitation')
+      .attr('xlink:href', '#detector-excitation')
       .attr('class', 'absorbed')
       .attr('transform', `rotate(${-that.type.rotationAngle * that.rotation},0,0)`)
       .transition()
-        .duration(config.absorptionDuration)
+        .delay(config.absorptionDuration * 2)
+        .duration(config.absorptionDuration * 3)
         .style('opacity', 0)
         .remove();
+
+    that.g.append('use')
+      .attr('xlink:href', '#detector-excitation')
+      .attr('transform', 'scale(1)')
+      .transition()
+        .duration(config.absorptionDuration / 3)
+        .ease('linear')
+        .attr('transform', 'scale(20)')
+        .style('opacity', 0)
+        .remove();
+
   },
 };
 
