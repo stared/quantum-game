@@ -4,7 +4,7 @@ import stringify from 'json-stringify-pretty-compact';
 
 import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax, margin, stockColumns} from './config';
 import * as config from './config';
-import * as particles from './particles';
+import {CanvasParticleAnimation} from './particle/canvas_particle_animation';
 import * as simulation from './simulation';
 import {Stock} from './stock';
 import * as tile from './tile';
@@ -380,7 +380,7 @@ export class Board {
     this.logger.logAction('simulationPlay');
     if (!this.particleAnimation) {
       this.generateHistory();
-      this.particleAnimation = new particles.CanvasParticleAnimation(
+      this.particleAnimation = new CanvasParticleAnimation(
         this,
         this.simulationQ.history,
         this.simulationQ.measurementHistory,
