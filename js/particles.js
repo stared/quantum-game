@@ -429,6 +429,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
     if (CanvasParticleAnimation.clearingFramesLeft === 1) {
       this.clearAlpha(0);
+      this.stop();
       return;
     }
     CanvasParticleAnimation.clearingFramesLeft--;
