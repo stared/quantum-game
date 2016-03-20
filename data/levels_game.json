@@ -607,12 +607,9 @@
     "tiles": [
       {"i": 5, "j": 2, "name": "ThinMirror", "rotation": 1, "frozen": false},
       {"i": 5, "j": 8, "name": "ThinMirror", "rotation": 3, "frozen": false},
-      {"i": 7, "j": 1, "name": "Rock", "rotation": 0, "frozen": true},
       {"i": 7, "j": 2, "name": "Detector", "rotation": 0, "frozen": true},
-      {"i": 7, "j": 3, "name": "Rock", "rotation": 0, "frozen": true},
       {"i": 7, "j": 4, "name": "ThinMirror", "rotation": 1, "frozen": false},
       {"i": 7, "j": 6, "name": "ThinMirror", "rotation": 3, "frozen": false},
-      {"i": 8, "j": 2, "name": "Rock", "rotation": 0, "frozen": true},
       {"i": 9, "j": 3, "name": "Source", "rotation": 3, "frozen": true},
       {"i": 9, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": true},
       {"i": 9, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": false},
@@ -640,7 +637,6 @@
       {"i": 8, "j": 6, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
       {"i": 9, "j": 4, "name": "FaradayRotator", "rotation": 0, "frozen": false},
       {"i": 10, "j": 4, "name": "ThinMirror", "rotation": 2, "frozen": false},
-      {"i": 10, "j": 5, "name": "Rock", "rotation": 0, "frozen": true},
       {"i": 10, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
     ]
   },
@@ -716,9 +712,6 @@
       {"i": 9, "j": 4, "name": "FaradayRotator", "rotation": 0, "frozen": false},
       {"i": 10, "j": 2, "name": "ThinMirror", "rotation": 2, "frozen": false},
       {"i": 10, "j": 4, "name": "ThinMirror", "rotation": 2, "frozen": false},
-      {"i": 10, "j": 5, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 11, "j": 6, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 10, "j": 7, "name": "Mine", "rotation": 0, "frozen": true},
       {"i": 10, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
     ]
   },
