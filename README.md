@@ -7,17 +7,17 @@ Official address: http://quantumgame.io/.
 
 State: in development (alpha). Release data (estimate): 31 March 2016.
 
-Authors: [Piotr Migdał](http://migdal.wikidot.com/), Patryk Hes, [Michał Krupiński](http://www.fiztaszki.pl/user/3).
+Authors: [Piotr Migdał](http://migdal.wikidot.com/), [Patryk Hes](https://github.com/pathes), [Michał Krupiński](http://www.fiztaszki.pl/user/3).
 
 Supported by [eNgage III/2014](http://www.fnp.org.pl/laureaci-engage-iii-edycja/) grant.
 
 # Development version
 
-## Installing
+## Installings
 
 First, install global packages:
 ```bash
-npm install --global jspm karma-cli
+npm install --global karma-cli
 ```
 
 Then install local packages.
