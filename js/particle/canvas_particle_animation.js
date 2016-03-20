@@ -7,8 +7,8 @@ import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeTh
 import {ParticleAnimation} from './particle_animation';
 
 export class CanvasParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, callback) {
-    super(board, history, measurementHistory, absorptionProbabilities, callback);
+  constructor(board, history, measurementHistory, absorptionProbabilities, finishCallback) {
+    super(board, history, measurementHistory, absorptionProbabilities, finishCallback);
     this.canvas = null;
     this.helperCanvas = null;
     this.ctx = null;

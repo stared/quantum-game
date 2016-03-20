@@ -5,7 +5,7 @@ import {tileSize, absorptionDuration, absorptionTextDuration} from '../config';
 import {Particle} from './particle';
 
 export class ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, callback) {
+  constructor(board, history, measurementHistory, absorptionProbabilities, finishCallback) {
 
     this.history = history.map((state) => {
       return _.chain(state)
@@ -27,7 +27,7 @@ export class ParticleAnimation {
     this.measurementHistory = measurementHistory;
     this.absorptionProbabilities = absorptionProbabilities;
     this.animationStepDuration = board.animationStepDuration;
-    this.callback = callback;
+    this.finishCallback = finishCallback;
     this.board = board;
     this.stepNo = 0;
     this.playing = false;
@@ -92,7 +92,7 @@ export class ParticleAnimation {
       this.animationStepDuration
     );
     window.setTimeout(
-      this.callback.bind(this),
+      this.finishCallback.bind(this),
       this.absorptionDuration
     );
     // Make text groups disappear
