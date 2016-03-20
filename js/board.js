@@ -21,7 +21,6 @@ function tileSimpler(name, i, j) {
 
 export class Board {
   constructor(level, svg, helper, titleManager, levels, progressPearls, storage) {
-    this.level = level;
     this.levels = levels;
     this.levelsLookup = _.indexBy(levels, (levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`);
     this.svg = svg;
@@ -34,6 +33,8 @@ export class Board {
     this.stock = new Stock(svg, this);
     this.logger = new Logger();
     this.logger.logAction('initialLevel');
+    // Load the level
+    this.loadLevel(level);
   }
 
   reset() {
@@ -386,6 +387,7 @@ export class Board {
         this.simulationQ.measurementHistory,
         this.winningStatus.absorptionProbabilities,
         this.generateFooterCallback());
+      this.saveProgress();
     }
     if (this.particleAnimation.playing) {
       this.particleAnimation.pause();
@@ -465,12 +467,7 @@ export class Board {
       levelToLoad = levelRecipe;
       this.logger.logAction('loadLevel', {fromStorage: false});
     } else {
-      // save progress
-      // TODO use hash of sorted elements so to ensure levels are unique?
-      this.storage.setItem(
-        `${this.level.group} ${this.level.name}`,
-         stringify(this.exportBoard())
-      );
+      this.saveProgress();
 
       if (this.storage.hasOwnProperty(`${levelRecipe.group} ${levelRecipe.name}`)) {
         levelToLoad = JSON.parse(this.storage.getItem(`${levelRecipe.group} ${levelRecipe.name}`));
@@ -485,5 +482,16 @@ export class Board {
     this.level.next = levelRecipe.next;
     this.reset();
     this.progressPearls.update();
+  }
+
+  saveProgress() {
+    // Save progress if there was any level loaded
+    // TODO use hash of sorted elements so to ensure levels are unique?
+    if (this.level != null) {
+      this.storage.setItem(
+        `${this.level.group} ${this.level.name}`,
+         stringify(this.exportBoard())
+      );
+    }
   }
 }

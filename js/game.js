@@ -221,7 +221,8 @@ export class Game {
   }
 
   createGameBoard() {
-    const demoLevel = new level.Level(level.levels[1]);
+    // TODO(pathes): load last played level information from storage
+    const initialLevel = level.levels[1];
     this.titleManager = new title_manager.TitleManager(
       d3.select('.top-bar__title'),
       d3.select('.top-bar__subtitle'));
@@ -232,7 +233,7 @@ export class Game {
     );
     this.progressPearls.draw();
     this.gameBoard = new board.Board(
-      demoLevel,
+      initialLevel,
       d3.select('#game svg'),
       d3.select('#helper'),
       this.titleManager,
