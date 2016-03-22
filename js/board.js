@@ -282,7 +282,7 @@ export class Board {
       });
     animationControls.select('#download')
       .on('click', function () {
-        this.logger.logAction('reset');
+        board.logger.logAction('reset');
         board.clipBoard(this);
       });
 
