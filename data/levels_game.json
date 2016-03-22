@@ -741,5 +741,95 @@
       {"i": 8, "j": 8, "name": "Detector", "rotation": 3, "frozen": true},
       {"i": 10, "j": 5, "name": "Mine", "rotation": 0, "frozen": true}
     ]
+  },
+  {
+    "name": "Sugar eigenbasis",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "texts": {"before": "It has its sweet, circular basis."},
+    "tiles": [
+      {"i": 1, "j": 2, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 2, "j": 2, "name": "QuarterWavePlateWE", "rotation": 3, "frozen": false},
+      {"i": 4, "j": 2, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 4, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 6, "j": 2, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 6, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 9, "j": 2, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 5, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 11, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
+    ]
+  },
+  {
+    "name": "Cascade switches",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "texts": {"before": "Splitting and joining..."},
+    "tiles": [
+      {"i": 3, "j": 5, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 5, "j": 3, "name": "ThinMirror", "rotation": 1, "frozen": true},
+      {"i": 5, "j": 5, "name": "ThinSplitter", "rotation": 1, "frozen": true},
+      {"i": 5, "j": 7, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 1, "name": "ThinMirror", "rotation": 1, "frozen": true},
+      {"i": 7, "j": 3, "name": "ThinSplitter", "rotation": 1, "frozen": true},
+      {"i": 7, "j": 4, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 7, "j": 5, "name": "ThinMirror", "rotation": 1, "frozen": true},
+      {"i": 8, "j": 3, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 9, "j": 1, "name": "ThinSplitter", "rotation": 1, "frozen": true},
+      {"i": 9, "j": 3, "name": "ThinMirror", "rotation": 1, "frozen": true},
+      {"i": 11, "j": 1, "name": "Source", "rotation": 2, "frozen": true}
+    ]
+  },
+  {
+    "name": "Polarization and interference cascade",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "texts": {"before": "Sort polarization before it's too late!"},
+    "tiles": [
+      {"i": 1, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 3, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 4, "j": 1, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 4, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 5, "j": 1, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 2, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 5, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 5, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 7, "name": "Detector", "rotation": 2, "frozen": true},
+      {"i": 6, "j": 3, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 7, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 5, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 7, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 7, "j": 9, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 3, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 5, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 11, "j": 5, "name": "Detector", "rotation": 0, "frozen": true}
+    ]
+  },
+  {
+    "name": "Interfering polarization",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "texts": {"before": "Adding and subtracting."},
+    "tiles": [
+      {"i": 1, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 3, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 3, "j": 4, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 1, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 5, "j": 6, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 7, "j": 1, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 6, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 7, "j": 8, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 4, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 9, "j": 6, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 11, "j": 4, "name": "Mine", "rotation": 0, "frozen": true}
+    ]
   }
 ]
