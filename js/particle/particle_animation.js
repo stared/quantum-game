@@ -68,10 +68,6 @@ export class ParticleAnimation {
     this.nextFrame();
   }
 
-  backward() {
-    throw new Error('backward() unimplemented');
-  }
-
   nextFrame() {
     throw new Error('nextFrame() unimplemented');
   }

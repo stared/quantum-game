@@ -378,9 +378,7 @@ body {
     height: 40px;
     line-height: 40px;
 }
-#animation-controls .backward {
-    opacity: 0.5;
-}
+
 .animation-control {
     fill: #111;
     stroke: none;
