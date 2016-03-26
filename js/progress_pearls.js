@@ -1,6 +1,8 @@
 import d3 from 'd3';
 import {tileSize} from './config';
 
+const PEARLS_PER_COL = 36;
+
 export class ProgressPearls {
 
   constructor(selector, levels, game) {
@@ -17,9 +19,9 @@ export class ProgressPearls {
     this.pearls.enter()
       .append('circle')
         .attr('class', 'pearl')
-        .attr('r', 0.1 * tileSize)
-        .attr('cx', -0.75 * tileSize)
-        .attr('cy', (d, i) => 0.25 * tileSize * i + 0.5 * tileSize)
+        .attr('r', 0.08 * tileSize)
+        .attr('cx', (d, i) => (0.25 * Math.floor(i / PEARLS_PER_COL) - 0.75) * tileSize)
+        .attr('cy', (d, i) => (0.25 * (i % PEARLS_PER_COL) + 0.5) * tileSize)
         .on('click', (d) => {
           this.game.gameBoard.stop();
           this.game.gameBoard.loadLevel(d);
