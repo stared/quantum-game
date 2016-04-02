@@ -38,12 +38,6 @@ export class Stock {
     const maxColumns = Math.ceil(this.usedTileNames.length / maxRows);
     const iShift = this.level.width + 1;
 
-    this.stockGroup.append('rect')
-      .attr('width', maxColumns * tileSize)
-      .attr('height', maxRows * tileSize)
-      .attr('x', iShift * tileSize)
-      .attr('class', 'stock-bg');
-
     const dataForStockDrawing = _.map(this.usedTileNames, (name, i) => ({
         name: name,
         i: Math.floor(i / maxRows) + iShift,
@@ -59,9 +53,15 @@ export class Stock {
         .attr('class', 'stock-slot')
         .classed('stock-empty', (d) => this.stock[d.name] <= 0);
 
+    stockSlotsEntered.append('rect')
+      .attr('class', 'background-tile')
+      .attr('width', tileSize)
+      .attr('height', tileSize)
+      .attr('transform', (d) => `translate(${d.i * tileSize},${d.j * tileSize})`);
+
     stockSlotsEntered.append('text')
       .attr('class', 'stock-count')
-      .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 1.0) * tileSize})`)
+      .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 0.9) * tileSize})`)
       .text((d) => `x ${this.stock[d.name]}`);
 
     this.stockTiles = stockSlotsEntered.append('g')
