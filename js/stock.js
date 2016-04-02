@@ -6,7 +6,7 @@ import {tileSize} from './config';
 import {bindDrag} from './drag_and_drop';
 
 export class Stock {
-  constructor(svg, board, bindDrag) {
+  constructor(svg, board) {
     this.svg = svg;
     this.board = board;
   }
