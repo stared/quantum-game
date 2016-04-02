@@ -88,6 +88,7 @@ export const bindDrag = (tileSelection, board, stock) => {
       if (source.newI == null || source.newJ == null) {
         if (source.fromStock) {
           source.g.remove();
+          stock.updateCount(source.tileName, +1);
         }
         return;
       }
