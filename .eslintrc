@@ -1,4 +1,8 @@
 {
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+  },
   "ecmaFeatures": {
     "arrowFunctions": true,
     "binaryLiterals": true,
@@ -29,7 +33,8 @@
     "no-var": 2,
     "quotes": [1, "single"],
     "key-spacing": 0,
-    "no-alert": 0
+    "no-alert": 0,
+    "no-undef": 2
   },
   "env": {
     "browser": true
