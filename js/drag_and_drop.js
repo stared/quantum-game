@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import {tileSize, repositionSpeed} from './config';
 import {SoundService} from './sound_service';
+import * as tile from './tile';
 
 export const bindDrag = (tileSelection, board, stock) => {
 
