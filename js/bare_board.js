@@ -179,7 +179,7 @@ export class BareBoard {
         return;
       }
 
-      if (board.particleAnimation) {
+      if (board.animationExists) {
         this.logger.logAction('simulationStop', {cause: 'click on element'});
         board.stop();
         board.callbacks.experimentDisturbed();
