@@ -4,6 +4,8 @@ import _ from 'lodash';
 import {tileSize, absorptionDuration, absorptionTextDuration} from '../config';
 import {Particle} from './particle';
 
+// FIX callbackgeneration
+
 export class ParticleAnimation {
   constructor(board, history, measurementHistory, absorptionProbabilities, finishCallback) {
 
@@ -32,6 +34,8 @@ export class ParticleAnimation {
     this.stepNo = 0;
     this.playing = false;
     this.initialized = false;
+    // report it to the board
+    this.board.animationExists = true;
   }
 
   initialize() {
@@ -42,6 +46,7 @@ export class ParticleAnimation {
       .append('g')
       .attr('class', 'absorption-texts');
     this.initialized = true;
+    this.board.animationExists = true;
   }
 
   play() {
@@ -58,6 +63,7 @@ export class ParticleAnimation {
     this.pause();
     this.removeTexts();
     this.initialized = false;
+    this.board.animationExists = false;
   }
 
   pause() {
@@ -77,6 +83,7 @@ export class ParticleAnimation {
     this.absorptionTextGroup.remove();
   }
 
+  // NOTE maybe just one timout would suffice
   finish() {
     window.setTimeout(
       this.displayAbsorptionTexts.bind(this),
@@ -89,6 +96,10 @@ export class ParticleAnimation {
     );
     window.setTimeout(
       this.finishCallback.bind(this),
+      this.absorptionDuration
+    );
+    window.setTimeout(
+      () => {this.board.animationExists = false;},
       this.absorptionDuration
     );
     // Make text groups disappear

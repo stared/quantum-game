@@ -4,7 +4,7 @@ import d3 from 'd3';
 
 import * as tile from './tile';
 import * as level from './level';
-import * as board from './board';
+import {GameBoard} from './game_board';
 import * as title_manager from './title_manager';
 import {TransitionHeatmap} from './transition_heatmap';
 import {ProgressPearls} from './progress_pearls';
@@ -232,7 +232,7 @@ export class Game {
       this
     );
     this.progressPearls.draw();
-    this.gameBoard = new board.Board(
+    this.gameBoard = new GameBoard(
       initialLevel,
       d3.select('#game svg'),
       d3.select('#helper'),

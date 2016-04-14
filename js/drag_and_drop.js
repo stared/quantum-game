@@ -3,6 +3,7 @@ import {tileSize, repositionSpeed} from './config';
 import {SoundService} from './sound_service';
 import * as tile from './tile';
 
+// TODO should also work without stock
 export const bindDrag = (tileSelection, board, stock) => {
 
   function reposition(data, keep = true) {
@@ -33,9 +34,7 @@ export const bindDrag = (tileSelection, board, stock) => {
 
       if (board.particleAnimation) {
         board.stop();
-        board.titleManager.displayMessage(
-          'Experiment disturbed! Quantum states are fragile...',
-          'failure');
+        board.callbacks.experimentDisturbed();
       }
 
       // Is it from stock?

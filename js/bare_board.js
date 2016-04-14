@@ -1,61 +1,46 @@
 import _ from 'lodash';
 import d3 from 'd3';
-import stringify from 'json-stringify-pretty-compact';
 
-import {tileSize, repositionSpeed, DEV_MODE, animationStepDuration, animationStepDurationMin, animationStepDurationMax, margin, stockColumns} from './config';
-import * as config from './config';
+import {tileSize, DEV_MODE, animationStepDuration, margin, stockColumns} from './config';
 import {CanvasParticleAnimation} from './particle/canvas_particle_animation';
 import * as simulation from './simulation';
-import {Stock} from './stock';
 import * as tile from './tile';
-import {Level} from './level';
 import {WinningStatus} from './winning_status';
 import {bindDrag} from './drag_and_drop';
 import {Logger} from './logger';
 import {SoundService} from './sound_service';
 
-function tileSimpler(name, i, j) {
-  const tileClass = tile[name];
-  return new tile.Tile(tileClass, 0, false, i, j);
-}
-
-export class Board {
-  constructor(level, svg, helper, titleManager, levels, progressPearls, storage) {
-    this.levels = levels;
-    this.levelsLookup = _.indexBy(levels, (levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`);
+export class BareBoard {
+  constructor(svg, callbacks = {}) {
     this.svg = svg;
     this.tileMatrix = [];
-    this.helper = helper;
-    this.titleManager = titleManager;
-    this.progressPearls = progressPearls;
-    this.storage = storage;
     this.animationStepDuration = animationStepDuration;
-    this.stock = new Stock(svg, this);
+
+    // NOTE maybe some event listener instead?
+    this.callbacks = {};
+    this.callbacks.experimentDisturbed = callbacks.experimentDisturbed || (() => null);
+    this.callbacks.tileRotated = callbacks.tileRotated || (() => null);
+    this.callbacks.tileMouseover = callbacks.tileMouseover || (() => null);
+    this.callbacks.animationStart = callbacks.animationStart || (() => null);
+    this.callbacks.animationEnd = callbacks.animationEnd || (() => null);
+
     this.logger = new Logger();
     this.logger.logAction('initialLevel');
-    // Load the level
-    this.loadLevel(level);
+
+    // this field is modified by ParticleAnimation
+    this.animationExists = false;
   }
 
+  // NOTE I would call it redraw
   reset() {
-    // Reset detection
-    // TODO(pathes): make a separate component for detection % and next level button
-    d3.select('.top-bar__detection__value').html('0%');
-    d3.select('.top-bar__detection__caption').html('detection');
-    d3.select('.top-bar__detection').classed('top-bar__detection--success', false);
-    d3.select('.top-bar__detection').on('click', _.noop);
-
     // set tileMatrix according to the recipe
     this.clearTileMatrix();
     this.fillTileMatrix(this.level.tileRecipes);
 
     // Initial drawing
-    this.setHeaderTexts();
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
-    this.stock.elementCount(this.level);
-    this.stock.drawStock();
   }
 
   clearTileMatrix() {
@@ -77,28 +62,6 @@ export class Board {
         tileRecipe.j
       );
     });
-  }
-
-  get title() {
-    const textBefore = (level) =>
-      level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
-
-    return `[${this.level.group}] ${this.level.i}. ${this.level.name}${textBefore(this.level)}`;
-  }
-
-  get subtitle() {
-    if (this.level.detectorsToFeed === 0) {
-      return 'GOAL: No goals! Freedom to do whatever you like. :)';
-    } else if (this.level.detectorsToFeed === 1) {
-      return `GOAL: Make the photon fall into a detector, with ${(100 * this.level.requiredDetectionProbability).toFixed(0)}% chance.`;
-    } else {
-      return `GOAL: Make the photon fall into ${this.level.detectorsToFeed} detectors, some probability to each, total of ${(100 * this.level.requiredDetectionProbability).toFixed(0)}%.`;
-    }
-  }
-
-  setHeaderTexts() {
-    this.titleManager.setTitle(this.title);
-    this.titleManager.setDescription(this.subtitle);
   }
 
   resizeSvg() {
@@ -133,19 +96,6 @@ export class Board {
         width: tileSize,
         height: tileSize,
       });
-  }
-
-  showTileHelper(d) {
-
-    // temporary hover
-    this.titleManager.displayMessage(
-      `this is: ${d.type.desc.name}`,
-      'hover');
-
-    // things below currently don't work (due to interface changes)
-    this.helper.select('#element-name').html(d.type.desc.name);
-    this.helper.select('#element-summary').html(d.type.desc.summary);
-    this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
   }
 
   /**
@@ -208,6 +158,7 @@ export class Board {
     this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
+  // call it bareBoard?
   clickBehavior(tileSelection, board) {
     tileSelection.select('.hitbox').on('click', (d) => {
 
@@ -231,20 +182,20 @@ export class Board {
       if (board.particleAnimation) {
         this.logger.logAction('simulationStop', {cause: 'click on element'});
         board.stop();
-        board.titleManager.displayMessage(
-          'Experiment disturbed! Quantum states are fragile...',
-          'failure');
+        board.callbacks.experimentDisturbed();
       }
 
       d.rotate();
       SoundService.playThrottled('blip');
       this.logger.logAction('rotate', {name: d.tileName, i: d.i, j: d.j, toRotation: d.rotation});
-      board.showTileHelper(d);
+      board.callbacks.tileRotated(d);
 
     })
-    .on('mouseover', (d) => this.showTileHelper(d));
+    .on('mouseover', (d) => board.callbacks.tileMouseover(d));
 
+    // this is a tricky part
     // freeze/unfreeze traingular button
+    // FIX allow adding it later
     if (this.level.group === 'A Dev' || DEV_MODE) {
       tileSelection
         .append('path')
@@ -260,45 +211,6 @@ export class Board {
     }
   }
 
-  /**
-   * Set up animation controls - bind events to buttons
-   * @param animationControls d3-wrapped container for control buttons
-   */
-  setAnimationControls(animationControls) {
-    // Don't let d3 bind clicked element as `this` to methods.
-    const board = this;
-    animationControls.select('.play')
-      .on('click', this.play.bind(board));
-    animationControls.select('.stop')
-      .on('click', this.stop.bind(board));
-    animationControls.select('.forward')
-      .on('click', this.forward.bind(board));
-    animationControls.select('.reset')
-      .on('click', () => {
-        this.reloadLevel(false);
-      });
-    animationControls.select('#download')
-      .on('click', function () {
-        board.logger.logAction('reset');
-        board.clipBoard(this);
-      });
-
-    const durationToSlider = d3.scale.log()
-      .domain([animationStepDurationMax, animationStepDurationMin])
-      .range([0, 1]);
-
-    animationControls.select('#speed')
-      .on('click', function () {
-        const sliderWidth = this.getBoundingClientRect().width;
-        const mouseX = d3.mouse(this)[0];
-        board.animationStepDuration = durationToSlider.invert(mouseX/sliderWidth);
-        window.console.log(`New speed: ${(1000/board.animationStepDuration).toFixed(2)} tiles/s`);
-
-        d3.select(this).select('rect')
-          .attr('x', 32 * mouseX/sliderWidth - 1);
-      });
-
-  }
 
   /**
    * Generate history.
@@ -327,64 +239,22 @@ export class Board {
 
   }
 
-  /**
-   * Generate footer callback.
-   * @returns {Function} footer callback
-   */
-  generateFooterCallback() {
-
-    this.titleManager.displayMessage(
-      'Experiment in progress...',
-      'progress');
-
-    const footerCallback = () => {
-      d3.select('.top-bar__detection__value').html(`${(100 * this.winningStatus.totalProbAtDets).toFixed(0)}%`);
-
-      this.titleManager.displayMessage(
-        this.winningStatus.message,
-        this.winningStatus.isWon ? 'success' : 'failure'
-      );
-
-      if (this.winningStatus.isWon) {
-
-        // TODO(migdal): make it more serious
-        this.storage.setItem(
-          `isWon ${this.level.group} ${this.level.name}`,
-           'true'
-        );
-        this.progressPearls.update();
-
-        d3.select('.top-bar__detection').classed('top-bar__detection--success', true);
-        if (this.level.group === 'Game') {
-          // TODO(pathes): make a separate component for detection % and next level button
-          d3.select('.top-bar__detection__caption').html('next level »');
-          d3.select('.top-bar__detection').on('click', () => {
-            this.logger.logAction('nextLevelButton');
-            this.loadLevel(this.level.next);
-          });
-        }
-      }
-
-      this.particleAnimation = null;
-    };
-
-    return footerCallback;
-  }
 
   /**
    * Play animation. Generate history if necessary.
    */
+  // TODO simplify its logic?
   play() {
     this.logger.logAction('simulationPlay');
-    if (!this.particleAnimation) {
+    this.callbacks.animationStart();
+    if (!this.animationExists) {
       this.generateHistory();
       this.particleAnimation = new CanvasParticleAnimation(
         this,
         this.simulationQ.history,
         this.simulationQ.measurementHistory,
         this.winningStatus.absorptionProbabilities,
-        this.generateFooterCallback());
-      this.saveProgress();
+        this.callbacks.animationEnd);
     }
     if (this.particleAnimation.playing) {
       this.particleAnimation.pause();
@@ -395,14 +265,13 @@ export class Board {
 
   stop() {
     this.logger.logAction('simulationStop');
-    if (this.particleAnimation) {
+    if (this.animationExists) {
       this.particleAnimation.stop();
-      this.particleAnimation = null;
     }
   }
 
   forward() {
-    if (this.particleAnimation) {
+    if (this.animationExists) {
       if (this.particleAnimation.playing) {
         this.particleAnimation.pause();
       } else {
@@ -411,6 +280,7 @@ export class Board {
     }
   }
 
+  // NOTE maybe only exporting some
   exportBoard() {
     // should match interface from level.js
     return {
@@ -428,62 +298,11 @@ export class Board {
           rotation: d.rotation,
           frozen: d.frozen,
         })),
-      stock:                        this.stock.stock,
+      stock:                        this.stock ? this.stock.stock : {},  // hack for non-attached stock
       requiredDetectionProbability: this.level.requiredDetectionProbability,
       detectorsToFeed:              this.level.detectorsToFeed,
       texts:                        this.level.texts,
     };
   }
 
-  clipBoard(link) {
-    const levelJSON = stringify(this.exportBoard(), {maxLength: 100, indent: 2});
-    link.download = _.kebabCase(`${this.level.name}_${(new Date()).toISOString()}`) + '.json';
-    link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`;
-    window.console.log(levelJSON);
-  }
-
-  loadLevel(levelRecipe, checkStorage = true, dev = false) {
-
-    window.console.log('log from the last level', stringify(this.logger.log));
-    this.logger.save();
-    this.logger.reset();
-
-    let levelToLoad;
-
-    if (!checkStorage) {
-      levelToLoad = levelRecipe;
-      this.logger.logAction('loadLevel', {fromStorage: false});
-    } else {
-      this.saveProgress();
-
-      if (this.storage.hasOwnProperty(`${levelRecipe.group} ${levelRecipe.name}`)) {
-        levelToLoad = JSON.parse(this.storage.getItem(`${levelRecipe.group} ${levelRecipe.name}`));
-        this.logger.logAction('loadLevel', {fromStorage: true});
-      } else {
-        levelToLoad = levelRecipe;
-      }
-    }
-
-    this.level = new Level(levelToLoad, dev ? 'dev' : 'game');
-    this.level.i = levelRecipe.i;
-    this.level.next = levelRecipe.next;
-    this.reset();
-    this.progressPearls.update();
-  }
-
-  // dev = true only from console
-  reloadLevel(dev) {
-    this.loadLevel(this.levelsLookup[`${this.level.group} ${this.level.name}`], false, dev);
-  }
-
-  saveProgress() {
-    // Save progress if there was any level loaded
-    // TODO use hash of sorted elements so to ensure levels are unique?
-    if (this.level != null) {
-      this.storage.setItem(
-        `${this.level.group} ${this.level.name}`,
-         stringify(this.exportBoard())
-      );
-    }
-  }
 }
