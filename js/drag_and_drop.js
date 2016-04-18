@@ -32,7 +32,7 @@ export const bindDrag = (tileSelection, board, stock) => {
       d3.event.sourceEvent.stopPropagation();
       source.top = false;
 
-      if (board.particleAnimation) {
+      if (board.animationExists) {
         board.stop();
         board.callbacks.experimentDisturbed();
       }
