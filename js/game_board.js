@@ -6,14 +6,14 @@ import {animationStepDurationMin, animationStepDurationMax} from './config';
 import {Stock} from './stock';
 import {Level} from './level';
 import {BareBoard} from './bare_board';
-
+import {ProgressPearls} from './progress_pearls';
 
 // FIX level loading/storing is still too hackish
 // TODO decide where to use winning status; it seems I should move it here
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(level, svg, helper, titleManager, levels, progressPearls, storage) {
+  constructor(level, svg, helper, titleManager, levels, storage) {
 
     this.bareBoard = new BareBoard(svg, {
       experimentDisturbed: this.experimentDisturbedCallback.bind(this),
@@ -28,8 +28,14 @@ export class GameBoard {
 
     this.helper = helper;
     this.titleManager = titleManager;
-    this.progressPearls = progressPearls;
     this.storage = storage;
+
+    this.progressPearls = new ProgressPearls(
+      svg,
+      levels.filter((d) => d.group === 'Game'),
+      this
+    );
+    this.progressPearls.draw();
 
     this.stock = new Stock(svg, this.bareBoard);
     this.bareBoard.stock = this.stock;  // such monkey patching not nice

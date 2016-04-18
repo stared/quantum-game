@@ -7,7 +7,6 @@ import * as level from './level';
 import {GameBoard} from './game_board';
 import * as title_manager from './title_manager';
 import {TransitionHeatmap} from './transition_heatmap';
-import {ProgressPearls} from './progress_pearls';
 import {SoundService} from './sound_service';
 
 export class View {
@@ -226,19 +225,12 @@ export class Game {
     this.titleManager = new title_manager.TitleManager(
       d3.select('.top-bar__title'),
       d3.select('.top-bar__subtitle'));
-    this.progressPearls = new ProgressPearls(
-      d3.select('#game svg'),
-      level.levels.filter((d) => d.group === 'Game'),
-      this
-    );
-    this.progressPearls.draw();
     this.gameBoard = new GameBoard(
       initialLevel,
       d3.select('#game svg'),
       d3.select('#helper'),
       this.titleManager,
       level.levels,
-      this.progressPearls,
       this.storage);
     this.gameBoard.reset();
     this.gameBoard.setAnimationControls(
@@ -256,10 +248,4 @@ export class Game {
     });
   }
 
-  currentLevelName() {
-    if (this.gameBoard == null) {
-      return null;
-    }
-    return this.gameBoard.level.name;
-  }
 }
