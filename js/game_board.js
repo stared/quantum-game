@@ -54,6 +54,7 @@ export class GameBoard {
   }
 
   animationStartCallback() {
+    this.saveProgress();
     this.titleManager.displayMessage(
       'Experiment in progress...',
       'progress');
