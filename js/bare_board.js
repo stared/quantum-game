@@ -31,13 +31,12 @@ export class BareBoard {
     this.animationExists = false;
   }
 
-  // NOTE I would call it redraw
-  reset() {
+  redraw() {
     // set tileMatrix according to the recipe
     this.clearTileMatrix();
     this.fillTileMatrix(this.level.tileRecipes);
 
-    // Initial drawing
+    // works both as initial drawing and redrawing
     this.resizeSvg();
     this.drawBackground();
     this.drawBoard();
@@ -158,8 +157,7 @@ export class BareBoard {
     this.tileMatrix[i][j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
-  // call it bareBoard?
-  clickBehavior(tileSelection, board) {
+  clickBehavior(tileSelection, bareBoard) {
     tileSelection.select('.hitbox').on('click', (d) => {
 
       // Avoid rotation when dragged
@@ -171,7 +169,7 @@ export class BareBoard {
       if (d.frozen) {
         if (d.tileName === 'Source') {
           this.logger.logAction('play', {clickingSource: true});
-          board.play();
+          bareBoard.play();
         } else {
           // Do nothing on the board - only play the sound
           SoundService.playThrottled('error');
@@ -179,19 +177,19 @@ export class BareBoard {
         return;
       }
 
-      if (board.animationExists) {
+      if (bareBoard.animationExists) {
         this.logger.logAction('simulationStop', {cause: 'click on element'});
-        board.stop();
-        board.callbacks.experimentDisturbed();
+        bareBoard.stop();
+        bareBoard.callbacks.experimentDisturbed();
       }
 
       d.rotate();
       SoundService.playThrottled('blip');
       this.logger.logAction('rotate', {name: d.tileName, i: d.i, j: d.j, toRotation: d.rotation});
-      board.callbacks.tileRotated(d);
+      bareBoard.callbacks.tileRotated(d);
 
     })
-    .on('mouseover', (d) => board.callbacks.tileMouseover(d));
+    .on('mouseover', (d) => bareBoard.callbacks.tileMouseover(d));
 
     // this is a tricky part
     // freeze/unfreeze traingular button

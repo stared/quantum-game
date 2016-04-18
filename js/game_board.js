@@ -10,7 +10,7 @@ import {BareBoard} from './bare_board';
 
 // FIX level loading/storing is still too hackish
 // TODO decide where to use winning status; it seems I should move it here
-// TODO tob_bar needs a separate module
+// TODO top_bar needs a separate module
 
 export class GameBoard {
   constructor(level, svg, helper, titleManager, levels, progressPearls, storage) {
@@ -64,7 +64,6 @@ export class GameBoard {
     const winningStatus = this.bareBoard.winningStatus;
     const level = this.bareBoard.level;
 
-    window.console.log('animationEndCallback');
     d3.select('.top-bar__detection__value').html(`${(100 * winningStatus.totalProbAtDets).toFixed(0)}%`);
 
     this.titleManager.displayMessage(
@@ -103,7 +102,7 @@ export class GameBoard {
     d3.select('.top-bar__detection').on('click', _.noop);
     this.setHeaderTexts();
 
-    this.bareBoard.reset();
+    this.bareBoard.redraw();
     this.stock.elementCount(this.bareBoard.level);
     this.stock.drawStock();
   }

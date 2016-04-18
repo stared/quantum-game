@@ -4,8 +4,6 @@ import _ from 'lodash';
 import {tileSize, absorptionDuration, absorptionTextDuration} from '../config';
 import {Particle} from './particle';
 
-// FIX callbackgeneration
-
 export class ParticleAnimation {
   constructor(board, history, measurementHistory, absorptionProbabilities, finishCallback) {
 
@@ -83,7 +81,7 @@ export class ParticleAnimation {
     this.absorptionTextGroup.remove();
   }
 
-  // NOTE maybe just one timout would suffice
+  // NOTE maybe just one timeout would suffice
   finish() {
     window.setTimeout(
       this.displayAbsorptionTexts.bind(this),
