@@ -227,12 +227,11 @@ export class Game {
     // TODO(pathes): load last played level information from storage
     const initialLevel = level.levels[1];
     this.gameBoard = new GameBoard(
-      initialLevel,
       d3.select('#game svg'),
-      d3.select('#helper'),
       this.titleManager,
-      level.levels,
-      this.storage);
+      this.storage,
+      initialLevel,
+      level.levels);
     this.gameBoard.reset();
     this.gameBoard.setAnimationControls(
       d3.select('.bottom-bar__animation-controls'));

@@ -13,7 +13,7 @@ import {ProgressPearls} from './progress_pearls';
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(level, svg, helper, titleManager, levels, storage) {
+  constructor(svg, titleManager, storage, level, levels) {
 
     this.bareBoard = new BareBoard(svg, {
       experimentDisturbed: this.experimentDisturbedCallback.bind(this),
@@ -26,7 +26,6 @@ export class GameBoard {
     this.levels = levels;
     this.levelsLookup = _.indexBy(levels, (levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`);
 
-    this.helper = helper;
     this.titleManager = titleManager;
     this.storage = storage;
 
@@ -152,10 +151,6 @@ export class GameBoard {
       `this is: ${d.type.desc.name}`,
       'hover');
 
-    // things below currently don't work (due to interface changes)
-    this.helper.select('#element-name').html(d.type.desc.name);
-    this.helper.select('#element-summary').html(d.type.desc.summary);
-    this.helper.select('#element-flavour').html(d.type.desc.flavour ? `"${d.type.desc.flavour}"` : '');
   }
 
    /*
