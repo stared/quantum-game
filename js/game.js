@@ -5,7 +5,7 @@ import d3 from 'd3';
 import * as tile from './tile';
 import * as level from './level';
 import {GameBoard} from './game_board';
-import * as title_manager from './title_manager';
+import {TitleManager} from './title_manager';
 import {TransitionHeatmap} from './transition_heatmap';
 import {SoundService} from './sound_service';
 
@@ -168,8 +168,12 @@ export class Game {
     // Initialize sound
     SoundService.initialize();
     // Outer dependencies and controllers
-    this.titleManager = null;
     this.storage = localStorage;
+
+    this.titleManager = new TitleManager(
+      d3.select('.top-bar__title'),
+      d3.select('.top-bar__subtitle'));
+
     // View definitions
     this.views = this.createViews();
     // State
@@ -222,9 +226,6 @@ export class Game {
   createGameBoard() {
     // TODO(pathes): load last played level information from storage
     const initialLevel = level.levels[1];
-    this.titleManager = new title_manager.TitleManager(
-      d3.select('.top-bar__title'),
-      d3.select('.top-bar__subtitle'));
     this.gameBoard = new GameBoard(
       initialLevel,
       d3.select('#game svg'),
