@@ -36,3 +36,7 @@ export const stockColumns = 2;
 export const margin = 1;
 // Display message default timeout (ms)
 export const displayMessageTimeout = 3000;
+// Pearls per column
+export const pearlsPerCol = 36;
+// Stock bottom margin, in number of tiles (0 - matches the board height)
+export const stockBottomMargin = 4;

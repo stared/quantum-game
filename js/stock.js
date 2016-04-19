@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 
 import * as tile from './tile';
-import {tileSize} from './config';
+import {tileSize, stockBottomMargin} from './config';
 import {bindDrag} from './drag_and_drop';
 
 export class Stock {
@@ -34,8 +34,7 @@ export class Stock {
         .attr('class', 'stock');
 
     // Create background
-    const maxRows = this.level.height;
-    const maxColumns = Math.ceil(this.usedTileNames.length / maxRows);
+    const maxRows = this.level.height - stockBottomMargin;
     const iShift = this.level.width + 1;
 
     const dataForStockDrawing = _.map(this.usedTileNames, (name, i) => ({
