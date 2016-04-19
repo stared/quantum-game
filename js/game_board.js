@@ -62,7 +62,7 @@ export class GameBoard {
     this.saveProgress();
     this.titleManager.displayMessage(
       'Experiment in progress...',
-      'progress');
+      'progress', -1);
   }
 
   animationEndCallback() {

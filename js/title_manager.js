@@ -1,5 +1,5 @@
 /*global window:false*/
-import d3 from 'd3';
+import {displayMessageTimeout} from './config';
 
 export class TitleManager {
   constructor(titleElem, subtitleElem) {
@@ -17,7 +17,7 @@ export class TitleManager {
       .html(description);
   }
 
-  displayMessage(message, type) {
+  displayMessage(message, type, timeout = displayMessageTimeout) {
     this.subtitleElem.select('.top-bar__subtitle__message')
       .html(message)
       .classed('top-bar__subtitle__message--success', type === 'success')
@@ -27,8 +27,10 @@ export class TitleManager {
     if (this.classChangeTimeout) {
       window.clearTimeout(this.classChangeTimeout);
     }
-    this.classChangeTimeout = setTimeout(() => {
-      this.subtitleElem.classed('top-bar__subtitle--message', false);
-    }, 3000);
+    if (timeout > 0) {
+      this.classChangeTimeout = setTimeout(() => {
+        this.subtitleElem.classed('top-bar__subtitle--message', false);
+      }, timeout);
+    }
   }
 }
