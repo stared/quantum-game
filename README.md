@@ -1,19 +1,25 @@
 Quantum Game
 ============
 
-Quantum Game - play with photons, superposition and entanglement. With true quantum mechanics underneath.
+Quantum Game - play with photons, superposition and entanglement. In your browser! With true quantum mechanics underneath!
 
-Official address: http://quantumgame.io/.
+* Official address: http://quantumgame.io/.
+* State: in development (alpha). Release data (estimate): 30 April 2016.
+* Authors: [Piotr Migdał](http://p.migdal.pl), [Patryk Hes](https://github.com/pathes), [Michał Krupiński](http://www.fiztaszki.pl/user/3).
+* Supported by: [eNgage III/2014](http://www.fnp.org.pl/laureaci-engage-iii-edycja/) grant.
+* A recent screenshot:
 
-State: in development (alpha). Release data (estimate): 31 March 2016.
+![Screenshot](screenshot_qg_dev.png)
 
-Authors: [Piotr Migdał](http://migdal.wikidot.com/), [Patryk Hes](https://github.com/pathes), [Michał Krupiński](http://www.fiztaszki.pl/user/3).
-
-Supported by [eNgage III/2014](http://www.fnp.org.pl/laureaci-engage-iii-edycja/) grant.
 
 # Development version
 
-## Installings
+It's JavaScript, ES6. To build it you need [Node.JS](https://nodejs.org/) and [jspm.io](http://jspm.io/) package manager.
+
+
+## Installing
+
+After installing Node.js and jspm.io, and cloning this repository:
 
 First, install global packages:
 ```bash
@@ -28,9 +34,10 @@ jspm install
 
 ## Running server
 
-Start HTTP server (e.g. by [http-server](https://www.npmjs.com/package/http-server)).
+Start local HTTP server in the quantum game directory (e.g. by [http-server](https://www.npmjs.com/package/http-server)).
 
 ## Running tests
+
 ```bash
 karma start
 ```
