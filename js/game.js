@@ -4,10 +4,9 @@ import d3 from 'd3';
 
 import * as tile from './tile';
 import * as level from './level';
-import * as board from './board';
-import * as title_manager from './title_manager';
+import {GameBoard} from './game_board';
+import {TitleManager} from './title_manager';
 import {TransitionHeatmap} from './transition_heatmap';
-import {ProgressPearls} from './progress_pearls';
 import {SoundService} from './sound_service';
 
 export class View {
@@ -169,8 +168,12 @@ export class Game {
     // Initialize sound
     SoundService.initialize();
     // Outer dependencies and controllers
-    this.titleManager = null;
     this.storage = localStorage;
+
+    this.titleManager = new TitleManager(
+      d3.select('.top-bar__title'),
+      d3.select('.top-bar__subtitle'));
+
     // View definitions
     this.views = this.createViews();
     // State
@@ -223,23 +226,12 @@ export class Game {
   createGameBoard() {
     // TODO(pathes): load last played level information from storage
     const initialLevel = level.levels[1];
-    this.titleManager = new title_manager.TitleManager(
-      d3.select('.top-bar__title'),
-      d3.select('.top-bar__subtitle'));
-    this.progressPearls = new ProgressPearls(
+    this.gameBoard = new GameBoard(
       d3.select('#game svg'),
-      level.levels.filter((d) => d.group === 'Game'),
-      this
-    );
-    this.progressPearls.draw();
-    this.gameBoard = new board.Board(
-      initialLevel,
-      d3.select('#game svg'),
-      d3.select('#helper'),
       this.titleManager,
-      level.levels,
-      this.progressPearls,
-      this.storage);
+      this.storage,
+      initialLevel,
+      level.levels);
     this.gameBoard.reset();
     this.gameBoard.setAnimationControls(
       d3.select('.bottom-bar__animation-controls'));
@@ -256,10 +248,4 @@ export class Game {
     });
   }
 
-  currentLevelName() {
-    if (this.gameBoard == null) {
-      return null;
-    }
-    return this.gameBoard.level.name;
-  }
 }

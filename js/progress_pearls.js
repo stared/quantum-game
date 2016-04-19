@@ -1,15 +1,14 @@
-import d3 from 'd3';
 import {tileSize} from './config';
 
 const PEARLS_PER_COL = 36;
 
 export class ProgressPearls {
 
-  constructor(selector, levels, game) {
+  constructor(selector, levels, gameBoard) {
     this.g = selector.append('g')
       .attr('class', 'progress-pearls');
     this.levels = levels;
-    this.game = game;
+    this.gameBoard = gameBoard;
   }
 
   draw() {
@@ -23,8 +22,8 @@ export class ProgressPearls {
         .attr('cx', (d, i) => (0.25 * Math.floor(i / PEARLS_PER_COL) - 0.75) * tileSize)
         .attr('cy', (d, i) => (0.25 * (i % PEARLS_PER_COL) + 0.5) * tileSize)
         .on('click', (d) => {
-          this.game.gameBoard.stop();
-          this.game.gameBoard.loadLevel(d);
+          this.gameBoard.stop();
+          this.gameBoard.loadLevel(d);
         });
 
     // TODO(migdal) names on hover (or even thumbnails)
@@ -35,14 +34,13 @@ export class ProgressPearls {
   update() {
 
     // TODO(migdal) accesible levels
-    // TODO(migdal) current level indicator (line? perspective? dot?)
 
     this.pearls
       .classed('pearl--passed', (d) => {
-        return this.game.storage.getItem(`isWon ${d.group} ${d.name}`) === 'true';
+        return this.gameBoard.storage.getItem(`isWon ${d.group} ${d.name}`) === 'true';
       })
       .classed('pearl--current', (d) => {
-        return this.game.currentLevelName() === d.name;
+        return this.gameBoard.level ? this.gameBoard.level.name === d.name : false;
       });
   }
 
