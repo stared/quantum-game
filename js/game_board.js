@@ -7,6 +7,7 @@ import {Stock} from './stock';
 import {Level} from './level';
 import {BareBoard} from './bare_board';
 import {ProgressPearls} from './progress_pearls';
+import {TileHelper} from './tile_helper';
 
 // FIX level loading/storing is still too hackish
 // TODO decide where to use winning status; it seems I should move it here
@@ -42,6 +43,8 @@ export class GameBoard {
     this.logger.logAction('initialLevel');
 
     this.loadLevel(level);
+
+    this.tileHelper = new TileHelper(svg, this.bareBoard);
   }
 
   experimentDisturbedCallback() {
@@ -50,12 +53,12 @@ export class GameBoard {
       'failure');
   }
 
-  tileRotatedCallback(d) {
-    this.showTileHelper(d);
+  tileRotatedCallback(tile) {
+    this.showTileHelper(tile);
   }
 
-  tileMouseoverCallback(d) {
-    this.showTileHelper(d);
+  tileMouseoverCallback(tile) {
+    this.showTileHelper(tile);
   }
 
   animationStartCallback() {
@@ -144,12 +147,9 @@ export class GameBoard {
     this.titleManager.setDescription(this.subtitle);
   }
 
-  showTileHelper(d) {
+  showTileHelper(tile) {
 
-    // temporary hover
-    this.titleManager.displayMessage(
-      `this is: ${d.type.desc.name}`,
-      'hover');
+    this.tileHelper.show(tile);
 
   }
 

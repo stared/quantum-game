@@ -150,3 +150,14 @@ text.stock-count {
 .stock-empty > g {
   opacity: 0.5;
 }
+
+text.helper-name {
+  text-anchor: middle;
+  font-size: 24px;
+  stroke: #222;
+}
+
+text.helper-summary {
+  font-size: 24px;
+  stroke: #222;
+}
