@@ -99,13 +99,13 @@ path.triangular:hover {
 .metal-case {
   fill: none;
   stroke: #222;
-  stroke-width: 8px;
+  stroke-width: 4px;
 }
 
 .metal-case-hot {
   fill: none;
   stroke: red;
-  stroke-width: 8px;
+  stroke-width: 4px;
 }
 
 .wire-back {
@@ -128,6 +128,14 @@ path.triangular:hover {
   fill: #ffff00;
   stroke: #ffa900;
   stroke-width: 3px;
+}
+
+.detector-light-off {
+  fill: red;
+}
+
+.detector-light-on {
+  fill: lime;
 }
 
 .measurement-text {
