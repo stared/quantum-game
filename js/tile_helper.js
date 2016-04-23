@@ -10,10 +10,11 @@ const wrap = (text, width) => {
     let line = [];
     let lineNumber = 0;
     const lineHeight = 1.1; // ems
-    const y = text.attr('y');
-    const dy = parseFloat(text.attr('dy'));
+    const x = text.attr('x') || 0;
+    const y = text.attr('y') || 0;
+    const dy = parseFloat(text.attr('dy')) || 0;
     let tspan = text.text(null).append('tspan')
-      .attr('x', 0)
+      .attr('x', x)
       .attr('y', y)
       .attr('dy', dy + 'em');
     while (word = words.pop()) {
@@ -24,7 +25,7 @@ const wrap = (text, width) => {
         tspan.text(line.join(' '));
         line = [word];
         tspan = text.append('tspan')
-          .attr('x', 0)
+          .attr('x', x)
           .attr('y', y)
           .attr('dy', ++lineNumber * lineHeight + dy + 'em')
           .text(word);
@@ -72,12 +73,12 @@ export class TileHelper {
     this.tileName = this.helperGroup.append('text')
       .attr('class', 'helper-name')
       .attr('x', 2 * tileSize)
-      .attr('y', tileSize / 2 + 11);
+      .attr('y', tileSize / 2);
 
     this.tileSummmary = this.helperGroup.append('text')
       .attr('class', 'helper-summary')
       .attr('x', 0.25 * tileSize)
-      .attr('y', 1.5 * tileSize);
+      .attr('y', 1.25 * tileSize);
 
     // TODO(migdal) link
 
@@ -86,8 +87,10 @@ export class TileHelper {
   show(tile) {
 
     this.tileUse.attr('xlink:href', `#${tile.type.svgName}`)
-    this.tileName.text(tile.type.desc.name);
-    this.tileSummmary.text(tile.type.desc.summary);
+    this.tileName.text(tile.type.desc.name)
+      .call(wrap, 2 * tileSize);
+    this.tileSummmary.text(tile.type.desc.summary)
+      .call(wrap, 2.5 * tileSize);
 
   }
 
