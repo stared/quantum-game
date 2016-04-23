@@ -228,6 +228,7 @@ export class Game {
     const initialLevel = level.levels[1];
     this.gameBoard = new GameBoard(
       d3.select('#game svg'),
+      this,
       this.titleManager,
       this.storage,
       initialLevel,

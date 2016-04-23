@@ -14,7 +14,7 @@ import {TileHelper} from './tile_helper';
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, titleManager, storage, level, levels) {
+  constructor(svg, game, titleManager, storage, level, levels) {
 
     this.bareBoard = new BareBoard(svg, {
       experimentDisturbed: this.experimentDisturbedCallback.bind(this),
@@ -24,6 +24,7 @@ export class GameBoard {
       animationEnd: this.animationEndCallback.bind(this),
     });
 
+    this.game = game;
     this.levels = levels;
     this.levelsLookup = _.indexBy(levels, (levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`);
 
@@ -44,7 +45,7 @@ export class GameBoard {
 
     this.loadLevel(level);
 
-    this.tileHelper = new TileHelper(svg, this.bareBoard);
+    this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
   }
 
   experimentDisturbedCallback() {

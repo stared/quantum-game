@@ -484,6 +484,16 @@ div.tooltip {
   fill-opacity: 0.5;
 }
 
+.helper-hitbox {
+  fill: lightgreen;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.helper-hitbox:hover {
+  opacity: 0.2;
+}
+
 text.helper-name {
   text-anchor: middle;
   text-transform: uppercase;

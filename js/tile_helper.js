@@ -35,8 +35,9 @@ const wrap = (text, width) => {
 }
 
 export class TileHelper {
-  constructor(svg, bareBoard) {
+  constructor(svg, bareBoard, game) {
     this.svg = svg;
+    this.game = game;
     this.width = (stockBottomMargin - 1) * tileSize;
     this.height = (stockBottomMargin - 1) * tileSize;
 
@@ -80,12 +81,21 @@ export class TileHelper {
       .attr('x', 0.25 * tileSize)
       .attr('y', 1.25 * tileSize);
 
-    // TODO(migdal) link
+    this.helperHitbox = this.helperGroup.append('rect')
+      .attr('class', 'helper-hitbox')
+      .attr('width', `${this.width}`)
+      .attr('height', `${this.height}`)
+      .attr('rx', 10)
+      .attr('ry', 10);
 
   }
 
   show(tile) {
 
+    this.helperHitbox.on('click', () => {
+      this.game.setEncyclopediaItem(tile.tileName);
+      this.game.setView('encyclopediaItem');
+    });
     this.tileUse.attr('xlink:href', `#${tile.type.svgName}`)
     this.tileName.text(tile.type.desc.name)
       .call(wrap, 2 * tileSize);
