@@ -141,9 +141,12 @@ export class BareBoard {
 
     // hitbox
     tileSelection
-      .append('use')
-        .attr('xlink:href', '#hitbox')
-        .attr('class', 'hitbox');
+      .append('rect')
+        .attr('class', 'hitbox')
+        .attr('x', -tileSize / 2)
+        .attr('y', -tileSize / 2)
+        .attr('width', tileSize)
+        .attr('height', tileSize);
 
     this.clickBehavior(tileSelection, this);
     bindDrag(tileSelection, this, this.stock);
@@ -189,7 +192,10 @@ export class BareBoard {
       bareBoard.callbacks.tileRotated(d);
 
     })
-    .on('mouseover', (d) => bareBoard.callbacks.tileMouseover(d));
+    .on('mouseover', function (d) {
+      bareBoard.callbacks.tileMouseover(d);
+      d3.select(this).classed('hitbox-disabled', d.frozen);
+    });
 
     // this is a tricky part
     // freeze/unfreeze traingular button

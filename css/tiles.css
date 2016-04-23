@@ -16,13 +16,14 @@ rect.frost-frozen {
 rect.hitbox {
   fill: lightgreen;
   cursor: pointer;
-}
-
-use.hitbox {
   opacity: 0;
 }
 
-use.hitbox:hover {
+rect.hitbox-disabled {
+  fill: #EE9090;
+}
+
+rect.hitbox:hover {
   opacity: 0.2;
 }
 
@@ -139,14 +140,14 @@ text.stock-count {
   stroke: #222;
 }
 
-.stock-empty > text {
-  opacity: 0.5;
-}
-
 .stock-empty > g.stock-dragged {
   opacity: 1 !important;
 }
 
-.stock-empty > g {
+.stock-empty > g > use.element, .stock-empty > text.stock-count {
   opacity: 0.5;
+}
+
+.stock-empty > g > .hitbox {
+  fill: #EE9090;
 }
