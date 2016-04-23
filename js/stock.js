@@ -63,27 +63,7 @@ export class Stock {
       .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 0.9) * tileSize})`)
       .text((d) => `x ${this.stock[d.name]}`);
 
-    this.stockTiles = stockSlotsEntered.append('g')
-      .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
-      .attr('class', 'tile')
-      .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
-      .each(function (tileObj) {
-        tileObj.g = d3.select(this);
-        tileObj.node = this;
-        tileObj.fromStock = true;
-        tileObj.draw();
-      });
-
-    this.stockTiles.append('rect')
-      .attr('class', 'hitbox')
-      .attr('x', -tileSize / 2)
-      .attr('y', -tileSize / 2)
-      .attr('width', tileSize)
-      .attr('height', tileSize)
-      .on('mouseover', this.board.callbacks.tileMouseover);
-
-    bindDrag(this.stockTiles, this.board, this);
-
+    this.regenerateTile(stockSlotsEntered);
   }
 
   regenerateTile(stockSlotG) {
