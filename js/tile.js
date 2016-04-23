@@ -1,9 +1,11 @@
 import _ from 'lodash';
-import changeCase from 'change-case';
 
 import * as config from './config';
 import * as full from './tensor/full';
 import {SoundService} from './sound_service';
+
+const pascalCase = (str) =>
+  str.charAt(0).toUpperCase() + _.camelCase(str.slice(1));
 
 export const Vacuum = {
   svgName: 'vacuum',
@@ -482,7 +484,7 @@ export class Tile {
   }
 
   get tileName() {
-    return changeCase.pascalCase(this.type.svgName);
+    return pascalCase(this.type.svgName);
   }
 }
 

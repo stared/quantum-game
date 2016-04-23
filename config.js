@@ -14,8 +14,6 @@ System.config({
   map: {
     "babel": "npm:babel-core@5.4.3",
     "babel-runtime": "npm:babel-runtime@5.4.3",
-    "camel-case": "npm:camel-case@1.2.0",
-    "change-case": "npm:change-case@2.3.0",
     "clean-css": "npm:clean-css@3.4.6",
     "core-js": "npm:core-js@0.9.10",
     "d3": "github:mbostock/d3@3.5.6",
@@ -83,28 +81,6 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:camel-case@1.2.0": {
-      "sentence-case": "npm:sentence-case@1.1.2",
-      "upper-case": "npm:upper-case@1.1.2"
-    },
-    "npm:change-case@2.3.0": {
-      "camel-case": "npm:camel-case@1.2.0",
-      "constant-case": "npm:constant-case@1.1.1",
-      "dot-case": "npm:dot-case@1.1.1",
-      "is-lower-case": "npm:is-lower-case@1.1.1",
-      "is-upper-case": "npm:is-upper-case@1.1.1",
-      "lower-case": "npm:lower-case@1.1.2",
-      "lower-case-first": "npm:lower-case-first@1.0.0",
-      "param-case": "npm:param-case@1.1.1",
-      "pascal-case": "npm:pascal-case@1.1.1",
-      "path-case": "npm:path-case@1.1.1",
-      "sentence-case": "npm:sentence-case@1.1.2",
-      "snake-case": "npm:snake-case@1.1.1",
-      "swap-case": "npm:swap-case@1.1.1",
-      "title-case": "npm:title-case@1.1.1",
-      "upper-case": "npm:upper-case@1.1.2",
-      "upper-case-first": "npm:upper-case-first@1.1.1"
-    },
     "npm:clean-css@3.4.6": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "commander": "npm:commander@2.8.1",
@@ -126,18 +102,11 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:constant-case@1.1.1": {
-      "snake-case": "npm:snake-case@1.1.1",
-      "upper-case": "npm:upper-case@1.1.2"
-    },
     "npm:core-js@0.9.10": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
-    },
-    "npm:dot-case@1.1.1": {
-      "sentence-case": "npm:sentence-case@1.1.2"
     },
     "npm:graceful-readlink@1.0.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2"
@@ -147,12 +116,6 @@ System.config({
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
-    },
-    "npm:is-lower-case@1.1.1": {
-      "lower-case": "npm:lower-case@1.1.2"
-    },
-    "npm:is-upper-case@1.1.1": {
-      "upper-case": "npm:upper-case@1.1.2"
     },
     "npm:isarray@1.0.0": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
@@ -164,24 +127,11 @@ System.config({
     "npm:lodash@3.10.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:lower-case-first@1.0.0": {
-      "lower-case": "npm:lower-case@1.1.2"
-    },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
     },
-    "npm:param-case@1.1.1": {
-      "sentence-case": "npm:sentence-case@1.1.2"
-    },
-    "npm:pascal-case@1.1.1": {
-      "camel-case": "npm:camel-case@1.2.0",
-      "upper-case-first": "npm:upper-case-first@1.1.1"
-    },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:path-case@1.1.1": {
-      "sentence-case": "npm:sentence-case@1.1.2"
     },
     "npm:process@0.11.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
@@ -199,12 +149,6 @@ System.config({
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
     },
-    "npm:sentence-case@1.1.2": {
-      "lower-case": "npm:lower-case@1.1.2"
-    },
-    "npm:snake-case@1.1.1": {
-      "sentence-case": "npm:sentence-case@1.1.2"
-    },
     "npm:source-map@0.4.4": {
       "amdefine": "npm:amdefine@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -216,17 +160,6 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
-    },
-    "npm:swap-case@1.1.1": {
-      "lower-case": "npm:lower-case@1.1.2",
-      "upper-case": "npm:upper-case@1.1.2"
-    },
-    "npm:title-case@1.1.1": {
-      "sentence-case": "npm:sentence-case@1.1.2",
-      "upper-case": "npm:upper-case@1.1.2"
-    },
-    "npm:upper-case-first@1.1.1": {
-      "upper-case": "npm:upper-case@1.1.2"
     },
     "npm:url@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
