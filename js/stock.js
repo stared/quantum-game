@@ -76,7 +76,8 @@ export class Stock {
 
     this.stockTiles.append('use')
       .attr('xlink:href', '#hitbox')
-      .attr('class', 'hitbox');
+      .attr('class', 'hitbox')
+      .on('mouseover', this.board.callbacks.tileMouseover);
 
     bindDrag(this.stockTiles, this.board, this);
 
@@ -97,7 +98,8 @@ export class Stock {
 
     newTile.append('use')
       .attr('xlink:href', '#hitbox')
-      .attr('class', 'hitbox');
+      .attr('class', 'hitbox')
+      .on('mouseover', this.board.callbacks.tileMouseover);
 
     bindDrag(newTile, this.board, this);
 
