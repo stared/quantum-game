@@ -22,11 +22,6 @@ body {
     background-image: -o-linear-gradient(#225566, #447788);
 }
 
-/* TODO(pathes): make style for those elements */
-#helper {
-    display: none !important;
-}
-
 .svg-defs {
   /* Can't do display: none; http://stackoverflow.com/questions/25799770 */
   display: block;
@@ -404,20 +399,6 @@ body {
     z-index: 5;
 }
 
-#helper {
-    position: fixed;
-    top: 5px;
-    left: 5px;
-    width: 300px;
-    z-index: 4;
-    background: #fff;
-    color: #000;
-    border: solid 1px #aaa;
-    border-radius: 2px;
-    z-index: 20;
-    padding: 5px;
-}
-
 #element-name {
   font-size: 16px;
 }
@@ -501,4 +482,16 @@ div.tooltip {
 }
 .pearl--current:hover {
   fill-opacity: 0.5;
+}
+
+text.helper-name {
+  text-anchor: middle;
+  text-transform: uppercase;
+  font-size: 24px;
+  stroke: #222;
+}
+
+text.helper-summary {
+  font-size: 24px;
+  stroke: #222;
 }
