@@ -127,6 +127,7 @@ export class EncyclopediaItemView extends View {
     const article = container.append('article');
     article
       .append('svg')
+      .attr('class', 'big-tile')
       .attr('viewBox', '0 0 100 100')
       .append('use')
       .attr('xlink:href', `#${tileData.svgName}`)

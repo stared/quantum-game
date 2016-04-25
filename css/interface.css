@@ -333,7 +333,7 @@ body {
   text-align: center;
 }
 
-.encyclopedia-item > article svg {
+.encyclopedia-item > article svg.big-tile {
   width: 30vh;
 }
 
