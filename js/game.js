@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import d3 from 'd3';
 
-import * as tile from './tile';
 import * as level from './level';
 import {GameBoard} from './game_board';
 import {TitleManager} from './title_manager';
@@ -70,7 +69,6 @@ export class Game {
 
     // for debugging purposes
     window.gameBoard = this.gameBoard;
-    window.tile = tile;
   }
 
   createGameBoard() {
