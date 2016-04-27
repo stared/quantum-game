@@ -7,8 +7,8 @@ import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeTh
 import {ParticleAnimation} from './particle_animation';
 
 export class CanvasParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, finishCallback) {
-    super(board, history, measurementHistory, absorptionProbabilities, finishCallback);
+  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback) {
+    super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback);
     this.canvas = null;
     this.helperCanvas = null;
     this.ctx = null;
@@ -53,8 +53,8 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     // Similar for helper canvas
     this.helperCanvas = d3.select('#gameHelperCanvas');
     this.helperCtx = this.helperCanvas[0][0].getContext('2d');
-    // Stop animation when clicked on canvas
-    this.canvas[0][0].addEventListener('click', this.stop.bind(this));
+    // Interrupt animation when clicked on canvas
+    this.canvas[0][0].addEventListener('click', this.interrupt.bind(this));
     // Initial canvas resize
     this.resizeCanvas();
     // Cancel old clearing events
@@ -63,6 +63,11 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     window.addEventListener('resize', this.throttledResizeCanvas);
     this.startTime = new Date().getTime();
     this.lastStepFloat = 0;
+  }
+
+  interrupt() {
+    this.stop();
+    this.interruptCallback();
   }
 
   resizeCanvas() {

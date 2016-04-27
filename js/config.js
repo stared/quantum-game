@@ -14,6 +14,8 @@ export const animationStepDuration = 600;
 export const animationStepDurationMin = 100;
 // Max animation step duration - for slider (ms)
 export const animationStepDurationMax = 2000;
+// Play/pause button transition duration
+export const playPauseTransitionDuration = 300;
 // Oscillations per tile
 export const oscillations = 1;
 // Horizontal oscillation scale (px)

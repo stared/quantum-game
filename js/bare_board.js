@@ -17,12 +17,15 @@ export class BareBoard {
     this.animationStepDuration = animationStepDuration;
 
     // NOTE maybe some event listener instead?
-    this.callbacks = {};
-    this.callbacks.experimentDisturbed = callbacks.experimentDisturbed || (() => null);
-    this.callbacks.tileRotated = callbacks.tileRotated || (() => null);
-    this.callbacks.tileMouseover = callbacks.tileMouseover || (() => null);
-    this.callbacks.animationStart = callbacks.animationStart || (() => null);
-    this.callbacks.animationEnd = callbacks.animationEnd || (() => null);
+    this.callbacks = {
+      experimentDisturbed: callbacks.experimentDisturbed || _.noop,
+      tileRotated: callbacks.tileRotated || _.noop,
+      tileMouseover: callbacks.tileMouseover || _.noop,
+      animationStart: callbacks.animationStart || _.noop,
+      animationInterrupt: callbacks.animationInterrupt || _.noop,
+      animationEnd: callbacks.animationEnd || _.noop,
+      setPlayButtonState: callbacks.setPlayButtonState || _.noop,
+    };
 
     this.logger = new Logger();
     this.logger.logAction('initialLevel');
@@ -258,12 +261,15 @@ export class BareBoard {
         this.simulationQ.history,
         this.simulationQ.measurementHistory,
         this.winningStatus.absorptionProbabilities,
+        this.callbacks.animationInterrupt,
         this.callbacks.animationEnd);
     }
     if (this.particleAnimation.playing) {
       this.particleAnimation.pause();
+      this.callbacks.setPlayButtonState('play');
     } else {
       this.particleAnimation.play();
+      this.callbacks.setPlayButtonState('pause');
     }
   }
 
@@ -271,6 +277,7 @@ export class BareBoard {
     this.logger.logAction('simulationStop');
     if (this.animationExists) {
       this.particleAnimation.stop();
+      this.callbacks.setPlayButtonState('play');
     }
   }
 
@@ -278,6 +285,7 @@ export class BareBoard {
     if (this.animationExists) {
       if (this.particleAnimation.playing) {
         this.particleAnimation.pause();
+        this.callbacks.setPlayButtonState('play');
       } else {
         this.particleAnimation.forward();
       }

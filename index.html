@@ -291,10 +291,15 @@
   <div class="bottom-bar">
       <div class="bottom-bar__animation-controls">
           <button class="bottom-bar__animation-button interface-button play">
-              <svg width="20" height="16" viewBox="0 0 20 16">
-                  <path class="svg-interface-button" d="M0 0 L10 8 L0 16 Z"></path>
-                  <rect class="svg-interface-button" width="4" height="16" x="10" y="0"></rect>
-                  <rect class="svg-interface-button" width="4" height="16" x="16" y="0"></rect>
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                  <defs>
+                      <path id="pause-icon"
+                            d="M0 0 L6 0 L6 16 L0 16 M10 0 L16 0 L16 16 L10 16" />
+                      <path id="play-icon"
+                            d="M0 0 L8 4 L8 12 L0 16 M8 4 L16 8 L16 8 L8 12" />
+                  </defs>
+                  <path class="actual-icon svg-interface-button"
+                        d="M0 0 L8 4 L8 12 L0 16 M8 4 L16 8 L16 8 L8 12" />
               </svg>
           </button>
           <button class="bottom-bar__animation-button interface-button stop">

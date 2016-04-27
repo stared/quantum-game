@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
-import {animationStepDurationMin, animationStepDurationMax} from './config';
+import {animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration} from './config';
 import {Stock} from './stock';
 import {Level} from './level';
 import {BareBoard} from './bare_board';
@@ -14,14 +14,17 @@ import {TileHelper} from './tile_helper';
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, game, titleManager, storage, level, levels) {
+  constructor(svg, game, titleManager, storage, level, levels,
+              animationControls) {
 
     this.bareBoard = new BareBoard(svg, {
       experimentDisturbed: this.experimentDisturbedCallback.bind(this),
       tileRotated: this.tileRotatedCallback.bind(this),
       tileMouseover: this.tileMouseoverCallback.bind(this),
       animationStart: this.animationStartCallback.bind(this),
+      animationInterrupt: this.animationInterruptCallback.bind(this),
       animationEnd: this.animationEndCallback.bind(this),
+      setPlayButtonState: this.setPlayButtonState.bind(this),
     });
 
     this.game = game;
@@ -30,6 +33,7 @@ export class GameBoard {
 
     this.titleManager = titleManager;
     this.storage = storage;
+    this.animationControls = animationControls;
     window.console.log('GameBoard storage', this.storage);
 
     this.progressPearls = new ProgressPearls(
@@ -70,10 +74,18 @@ export class GameBoard {
       'progress', -1);
   }
 
+  animationInterruptCallback() {
+    // Reset play/pause button to "play" state
+    this.setPlayButtonState('play');
+  }
+
   animationEndCallback() {
 
     const winningStatus = this.bareBoard.winningStatus;
     const level = this.bareBoard.level;
+
+    // Reset play/pause button to "play" state
+    this.setPlayButtonState('play');
 
     d3.select('.top-bar__detection__value').html(`${(100 * winningStatus.totalProbAtDets).toFixed(0)}%`);
 
@@ -108,6 +120,9 @@ export class GameBoard {
     d3.select('.top-bar__detection').classed('top-bar__detection--success', false);
     d3.select('.top-bar__detection').on('click', _.noop);
     this.setHeaderTexts();
+
+    // Reset play/pause button to "play" state
+    this.setPlayButtonState('play');
 
     this.bareBoard.redraw();
     this.stock.elementCount(this.bareBoard.level);
@@ -153,14 +168,30 @@ export class GameBoard {
 
   }
 
-   /*
-   * Set up animation controls - bind events to buttons
-   * @param animationControls d3-wrapped container for control buttons
+  /**
+   * Set the play/pause button visual state.
+   * @param newState string "play" or "pause"
    */
-  setAnimationControls(animationControls) {
+  setPlayButtonState(newState) {
+    if (newState !== 'play' && newState !== 'pause') {
+      return;
+    }
+    const actualIcon = this.animationControls.select('.play .actual-icon');
+    const newStateIcon = d3.select(`#${newState}-icon`);
+    actualIcon
+      .transition()
+      .duration(playPauseTransitionDuration)
+      .attr('d', newStateIcon.attr('d'));
+  }
+
+   /**
+    * Set up animation controls - bind events to buttons
+    */
+  activateAnimationControls() {
     // Don't let d3 bind clicked element as `this` to methods.
     const gameBoard = this;
     const bareBoard = this.bareBoard;
+    const animationControls = this.animationControls;
     animationControls.select('.play')
       .on('click', bareBoard.play.bind(bareBoard));
     animationControls.select('.stop')
