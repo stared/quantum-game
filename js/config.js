@@ -31,7 +31,7 @@ export const absorptionDuration = 2000;
 // Absorption test duration (ms)
 export const absorptionTextDuration = 4000;
 // Maximal number of stock columns (for interface size)
-export const stockColumns = 2;
+export const stockColumns = 4;
 // Margin around the board (in the number of tiles)
 export const margin = 1;
 // Display message default timeout (ms)
