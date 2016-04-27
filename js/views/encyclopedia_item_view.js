@@ -94,8 +94,25 @@ export class EncyclopediaItemView extends View {
 
 
   bindMenuEvents() {
+    // Navigation between views
     d3.select('.bottom-bar__back-to-encyclopedia-selector-button').on('click', () => {
       this.game.setView('encyclopediaSelector');
+    });
+    // Navigation in encyclopedia entry
+    const menuButtons = d3.selectAll('.encyclopedia-item__menu li button');
+    menuButtons.on('click', function () {
+      const article = d3.select('.encyclopedia-item__container > article');
+      const headerIdSuffix = this.getAttribute('encyclopedia-nav');
+      const headerId = `encyclopedia-item__${headerIdSuffix}`;
+      const header = window.document.getElementById(headerId);
+      if (!header) {
+        return;
+      }
+      console.log(article);
+      console.log(header);
+      console.log(article[0][0].scrollTop);
+      console.log(header.offsetTop);
+      article[0][0].scrollTop = header.offsetTop;
     });
   }
 }
