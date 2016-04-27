@@ -24,11 +24,22 @@ export class EncyclopediaItemView extends View {
 
     const tileData = tile[this.game.currentEncyclopediaItem];
 
-    const container = d3.select('.encyclopedia-item');
+    const article = d3.select('.encyclopedia-item__container > article');
 
-    container
+    article
       .html(null);
-    const article = container.append('article');
+
+    this.createBasicInfo(article, tileData);
+    this.createTransitions(article, tileData);
+    this.createHowItWorks(article, tileData);
+    this.createUsage(article, tileData);
+  }
+
+  createBasicInfo(article, tileData) {
+    article
+      .append('h1')
+      .attr('id', 'encyclopedia-item__basic-info')
+      .text('Basic info');
     article
       .append('svg')
       .attr('class', 'big-tile')
@@ -43,12 +54,25 @@ export class EncyclopediaItemView extends View {
       .append('div')
       .classed('content', true)
       .text(tileData.desc.summary);
+    if (tileData.desc.flavour) {
+      article
+        .append('div')
+        .classed('content', true)
+        .append('i')
+        .text(`"${tileData.desc.flavour}"`);
+    }
+  }
+
+  createTransitions(article, tileData) {
+    article
+      .append('h1')
+      .attr('id', 'encyclopedia-item__transitions')
+      .text('Transitions');
 
     article
-      .append('div')
-      .classed('content', true)
-      .append('i')
-      .text(`"${tileData.desc.flavour}"`);
+      .append('p')
+      .classed('encyclopedia-item__hint', true)
+      .text('Click on heatmap to change its ordering (direction, polarization).');
 
     const hm = article
       .append('div')
@@ -57,10 +81,18 @@ export class EncyclopediaItemView extends View {
     // TODO something for rotation...
     const tileObj = new tile.Tile(tileData);
     const transitionHeatmap = new TransitionHeatmap(hm);
-    window.console.log('tileObj', tileObj);
     transitionHeatmap.updateFromTensor(tileObj.transitionAmplitudes.map);
-
   }
+
+  createHowItWorks(article, tileData) {
+    // TODO(pathes): content
+  }
+
+  createUsage(article, tileData) {
+    // TODO(pathes): content
+  }
+
+
   bindMenuEvents() {
     d3.select('.bottom-bar__back-to-encyclopedia-selector-button').on('click', () => {
       this.game.setView('encyclopediaSelector');

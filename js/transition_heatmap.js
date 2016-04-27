@@ -36,8 +36,8 @@ export class TransitionHeatmap {
   constructor(selector, size=200) {
     this.svg = selector.append('svg')
       .attr('class', 'transition-heatmap')
-      .attr('width', size)
-      .attr('height', size)
+      .attr('viewBox', `0 0 ${size} ${size}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
       .on('click', () => this.toggleBasis());
 
     this.tooltip = new Tooltip(selector);
