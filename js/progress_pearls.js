@@ -34,9 +34,7 @@ export class ProgressPearls {
     // TODO(migdal) accesible levels
 
     this.pearls
-      .classed('pearl--passed', (d) => {
-        return this.gameBoard.storage.getItem(`isWon ${d.group} ${d.name}`) === 'true';
-      })
+      .classed('pearl--passed', (d) => this.gameBoard.storage.getLevelIsWon(d))
       .classed('pearl--current', (d) => {
         return this.gameBoard.level ? this.gameBoard.level.name === d.name : false;
       });

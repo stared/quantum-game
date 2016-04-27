@@ -30,6 +30,7 @@ export class GameBoard {
 
     this.titleManager = titleManager;
     this.storage = storage;
+    window.console.log('GameBoard storage', this.storage);
 
     this.progressPearls = new ProgressPearls(
       svg,
@@ -83,11 +84,7 @@ export class GameBoard {
 
     if (winningStatus.isWon) {
 
-      // TODO(migdal): make it more serious
-      this.storage.setItem(
-        `isWon ${level.group} ${level.name}`,
-         'true'
-      );
+      this.storage.setLevelIsWon(level, true);
       this.saveProgress();
       this.progressPearls.update();
 
@@ -216,8 +213,8 @@ export class GameBoard {
     } else {
       this.saveProgress();
 
-      if (this.storage.hasOwnProperty(`${levelRecipe.group} ${levelRecipe.name}`)) {
-        levelToLoad = JSON.parse(this.storage.getItem(`${levelRecipe.group} ${levelRecipe.name}`));
+      if (this.storage.hasLevelProgress(levelRecipe)) {
+        levelToLoad = this.storage.getLevelProgress(levelRecipe);
         this.logger.logAction('loadLevel', {fromStorage: true});
       } else {
         levelToLoad = levelRecipe;
@@ -238,12 +235,10 @@ export class GameBoard {
 
   saveProgress() {
     // Save progress if there was any level loaded
+    // FIX(migdal) Is this condition meaningful?
     // TODO use hash of sorted elements so to ensure levels are unique?
     if (this.bareBoard.level != null) {
-      this.storage.setItem(
-        `${this.bareBoard.level.group} ${this.bareBoard.level.name}`,
-         stringify(this.bareBoard.exportBoard())
-      );
+      this.storage.setLevelProgress(this.bareBoard.level, this.bareBoard.exportBoard());
     }
   }
 }

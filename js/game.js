@@ -6,6 +6,7 @@ import * as level from './level';
 import {GameBoard} from './game_board';
 import {TitleManager} from './title_manager';
 import {SoundService} from './sound_service';
+import {Storage} from './storage';
 
 import {GameView} from './views/game_view';
 import {LevelSelectorView} from './views/level_selector_view';
@@ -17,7 +18,7 @@ export class Game {
     // Initialize sound
     SoundService.initialize();
     // Outer dependencies and controllers
-    this.storage = localStorage;
+    this.storage = new Storage();
 
     this.titleManager = new TitleManager(
       d3.select('.top-bar__title'),
