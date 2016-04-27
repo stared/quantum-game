@@ -131,7 +131,9 @@ export class GameBoard {
   }
 
   get subtitle() {
-    if (this.bareBoard.level.detectorsToFeed === 0) {
+    if (this.bareBoard.level.requiredDetectionProbability === 0) {
+      return 'GOAL: Avoid launching any mines!';
+    } else if (this.bareBoard.level.detectorsToFeed === 0) {
       return 'GOAL: No goals! Freedom to do whatever you like. :)';
     } else if (this.bareBoard.level.detectorsToFeed === 1) {
       return `GOAL: Make the photon fall into a detector, with ${(100 * this.bareBoard.level.requiredDetectionProbability).toFixed(0)}% chance.`;
