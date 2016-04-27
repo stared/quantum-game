@@ -325,7 +325,6 @@ body {
   max-width: 100vw;
   height: 100%;
   box-sizing: border-box;
-  background: white;
   font-size: 2.5vh;
   margin: 0 auto;
   position: relative;
@@ -338,18 +337,20 @@ body {
   margin-left: 30%;
   box-sizing: border-box;
   text-align: center;
+  background: white;
 }
 .encyclopedia-item__container > ul {
   position: absolute;
   display: block;
   top: 0;
   left: 0;
-  width: 25%;
+  width: 30%;
   height: 100%;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border-right: 2px solid #eee;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
 }
 .encyclopedia-item__container > ul li {
   list-style: none;
