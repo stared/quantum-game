@@ -74,7 +74,7 @@ export class TileHelper {
     this.tileName = this.helperGroup.append('text')
       .attr('class', 'helper-name')
       .attr('x', 2 * tileSize)
-      .attr('y', tileSize / 2);
+      .attr('y', tileSize * 0.4); // 0.5 factor might be too much for 3 lines
 
     this.tileSummmary = this.helperGroup.append('text')
       .attr('class', 'helper-summary')
