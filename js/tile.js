@@ -24,7 +24,7 @@ export const Source = {
   desc: {
     name: 'Single Photon Source',
     flavour: 'a\u2020 - an excitation, raise from the vacuum!',
-    summary: 'An on-deman single photon source.',
+    summary: 'An on-demand single photon source.',
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
@@ -38,7 +38,7 @@ export const CornerCube = {
   desc: {
     name: 'Corner Cube',
     flavour: 'Like a mirror but rotating, not - reflecting',
-    summary: 'Three perpendicular reflective planes makes the the reflectin going the same way. And saves lives on the streets.',
+    summary: 'Three perpendicular reflective planes make the reflecting going the same way. Also, they save lives on the streets.',
   },
   maxRotation: 1,
   rotationAngle: 0,
@@ -49,7 +49,7 @@ export const ThinMirror = {
   svgName: 'thin-mirror',
   desc: {
     name: 'Mirror',
-    flavour: 'Making photons in two places at once. And binding them again.',
+    flavour: 'Making photons in two places at once and binding them again.',
     summary: 'Metallic or dielectric mirror.',
   },
   maxRotation: 4, // - / | \
@@ -74,8 +74,8 @@ export const ThinSplitterCoated = {
   svgName: 'thin-splitter-coated',
   desc: {
     name: 'Coated 50/50 Beam Splitter',
-    flavour: 'Like a bread sice with butter',
-    summary: 'A thin slab of glass with a reflective layer - reflecting half the beam, and transmitting other half of it.',
+    flavour: 'Like a bread slice with butter',
+    summary: 'A thin slab of glass with a reflective layer - reflecting half the beam and transmitting the other half of it.',
   },
   maxRotation: 8, // - / | \ - / | \
   rotationAngle: 45,
@@ -286,7 +286,7 @@ export const Glass = {
   desc: {
     name: 'Glass Slab',
     flavour: '',
-    summary: 'Higher reflective index makes light slower. We set its thickness so it retards phase by \u03BB/4. Useful for changing interference.',
+    summary: 'Higher reflective index makes light slower. We set its thickness so it retards the phase by \u03BB/4. Useful for changing interference.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -298,7 +298,7 @@ export const VacuumJar = {
   desc: {
     name: 'Vacuum Jar',
     flavour: 'Pure timespace without relativistic energy density. Served in a bottle.',
-    summary: 'Even air retards light a bit. We set the thickness of vacuum so it advances phase by \u03BB/4. Useful for changing interference.',
+    summary: 'Even air retards light a bit. We set the thickness of vacuum so it advances the phase by \u03BB/4. Useful for changing interference.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
