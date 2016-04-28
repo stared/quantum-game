@@ -35,9 +35,7 @@ export class ProgressPearls {
 
     this.pearls
       .classed('pearl--passed', isWon)
-      .classed('pearl--current', (d) => {
-        return this.gameBoard.level ? this.gameBoard.level.name === d.name : false;
-      })
+      .classed('pearl--current', (d) => d.id === this.gameBoard.storage.getCurrentLevelId())
       .on('mouseover', (d) => {
         this.gameBoard.titleManager.displayMessage(
           `GO TO: ${d.i}. ${d.name} ${isWon(d) ? '[won]' : ''}`,

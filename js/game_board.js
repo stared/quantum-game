@@ -251,6 +251,7 @@ export class GameBoard {
       this.logger.logAction('loadLevel', {fromStorage: false});
     }
 
+    this.storage.setCurrentLevelId(levelId);
     this.bareBoard.level = new level.Level(levelToLoad, dev ? 'dev' : 'game');
     this.reset();
     this.progressPearls.update();
@@ -263,11 +264,8 @@ export class GameBoard {
 
   saveProgress() {
     // Save progress if there was any level loaded
-    // FIX(migdal) Is this condition meaningful?
-    // TODO use hash of sorted elements so to ensure levels are unique?
     if (this.bareBoard.level != null) {
       this.storage.setLevelProgress(this.bareBoard.level.id, this.bareBoard.exportBoard());
-      window.console.log('progress saved:', this.bareBoard.exportBoard());
     }
   }
 }

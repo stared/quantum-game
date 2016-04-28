@@ -73,8 +73,7 @@ export class Game {
   }
 
   createGameBoard() {
-    // TODO(pathes): load last played level information from storage
-    const initialLevelId = level.levels[1].id;
+    const initialLevelId = this.storage.getCurrentLevelId() || level.levels[1].id;
     this.gameBoard = new GameBoard(
       d3.select('#game svg'),
       this,

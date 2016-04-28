@@ -26,7 +26,14 @@ export class Storage {
     return this.ls.getItem(`LevelIsWon ${levelId}`) === 'true';
   }
 
-  // TODO(migdal) last played
+  setCurrentLevelId(levelId) {
+    this.ls.setItem('CurrentLevelId', levelId);
+  }
+
+  getCurrentLevelId() {
+    return this.ls.getItem('CurrentLevelId');
+  }
+
   // TODO(migdal) accesible levels
 
 }
