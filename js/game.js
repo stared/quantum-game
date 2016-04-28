@@ -81,8 +81,6 @@ export class Game {
       this.storage,
       initialLevelId,
       d3.select('.bottom-bar__animation-controls'));
-    this.gameBoard.reset();
-    this.gameBoard.activateAnimationControls();
   }
 
   bindMenuEvents() {

@@ -9,13 +9,11 @@ import {BareBoard} from './bare_board';
 import {ProgressPearls} from './progress_pearls';
 import {TileHelper} from './tile_helper';
 
-// FIX level loading/storing is still too hackish
 // TODO decide where to use winning status; it seems I should move it here
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, game, titleManager, storage, levelId,
-              animationControls) {
+  constructor(svg, game, titleManager, storage, levelId, animationControls) {
 
     this.bareBoard = new BareBoard(svg, {
       tileRotated: this.tileRotatedCallback.bind(this),
@@ -44,8 +42,8 @@ export class GameBoard {
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
+    this.activateAnimationControls();
     this.loadLevel(levelId);
-
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
   }
 
