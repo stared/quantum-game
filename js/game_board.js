@@ -189,20 +189,25 @@ export class GameBoard {
     const bareBoard = this.bareBoard;
     const animationControls = this.animationControls;
     animationControls.select('.play')
-      .on('click', bareBoard.play.bind(bareBoard));
+      .on('click', bareBoard.play.bind(bareBoard))
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('PLAY/PASUE'));
     animationControls.select('.stop')
-      .on('click', bareBoard.stop.bind(bareBoard));
+      .on('click', bareBoard.stop.bind(bareBoard))
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('STOP'));
     animationControls.select('.forward')
-      .on('click', bareBoard.forward.bind(bareBoard));
+      .on('click', bareBoard.forward.bind(bareBoard))
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('NEXT STEP'));
     animationControls.select('.reset')
       .on('click', () => {
         gameBoard.reloadLevel(false);
-      });
+      })
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
     animationControls.select('#download')
       .on('click', function () {
         bareBoard.logger.logAction('reset');
         gameBoard.clipBoard(this);
-      });
+      })
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
 
     const durationToSlider = d3.scale.log()
       .domain([animationStepDurationMax, animationStepDurationMin])
@@ -220,7 +225,8 @@ export class GameBoard {
 
         d3.select(this).select('rect')
           .attr('x', 32 * mouseX/sliderWidth - 1);
-      });
+      })
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('CHANGE SPEED'));
 
   }
 
