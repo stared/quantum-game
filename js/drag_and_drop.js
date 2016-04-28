@@ -34,7 +34,7 @@ export const bindDrag = (tileSelection, board, stock) => {
 
       if (board.animationExists) {
         board.stop();
-        board.callbacks.experimentDisturbed();
+        board.callbacks.animationInterrupt();
       }
 
       // Is it from stock?

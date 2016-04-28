@@ -18,7 +18,6 @@ export class BareBoard {
 
     // NOTE maybe some event listener instead?
     this.callbacks = {
-      experimentDisturbed: callbacks.experimentDisturbed || _.noop,
       tileRotated: callbacks.tileRotated || _.noop,
       tileMouseover: callbacks.tileMouseover || _.noop,
       animationStart: callbacks.animationStart || _.noop,
@@ -186,7 +185,7 @@ export class BareBoard {
       if (bareBoard.animationExists) {
         this.logger.logAction('simulationStop', {cause: 'click on element'});
         bareBoard.stop();
-        bareBoard.callbacks.experimentDisturbed();
+        bareBoard.callbacks.animationInterrupt();
       }
 
       d.rotate();

@@ -18,7 +18,6 @@ export class GameBoard {
               animationControls) {
 
     this.bareBoard = new BareBoard(svg, {
-      experimentDisturbed: this.experimentDisturbedCallback.bind(this),
       tileRotated: this.tileRotatedCallback.bind(this),
       tileMouseover: this.tileMouseoverCallback.bind(this),
       animationStart: this.animationStartCallback.bind(this),
@@ -53,12 +52,6 @@ export class GameBoard {
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
   }
 
-  experimentDisturbedCallback() {
-    this.titleManager.displayMessage(
-      'Experiment disturbed! Quantum states are fragile...',
-      'failure');
-  }
-
   tileRotatedCallback(tile) {
     this.showTileHelper(tile);
   }
@@ -75,6 +68,9 @@ export class GameBoard {
   }
 
   animationInterruptCallback() {
+    this.titleManager.displayMessage(
+      'Experiment disturbed! Quantum states are fragile...',
+      'failure');
     // Reset play/pause button to "play" state
     this.setPlayButtonState('play');
   }
