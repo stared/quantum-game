@@ -297,6 +297,8 @@ export class BareBoard {
     return {
       name:   this.level.name,
       group:  this.level.group,
+      id:     this.level.id,
+      next:   this.level.next,
       width:  this.level.width,
       height: this.level.height,
       tiles:  _.chain(this.tileMatrix)

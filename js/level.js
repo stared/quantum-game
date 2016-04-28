@@ -8,10 +8,13 @@ import levelsOther from '../data/levels_other.json!';
 
 export class Level {
   constructor(levelRecipe, mode = 'game') {
+    // TODO(migdal) remove mindless attribute copying
     this.next = levelRecipe.next;
     this.name = levelRecipe.name;
     this.group = levelRecipe.group;
     this.i = levelRecipe.i;
+    this.id = levelRecipe.id;
+    this.next = levelRecipe.next;
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
     this.texts = levelRecipe.texts || {};
@@ -38,17 +41,20 @@ export class Level {
   }
 }
 
+const levelId = (level) => `${level.group} ${level.name}`;
+
 // below it's a quick&dirty hack to make the level ordering sensible
 export const levels = _(levelsGame)
   .concat(levelsOther)
   .forEach((level, i) => {
     level.i = i;
+    level.id = levelId(level);
   })
   .sortBy((level) => `${level.group} ${1e6 + level.i}`)
   .value();
 
 levels.forEach((level, i) => {
-  level.next = levels[i + 1];
+  level.next = _.get(levels[i + 1], 'id');
   delete level.i;
 });
 
@@ -59,3 +65,5 @@ _(levels)
     group.forEach((level, i) => level.i = i + 1)
   )
   .value();
+
+export const idToLevel = _.indexBy(levels, 'id');

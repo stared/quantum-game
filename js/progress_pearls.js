@@ -21,7 +21,7 @@ export class ProgressPearls {
         .attr('cy', (d, i) => (0.25 * (i % pearlsPerCol) + 0.5) * tileSize)
         .on('click', (d) => {
           this.gameBoard.stop();
-          this.gameBoard.loadLevel(d);
+          this.gameBoard.loadLevel(d.id);
         });
 
     this.update();
@@ -31,7 +31,7 @@ export class ProgressPearls {
 
     // TODO(migdal) accesible levels
 
-    const isWon = (d) => this.gameBoard.storage.getLevelIsWon(d);
+    const isWon = (d) => this.gameBoard.storage.getLevelIsWon(d.id);
 
     this.pearls
       .classed('pearl--passed', isWon)

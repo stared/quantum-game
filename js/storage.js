@@ -3,32 +3,27 @@ export class Storage {
     this.ls = window.localStorage;
   }
 
-  // NOTE maybe levelCode as a level field/method?
-  levelCode(level) {
-    return `${level.group} ${level.name}`;
-  }
-
-  setLevelProgress(level, boardExport) {
+  setLevelProgress(levelId, boardExport) {
     this.ls.setItem(
-      `LevelProgress ${this.levelCode(level)}`,
+      `LevelProgress ${levelId}`,
       JSON.stringify(boardExport)
     );
   }
 
-  hasLevelProgress(level) {
-    return this.ls.hasOwnProperty(`LevelProgress ${this.levelCode(level)}`);
+  hasLevelProgress(levelId) {
+    return this.ls.hasOwnProperty(`LevelProgress ${levelId}`);
   }
 
-  getLevelProgress(level) {
-    return JSON.parse(this.ls.getItem(`LevelProgress ${this.levelCode(level)}`));
+  getLevelProgress(levelId) {
+    return JSON.parse(this.ls.getItem(`LevelProgress ${levelId}`));
   }
 
-  setLevelIsWon(level, value = true) {
-    this.ls.setItem(`LevelIsWon ${this.levelCode(level)}`, String(value));
+  setLevelIsWon(levelId, value = true) {
+    this.ls.setItem(`LevelIsWon ${levelId}`, String(value));
   }
 
-  getLevelIsWon(level) {
-    return this.ls.getItem(`LevelIsWon ${this.levelCode(level)}`) === 'true';
+  getLevelIsWon(levelId) {
+    return this.ls.getItem(`LevelIsWon ${levelId}`) === 'true';
   }
 
   // TODO(migdal) last played

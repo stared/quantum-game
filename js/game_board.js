@@ -4,7 +4,7 @@ import stringify from 'json-stringify-pretty-compact';
 
 import {animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration} from './config';
 import {Stock} from './stock';
-import {Level} from './level';
+import * as level from './level';
 import {BareBoard} from './bare_board';
 import {ProgressPearls} from './progress_pearls';
 import {TileHelper} from './tile_helper';
@@ -14,7 +14,7 @@ import {TileHelper} from './tile_helper';
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, game, titleManager, storage, level, levels,
+  constructor(svg, game, titleManager, storage, levelId,
               animationControls) {
 
     this.bareBoard = new BareBoard(svg, {
@@ -27,17 +27,14 @@ export class GameBoard {
     });
 
     this.game = game;
-    this.levels = levels;
-    this.levelsLookup = _.indexBy(levels, (levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`);
 
     this.titleManager = titleManager;
     this.storage = storage;
     this.animationControls = animationControls;
-    window.console.log('GameBoard storage', this.storage);
 
     this.progressPearls = new ProgressPearls(
       svg,
-      levels.filter((d) => d.group === 'Game'),
+      level.levels.filter((d) => d.group === 'Game'),
       this
     );
     this.progressPearls.draw();
@@ -47,7 +44,7 @@ export class GameBoard {
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
-    this.loadLevel(level);
+    this.loadLevel(levelId);
 
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
   }
@@ -92,7 +89,7 @@ export class GameBoard {
 
     if (winningStatus.isWon) {
 
-      this.storage.setLevelIsWon(level, true);
+      this.storage.setLevelIsWon(level.id, true);
       this.saveProgress();
       this.progressPearls.update();
 
@@ -237,38 +234,31 @@ export class GameBoard {
     window.console.log(levelJSON);
   }
 
-  loadLevel(levelRecipe, checkStorage = true, dev = false) {
 
-    window.console.log('log from the last level', stringify(this.logger.log));
+  loadLevel(levelId, checkStorage = true, dev = false) {
+
+    this.saveProgress();
     this.logger.save();
     this.logger.reset();
 
     let levelToLoad;
 
-    if (!checkStorage) {
-      levelToLoad = levelRecipe;
-      this.logger.logAction('loadLevel', {fromStorage: false});
+    if (checkStorage & this.storage.hasLevelProgress(levelId)) {
+      levelToLoad = this.storage.getLevelProgress(levelId);
+      this.logger.logAction('loadLevel', {fromStorage: true});
     } else {
-      this.saveProgress();
-
-      if (this.storage.hasLevelProgress(levelRecipe)) {
-        levelToLoad = this.storage.getLevelProgress(levelRecipe);
-        this.logger.logAction('loadLevel', {fromStorage: true});
-      } else {
-        levelToLoad = levelRecipe;
-      }
+      levelToLoad = level.idToLevel[levelId];
+      this.logger.logAction('loadLevel', {fromStorage: false});
     }
 
-    this.bareBoard.level = new Level(levelToLoad, dev ? 'dev' : 'game');
-    this.bareBoard.level.i = levelRecipe.i;
-    this.bareBoard.level.next = levelRecipe.next;
+    this.bareBoard.level = new level.Level(levelToLoad, dev ? 'dev' : 'game');
     this.reset();
     this.progressPearls.update();
   }
 
   // dev = true only from console
-  reloadLevel(dev) {
-    this.loadLevel(this.levelsLookup[`${this.bareBoard.level.group} ${this.bareBoard.level.name}`], false, dev);
+  reloadLevel(dev = false) {
+    this.loadLevel(this.bareBoard.level.id, false, dev);
   }
 
   saveProgress() {
@@ -276,7 +266,8 @@ export class GameBoard {
     // FIX(migdal) Is this condition meaningful?
     // TODO use hash of sorted elements so to ensure levels are unique?
     if (this.bareBoard.level != null) {
-      this.storage.setLevelProgress(this.bareBoard.level, this.bareBoard.exportBoard());
+      this.storage.setLevelProgress(this.bareBoard.level.id, this.bareBoard.exportBoard());
+      window.console.log('progress saved:', this.bareBoard.exportBoard());
     }
   }
 }

@@ -7,6 +7,7 @@ describe('All level JSON recipes have required fields', () => {
     it(`${levelRecipe.group} ${levelRecipe.i} ${levelRecipe.name}`, () => {
       expect(levelRecipe.group).toBeDefined();
       expect(levelRecipe.name).toBeDefined();
+      expect(levelRecipe.id).toBeDefined();
       expect(levelRecipe.width).toBeDefined();
       expect(levelRecipe.height).toBeDefined();
       expect(levelRecipe.tiles).toBeDefined();
