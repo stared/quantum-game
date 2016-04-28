@@ -24,8 +24,6 @@ export class ProgressPearls {
           this.gameBoard.loadLevel(d);
         });
 
-    // TODO(migdal) names on hover (or even thumbnails)
-
     this.update();
   }
 
@@ -33,10 +31,18 @@ export class ProgressPearls {
 
     // TODO(migdal) accesible levels
 
+    const isWon = (d) => this.gameBoard.storage.getLevelIsWon(d);
+
     this.pearls
-      .classed('pearl--passed', (d) => this.gameBoard.storage.getLevelIsWon(d))
+      .classed('pearl--passed', isWon)
       .classed('pearl--current', (d) => {
         return this.gameBoard.level ? this.gameBoard.level.name === d.name : false;
+      })
+      .on('mouseover', (d) => {
+        this.gameBoard.titleManager.displayMessage(
+          `GO TO: ${d.i}. ${d.name} ${isWon(d) ? '[won]' : ''}`,
+          ''
+        )
       });
   }
 
