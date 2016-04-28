@@ -213,7 +213,10 @@ export class GameBoard {
         const sliderWidth = this.getBoundingClientRect().width;
         const mouseX = d3.mouse(this)[0];
         bareBoard.animationStepDuration = durationToSlider.invert(mouseX/sliderWidth);
-        window.console.log(`New speed: ${(1000/bareBoard.animationStepDuration).toFixed(2)} tiles/s`);
+        gameBoard.titleManager.displayMessage(
+          `Speed of light: ${(1000/bareBoard.animationStepDuration).toFixed(2)} tiles/s`,
+          ''
+        );
 
         d3.select(this).select('rect')
           .attr('x', 32 * mouseX/sliderWidth - 1);
