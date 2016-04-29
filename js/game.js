@@ -4,6 +4,7 @@ import d3 from 'd3';
 
 import * as level from './level';
 import {GameBoard} from './game_board';
+import {PopupManager} from './popup_manager';
 import {TitleManager} from './title_manager';
 import {SoundService} from './sound_service';
 import {Storage} from './storage';
@@ -23,6 +24,8 @@ export class Game {
     this.titleManager = new TitleManager(
       d3.select('.top-bar__title'),
       d3.select('.top-bar__subtitle'));
+    this.popupManager = new PopupManager(
+      d3.select('.popup'));
 
     // View definitions
     this.views = this.createViews();

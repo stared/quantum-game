@@ -546,3 +546,57 @@ text.helper-summary {
   font-family: "Roboto Condensed";
   stroke: #222;
 }
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 100;
+  display: none;
+}
+
+.popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.popup--shown {
+  display: table !important;
+}
+
+.popup-container {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.popup-window {
+  position: relative;
+  z-index: 10;
+  width: 50%;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 0 10px black;
+  padding: 2vh;
+  font-size: 3vh;
+  font-family: "Roboto Condensed";
+}
+
+.popup-buttons {
+  text-align: right;
+}
+.popup-buttons > button {
+  background-color: #008FAF;
+  border: none;
+  padding: 1vh 3vh;
+  font-size: 2vh;
+  color: white;
+}
