@@ -239,14 +239,31 @@ export class GameBoard {
     this.logger.save();
     this.logger.reset();
 
-    let levelToLoad;
+    let levelToLoad = null;
+    let loadedFromStorage = false;
+    const tryLoadingFromStorage = checkStorage && this.storage.hasLevelProgress(levelId);
 
-    if (checkStorage & this.storage.hasLevelProgress(levelId)) {
-      levelToLoad = this.storage.getLevelProgress(levelId);
-      this.logger.logAction('loadLevel', {fromStorage: true});
-    } else {
+    // Try to load level from storage
+    if (tryLoadingFromStorage) {
+      try {
+        levelToLoad = this.storage.getLevelProgress(levelId);
+        this.logger.logAction('loadLevel', {fromStorage: true});
+        loadedFromStorage = true;
+      } catch (e) {
+      }
+    }
+
+    // Try to create level from scratch, if such exists
+    if (!loadedFromStorage && level.idToLevel[levelId] != null) {
       levelToLoad = level.idToLevel[levelId];
       this.logger.logAction('loadLevel', {fromStorage: false});
+    }
+
+    // If levelId is invalid, load first Level
+    if (levelToLoad == null) {
+      // TODO(pathes): remove magic constant
+      levelToLoad = level.levels[1];
+      this.logger.logAction('invalidLoadLevel', {});
     }
 
     this.storage.setCurrentLevelId(levelId);
