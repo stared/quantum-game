@@ -298,6 +298,7 @@ export class BareBoard {
       name:   this.level.name,
       group:  this.level.group,
       id:     this.level.id,
+      i:      this.level.i,
       next:   this.level.next,
       width:  this.level.width,
       height: this.level.height,
