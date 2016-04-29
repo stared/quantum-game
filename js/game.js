@@ -81,6 +81,7 @@ export class Game {
       d3.select('#game svg'),
       this,
       this.titleManager,
+      this.popupManager,
       this.storage,
       initialLevelId,
       d3.select('.bottom-bar__animation-controls'));

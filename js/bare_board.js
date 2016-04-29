@@ -316,6 +316,7 @@ export class BareBoard {
       requiredDetectionProbability: this.level.requiredDetectionProbability,
       detectorsToFeed:              this.level.detectorsToFeed,
       texts:                        this.level.texts,
+      initialHint:                  this.level.initialHint,
     };
   }
 

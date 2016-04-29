@@ -9,6 +9,8 @@ import levelsOther from '../data/levels_other.json!';
 export class Level {
   constructor(levelRecipe, mode = 'game') {
     // TODO(migdal) remove mindless attribute copying
+    // It cannot be done using _.assign(this, _.pick(levelRecipe, [...])),
+    // because Level is not exactly an Object instance.
     this.next = levelRecipe.next;
     this.name = levelRecipe.name;
     this.group = levelRecipe.group;
@@ -17,6 +19,7 @@ export class Level {
     this.next = levelRecipe.next;
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
+    this.initialHint = levelRecipe.initialHint;
     this.texts = levelRecipe.texts || {};
     this.tileRecipes = levelRecipe.tiles;
     this.initialStock = {};

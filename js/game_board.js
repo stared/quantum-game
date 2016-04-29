@@ -13,7 +13,7 @@ import {TileHelper} from './tile_helper';
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, game, titleManager, storage, levelId, animationControls) {
+  constructor(svg, game, titleManager, popupManager, storage, levelId, animationControls) {
 
     this.bareBoard = new BareBoard(svg, {
       tileRotated: this.tileRotatedCallback.bind(this),
@@ -27,6 +27,7 @@ export class GameBoard {
     this.game = game;
 
     this.titleManager = titleManager;
+    this.popupManager = popupManager;
     this.storage = storage;
     this.animationControls = animationControls;
 
@@ -264,6 +265,11 @@ export class GameBoard {
       // TODO(pathes): remove magic constant
       levelToLoad = level.levels[1];
       this.logger.logAction('invalidLoadLevel', {});
+    }
+
+    // Additionally, check if level is passed. If not, show popup.
+    if (!this.storage.getLevelIsWon(levelToLoad.id) && levelToLoad.initialHint != null) {
+      this.popupManager.popup(levelToLoad.initialHint);
     }
 
     this.storage.setCurrentLevelId(levelId);
