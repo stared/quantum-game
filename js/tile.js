@@ -486,6 +486,10 @@ export class Tile {
   get tileName() {
     return pascalCase(this.type.svgName);
   }
+
+  get isDetector() {
+    return this.tileName === 'Detector' || this.tileName === 'DetectorFour';
+  }
 }
 
 export const allTiles = [
