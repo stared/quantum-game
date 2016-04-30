@@ -189,7 +189,7 @@ export class GameBoard {
     const animationControls = this.animationControls;
     animationControls.select('.play')
       .on('click', bareBoard.play.bind(bareBoard))
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('PLAY/PASUE'));
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('PLAY/PAUSE'));
     animationControls.select('.stop')
       .on('click', bareBoard.stop.bind(bareBoard))
       .on('mouseover', () => gameBoard.titleManager.displayMessage('STOP'));
