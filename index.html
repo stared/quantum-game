@@ -217,11 +217,11 @@
   </svg>
 
   <div class="top-bar">
-      <div class="top-bar__title"></div>
+      <div class="top-bar__title unselectable"></div>
       <div class="top-bar__subtitle">
         <div class="top-bar__subtitle__slider">
-          <div class="top-bar__subtitle__description"></div>
-          <div class="top-bar__subtitle__message"></div>
+          <div class="top-bar__subtitle__description unselectable"></div>
+          <div class="top-bar__subtitle__message unselectable"></div>
         </div>
       </div>
       <button class="top-bar__menu-button interface-button view view--game">
@@ -232,8 +232,8 @@
           </svg>
       </button>
       <button class="top-bar__detection interface-button-nohover view view--game">
-        <div class="top-bar__detection__caption"></div>
-        <div class="top-bar__detection__value"></div>
+        <div class="top-bar__detection__caption unselectable"></div>
+        <div class="top-bar__detection__value unselectable"></div>
       </button>
   </div>
 
@@ -252,7 +252,7 @@
       <button class="bottom-bar__back-to-game-button
                      bottom-bar__animation-button interface-button">
         <svg width="100" height="16" viewBox="0 0 100 16">
-            <text x="50" y="12">« Back to game</text>
+            <text x="50" y="12" class="unselectable">« Back to game</text>
         </svg>
       </button>
     </div>
@@ -262,10 +262,10 @@
     <div class="encyclopedia-item">
       <div class="encyclopedia-item__container">
         <ul class="encyclopedia-item__menu">
-          <li><button encyclopedia-nav="basic-info">Basic info</button></li>
-          <li><button encyclopedia-nav="transitions">Transitions</button></li>
-          <li><button encyclopedia-nav="how-it-works">How it works</button></li>
-          <li><button encyclopedia-nav="usage">Usage</button></li>
+          <li><button class="unselectable" encyclopedia-nav="basic-info">Basic info</button></li>
+          <li><button class="unselectable" encyclopedia-nav="transitions">Transitions</button></li>
+          <li><button class="unselectable" encyclopedia-nav="how-it-works">How it works</button></li>
+          <li><button class="unselectable" encyclopedia-nav="usage">Usage</button></li>
         </ul>
         <article></article>
       </div>
@@ -274,7 +274,7 @@
       <button class="bottom-bar__back-to-encyclopedia-selector-button
                      bottom-bar__animation-button interface-button">
         <svg width="100" height="16" viewBox="0 0 100 16">
-            <text x="50" y="12">« Back to list</text>
+            <text x="50" y="12" class="unselectable">« Back to list</text>
         </svg>
       </button>
     </div>
@@ -333,7 +333,7 @@
           </button>
           <button class="bottom-bar__help-button bottom-bar__animation-button interface-button">
             <svg width="16" height="16" viewBox="0 0 16 16">
-                <text x="8" y="14" style="font-size: 18px">?</text>
+                <text class="unselectable" x="8" y="14" style="font-size: 18px">?</text>
             </svg>
           </button>
       </div>

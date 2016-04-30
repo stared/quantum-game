@@ -19,7 +19,7 @@ export class LevelSelectorView extends View {
       .data(level.levels)
       .enter()
       .append('li')
-      .attr('class', 'level-item')
+      .attr('class', 'level-item unselectable')
       .text((d) => `[${d.group}] ${d.i}. ${d.name}`)
       .on('click', (d) => {
         this.game.gameBoard.loadLevel(d.id);

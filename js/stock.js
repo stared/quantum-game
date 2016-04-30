@@ -59,7 +59,7 @@ export class Stock {
       .attr('transform', (d) => `translate(${d.i * tileSize},${d.j * tileSize})`);
 
     stockSlotsEntered.append('text')
-      .attr('class', 'stock-count')
+      .attr('class', 'stock-count unselectable')
       .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 0.9) * tileSize})`)
       .text((d) => `x ${this.stock[d.name]}`);
 

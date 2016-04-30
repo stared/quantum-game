@@ -24,6 +24,7 @@ export class EncyclopediaSelectorView extends View {
       .enter()
       .append('li')
       .append('button')
+      .attr('class', 'unselectable')
       .on('click', (d) => {
         this.game.setEncyclopediaItem(d);
         this.game.setView('encyclopediaItem');

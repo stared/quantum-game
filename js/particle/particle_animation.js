@@ -112,7 +112,7 @@ export class ParticleAnimation {
     _.forEach(this.measurementHistory[stepNo], (measurement) => {
       this.measurementTextGroup.datum(measurement)
         .append('text')
-        .attr('class', 'measurement-text')
+        .attr('class', 'measurement-text unselectable')
         .attr('x', (d) => tileSize * d.i + tileSize / 2)
         .attr('y', (d) => tileSize * d.j + tileSize / 2)
         .style('font-size', '20px')
@@ -140,7 +140,7 @@ export class ParticleAnimation {
       .data(this.absorptionProbabilities)
       .enter()
       .append('text')
-      .attr('class', 'absorption-text')
+      .attr('class', 'absorption-text unselectable')
       .attr('x', (d) => tileSize * d.i + tileSize / 2)
       .attr('y', (d) => tileSize * d.j + tileSize / 2)
       .text((d) => (100 * d.probability).toFixed(0) + '%')
