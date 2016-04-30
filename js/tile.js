@@ -323,9 +323,9 @@ export const Absorber = {
 export const Detector = {
   svgName: 'detector',
   desc: {
-    name: 'Single Photon Detector',
+    name: 'Photon Detector',
     flavour: '',
-    summary: 'Detects and amplifies electric signal from each single photon. Typically, it is the goal to get the photon here.',
+    summary: 'Detects and amplifies electric signal from each single photon, from a single direction. Your goal is to get photon there!',
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
@@ -362,9 +362,9 @@ export const Detector = {
 export const DetectorFour = {
   svgName: 'detector-four',
   desc: {
-    name: 'Single Photon Detector',
+    name: 'Omnidirectional Photon Detector',
     flavour: '',
-    summary: 'Detects and amplifies electric signal from each single photon. Typically, it is the goal to get the photon here.',
+    summary: 'Detects and amplifies electric signal from each single photon, from all directions. Typically, it is the goal to get the photon here.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
