@@ -32,6 +32,12 @@ export class WinningStatus {
       .pluck('probability')
       .value();
 
+    this.probsAtDetsByTime = _.map(simulationC.measurementHistory, (each) =>
+      _(each)
+        .filter((entry) => _.get(this.tileMatrix, `[${entry.i}][${entry.j}].isDetector`))
+        .sum('probability')
+    );
+
     this.totalProbAtDets = _.sum(this.probsAtDets);
     this.noOfFedDets = this.probsAtDets
       .filter((probability) => probability > EPSILON_DETECTION)
