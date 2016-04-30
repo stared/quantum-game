@@ -22,7 +22,7 @@ export class LevelSelectorView extends View {
       .attr('class', 'level-item')
       .text((d) => `[${d.group}] ${d.i}. ${d.name}`)
       .on('click', (d) => {
-        this.game.gameBoard.loadLevel(d);
+        this.game.gameBoard.loadLevel(d.id);
         this.game.setView('game');
       });
   }
