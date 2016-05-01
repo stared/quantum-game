@@ -69,14 +69,14 @@ export class Simulation {
    * Make one propagation step and save it in history.
    * Additionally, return it.
    */
-  propagate(quantum) {
+  propagate(quantum, onlyDetectors = -1) {
 
     const lastState = _.last(this.history);
     const displacedState = this.displace(lastState);
     let newState = this.interact(displacedState);
-    const absorbed = this.absorb(displacedState, newState);
+    const absorbed = this.absorb(displacedState, newState, onlyDetectors);
 
-    if (quantum) {
+    if (quantum && onlyDetectors < 0) {
       newState = this.normalize(newState);
     }
 
@@ -118,7 +118,7 @@ export class Simulation {
     });
   }
 
-  absorb(stateOld, stateNew) {
+  absorb(stateOld, stateNew, onlyDetectors = -1) {
 
     const intensityOld = intensityPerPosition(stateOld);
     const intensityNew = intensityPerPosition(stateNew);
@@ -142,14 +142,29 @@ export class Simulation {
       each.tile = this.tileMatrix[each.i] && this.tileMatrix[each.i][each.j];
     });
 
-    const rand = Math.random();
-    let probSum = 0;
 
-    for (let k = 0; k < bins.length; k++) {
-      probSum += bins[k].probability;
-      if (probSum > rand) {
-        bins[k].measured = true;
-        break;
+    const rand = Math.random();
+
+    let probSum = 0;
+    if (onlyDetectors > 0) {
+      // the cheated variant
+      for (let k = 0; k < bins.length; k++) {
+        if (bins[k].tile.isDetector) {
+          probSum += bins[k].probability * onlyDetectors;
+          if (probSum > rand) {
+            bins[k].measured = true;
+            break;
+          }
+        }
+      }
+    } else {
+      // usual variarant
+      for (let k = 0; k < bins.length; k++) {
+        probSum += bins[k].probability;
+        if (probSum > rand) {
+          bins[k].measured = true;
+          break;
+        }
       }
     }
 
@@ -231,6 +246,21 @@ export class Simulation {
         break;
       }
     }
+  }
+
+  // propagation making sure that it will click at one of the detectors
+  propagateToEndCheated(absAtDetByTime) {
+    const totalDetection = _.sum(absAtDetByTime);
+    let detectionSoFar = 0;
+    let stepNo, lastStep;
+    for (stepNo = 0; stepNo < absAtDetByTime.length; ++stepNo) {
+      lastStep = this.propagate(true, 1 / (totalDetection - detectionSoFar ));
+      detectionSoFar += absAtDetByTime[stepNo+1];
+      if (!lastStep.length) {
+        break;
+      }
+    }
+
   }
 
 }

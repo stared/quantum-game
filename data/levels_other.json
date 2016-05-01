@@ -145,5 +145,27 @@
       {"i": 8, "j": 3, "name": "ThinMirror", "rotation": 2, "frozen": false},
       {"i": 8, "j": 4, "name": "ThinMirror", "rotation": 2, "frozen": false}
     ]
+  },
+  {
+    "name": "Testing first-win animation",
+    "group": "X Test",
+    "i": 1,
+    "next": "Game Introducing mirrors",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 2, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 4, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 4, "j": 2, "name": "Rock", "rotation": 0, "frozen": true},
+      {"i": 5, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 4, "name": "Rock", "rotation": 0, "frozen": true},
+      {"i": 6, "j": 1, "name": "Absorber", "rotation": 0, "frozen": true},
+      {"i": 10, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 10, "j": 3, "name": "DetectorFour", "rotation": 0, "frozen": true},
+      {"i": 11, "j": 1, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "requiredDetectionProbability": 0.01,
+    "detectorsToFeed": 0,
+    "texts": {"before": "Adventures of a Curious Character"}
   }
 ]

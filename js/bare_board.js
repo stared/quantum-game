@@ -223,16 +223,25 @@ export class BareBoard {
    */
   generateHistory() {
 
-    // non-deterministic quantum simulation
-    // (for animations)
-    this.simulationQ = new simulation.Simulation(this.tileMatrix, 'logging');
-    this.simulationQ.initialize();
-    this.simulationQ.propagateToEnd(true);
-
     this.winningStatus = new WinningStatus(this.tileMatrix);
     this.winningStatus.run();
     this.winningStatus.compareToObjectives(this.level.requiredDetectionProbability, this.level.detectorsToFeed);
     window.console.log(this.winningStatus);
+
+    // 'improved' history for the first win
+    const firstWin = this.winningStatus.isWon && !this.alreadyWon;
+    this.alreadyWon = this.alreadyWon || this.winningStatus.isWon;
+
+    // non-deterministic quantum simulation
+    // (for animations)
+    this.simulationQ = new simulation.Simulation(this.tileMatrix, 'logging');
+    this.simulationQ.initialize();
+    if (firstWin && this.winningStatus.totalProbAtDets > 0) {
+      this.simulationQ.propagateToEndCheated(this.winningStatus.probsAtDetsByTime);
+    } else {
+      this.simulationQ.propagateToEnd(true);
+    }
+
     this.logger.logAction('run', {
       isWon: this.winningStatus.isWon,
       enoughProbability: this.winningStatus.enoughProbability,

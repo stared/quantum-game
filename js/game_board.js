@@ -277,6 +277,7 @@ export class GameBoard {
 
     this.storage.setCurrentLevelId(levelId);
     this.bareBoard.level = new level.Level(levelToLoad, dev ? 'dev' : 'game');
+    this.bareBoard.alreadyWon = this.storage.getLevelIsWon(levelId);
     this.reset();
     this.progressPearls.update();
   }
