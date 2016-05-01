@@ -245,6 +245,22 @@ export class BareBoard {
 
   }
 
+  /**
+    * Generate history and animation.
+    */
+  generateAnimation() {
+    if (this.animationExists) {
+      this.particleAnimation.stop();
+    }
+    this.generateHistory();
+    this.particleAnimation = new CanvasParticleAnimation(
+      this,
+      this.simulationQ.history,
+      this.simulationQ.measurementHistory,
+      this.winningStatus.absorptionProbabilities,
+      this.callbacks.animationInterrupt,
+      this.callbacks.animationEnd);
+  }
 
   /**
    * Play animation. Generate history if necessary.
@@ -254,15 +270,9 @@ export class BareBoard {
     this.logger.logAction('simulationPlay');
     this.callbacks.animationStart();
     if (!this.animationExists) {
-      this.generateHistory();
-      this.particleAnimation = new CanvasParticleAnimation(
-        this,
-        this.simulationQ.history,
-        this.simulationQ.measurementHistory,
-        this.winningStatus.absorptionProbabilities,
-        this.callbacks.animationInterrupt,
-        this.callbacks.animationEnd);
+      this.generateAnimation();
     }
+    // After generation, this.animationExists is true
     if (this.particleAnimation.playing) {
       this.particleAnimation.pause();
       this.callbacks.setPlayButtonState('play');
@@ -281,13 +291,16 @@ export class BareBoard {
   }
 
   forward() {
-    if (this.animationExists) {
-      if (this.particleAnimation.playing) {
-        this.particleAnimation.pause();
-        this.callbacks.setPlayButtonState('play');
-      } else {
-        this.particleAnimation.forward();
-      }
+    if (!this.animationExists) {
+      this.generateAnimation();
+      this.particleAnimation.initialize();
+    }
+    // After generation, this.animationExists is true
+    if (this.particleAnimation.playing) {
+      this.particleAnimation.pause();
+      this.callbacks.setPlayButtonState('play');
+    } else {
+      this.particleAnimation.forward();
     }
   }
 

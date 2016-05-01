@@ -63,6 +63,8 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     window.addEventListener('resize', this.throttledResizeCanvas);
     this.startTime = new Date().getTime();
     this.lastStepFloat = 0;
+    // Show the canvas (useful when initing animation via "next step" button)
+    this.canvas.classed('canvas--hidden', false);
   }
 
   interrupt() {
