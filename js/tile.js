@@ -126,12 +126,9 @@ export const PolarizerNS = {
   rotationAngle: 45,
   transition: (rotation) => full.polarizerNS[rotation],
   drawUnrotablePart: (that) => {
-    that.g.append('line')
-      .attr('class', 'wire')
-      .attr('x1', 0)
-      .attr('x2', 0)
-      .attr('y1', 25)
-      .attr('y2', 50);
+   that.g.append('path')
+     .attr('class', 'metal-edge polarizer-side')
+     .attr('d', 'M -25 0 v 10 a 25 25 0 0 0 50 0 v -10 a 25 25 0 0 1 -50 0');
   },
 };
 
@@ -146,12 +143,9 @@ export const PolarizerWE = {
   rotationAngle: 45,
   transition: (rotation) => full.polarizerWE[rotation],
   drawUnrotablePart: (that) => {
-    that.g.append('line')
-      .attr('class', 'wire')
-      .attr('x1', 25)
-      .attr('x2', 50)
-      .attr('y1', 0)
-      .attr('y2', 0);
+    that.g.append('path')
+      .attr('class', 'metal-edge polarizer-side')
+      .attr('d', 'M 0 -25 h 10 a 25 25 0 0 1 0 50 h -10 a 25 25 0 0 0 0 -50');
   },
 };
 
@@ -166,14 +160,6 @@ export const QuarterWavePlate = {
   maxRotation: 4, // - / | \
   rotationAngle: 45,
   transition: (rotation) => full.quarterWavePlate[rotation],
-  drawUnrotablePart: (that) => {
-    that.g.append('line')
-      .attr('class', 'wire')
-      .attr('x1', 25 / Math.sqrt(2))
-      .attr('x2', 35)
-      .attr('y1', 25 / Math.sqrt(2))
-      .attr('y2', 35);
-  },
 };
 
 export const QuarterWavePlateNS = {
@@ -187,12 +173,9 @@ export const QuarterWavePlateNS = {
   rotationAngle: 45,
   transition: (rotation) => full.quarterWavePlateNS[rotation],
   drawUnrotablePart: (that) => {
-    that.g.append('line')
-      .attr('class', 'wire')
-      .attr('x1', 0)
-      .attr('x2', 0)
-      .attr('y1', 25)
-      .attr('y2', 50);
+    that.g.append('path')
+      .attr('class', 'glass-edge glass')
+      .attr('d', 'M -25 10 v 10 l 15 15 h 20 l 15 -15 v -10 l -15 15 h -20 z');
   },
 };
 
@@ -207,12 +190,9 @@ export const QuarterWavePlateWE = {
   rotationAngle: 45,
   transition: (rotation) => full.quarterWavePlateWE[rotation],
   drawUnrotablePart: (that) => {
-    that.g.append('line')
-      .attr('class', 'wire')
-      .attr('x1', 25)
-      .attr('x2', 50)
-      .attr('y1', 0)
-      .attr('y2', 0);
+    that.g.append('path')
+      .attr('class', 'glass-edge glass')
+      .attr('d', 'M 10 -25 h 10 l 15 15 v 20 l -15 15 h -10 l 15 -15 v -20 z');
   },
 };
 

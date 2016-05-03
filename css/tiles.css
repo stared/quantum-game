@@ -130,6 +130,11 @@ path.triangular:hover {
   stroke-width: 3px;
 }
 
+.polarizer-side {
+  fill: gray;
+  fill-opacity: 0.5;
+}
+
 .detector-light-off {
   fill: red;
 }
