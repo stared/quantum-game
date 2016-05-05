@@ -452,7 +452,12 @@ body {
 }
 
 .label-in, .label-out {
-    font-size: 12px;
+    font-size: 8px;
+}
+
+.matrix-element {
+    stroke: gray;
+    stroke-width: 0.1px;
 }
 
 .matrix-element:hover {

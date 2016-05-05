@@ -1,6 +1,7 @@
 import d3 from 'd3';
 
 import * as tile from '../tile';
+import {tileSize} from '../config';
 import {View} from './view';
 import {TransitionHeatmap} from '../transition_heatmap';
 
@@ -47,6 +48,7 @@ export class EncyclopediaItemView extends View {
       .append('use')
       .attr('xlink:href', `#${tileData.svgName}`)
       .attr('transform', 'translate(50, 50)');
+      // draw method
     article
       .append('h4')
       .text(tileData.desc.name);
@@ -74,14 +76,49 @@ export class EncyclopediaItemView extends View {
       .classed('encyclopedia-item__hint', true)
       .text('Click on heatmap to change its ordering (direction, polarization).');
 
+    const hmMatrixSize = 150;
+    const hmTileSize = 50;
+
     const hm = article
       .append('div')
-      .attr('class', 'content heatmap');
+        .attr('class', 'content content--heatmap');
+
+    const hmSvg = hm.append('svg')
+        .attr('viewBox', `0 0 ${hmMatrixSize + hmTileSize} ${hmMatrixSize}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('class', 'content heatmap');
 
     // TODO something for rotation...
     const tileObj = new tile.Tile(tileData);
-    const transitionHeatmap = new TransitionHeatmap(hm);
+    const transitionHeatmap = new TransitionHeatmap(hmSvg, hm, hmMatrixSize);
     transitionHeatmap.updateFromTensor(tileObj.transitionAmplitudes.map);
+
+    hmSvg.append('text')
+      .attr('class', 'hm-element-rotation-hint')
+      .attr('x', hmMatrixSize + hmTileSize / 2)
+      .attr('y', hmMatrixSize - hmTileSize)
+      .style('font-size', '8px')
+      .style('text-anchor', 'middle')
+      .text('click to rotate');
+
+    tileObj.g = hmSvg.append('g')
+      .attr('transform', `translate(${hmMatrixSize},${hmMatrixSize - hmTileSize})scale(${hmTileSize/tileSize})translate(${tileSize/2},${tileSize/2})`);
+    tileObj.draw();
+
+    // rotation hitbox
+    hmSvg.append('rect')
+      .attr('class', 'helper-hitbox')
+      .attr('x', hmMatrixSize)
+      .attr('y', hmMatrixSize - 1.5 * hmTileSize)
+      .attr('width', hmTileSize)
+      .attr('height', 1.5 * hmTileSize)
+      .attr('rx', 10)
+      .attr('ry', 10)
+      .on('click', () => {
+        tileObj.rotate();
+        transitionHeatmap.updateFromTensor(tileObj.transitionAmplitudes.map);
+      });
+
   }
 
   createHowItWorks(article, tileData) {

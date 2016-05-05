@@ -33,14 +33,12 @@ const basisDirPol = ['>-', '>|', '^-', '^|', '<-', '<|', 'v-', 'v|'];
 const basisPolDir = ['>-', '^-', '<-', 'v-', '>|', '^|', '<|', 'v|'];
 
 export class TransitionHeatmap {
-  constructor(selector, size=200) {
-    this.svg = selector.append('svg')
+  constructor(selectorSvg, selectorForTooltip, size=200) {
+    this.g = selectorSvg.append('g')
       .attr('class', 'transition-heatmap')
-      .attr('viewBox', `0 0 ${size} ${size}`)
-      .attr('preserveAspectRatio', 'xMidYMid meet')
       .on('click', () => this.toggleBasis());
 
-    this.tooltip = new Tooltip(selector);
+    this.tooltip = new Tooltip(selectorForTooltip);
     this.size = size;
     this.basis = basisDirPol;
   }
@@ -87,7 +85,7 @@ export class TransitionHeatmap {
 
     // in (top) basis labels
 
-    this.labelIn = this.svg
+    this.labelIn = this.g
       .selectAll('.label-in')
       .data(labels, (d) => d);
 
@@ -96,19 +94,20 @@ export class TransitionHeatmap {
         .attr('class', 'label-in');
 
     this.labelIn
-      .attr('x', scale(-0.5))
-      .style('text-anchor', 'middle')
-      .text(prettifyBasis)
-      .transition()
-        .duration(toggleDuraton)
-        .attr('y', (d, i) => scale(i + 0.5));
+    .attr('y', scale(-0.5))
+    .style('text-anchor', 'middle')
+    .text(prettifyBasis)
+    .transition()
+      .duration(toggleDuraton)
+      .attr('x', (d, i) => scale(i + 0.5))
+      .attr('dy', '0.5em');
 
     this.labelIn.exit()
       .remove();
 
     // out (left) basis labels
 
-    this.labelOut = this.svg
+    this.labelOut = this.g
       .selectAll('.label-out')
       .data(labels, (d) => d);
 
@@ -117,12 +116,13 @@ export class TransitionHeatmap {
         .attr('class', 'label-out');
 
     this.labelOut
-      .attr('y', scale(-0.5))
+      .attr('x', scale(-0.5))
       .style('text-anchor', 'middle')
       .text(prettifyBasis)
       .transition()
         .duration(toggleDuraton)
-        .attr('x', (d, i) => scale(i + 0.5));
+        .attr('y', (d, i) => scale(i + 0.5))
+        .attr('dy', '0.5em');
 
     this.labelOut.exit()
       .remove();
@@ -131,7 +131,7 @@ export class TransitionHeatmap {
 
     if (matrixElements != null) {
 
-      this.matrixElement = this.svg
+      this.matrixElement = this.g
         .selectAll('.matrix-element')
         .data(matrixElements, (d) => `${d.from} ${d.to}`);
 
@@ -157,7 +157,7 @@ export class TransitionHeatmap {
       .attr('width', squareSize - 1)
       .attr('height', squareSize - 1)
       .style('fill', complexToPureColor)
-      .style('opacity', complexToOpacity)
+      .style('fill-opacity', complexToOpacity)
       .transition()
         .duration(toggleDuraton)
           .attr('y', (d) => scale(position[d.to]) + 0.5)
