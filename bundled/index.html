@@ -17,9 +17,6 @@
 <body>
   <svg class="svg-defs">
     <defs>
-      <g id="hitbox">
-        <rect class="hitbox" x="-50" y="-50" width="100" height="100"/>
-      </g>
       <g id="particle">
         <circle r="10" class="particle" />
       </g>
@@ -32,7 +29,7 @@
       </g>
       <g id="thin-splitter-coated">
         <rect class="glass" x="-30" y="-3.5" width="60" height="7"/>
-        <line class="metal-edge" x1="-30" y1="4" x2="30" y2="3.5" />
+        <line class="metal-edge" x1="-30" y1="4" x2="30" y2="4" />
       </g>
       <g id="thin-mirror">
         <rect class="dark-silver metal-edge" x="-30" y="-3.5" width="60" height="7"/>
@@ -150,29 +147,33 @@
           <circle class="eye" cx="5" cy= "-5" r="7"/>
           <circle class="eye-iris" cx="4" cy= "-3" r="2"/>
       </g>
+      <g id="detector-wire">
+        <path class="wire" d="M-36 0 a3 3 0 1 1 6 0 a3 3 0 1 0 6 0 a3 3 0 1 1 6 0 a3 3 0 1 0 8 0"/>
+      </g>
       <g id="detector">
-        <path class="wire" d="M-30 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0"/>
-        <line class="metal-case" x1="-35" y1="-25" x2="-35" y2="25" />
-        <rect class="dark-silver metal-edge" x="-15" y="-15" width="30" height="30" rx="5" ry="5" />
-        <circle style="fill:red;opacity:0.5" cx="0" cy="0" r="7.5" />
+        <use xlink:href="#detector-wire" x="0" y="0"/>
+        <path class="wire" d="M-36 0 a3 3 0 1 1 6 0 a3 3 0 1 0 6 0 a3 3 0 1 1 6 0 a3 3 0 1 0 8 0"/>
+        <line class="metal-case" x1="-36" y1="-25" x2="-36" y2="25"/>
+        <rect class="metal metal-edge" x="-14" y="-14" width="28" height="28" rx="5" ry="5"/>
+        <circle class="detector-light-off" cx="0" cy="0" r="7"/>
       </g>
       <g id="detector-excitation">
-        <circle style="fill:lime" cx="0" cy="0" r="7.5" />
+        <circle class="detector-light-on" cx="0" cy="0" r="7"/>
       </g>
       <g id="detector-four">
-        <path class="wire" d="M-30 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0"/>
-        <line class="metal-case" x1="-35" y1="-25" x2="-35" y2="25" />
-        <path class="wire" d="M-30 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0" transform="rotate(90)" />
-        <line class="metal-case" x1="-35" y1="-25" x2="-35" y2="25" transform="rotate(90)" />
-        <path class="wire" d="M-30 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0" transform="rotate(180)" />
-        <line class="metal-case" x1="-35" y1="-25" x2="-35" y2="25" transform="rotate(180)" />
-        <path class="wire" d="M-30 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0 a5 5 0 1 1 10 0 a5 5 0 1 0 10 0" transform="rotate(270)" />
-        <line class="metal-case" x1="-35" y1="-25" x2="-35" y2="25" transform="rotate(270)" />
-        <rect class="dark-silver metal-edge" x="-15" y="-15" width="30" height="30" rx="5" ry="5" />
-        <circle style="fill:red;opacity:0.5" cx="0" cy="0" r="7.5" />
+        <use xlink:href="#detector-wire" x="0" y="0"/>
+        <line class="metal-case" x1="-36" y1="-25" x2="-36" y2="25"/>
+        <use xlink:href="#detector-wire" x="0" y="0" transform="rotate(90)"/>
+        <line class="metal-case" x1="-36" y1="-25" x2="-36" y2="25" transform="rotate(90)"/>
+        <use xlink:href="#detector-wire" x="0" y="0" transform="rotate(180)"/>
+        <line class="metal-case" x1="-36" y1="-25" x2="-36" y2="25" transform="rotate(180)"/>
+        <use xlink:href="#detector-wire" x="0" y="0" transform="rotate(270)"/>
+        <line class="metal-case" x1="-36" y1="-25" x2="-36" y2="25" transform="rotate(270)"/>
+        <rect class="metal metal-edge" x="-14" y="-14" width="28" height="28" rx="5" ry="5"/>
+        <circle class="detector-light-off" cx="0" cy="0" r="7" />
       </g>
       <g id="detector-four-excitation">
-        <circle style="fill:lime" cx="0" cy="0" r="7.5" />
+        <circle class="detector-light-on" cx="0" cy="0" r="7.5" />
       </g>
       <g id="detector-old">
         <path class="wire" d="M 0 0
@@ -209,11 +210,11 @@
   </svg>
 
   <div class="top-bar">
-      <div class="top-bar__title"></div>
+      <div class="top-bar__title unselectable"></div>
       <div class="top-bar__subtitle">
         <div class="top-bar__subtitle__slider">
-          <div class="top-bar__subtitle__description"></div>
-          <div class="top-bar__subtitle__message"></div>
+          <div class="top-bar__subtitle__description unselectable"></div>
+          <div class="top-bar__subtitle__message unselectable"></div>
         </div>
       </div>
       <button class="top-bar__menu-button interface-button view view--game">
@@ -224,8 +225,8 @@
           </svg>
       </button>
       <button class="top-bar__detection interface-button-nohover view view--game">
-        <div class="top-bar__detection__caption"></div>
-        <div class="top-bar__detection__value"></div>
+        <div class="top-bar__detection__caption unselectable"></div>
+        <div class="top-bar__detection__value unselectable"></div>
       </button>
   </div>
 
@@ -244,7 +245,7 @@
       <button class="bottom-bar__back-to-game-button
                      bottom-bar__animation-button interface-button">
         <svg width="100" height="16" viewBox="0 0 100 16">
-            <text x="50" y="12">« Back to game</text>
+            <text x="50" y="12" class="unselectable">« Back to game</text>
         </svg>
       </button>
     </div>
@@ -252,19 +253,28 @@
 
   <div class="view view--encyclopedia-item view--inline view--hidden">
     <div class="encyclopedia-item">
+      <div class="encyclopedia-item__container">
+        <ul class="encyclopedia-item__menu">
+          <li><button class="unselectable" encyclopedia-nav="basic-info">Basic info</button></li>
+          <li><button class="unselectable" encyclopedia-nav="transitions">Transitions</button></li>
+          <li><button class="unselectable" encyclopedia-nav="how-it-works">How it works</button></li>
+          <li><button class="unselectable" encyclopedia-nav="usage">Usage</button></li>
+        </ul>
+        <article></article>
+      </div>
     </div>
     <div class="bottom-bar">
       <button class="bottom-bar__back-to-encyclopedia-selector-button
                      bottom-bar__animation-button interface-button">
         <svg width="100" height="16" viewBox="0 0 100 16">
-            <text x="50" y="12">« Back to list</text>
+            <text x="50" y="12" class="unselectable">« Back to list</text>
         </svg>
       </button>
     </div>
   </div>
 
 
-  <div class="view view--game view--inline">
+<div class="view view--game view--inline">
   <div id="game">
     <svg preserveAspectRatio="xMidYMid meet"></svg>
     <canvas id="gameCanvas" class="canvas--hidden"></canvas>
@@ -274,10 +284,15 @@
   <div class="bottom-bar">
       <div class="bottom-bar__animation-controls">
           <button class="bottom-bar__animation-button interface-button play">
-              <svg width="20" height="16" viewBox="0 0 20 16">
-                  <path class="svg-interface-button" d="M0 0 L10 8 L0 16 Z"></path>
-                  <rect class="svg-interface-button" width="4" height="16" x="10" y="0"></rect>
-                  <rect class="svg-interface-button" width="4" height="16" x="16" y="0"></rect>
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                  <defs>
+                      <path id="pause-icon"
+                            d="M0 0 L6 0 L6 16 L0 16 M10 0 L16 0 L16 16 L10 16" />
+                      <path id="play-icon"
+                            d="M0 0 L8 4 L8 12 L0 16 M8 4 L16 8 L16 8 L8 12" />
+                  </defs>
+                  <path class="actual-icon svg-interface-button"
+                        d="M0 0 L8 4 L8 12 L0 16 M8 4 L16 8 L16 8 L8 12" />
               </svg>
           </button>
           <button class="bottom-bar__animation-button interface-button stop">
@@ -311,18 +326,25 @@
           </button>
           <button class="bottom-bar__help-button bottom-bar__animation-button interface-button">
             <svg width="16" height="16" viewBox="0 0 16 16">
-                <text x="8" y="14" style="font-size: 18px">?</text>
+                <text class="unselectable" x="8" y="14" style="font-size: 18px">?</text>
             </svg>
           </button>
       </div>
   </div>
 </div>
 
-  <div id="helper">
-    <div id="element-name"></div>
-    <div id="element-summary"></div>
-    <div id="element-flavour"></div>
+<div class="popup">
+  <div class="popup-overlay popup-action--close"></div>
+  <div class="popup-container">
+    <div class="popup-window">
+      <div class="popup-content"></div>
+      <div class="popup-buttons">
+        <button class="popup-action--close">OK</button>
+      </div>
+    </div>
   </div>
+</div>
+
   <script src="build.js"></script>
 </body>
 </html>
