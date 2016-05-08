@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 
 import * as tile from './tile';
-import {tileSize, stockBottomMargin} from './config';
+import {tileSize, tileBorder, stockBottomMargin} from './config';
 import {bindDrag} from './drag_and_drop';
 
 export class Stock {
@@ -54,9 +54,9 @@ export class Stock {
 
     stockSlotsEntered.append('rect')
       .attr('class', 'background-tile')
-      .attr('width', tileSize)
-      .attr('height', tileSize)
-      .attr('transform', (d) => `translate(${d.i * tileSize},${d.j * tileSize})`);
+      .attr('width', tileSize - 2 * tileBorder)
+      .attr('height', tileSize - 2 * tileBorder)
+      .attr('transform', (d) => `translate(${d.i * tileSize + tileBorder},${d.j * tileSize + tileBorder})`);
 
     stockSlotsEntered.append('text')
       .attr('class', 'stock-count unselectable')

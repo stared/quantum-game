@@ -1,7 +1,7 @@
 rect.background-tile {
   fill: #fff;
-  stroke-width: 2;
-  stroke: #aaa;
+  stroke-width: 4;
+  stroke: rgba(255, 255, 255, 0.4);
 }
 
 rect.frost-nonfrozen {

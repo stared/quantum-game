@@ -2,6 +2,8 @@
 export const DEV_MODE = false;
 // Tile size (px)
 export const tileSize = 100;
+// Tile border (px)
+export const tileBorder = 1;
 // Rotation speed (ms)
 export const rotationSpeed = 250;
 // Tile reposition speed (ms)

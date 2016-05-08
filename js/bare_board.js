@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import d3 from 'd3';
 
-import {tileSize, DEV_MODE, animationStepDuration, margin, stockColumns} from './config';
+import {tileSize, tileBorder, DEV_MODE, animationStepDuration, margin, stockColumns} from './config';
 import {CanvasParticleAnimation} from './particle/canvas_particle_animation';
 import * as simulation from './simulation';
 import * as tile from './tile';
@@ -93,10 +93,10 @@ export class BareBoard {
       .append('rect')
       .attr({
         'class': 'background-tile',
-        x: (d) => d.x,
-        y: (d) => d.y,
-        width: tileSize,
-        height: tileSize,
+        x: (d) => d.x + tileBorder,
+        y: (d) => d.y + tileBorder,
+        width: tileSize - 2 * tileBorder,
+        height: tileSize - 2 * tileBorder,
       });
   }
 
