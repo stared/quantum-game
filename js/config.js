@@ -31,7 +31,7 @@ export const canvasDrawFrequency = 20;
 // Absorption animation duration (ms)
 export const absorptionDuration = 2000;
 // Absorption test duration (ms)
-export const absorptionTextDuration = 4000;
+export const absorptionTextDuration = 8000;
 // Maximal number of stock columns (for interface size)
 export const stockColumns = 4;
 // Margin around the board (in the number of tiles)

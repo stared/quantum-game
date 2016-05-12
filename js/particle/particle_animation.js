@@ -115,6 +115,7 @@ export class ParticleAnimation {
         .attr('class', 'measurement-text unselectable')
         .attr('x', (d) => tileSize * d.i + tileSize / 2)
         .attr('y', (d) => tileSize * d.j + tileSize / 2)
+        .attr('dy', '0.5em')
         .style('font-size', '20px')
         .text((d) => d.measured ? 'click!' : 'not here...')
         .transition().duration(2 * this.animationStepDuration)
@@ -141,12 +142,14 @@ export class ParticleAnimation {
       .enter()
       .append('text')
       .attr('class', 'absorption-text unselectable')
-      .attr('x', (d) => tileSize * d.i + tileSize / 2)
-      .attr('y', (d) => tileSize * d.j + tileSize / 2)
+      .attr('x', (d) => tileSize * d.i + tileSize)
+      .attr('y', (d) => tileSize * d.j + tileSize)
+      .attr('dx', '-0.1em')
+      .attr('dy', '-0.1em')
       .text((d) => (100 * d.probability).toFixed(0) + '%')
       .transition().duration(absorptionTextDuration)
-      .style('opacity', 0)
-      .remove();
+        .style('opacity', 0)
+        .remove();
 
   }
 }
