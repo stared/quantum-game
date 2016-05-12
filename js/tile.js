@@ -259,6 +259,38 @@ export const Rock = {
   absorbSound: () => {
     SoundService.play('rock');
   },
+  absorbAnimation: (that) => {
+    const r = 7;
+    that.g.append('rect')
+      .attr('x', -10 - r)
+      .attr('y', -10 - r)
+      .attr('width', 2 * r)
+      .attr('height', 0)
+      .style('fill', 'black')
+      .transition()
+        .duration(0.2 * config.absorptionDuration)
+          .attr('height', 2 * r)
+      .transition()
+      .delay(0.2 * config.absorptionDuration)
+      .duration(0.8 * config.absorptionDuration)
+          .attr('height', 0)
+          .remove();
+
+    that.g.append('rect')
+      .attr('x', 5 - r)
+      .attr('y', -5 - r)
+      .attr('width', 2 * r)
+      .attr('height', 0)
+      .style('fill', 'black')
+      .transition()
+        .duration(0.2 * config.absorptionDuration)
+          .attr('height', 2 * r)
+      .transition()
+        .delay(0.2 * config.absorptionDuration)
+        .duration(0.8 * config.absorptionDuration)
+          .attr('height', 0)
+          .remove();
+  },
 };
 
 export const Glass = {
