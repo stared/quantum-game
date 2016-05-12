@@ -150,7 +150,7 @@ export const polarizerNS = _.range(4).map((rotation) =>
       } else {
         return Tensor.product(
           directionGo,
-          polarization.identity
+          polarization.zero
         );
       }
     })
@@ -168,7 +168,7 @@ export const polarizerWE = _.range(4).map((rotation) =>
       } else {
         return Tensor.product(
           directionGo,
-          polarization.identity
+          polarization.zero
         );
       }
     })
@@ -190,6 +190,8 @@ export const quarterWavePlate = _.range(4).map((rotation) =>
   )
 );
 
+// NOTE if I use 'zero' instead of this tensor product,
+// 'zero' changes; I am not sure if it is a priblem with sumList or what
 export const quarterWavePlateNS = _.range(4).map((rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) => {
@@ -204,7 +206,7 @@ export const quarterWavePlateNS = _.range(4).map((rotation) =>
       } else {
         return Tensor.product(
           directionGo,
-          polarization.identity
+          polarization.zero
         );
       }
     })
@@ -225,7 +227,7 @@ export const quarterWavePlateWE = _.range(4).map((rotation) =>
       } else {
         return Tensor.product(
           directionGo,
-          polarization.identity
+          polarization.zero
         );
       }
     })
