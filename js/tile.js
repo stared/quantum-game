@@ -24,7 +24,7 @@ export const Source = {
   desc: {
     name: 'Single Photon Source',
     flavour: 'a\u2020 - an excitation, raise from the vacuum!',
-    summary: 'An on-demand single photon source.',
+    summary: 'An on-demand single photon source. (CLICK to EMIT!)',
   },
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
