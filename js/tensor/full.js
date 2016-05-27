@@ -128,12 +128,15 @@ export const sugarSolution = Tensor.product(
 );
 
 // TODO make the formula easier or at least understand it
+const covariantAngle = (elementRotation, lightDirection) =>
+  (1 - (lightDirection & 2)) * (1 - 2 * (lightDirection & 1)) * (-elementRotation - 2 * lightDirection) * TAU / 8;
+
 export const polarizer = _.range(4).map((rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) =>
       Tensor.product(
         directionGo,
-        polarization.projection((1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8)
+        polarization.projection(covariantAngle(rotation, i))
       )
     )
   )
@@ -145,7 +148,7 @@ export const polarizerNS = _.range(4).map((rotation) =>
       if (i === 1 || i === 3) {
         return Tensor.product(
           directionGo,
-          polarization.projection((1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8)
+          polarization.projection(covariantAngle(rotation, i))
         );
       } else {
         return Tensor.product(
@@ -163,7 +166,7 @@ export const polarizerWE = _.range(4).map((rotation) =>
       if (i === 0 || i === 2) {
         return Tensor.product(
           directionGo,
-          polarization.projection((1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8)
+          polarization.projection(covariantAngle(rotation, i))
         );
       } else {
         return Tensor.product(
@@ -182,7 +185,7 @@ export const quarterWavePlate = _.range(4).map((rotation) =>
       Tensor.product(
         directionGo,
         polarization.phaseShift(
-          (1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8,
+          covariantAngle(rotation, i),
           TAU / 4
         )
       )
@@ -199,7 +202,7 @@ export const quarterWavePlateNS = _.range(4).map((rotation) =>
         return Tensor.product(
           directionGo,
           polarization.phaseShift(
-            (1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8,
+            covariantAngle(rotation, i),
             TAU / 4
           )
         );
@@ -220,7 +223,7 @@ export const quarterWavePlateWE = _.range(4).map((rotation) =>
         return Tensor.product(
           directionGo,
           polarization.phaseShift(
-            (1 - (i & 2)) * (1 - 2 * (i & 1)) * (-rotation - 2 * i) * TAU / 8,
+            covariantAngle(rotation, i),
             TAU / 4
           )
         );
