@@ -23,6 +23,24 @@ export const zero = Tensor.product(
   polarization.zero
 );
 
+const pipeH = Tensor.product(
+  Tensor.sum(
+    direction.diode[0],
+    direction.diode[2]
+  ),
+  polarization.identity
+);
+
+const pipeV = Tensor.product(
+  Tensor.sum(
+    direction.diode[1],
+    direction.diode[3]
+  ),
+  polarization.identity
+);
+
+const pipes = [pipeH, pipeV];
+
 // TODO Following thing is not a Tensor.
 // TODO Make it easy to distinguish types of things.
 export const source = _.range(4).map((rotation) => {
@@ -59,12 +77,10 @@ export const thinMirrorCoated = _.range(8).map((rotation) =>
   )
 );
 
-// NOTE 50% chance to go -> - ->
-// (I am not decided if it is a desired behavior or not)
 export const thinSplitter = _.range(4).map((rotation) =>
   Tensor.sum(
     Tensor.byConstant(
-      identity,
+      rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2],
       {re: Math.SQRT1_2, im: 0}
     ),
     Tensor.byConstant(
@@ -77,7 +93,7 @@ export const thinSplitter = _.range(4).map((rotation) =>
 export const thinSplitterCoated = _.range(8).map((rotation) =>
   Tensor.sum(
     Tensor.byConstant(
-      identity,
+      rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2],
       {re: Math.SQRT1_2, im: 0}
     ),
     Tensor.byConstant(
