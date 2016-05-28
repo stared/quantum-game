@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
-import {animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration} from './config';
+import {animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration, absorptionDuration} from './config';
 import {Stock} from './stock';
 import * as level from './level';
 import {BareBoard} from './bare_board';
@@ -87,6 +87,14 @@ export class GameBoard {
     );
 
     if (winningStatus.isWon) {
+
+      if (!this.storage.getLevelIsWon(level.id)) {
+        window.setTimeout(
+          () => this.popupManager.popup('You won!'),
+          absorptionDuration
+        );
+        // TODO(pathes) add next-level button
+      }
 
       this.storage.setLevelIsWon(level.id, true);
       this.saveProgress();
