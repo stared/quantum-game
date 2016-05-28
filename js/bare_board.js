@@ -41,6 +41,7 @@ export class BareBoard {
     // works both as initial drawing and redrawing
     this.resizeSvg();
     this.drawBackground();
+    this.drawBoardTips();
     this.drawBoard();
   }
 
@@ -97,6 +98,42 @@ export class BareBoard {
         width: tileSize,
         height: tileSize,
       });
+  }
+
+  drawBoardTips() {
+
+    const tipMargin = tileSize / 4;
+
+    this.svg.select('.board-hints').remove();
+
+    this.boardHints = this.svg.append('g')
+      .attr('class', 'board-hints')
+        .selectAll('.board-hint')
+        .data(this.level.boardHints)
+        .enter().append('g')
+          .attr('class', 'board-hint')
+          .attr('transform', (d) =>
+            `translate(${tileSize * d.i + tipMargin},${tileSize * d.j + tipMargin})`
+          );
+
+    this.boardHints.append('rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', (d) => d.widthI * tileSize - 2 * tipMargin)
+      .attr('height', tileSize - 2 * tipMargin)
+      .attr('rx', 5)
+      .attr('ry', 5)
+      .style('fill', 'black')
+      .style('opacity', 0.7);
+
+    this.boardHints.append('text')
+      .attr('x', (d) => d.widthI * tileSize / 2 - tipMargin)
+      .attr('y', tileSize / 2 - tipMargin)
+      .style('font-size', 24)
+      .style('fill', 'white')
+      .style('text-anchor', 'middle')
+      .style('dominant-baseline', 'central')
+      .text((d) => d.text);
   }
 
   /**
@@ -339,6 +376,7 @@ export class BareBoard {
       detectorsToFeed:              this.level.detectorsToFeed,
       texts:                        this.level.texts,
       initialHint:                  this.level.initialHint,
+      boardHints:                   this.level.boardHints,
     };
   }
 

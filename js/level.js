@@ -20,6 +20,7 @@ export class Level {
     this.width = levelRecipe.width;
     this.height = levelRecipe.height;
     this.initialHint = levelRecipe.initialHint;
+    this.boardHints = levelRecipe.boardHints || [];
     this.texts = levelRecipe.texts || {};
     this.tileRecipes = levelRecipe.tiles;
     this.initialStock = {};
