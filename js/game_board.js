@@ -253,16 +253,12 @@ export class GameBoard {
 
     let levelToLoad = null;
     let loadedFromStorage = false;
-    const tryLoadingFromStorage = checkStorage && this.storage.hasLevelProgress(levelId);
 
     // Try to load level from storage
-    if (tryLoadingFromStorage) {
-      try {
-        levelToLoad = this.storage.getLevelProgress(levelId);
-        this.logger.logAction('loadLevel', {fromStorage: true});
-        loadedFromStorage = true;
-      } catch (e) {
-      }
+    if (checkStorage && this.storage.hasLevelProgress(levelId)) {
+      levelToLoad = this.storage.getLevelProgress(levelId);
+      this.logger.logAction('loadLevel', {fromStorage: true});
+      loadedFromStorage = true;
     }
 
     // Try to create level from scratch, if such exists

@@ -15,6 +15,10 @@ export class Storage {
   }
 
   getLevelProgress(levelId) {
+    const content = this.ls.getItem(`LevelProgress ${levelId}`);
+    if (content == null) {
+      throw new Error(`No data for levelId: ${levelId}`);
+    }
     return JSON.parse(this.ls.getItem(`LevelProgress ${levelId}`));
   }
 
