@@ -26,6 +26,7 @@
     "boardHints": [
       {"i": 0, "j": 5, "widthI": 3, "text": "click laser to start"},
       {"i": 10, "j": 0, "widthI": 3, "text": "drag&drop from here:"},
+      {"i": 4, "j": 7, "widthI": 3, "text": "some object are fixed"},
       {"i": 9, "j": 3, "widthI": 4, "text": "photon should reach there"}
     ]
   },
@@ -50,6 +51,11 @@
       {"i": 9, "j": 5, "name": "Rock", "rotation": 0, "frozen": true},
       {"i": 11, "j": 4, "name": "Detector", "rotation": 0, "frozen": true},
       {"i": 11, "j": 6, "name": "Source", "rotation": 2, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 8, "j": 0, "widthI": 4, "text": "brand-new beam splitters:"},
+      {"i": 0, "j": 7, "widthI": 5, "text": "each run only a single detector clicks"},
+      {"i": 5, "j": 9, "widthI": 5, "text": "but we display probabilities as well"}
     ]
   },
   {
@@ -68,6 +74,10 @@
       {"i": 6, "j": 6, "name": "Detector", "rotation": 3, "frozen": true},
       {"i": 7, "j": 4, "name": "ThinSplitter", "rotation": 2, "frozen": false},
       {"i": 8, "j": 4, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 1, "j": 1, "widthI": 4, "text": "sometimes things get tricky"},
+      {"i": 7, "j": 6, "widthI": 5, "text": "we can afford losing 12.5% photons"}
     ]
   },
   {
@@ -77,17 +87,23 @@
     "width": 13,
     "height": 10,
     "tiles": [
-      {"i": 1, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
-      {"i": 3, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
-      {"i": 3, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
-      {"i": 5, "j": 1, "name": "ThinMirror", "rotation": 3, "frozen": true},
-      {"i": 5, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": true},
-      {"i": 7, "j": 1, "name": "ThinMirror", "rotation": 1, "frozen": false},
-      {"i": 7, "j": 3, "name": "ThinSplitter", "rotation": 1, "frozen": false},
-      {"i": 9, "j": 1, "name": "ThinSplitter", "rotation": 1, "frozen": true},
-      {"i": 9, "j": 3, "name": "ThinMirror", "rotation": 1, "frozen": false},
-      {"i": 10, "j": 3, "name": "Rock", "rotation": 0, "frozen": true},
-      {"i": 11, "j": 1, "name": "Detector", "rotation": 0, "frozen": true}
+      {"i": 1, "j": 3, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 3, "j": 5, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 5, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 3, "name": "ThinMirror", "rotation": 1, "frozen": false},
+      {"i": 7, "j": 5, "name": "ThinSplitter", "rotation": 1, "frozen": false},
+      {"i": 9, "j": 3, "name": "ThinSplitter", "rotation": 1, "frozen": true},
+      {"i": 9, "j": 5, "name": "ThinMirror", "rotation": 1, "frozen": false},
+      {"i": 10, "j": 5, "name": "Rock", "rotation": 0, "frozen": true},
+      {"i": 11, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 1, "j": 1, "widthI": 4, "text": "run it to see what happens"},
+      {"i": 5, "j": 2, "widthI": 3, "text": "crazy, isn't it?"},
+      {"i": 8, "j": 7, "widthI": 4, "text": "if you don't know what to do"},
+      {"i": 9, "j": 8, "widthI": 3, "text": "replicate what you see"}
     ]
   },
   {
