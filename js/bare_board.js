@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import d3 from 'd3';
 
-import {tileSize, tileBorder, DEV_MODE, animationStepDuration, margin, stockColumns} from './config';
+import {tileSize, tileBorder, DEV_MODE, animationStepDuration} from './config';
 import {CanvasParticleAnimation} from './particle/canvas_particle_animation';
 import * as simulation from './simulation';
 import * as tile from './tile';
@@ -11,8 +11,9 @@ import {Logger} from './logger';
 import {SoundService} from './sound_service';
 
 export class BareBoard {
-  constructor(svg, callbacks = {}) {
+  constructor(svg, margin = {}, callbacks = {}) {
     this.svg = svg;
+    this.margin = margin;
     this.tileMatrix = [];
     this.animationStepDuration = animationStepDuration;
 
@@ -67,10 +68,15 @@ export class BareBoard {
   }
 
   resizeSvg() {
-    const width = this.level.width + 2 * margin + stockColumns;
-    const height = this.level.height + 2 * margin;
+    const top = this.margin.top || 0;
+    const left = this.margin.left || 0;
+    const bottom = this.margin.bottom || 0;
+    const right = this.margin.right || 0;
+    // Use margin to calculate effective size
+    const width = this.level.width + left + right;
+    const height = this.level.height + top + bottom;
     // top left width height
-    this.svg.attr('viewBox', `${-tileSize} ${-tileSize} ${tileSize * width} ${tileSize * height}`);
+    this.svg.attr('viewBox', `${-tileSize * top} ${-tileSize * left} ${tileSize * width} ${tileSize * height}`);
   }
 
   /**

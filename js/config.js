@@ -36,8 +36,6 @@ export const absorptionDuration = 2000;
 export const absorptionTextDuration = 8000;
 // Maximal number of stock columns (for interface size)
 export const stockColumns = 4;
-// Margin around the board (in the number of tiles)
-export const margin = 1;
 // Display message default timeout (ms)
 export const displayMessageTimeout = 3000;
 // Pearls per column

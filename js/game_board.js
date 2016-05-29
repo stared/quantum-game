@@ -2,7 +2,7 @@ import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
-import {animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration, absorptionDuration} from './config';
+import {absorptionDuration, animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration, stockColumns} from './config';
 import {Stock} from './stock';
 import * as level from './level';
 import {BareBoard} from './bare_board';
@@ -15,7 +15,13 @@ import {TileHelper} from './tile_helper';
 export class GameBoard {
   constructor(svg, game, titleManager, popupManager, storage, levelId, animationControls) {
 
-    this.bareBoard = new BareBoard(svg, {
+    const borderMargins = {
+      top: 1,
+      left: 1,
+      bottom: 1,
+      right: 1 + stockColumns,
+    };
+    this.bareBoard = new BareBoard(svg, borderMargins, {
       tileRotated: this.tileRotatedCallback.bind(this),
       tileMouseover: this.tileMouseoverCallback.bind(this),
       animationStart: this.animationStartCallback.bind(this),
