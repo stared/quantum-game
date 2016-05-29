@@ -75,8 +75,8 @@ export class BareBoard {
     // Use margin to calculate effective size
     const width = this.level.width + left + right;
     const height = this.level.height + top + bottom;
-    // top left width height
-    this.svg.attr('viewBox', `${-tileSize * top} ${-tileSize * left} ${tileSize * width} ${tileSize * height}`);
+    // min-x, min-y, width and height
+    this.svg.attr('viewBox', `${-tileSize * left} ${-tileSize * top} ${tileSize * width} ${tileSize * height}`);
   }
 
   /**
