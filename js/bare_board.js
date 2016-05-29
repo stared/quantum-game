@@ -41,7 +41,7 @@ export class BareBoard {
     // works both as initial drawing and redrawing
     this.resizeSvg();
     this.drawBackground();
-    this.drawBoardTips();
+    this.drawBoardHints();
     this.drawBoard();
   }
 
@@ -100,7 +100,7 @@ export class BareBoard {
       });
   }
 
-  drawBoardTips() {
+  drawBoardHints() {
 
     const tipMargin = tileSize / 4;
 
