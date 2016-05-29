@@ -128,7 +128,6 @@ export class GameBoard {
     d3.select('.top-bar__detection').classed('top-bar__detection--success', false);
     d3.select('.top-bar__detection').on('click', _.noop);
     this.setHeaderTexts();
-    window.console.log('gameBoard reset this', this); // XXX
     this.detectionBar.updateRequirements(
       this.bareBoard.level.requiredDetectionProbability,
       this.bareBoard.level.detectorsToFeed
