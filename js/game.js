@@ -80,22 +80,22 @@ export class Game {
     this.gameBoard = new GameBoard(
       d3.select('#game svg'),
       this,
-      this.titleManager,
       this.popupManager,
       this.storage,
-      initialLevelId,
-      d3.select('.bottom-bar__animation-controls'));
+      initialLevelId);
   }
 
   bindMenuEvents() {
-    d3.select('.top-bar__menu-button').on('click', () => {
-      this.gameBoard.stop();
-      this.setView('levelSelector');
-    });
-    d3.select('.bottom-bar__help-button').on('click', () => {
-      this.gameBoard.stop();
-      this.setView('encyclopediaSelector');
-    });
+    this.gameBoard.svg.select('.navigation-controls .level-list')
+      .on('click', () => {
+        this.gameBoard.stop();
+        this.setView('levelSelector');
+      });
+    this.gameBoard.svg.select('.navigation-controls .help')
+      .on('click', () => {
+        this.gameBoard.stop();
+        this.setView('encyclopediaSelector');
+      });
   }
 
 }

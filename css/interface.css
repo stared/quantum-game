@@ -75,20 +75,23 @@ body {
   overflow: hidden;
 }
 
-.top-bar__subtitle--message > .top-bar__subtitle__slider {
+.message-is-on > .subtitle-slider {
   top: -4vh;
 }
 
-.top-bar__subtitle__message--success {
-  color: lime;
+.message-success {
+  color: lime !important;
+  fill: lime !important;
 }
 
-.top-bar__subtitle__message--failure {
-  color: red;
+.message-failure {
+  color: red !important;
+  fill: red !important;
 }
 
-.top-bar__subtitle__message--progress {
-  color: yellow;
+.message-progress {
+  color: yellow !important;
+  fill: yellow !important;
 }
 
 
@@ -220,6 +223,23 @@ body {
 .svg-interface-button {
     fill: white;
     stroke: none;
+    cursor: pointer;
+}
+.svg-interface-button-stroke {
+    /* fill not none, so elements are easily clickable */
+    fill: rgba(255, 255, 255, 0);
+    stroke: white;
+    stroke-width: 4px;
+    cursor: pointer;
+}
+.svg-interface-text {
+    fill: white;
+    cursor: default;
+}
+.svg-interface-box-stroke {
+    stroke: white;
+    stroke-width: 4px;
+    fill: none;
 }
 
 .view--hidden {
@@ -386,7 +406,7 @@ body {
 
 #game {
     width: 100%;
-    height: 82%;
+    height: 100%;
     /* Allow <svg> to be 100% height */
     font-size: 0;
 }

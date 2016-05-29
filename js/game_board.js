@@ -8,17 +8,18 @@ import * as level from './level';
 import {BareBoard} from './bare_board';
 import {ProgressPearls} from './progress_pearls';
 import {TileHelper} from './tile_helper';
+import {TitleManager} from './title_manager';
 
 // TODO decide where to use winning status; it seems I should move it here
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, game, titleManager, popupManager, storage, levelId, animationControls) {
+  constructor(svg, game, popupManager, storage, levelId) {
 
     const borderMargins = {
-      top: 1,
-      left: 1,
-      bottom: 1,
+      top: 2,
+      left: 3,
+      bottom: 2,
       right: 1 + stockColumns,
     };
     this.bareBoard = new BareBoard(svg, borderMargins, {
@@ -31,11 +32,14 @@ export class GameBoard {
     });
 
     this.game = game;
+    this.svg = svg;
 
-    this.titleManager = titleManager;
+    this.titleManager = new TitleManager(
+      this.svg.select('.title-bar .title-text'),
+      this.svg.select('.subtitle-bar'),
+      this.svg.select('.title-bar .level-number'));
     this.popupManager = popupManager;
     this.storage = storage;
-    this.animationControls = animationControls;
 
     this.progressPearls = new ProgressPearls(
       svg,
@@ -49,7 +53,12 @@ export class GameBoard {
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
+    this.animationControls = svg.select('.animation-controls');
     this.activateAnimationControls();
+
+    this.navigationControls = svg.select('.navigation-controls');
+    this.activateNavigationControls();
+
     this.loadLevel(levelId);
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
   }
@@ -147,11 +156,11 @@ export class GameBoard {
   get title() {
     const textBefore = (level) =>
       level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
-    const groupPrefix =
-      this.bareBoard.level.group ?
-      `[${this.bareBoard.level.group}] ` : '';
-
-    return `${groupPrefix}${this.bareBoard.level.i}. ${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
+    // const groupPrefix =
+    //   this.bareBoard.level.group ?
+    //   `[${this.bareBoard.level.group}] ` : '';
+    // return `${groupPrefix}${this.bareBoard.level.i}. ${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
+    return `${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
   }
 
   get subtitle() {
@@ -166,9 +175,14 @@ export class GameBoard {
     }
   }
 
+  get levelNumber() {
+    return this.bareBoard.level.i;
+  }
+
   setHeaderTexts() {
     this.titleManager.setTitle(this.title);
     this.titleManager.setDescription(this.subtitle);
+    this.titleManager.setLevelNumber(this.levelNumber);
   }
 
   showTileHelper(tile) {
@@ -210,23 +224,11 @@ export class GameBoard {
     animationControls.select('.forward')
       .on('click', bareBoard.forward.bind(bareBoard))
       .on('mouseover', () => gameBoard.titleManager.displayMessage('NEXT STEP'));
-    animationControls.select('.reset')
-      .on('click', () => {
-        gameBoard.reloadLevel(false);
-      })
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
-    animationControls.select('#download')
-      .on('click', function () {
-        bareBoard.logger.logAction('reset');
-        gameBoard.clipBoard(this);
-      })
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
-
     const durationToSlider = d3.scale.log()
       .domain([animationStepDurationMax, animationStepDurationMin])
       .range([0, 1]);
 
-    animationControls.select('#speed')
+    animationControls.select('.speed')
       .on('click', function () {
         const sliderWidth = this.getBoundingClientRect().width;
         const mouseX = d3.mouse(this)[0];
@@ -237,11 +239,32 @@ export class GameBoard {
         );
 
         d3.select(this).select('rect')
-          .attr('x', 32 * mouseX/sliderWidth - 1);
+          .attr('x', 50 * mouseX/sliderWidth - 1);
       })
       .on('mouseover', () => gameBoard.titleManager.displayMessage('CHANGE SPEED'));
 
   }
+
+  /**
+   * Set up animation controls - bind events to buttons
+   */
+ activateNavigationControls() {
+   // Don't let d3 bind clicked element as `this` to methods.
+   const gameBoard = this;
+   const bareBoard = this.bareBoard;
+   const navigationControls = this.navigationControls;
+   navigationControls.select('.reset')
+     .on('click', () => {
+       gameBoard.reloadLevel(false);
+     })
+     .on('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
+   navigationControls.select('.download')
+     .on('click', function () {
+       bareBoard.logger.logAction('reset');
+       gameBoard.clipBoard(this);
+     })
+     .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
+ }
 
   clipBoard(link) {
     const levelJSON = stringify(this.bareBoard.exportBoard(), {maxLength: 100, indent: 2});

@@ -34,11 +34,14 @@ export const canvasDrawFrequency = 20;
 export const absorptionDuration = 2000;
 // Absorption test duration (ms)
 export const absorptionTextDuration = 8000;
-// Maximal number of stock columns (for interface size)
-export const stockColumns = 4;
 // Display message default timeout (ms)
 export const displayMessageTimeout = 3000;
 // Pearls per column
 export const pearlsPerCol = 36;
-// Stock bottom margin, in number of tiles (0 - matches the board height)
-export const stockBottomMargin = 4;
+// Maximal number of stock columns (for determining interface size)
+export const stockColumns = 6;
+// Stock height (in tiles)
+export const stockHeight = 4;
+// Tile helper size (in tiles)
+export const tileHelperWidth = 4;
+export const tileHelperHeight = 3;
