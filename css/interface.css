@@ -552,6 +552,19 @@ text.helper-summary {
   stroke: #222;
 }
 
+.board-hint > text {
+  font-size: 24px;
+  fill: #fff;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.detection-bar-text {
+  font-size: 24px;
+  fill: #fff;
+  dominant-baseline: middle;
+}
+
 /* Popup */
 .popup {
   position: fixed;

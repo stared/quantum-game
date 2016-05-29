@@ -129,10 +129,6 @@ export class BareBoard {
     this.boardHints.append('text')
       .attr('x', (d) => d.widthI * tileSize / 2 - tipMargin)
       .attr('y', tileSize / 2 - tipMargin)
-      .style('font-size', 24)
-      .style('fill', 'white')
-      .style('text-anchor', 'middle')
-      .style('dominant-baseline', 'central')
       .text((d) => d.text);
   }
 

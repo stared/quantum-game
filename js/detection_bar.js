@@ -64,22 +64,18 @@ export class DetectionBar {
       .style('stroke-width', '4px');
 
     this.percentText = this.percentG.append('text')
+      .attr('class', 'detection-bar-text')
       .attr('x', barWidth + barMargin)
-      .attr('y', barMargin + barHeight / 2)
-      .style('font-size', 24)
-      .style('fill', 'white')
-      .style('dominant-baseline', 'central');
+      .attr('y', barMargin + barHeight / 2);
 
     // count group
     this.countG = this.g.append('g')
       .attr('transform', `translate(${6 * tileSize},0)`);
 
     this.detectorsText = this.countG.append('text')
+      .attr('class', 'detection-bar-text')
       .attr('x', barWidth)
       .attr('y', barMargin + barHeight / 2)
-      .style('font-size', 24)
-      .style('fill', 'white')
-      .style('dominant-baseline', 'central')
       .text('detectors');
 
   }
