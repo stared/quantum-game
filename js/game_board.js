@@ -2,12 +2,13 @@ import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
 
-import {animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration, absorptionDuration} from './config';
+import {animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration, absorptionDuration, tileSize} from './config';
 import {Stock} from './stock';
 import * as level from './level';
 import {BareBoard} from './bare_board';
 import {ProgressPearls} from './progress_pearls';
 import {TileHelper} from './tile_helper';
+import {DetectionBar} from './detection_bar';
 
 // TODO decide where to use winning status; it seems I should move it here
 // TODO top_bar needs a separate module
@@ -40,6 +41,8 @@ export class GameBoard {
 
     this.stock = new Stock(svg, this.bareBoard);
     this.bareBoard.stock = this.stock;  // such monkey patching not nice
+    this.detectionBar = new DetectionBar(svg);
+    this.detectionBar.g.attr('transform', `translate(${tileSize/2},${-tileSize})`);
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
@@ -78,6 +81,11 @@ export class GameBoard {
 
     // Reset play/pause button to "play" state
     this.setPlayButtonState('play');
+
+    this.detectionBar.updateActual(
+      winningStatus.totalProbAtDets,
+      winningStatus.noOfFedDets
+    );
 
     d3.select('.top-bar__detection__value').html(`${(100 * winningStatus.totalProbAtDets).toFixed(0)}%`);
 
@@ -120,6 +128,11 @@ export class GameBoard {
     d3.select('.top-bar__detection').classed('top-bar__detection--success', false);
     d3.select('.top-bar__detection').on('click', _.noop);
     this.setHeaderTexts();
+    window.console.log('gameBoard reset this', this); // XXX
+    this.detectionBar.updateRequirements(
+      this.bareBoard.level.requiredDetectionProbability,
+      this.bareBoard.level.detectorsToFeed
+    );
 
     // Reset play/pause button to "play" state
     this.setPlayButtonState('play');
