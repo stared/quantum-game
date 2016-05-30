@@ -39,7 +39,7 @@ export const displayMessageTimeout = 3000;
 // Pearls per column
 export const pearlsPerCol = 36;
 // Maximal number of stock columns (for determining interface size)
-export const stockColumns = 6;
+export const stockColumns = 5;
 // Stock height (in tiles)
 export const stockHeight = 4;
 // Tile helper size (in tiles)
