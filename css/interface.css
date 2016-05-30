@@ -33,6 +33,7 @@ body {
     color: white;
     position: relative;
     border-bottom: 2px solid white;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .top-bar__title {
@@ -156,56 +157,14 @@ body {
     position: relative;
     border-top: 2px solid white;
     text-align: center;
-}
-
-.bottom-bar__text-button {
-  padding: 0 1vh !important;
-  border: 1px solid lime !important;
-  height: 6vh;
-  font-size: 2vh;
-  color: white;
-}
-
-.bottom-bar__animation-controls {
-    position: absolute;
-    top: 0;
-    left: 5vw;
-    width: 90vw;
-    height: 6vh;
-    padding: 1vh 0;
-    text-align: center;
-}
-
-.bottom-bar__animation-button {
-    padding: 0 !important;
-    width: 8vh;
-    height: 8vh;
-    border: 2px solid white !important;
-    border-radius: 6vh;
-}
-
-.bottom-bar__animation-button > svg {
-    width: 3vh;
-    height: 3vh;
-    padding: 0.5vh;
-}
-
-.bottom-bar__speed-button {
-    padding: 0 !important;
-    width: auto;
-    height: 4vh;
-}
-
-.bottom-bar__speed-button > svg {
-  height: 100%;
-  width: auto;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .interface-button,
 .interface-button-nohover {
     background: none;
     border: none;
-    padding: 0;
+    padding: 2vh;
     margin: 0;
 }
 .interface-button:hover {
