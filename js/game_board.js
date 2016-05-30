@@ -19,7 +19,7 @@ export class GameBoard {
 
     const borderMargins = {
       top: 2,
-      left: 3,
+      left: 4,
       bottom: 2,
       right: 1 + stockColumns,
     };
