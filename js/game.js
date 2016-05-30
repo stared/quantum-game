@@ -51,7 +51,6 @@ export class Game {
     this.currentView = this.views[viewName];
     // Set titles
     this.titleManager.setTitle(this.currentView.title);
-    this.titleManager.setDescription(this.currentView.subtitle);
     this.titleManager.displayMessage('', 'success');
     // Switch visible content
     d3.selectAll(`.${this.currentView.className}`).classed('view--hidden', false);

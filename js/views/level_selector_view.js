@@ -8,9 +8,6 @@ export class LevelSelectorView extends View {
   get title() {
     return 'Quantum game';
   }
-  get subtitle() {
-    return '';
-  }
   get className() {
     return 'view--level-selector';
   }

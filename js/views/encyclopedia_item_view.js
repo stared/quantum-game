@@ -9,9 +9,6 @@ export class EncyclopediaItemView extends View {
   get title() {
     return tile[this.game.currentEncyclopediaItem].desc.name;
   }
-  get subtitle() {
-    return '';
-  }
   get className() {
     return 'view--encyclopedia-item';
   }

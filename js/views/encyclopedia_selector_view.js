@@ -7,9 +7,6 @@ export class EncyclopediaSelectorView extends View {
   get title() {
     return 'Encyclopedia';
   }
-  get subtitle() {
-    return '';
-  }
   get className() {
     return 'view--encyclopedia-selector';
   }
