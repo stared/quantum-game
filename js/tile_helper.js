@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import {tileSize, stockBottomMargin} from './config';
+import {tileSize, tileHelperWidth, tileHelperHeight} from './config';
 
 // shamelessly stolen from https://bl.ocks.org/mbostock/7555321
 const wrap = (text, width) => {
@@ -38,12 +38,15 @@ export class TileHelper {
   constructor(svg, bareBoard, game) {
     this.svg = svg;
     this.game = game;
-    this.width = (stockBottomMargin - 1) * tileSize;
-    this.height = (stockBottomMargin - 1) * tileSize;
+    this.width = tileHelperWidth * tileSize;
+    this.height = tileHelperHeight * tileSize;
 
     // NOTE this is a bit problematic as it depends on the level
     this.shiftX = (bareBoard.level.width + 1) * tileSize;
-    this.shiftY = (bareBoard.level.height - stockBottomMargin + 1) * tileSize;
+    const marginForAnimationControls = 2;
+    this.shiftY = (bareBoard.level.height
+                   - tileHelperHeight
+                   - marginForAnimationControls) * tileSize;
     this.initialDraw();
   }
 
@@ -98,9 +101,9 @@ export class TileHelper {
     });
     this.tileUse.attr('xlink:href', `#${tile.type.svgName}`)
     this.tileName.text(tile.type.desc.name)
-      .call(wrap, 2 * tileSize);
+      .call(wrap, (tileHelperWidth - 2) * tileSize);
     this.tileSummmary.text(tile.type.desc.summary)
-      .call(wrap, 2.5 * tileSize);
+      .call(wrap, (tileHelperWidth - 0.5) * tileSize);
 
   }
 

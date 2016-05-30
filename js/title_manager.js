@@ -2,9 +2,10 @@
 import {displayMessageTimeout} from './config';
 
 export class TitleManager {
-  constructor(titleElem, subtitleElem) {
+  constructor(titleElem, subtitleElem, levelNumberElem) {
     this.titleElem = titleElem;
     this.subtitleElem = subtitleElem;
+    this.levelNumberElem = levelNumberElem;
     this.classChangeTimeout = null;
   }
 
@@ -13,23 +14,27 @@ export class TitleManager {
   }
 
   setDescription(description) {
-    this.subtitleElem.select('.top-bar__subtitle__description')
+    this.subtitleElem.select('.subtitle-description')
       .html(description);
   }
 
+  setLevelNumber(levelNumber) {
+    this.levelNumberElem.html(levelNumber);
+  }
+
   displayMessage(message, type, timeout = displayMessageTimeout) {
-    this.subtitleElem.select('.top-bar__subtitle__message')
+    this.subtitleElem.select('.subtitle-message')
       .html(message)
-      .classed('top-bar__subtitle__message--success', type === 'success')
-      .classed('top-bar__subtitle__message--failure', type === 'failure')
-      .classed('top-bar__subtitle__message--progress', type === 'progress');
-    this.subtitleElem.classed('top-bar__subtitle--message', true);
+      .classed('message-success', type === 'success')
+      .classed('message-failure', type === 'failure')
+      .classed('message-progress', type === 'progress');
+    this.subtitleElem.classed('message-is-on', true);
     if (this.classChangeTimeout) {
       window.clearTimeout(this.classChangeTimeout);
     }
     if (timeout > 0) {
       this.classChangeTimeout = setTimeout(() => {
-        this.subtitleElem.classed('top-bar__subtitle--message', false);
+        this.subtitleElem.classed('message-is-on', false);
       }, timeout);
     }
   }

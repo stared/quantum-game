@@ -8,18 +8,12 @@ html, body {
     box-sizing: border-box;
 }
 body {
-    /*padding: 1vw;*/
-
-    /* fallback/image non-cover color */
-    background-color: #225566;
-    /* Firefox 3.6+ */
-    background-image: -moz-linear-gradient(#225566, #447788);
-    /* Safari 4+, Chrome 1+ */
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#225566), to(#447788));
-    /* Safari 5.1+, Chrome 10+ */
-    background-image: -webkit-linear-gradient(#225566, #447788);
-    /* Opera 11.10+ */
-    background-image: -o-linear-gradient(#225566, #447788);
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2a6dff+0,2ae9ff+100 */
+  background: #2a6dff; /* Old browsers */
+  background: -moz-linear-gradient(left, #2a6dff 0%, #2ae9ff 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #2a6dff 0%,#2ae9ff 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #2a6dff 0%,#2ae9ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2a6dff', endColorstr='#2ae9ff',GradientType=1 ); /* IE6-9 */
 }
 
 .svg-defs {
@@ -33,11 +27,10 @@ body {
 }
 
 .top-bar {
-    background-color: rgba(0, 0, 0, 0.6);
     height: 10vh;
     color: white;
     position: relative;
-    box-shadow: rgba(255, 241, 70, 0.25) 0 0 5px;
+    border-bottom: 2px solid white;
 }
 
 .top-bar__title {
@@ -82,20 +75,23 @@ body {
   overflow: hidden;
 }
 
-.top-bar__subtitle--message > .top-bar__subtitle__slider {
+.message-is-on > .subtitle-slider {
   top: -4vh;
 }
 
-.top-bar__subtitle__message--success {
-  color: lime;
+.message-success {
+  color: lime !important;
+  fill: lime !important;
 }
 
-.top-bar__subtitle__message--failure {
-  color: red;
+.message-failure {
+  color: red !important;
+  fill: red !important;
 }
 
-.top-bar__subtitle__message--progress {
-  color: yellow;
+.message-progress {
+  color: yellow !important;
+  fill: yellow !important;
 }
 
 
@@ -153,11 +149,10 @@ body {
 }
 
 .bottom-bar {
-    background-color: rgba(0, 0, 0, 0.6);
     height: 8vh;
     color: white;
     position: relative;
-    box-shadow: rgba(255, 241, 70, 0.25) 0 0 5px;
+    border-top: 2px solid white;
     text-align: center;
 }
 
@@ -180,22 +175,28 @@ body {
 }
 
 .bottom-bar__animation-button {
-    padding: 0 1vh !important;
-    height: 6vh;
+    padding: 0 !important;
+    width: 8vh;
+    height: 8vh;
+    border: 2px solid white !important;
+    border-radius: 6vh;
 }
 
 .bottom-bar__animation-button > svg {
+    width: 3vh;
+    height: 3vh;
+    padding: 0.5vh;
+}
+
+.bottom-bar__speed-button {
+    padding: 0 !important;
     width: auto;
     height: 4vh;
 }
 
-.bottom-bar__animation-button > svg text {
-  font-size: 14px;
-  line-height: 16px;
-  font-family: Roboto;
-  font-weight: bold;
-  text-anchor: middle;
-  fill: white;
+.bottom-bar__speed-button > svg {
+  height: 100%;
+  width: auto;
 }
 
 .interface-button,
@@ -208,12 +209,37 @@ body {
 .interface-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
+.interface-button > svg text {
+  font-size: 14px;
+  line-height: 16px;
+  font-family: Roboto;
+  font-weight: bold;
+  text-anchor: middle;
+  fill: white;
+}
 
 /* SVG element classes */
 
 .svg-interface-button {
     fill: white;
     stroke: none;
+    cursor: pointer;
+}
+.svg-interface-button-stroke {
+    /* fill not none, so elements are easily clickable */
+    fill: rgba(255, 255, 255, 0);
+    stroke: white;
+    stroke-width: 4px;
+    cursor: pointer;
+}
+.svg-interface-text {
+    fill: white;
+    cursor: default;
+}
+.svg-interface-box-stroke {
+    stroke: white;
+    stroke-width: 4px;
+    fill: none;
 }
 
 .view--hidden {
@@ -380,7 +406,7 @@ body {
 
 #game {
     width: 100%;
-    height: 82%;
+    height: 100%;
     /* Allow <svg> to be 100% height */
     font-size: 0;
 }
