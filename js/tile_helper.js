@@ -66,6 +66,13 @@ export class TileHelper {
       .attr('width', `${this.width}`)
       .attr('height', `${this.height}`);
 
+    this.tileBackground = this.helperGroup.append('rect')
+      .attr('class', 'background-tile')
+      .attr('x', '1')
+      .attr('y', '1')
+      .attr('width', '98')
+      .attr('height', '98');
+
     this.tileUse = this.helperGroup.append('use')
       .attr('class', 'element helper-element')
       .attr('x', tileSize / 2)
@@ -73,13 +80,13 @@ export class TileHelper {
 
     this.tileName = this.helperGroup.append('text')
       .attr('class', 'helper-name unselectable')
-      .attr('x', 2 * tileSize)
+      .attr('x', 2.25 * tileSize)
       .attr('y', tileSize * 0.4); // 0.5 factor might be too much for 3 lines
 
     this.tileSummmary = this.helperGroup.append('text')
       .attr('class', 'helper-summary unselectable')
       .attr('x', 0.25 * tileSize)
-      .attr('y', 1.25 * tileSize);
+      .attr('y', 1.5 * tileSize);
 
     this.helperHitbox = this.helperGroup.append('rect')
       .attr('class', 'helper-hitbox')
