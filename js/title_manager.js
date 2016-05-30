@@ -5,8 +5,8 @@ export class TitleManager {
   constructor(titleElem, subtitleElem, levelNumberElem) {
     this.titleElem = titleElem;
     this.subtitleElem = subtitleElem;
+    this.messageElem = this.subtitleElem.select('.subtitle-message');
     this.levelNumberElem = levelNumberElem;
-    this.classChangeTimeout = null;
   }
 
   setTitle(title) {
@@ -18,19 +18,15 @@ export class TitleManager {
   }
 
   displayMessage(message, type, timeout = displayMessageTimeout) {
-    this.subtitleElem.select('.subtitle-message')
+    this.messageElem
       .html(message)
       .classed('message-success', type === 'success')
       .classed('message-failure', type === 'failure')
       .classed('message-progress', type === 'progress');
-    this.subtitleElem.classed('message-is-on', true);
-    if (this.classChangeTimeout) {
-      window.clearTimeout(this.classChangeTimeout);
-    }
+    this.messageElem.interrupt().style('opacity', 1);
     if (timeout > 0) {
-      this.classChangeTimeout = setTimeout(() => {
-        this.subtitleElem.classed('message-is-on', false);
-      }, timeout);
+      this.messageElem.transition().duration(displayMessageTimeout)
+        .style('opacity', 0);
     }
   }
 }

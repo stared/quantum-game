@@ -89,12 +89,18 @@ export class Game {
       .on('click', () => {
         this.gameBoard.stop();
         this.setView('levelSelector');
-      });
+      })
+      .on('mouseover', () =>
+        this.gameBoard.titleManager.displayMessage('SELECT LEVEL')
+      );
     this.gameBoard.svg.select('.navigation-controls .help')
       .on('click', () => {
         this.gameBoard.stop();
         this.setView('encyclopediaSelector');
-      });
+      })
+      .on('mouseover', () =>
+        this.gameBoard.titleManager.displayMessage('ENCYCLOPEDIA')
+      );
   }
 
 }

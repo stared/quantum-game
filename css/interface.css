@@ -78,10 +78,6 @@ body {
   overflow: hidden;
 }
 
-.message-is-on > .subtitle-slider {
-  top: -4vh;
-}
-
 .message-success {
   color: lime !important;
   fill: lime !important;

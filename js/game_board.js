@@ -106,7 +106,8 @@ export class GameBoard {
 
     this.titleManager.displayMessage(
       winningStatus.message,
-      winningStatus.isWon ? 'success' : 'failure'
+      winningStatus.isWon ? 'success' : 'failure',
+      -1
     );
 
     if (winningStatus.isWon) {
@@ -193,7 +194,7 @@ export class GameBoard {
 
   setHeaderTexts() {
     this.titleManager.setTitle(this.title);
-    this.titleManager.displayMessage(this.goalMessage);
+    this.titleManager.displayMessage(this.goalMessage, '', -1);
     this.titleManager.setLevelNumber(this.levelNumber);
   }
 
@@ -274,6 +275,8 @@ export class GameBoard {
      .on('click', function () {
        bareBoard.logger.logAction('reset');
        gameBoard.clipBoard(this);
+       // XXX
+       window.console.log('download this', this); // XXX
      })
      .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
  }
