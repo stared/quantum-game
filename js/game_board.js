@@ -242,16 +242,16 @@ export class GameBoard {
 
     animationControls.select('.speed')
       .on('click', function () {
-        const sliderWidth = this.getBoundingClientRect().width;
+        const baseWidth = 100; // width in px in SVG without scaling
         const mouseX = d3.mouse(this)[0];
-        bareBoard.animationStepDuration = durationToSlider.invert(mouseX/sliderWidth);
+        bareBoard.animationStepDuration = durationToSlider.invert(mouseX/baseWidth);
         gameBoard.titleManager.displayMessage(
           `Speed of light: ${(1000/bareBoard.animationStepDuration).toFixed(2)} tiles/s`,
           ''
         );
 
         d3.select(this).select('rect')
-          .attr('x', 50 * mouseX/sliderWidth - 1);
+          .attr('x', mouseX - 3);
       })
       .on('mouseover', () => gameBoard.titleManager.displayMessage('CHANGE SPEED'));
 
