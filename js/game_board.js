@@ -51,8 +51,8 @@ export class GameBoard {
 
     this.stock = new Stock(svg, this.bareBoard);
     this.bareBoard.stock = this.stock;  // such monkey patching not nice
-    this.detectionBar = new DetectionBar(svg);
-    this.detectionBar.g.attr('transform', `translate(${tileSize/2},${-tileSize})`);
+    this.detectionBar = new DetectionBar(this.svg.select('.subtitle-bar'));
+    this.detectionBar.g.attr('transform', `translate(${1.5 * tileSize},${tileSize / 4})`);
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
@@ -175,7 +175,7 @@ export class GameBoard {
     return `${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
   }
 
-  get subtitle() {
+  get goalMessage() {
     if (this.bareBoard.level.requiredDetectionProbability === 0) {
       return 'GOAL: Avoid launching any mines!';
     } else if (this.bareBoard.level.detectorsToFeed === 0) {
@@ -193,7 +193,7 @@ export class GameBoard {
 
   setHeaderTexts() {
     this.titleManager.setTitle(this.title);
-    this.titleManager.setDescription(this.subtitle);
+    this.titleManager.displayMessage(this.goalMessage);
     this.titleManager.setLevelNumber(this.levelNumber);
   }
 

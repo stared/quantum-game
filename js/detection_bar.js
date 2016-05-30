@@ -4,8 +4,8 @@ import _ from 'lodash';
 import {tileSize, absorptionDuration} from './config';
 
 const barHeight = tileSize / 3;
-const barMargin = (tileSize - barHeight) / 2;
 const barWidth = 2 * tileSize;
+const textMargin = 10;
 
 const percentStr = (probability) =>
   (100 * probability).toFixed(1)
@@ -19,63 +19,53 @@ export class DetectionBar {
 
   draw() {
 
-    this.g.append('rect')
-    .attr('x', -barHeight / 2)
-    .attr('y', barMargin - barHeight / 2)
-    .attr('width', 5 * barWidth + barHeight)
-    .attr('height', 2 * barHeight)
-    .attr('rx', 5)
-    .attr('ry', 5)
-    .style('fill', 'black')
-    .style('opacity', 0.7);
-
-    // percent
+    //
+    // percent group
+    //
     this.percentG = this.g.append('g');
 
     this.percentScale = d3.scale.linear()
       .domain([0, 1])
       .range([0, barWidth]);
 
-
-    this.percentRequired = this.percentG.append('rect')
-      .attr('x', 0)
-      .attr('y', barMargin)
-      .attr('width', 0)
-      .attr('height', barHeight)
-      .style('fill', '#a00')
-      .style('stroke', 'none');
-
     this.percentActual = this.percentG.append('rect')
       .attr('x', 0)
-      .attr('y', barMargin)
+      .attr('y', 0)
       .attr('width', 0)
       .attr('height', barHeight)
       .style('fill', '#0a0')
       .style('stroke', 'none');
 
+    this.percentRequired = this.percentG.append('rect')
+      .attr('class', 'detection-bar-box-stroke')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', 0)
+      .attr('height', barHeight);
+
     // border
     this.percentG.append('rect')
+      .attr('class', 'detection-bar-box-stroke')
       .attr('x', 0)
-      .attr('y', barMargin)
+      .attr('y', 0)
       .attr('width', barWidth)
       .attr('height', barHeight)
-      .style('fill', 'none')
-      .style('stroke', '#a00')
-      .style('stroke-width', '4px');
+      .style('fill', 'none');
 
     this.percentText = this.percentG.append('text')
       .attr('class', 'detection-bar-text')
-      .attr('x', barWidth + barMargin)
-      .attr('y', barMargin + barHeight / 2);
+      .attr('x', barWidth + textMargin)
+      .attr('y', barHeight / 2);
 
+    //
     // count group
+    //
     this.countG = this.g.append('g')
-      .attr('transform', `translate(${6 * tileSize},0)`);
+      .attr('transform', `translate(${7 * tileSize},0)`);
 
     this.detectorsText = this.countG.append('text')
       .attr('class', 'detection-bar-text')
-      .attr('x', barWidth)
-      .attr('y', barMargin + barHeight / 2)
+      .attr('y', barHeight / 2)
       .text('detectors');
 
   }
@@ -95,18 +85,19 @@ export class DetectionBar {
 
     this.countBoxes.enter()
       .append('rect')
-      .attr('class', 'count-box')
+      .attr('class', 'count-box detection-bar-box-stroke')
       .attr('x', (d, i) => barHeight * i)
-      .attr('y', barMargin)
+      .attr('y', 0)
       .attr('width', barHeight / 2)
       .attr('height', barHeight)
-      .style('fill', '#a00');
+      .style('fill', '#fff')
+      .style('fill-opacity', 0.2);
 
     this.countBoxes.exit()
       .remove();
 
     this.detectorsText
-      .attr('x', barHeight * count - barHeight / 2 + barMargin);
+      .attr('x', barHeight * count - barHeight / 2 + textMargin);
 
     this.updateActual(0, 0);
   }
@@ -117,10 +108,11 @@ export class DetectionBar {
       .attr('width', this.percentScale(probability));
 
     this.percentText
-      .text(`${percentStr(probability)}% out of ${percentStr(this.requiredProbability)}% detection in`);
+      .text(`${percentStr(probability)}% (out of ${percentStr(this.requiredProbability)}%) detection`);
 
     this.countBoxes.transition().duration(absorptionDuration)
-      .style('fill', (d, i) => count > i ? '#0a0' : '#a00');
+      .style('fill', (d, i) => count > i ? '#0a0' : '#fff')
+      .style('fill-opacity', (d, i) => count > i ? 1 : 0.2);
 
   }
 

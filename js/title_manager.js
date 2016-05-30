@@ -13,11 +13,6 @@ export class TitleManager {
     this.titleElem.html(title);
   }
 
-  setDescription(description) {
-    this.subtitleElem.select('.subtitle-description')
-      .html(description);
-  }
-
   setLevelNumber(levelNumber) {
     this.levelNumberElem.html(levelNumber);
   }

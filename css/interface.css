@@ -193,11 +193,18 @@ body {
     stroke-width: 4px;
     cursor: pointer;
 }
+
 .svg-interface-text {
     fill: white;
     cursor: default;
 }
 .svg-interface-box-stroke {
+    stroke: white;
+    stroke-width: 4px;
+    fill: rgba(255, 255, 255, 0.2);
+}
+
+.detection-bar-box-stroke {
     stroke: white;
     stroke-width: 4px;
     fill: rgba(255, 255, 255, 0.2);
@@ -551,9 +558,10 @@ text.helper-summary {
 }
 
 .detection-bar-text {
-  font-size: 24px;
+  font-size: 30px;
   fill: #fff;
   dominant-baseline: middle;
+  cursor: default;
 }
 
 /* Popup */
