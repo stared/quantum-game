@@ -62,12 +62,9 @@ export class TileHelper {
         .attr('transform', `translate(${this.shiftX},${this.shiftY})`);
 
     this.helperGroup.append('rect')
-      .attr('class', 'helper-background')
+      .attr('class', 'svg-interface-box-stroke')
       .attr('width', `${this.width}`)
-      .attr('height', `${this.height}`)
-      .attr('rx', 10)
-      .attr('ry', 10)
-      .style('fill', 'white');
+      .attr('height', `${this.height}`);
 
     this.tileUse = this.helperGroup.append('use')
       .attr('class', 'element helper-element')
@@ -87,9 +84,7 @@ export class TileHelper {
     this.helperHitbox = this.helperGroup.append('rect')
       .attr('class', 'helper-hitbox')
       .attr('width', `${this.width}`)
-      .attr('height', `${this.height}`)
-      .attr('rx', 10)
-      .attr('ry', 10);
+      .attr('height', `${this.height}`);
 
   }
 

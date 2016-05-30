@@ -227,7 +227,7 @@ body {
 }
 .svg-interface-button-stroke {
     /* fill not none, so elements are easily clickable */
-    fill: rgba(255, 255, 255, 0);
+    fill: rgba(255, 255, 255, 0.2);
     stroke: white;
     stroke-width: 4px;
     cursor: pointer;
@@ -239,7 +239,7 @@ body {
 .svg-interface-box-stroke {
     stroke: white;
     stroke-width: 4px;
-    fill: none;
+    fill: rgba(255, 255, 255, 0.2);
 }
 
 .view--hidden {
@@ -569,13 +569,17 @@ text.helper-name {
   text-transform: uppercase;
   font-size: 24px;
   font-family: "Roboto Condensed";
-  stroke: #222;
+  fill: white;
+  stroke: white;
+  stroke-width: 1px;
 }
 
 text.helper-summary {
   font-size: 24px;
   font-family: "Roboto Condensed";
-  stroke: #222;
+  fill: white;
+  stroke: white;
+  stroke-width: 1px;
 }
 
 .board-hint > text {
