@@ -194,6 +194,15 @@ body {
     cursor: pointer;
 }
 
+/* alternatively, some hitbox layer */
+.svg-interface-button-stroke:hover {
+    fill: rgba(152, 230, 152, 0.3);
+}
+
+.speed:hover > rect {
+  fill: rgba(152, 230, 152, 1) !important;
+}
+
 .svg-interface-text {
     fill: white;
     cursor: default;
