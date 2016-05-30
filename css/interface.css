@@ -88,8 +88,8 @@ body {
 }
 
 .message-failure {
-  color: red !important;
-  fill: red !important;
+  color: orange !important;
+  fill: orange !important;
 }
 
 .message-progress {
