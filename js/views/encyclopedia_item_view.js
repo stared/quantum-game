@@ -145,10 +145,6 @@ export class EncyclopediaItemView extends View {
       if (!header) {
         return;
       }
-      console.log(article);
-      console.log(header);
-      console.log(article[0][0].scrollTop);
-      console.log(header.offsetTop);
       article[0][0].scrollTop = header.offsetTop;
     });
   }
