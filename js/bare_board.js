@@ -120,7 +120,13 @@ export class BareBoard {
           .attr('class', 'board-hint')
           .attr('transform', (d) =>
             `translate(${tileSize * d.i + tipMargin},${tileSize * d.j + tipMargin})`
-          );
+          )
+          .on('click', function () {
+            d3.select(this)
+              .style('opacity', 1)
+              .transition().duration(animationStepDuration)
+                .style('opacity', 0);
+          });
 
     this.boardHints.append('rect')
       .attr('x', 0)
