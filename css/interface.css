@@ -41,41 +41,12 @@ body {
     top: 0;
     left: 15vw;
     width: 70vw;
-    height: 5vh;
     text-align: center;
-    font-size: 3.5vh;
-    line-height: 6vh;
+    font-size: 7.5vh;
     vertical-align: middle;
     font-family: "Roboto";
     color: white;
     overflow: hidden;
-}
-
-.top-bar__subtitle {
-    position: absolute;
-    top: 5vh;
-    left: 15vw;
-    width: 70vw;
-    height: 4vh;
-    text-align: center;
-    font-size: 2.5vh;
-    line-height: 4vh;
-    vertical-align: middle;
-    font-family: "Roboto Condensed";
-    color: white;
-    overflow: hidden;
-}
-
-.top-bar__subtitle__slider {
-  position: relative;
-  top: 0;
-  -webkit-transition: top 300ms linear;
-  transition: top 300ms linear;
-}
-
-.top-bar__subtitle__description {
-  height: 4vh;
-  overflow: hidden;
 }
 
 .message-success {

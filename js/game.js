@@ -5,7 +5,6 @@ import d3 from 'd3';
 import * as level from './level';
 import {GameBoard} from './game_board';
 import {PopupManager} from './popup_manager';
-import {TitleManager} from './title_manager';
 import {SoundService} from './sound_service';
 import {Storage} from './storage';
 
@@ -21,9 +20,6 @@ export class Game {
     // Outer dependencies and controllers
     this.storage = new Storage();
 
-    this.titleManager = new TitleManager(
-      d3.select('.top-bar__title'),
-      d3.select('.top-bar__subtitle'));
     this.popupManager = new PopupManager(
       d3.select('.popup'));
 
@@ -50,8 +46,7 @@ export class Game {
     }
     this.currentView = this.views[viewName];
     // Set titles
-    this.titleManager.setTitle(this.currentView.title);
-    this.titleManager.displayMessage('', 'success');
+    d3.select('.top-bar__title').text(this.currentView.title);
     // Switch visible content
     d3.selectAll(`.${this.currentView.className}`).classed('view--hidden', false);
     d3.selectAll(`.view:not(.${this.currentView.className})`).classed('view--hidden', true);
