@@ -274,17 +274,17 @@ export class GameBoard {
    navigationControls.select('.download')
      .on('click', function () {
        bareBoard.logger.logAction('reset');
-       gameBoard.clipBoard(this);
-       // XXX
-       window.console.log('download this', this); // XXX
+       gameBoard.clipBoard(d3.select(this).select('a'));
      })
      .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
  }
 
   clipBoard(link) {
+    // NOTE original version for HTML does not work for SVG
+    // now it opends in a new tab 
     const levelJSON = stringify(this.bareBoard.exportBoard(), {maxLength: 100, indent: 2});
-    link.download = _.kebabCase(`${this.bareBoard.level.name}_${(new Date()).toISOString()}`) + '.json';
-    link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`;
+    link.attr('download', _.kebabCase(`${this.bareBoard.level.name}_${(new Date()).toISOString()}`) + '.json');
+    link.attr('xlink:href', `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`);
     window.console.log(levelJSON);
   }
 
