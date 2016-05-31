@@ -527,6 +527,12 @@ text.helper-summary {
   stroke-width: 2px;
 }
 
+.board-hint > path {
+  fill: #4f569f;
+  fill-opacity: 0.8;
+  stroke: none;
+}
+
 .board-hint > text {
   font-size: 24px;
   fill: #fff;

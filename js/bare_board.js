@@ -138,6 +138,31 @@ export class BareBoard {
       .attr('x', (d) => d.widthI * tileSize / 2 - tipMargin)
       .attr('y', tileSize / 2 - tipMargin)
       .text((d) => d.text);
+
+    // Triangle size unit
+    const t = tileSize / 4;
+    this.boardHints.append('path')
+      .attr('d', (d) => {
+        // Board hint can have a triangle tip (like in dialogue balloon)
+        if (d.triangleI != null && d.triangleJ != null) {
+          return `M${-t/2} 0 L0 ${t} L${t/2} 0 Z`;
+        } else {
+          return '';
+        }
+      })
+      .attr('transform', (d) => {
+        let transform = `translate(${(d.triangleI - d.i) * tileSize + t}, ${(d.triangleJ - d.j) * tileSize + t}) `;
+        if (d.triangleDir === 'left') {
+          transform += 'rotate(90) ';
+        } else if (d.triangleDir === 'top') {
+          transform += 'rotate(180) ';
+        } else if (d.triangleDir === 'right') {
+          transform += 'rotate(270) ';
+        }
+        transform += `translate(0, ${t})`;
+        return transform;
+      });
+
   }
 
   /**
