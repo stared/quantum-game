@@ -24,10 +24,10 @@
       {"i": 8, "j": 3, "name": "Detector", "frozen": true, "rotation": 1}
     ],
     "boardHints": [
-      {"i": 0, "j": 5, "widthI": 3, "text": "click laser to start", "triangleI": 2, "triangleJ": 5, "triangleDir": "top"},
-      {"i": 10, "j": 0, "widthI": 3, "text": "drag & drop from here", "triangleI": 12, "triangleJ": 0, "triangleDir": "right"},
-      {"i": 4, "j": 7, "widthI": 3, "text": "some object are fixed", "triangleI": 4, "triangleJ": 7, "triangleDir": "top"},
-      {"i": 9, "j": 3, "widthI": 4, "text": "photon should reach there", "triangleI": 9, "triangleJ": 3, "triangleDir": "left"},
+      {"i": 0, "j": 5, "widthI": 3, "text": "click laser to start", "triangleI": 2, "triangleDir": "top"},
+      {"i": 10, "j": 0, "widthI": 3, "text": "drag & drop from here", "triangleI": 12, "triangleDir": "right"},
+      {"i": 4, "j": 7, "widthI": 3, "text": "some object are fixed", "triangleI": 4, "triangleDir": "top"},
+      {"i": 9, "j": 3, "widthI": 4, "text": "photon should reach there", "triangleI": 9, "triangleDir": "left"},
     ]
   },
   {
@@ -53,7 +53,7 @@
       {"i": 11, "j": 6, "name": "Source", "rotation": 2, "frozen": true}
     ],
     "boardHints": [
-      {"i": 9, "j": 0, "widthI": 4, "text": "brand-new beam splitters", "triangleI": 12, "triangleJ": 0, "triangleDir": "right"},
+      {"i": 9, "j": 0, "widthI": 4, "text": "brand-new beam splitters", "triangleI": 12, "triangleDir": "right"},
       {"i": 0, "j": 7, "widthI": 5, "text": "each run only a single detector clicks"},
       {"i": 5, "j": 9, "widthI": 5, "text": "but we display probabilities as well"}
     ]
