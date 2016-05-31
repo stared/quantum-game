@@ -52,5 +52,11 @@ export class LevelSelectorView extends View {
       .style('font-size', '1.5vh')
       .text((d) => d.newTiles.length ? ` (NEW: ${d.newTiles.join(' ')})` : '');
 
+    this.bindMenuEvents()
+  }
+  bindMenuEvents() {
+    d3.select('.view--level-selector .bottom-bar__back-to-game-button').on('click', () => {
+      this.game.setView('game');
+    });
   }
 }

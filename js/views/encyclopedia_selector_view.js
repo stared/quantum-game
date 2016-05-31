@@ -37,7 +37,7 @@ export class EncyclopediaSelectorView extends View {
       .text((d) => tile[d].desc.name);
   }
   bindMenuEvents() {
-    d3.select('.bottom-bar__back-to-game-button').on('click', () => {
+    d3.select('.view--encyclopedia-selector .bottom-bar__back-to-game-button').on('click', () => {
       this.game.setView('game');
     });
   }
