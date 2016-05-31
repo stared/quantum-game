@@ -510,6 +510,17 @@ text.helper-summary {
   fill: white;
 }
 
+.board-hint {
+  cursor: default;
+}
+
+.board-hint > rect {
+  fill: #4f569f;
+  fill-opacity: 0.8;
+  stroke: white;
+  stroke-width: 2px;
+}
+
 .board-hint > text {
   font-size: 24px;
   fill: #fff;

@@ -126,11 +126,7 @@ export class BareBoard {
       .attr('x', 0)
       .attr('y', 0)
       .attr('width', (d) => d.widthI * tileSize - 2 * tipMargin)
-      .attr('height', tileSize - 2 * tipMargin)
-      .attr('rx', 5)
-      .attr('ry', 5)
-      .style('fill', 'black')
-      .style('opacity', 0.7);
+      .attr('height', tileSize - 2 * tipMargin);
 
     this.boardHints.append('text')
       .attr('x', (d) => d.widthI * tileSize / 2 - tipMargin)
