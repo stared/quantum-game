@@ -463,28 +463,34 @@ div.tooltip {
 }
 
 .pearl {
-  fill: red;
-  stroke: brown;
-  stroke-width: 4px;
-  cursor: pointer;
+    fill: rgba(255, 255, 255, 0.2);
+    stroke: white;
+    stroke-width: 2px;
+    cursor: pointer;
 }
-.pearl:not(.pearl--current):hover {
-  stroke: black;
+.pearl:not(.pearl--passed):hover {
+    fill: rgba(152, 230, 152, 0.3);
 }
 .pearl--passed {
-  fill: lime;
-  stroke: green;
+    fill: rgba(255, 255, 255, 0.6);
 }
-.pearl--current {
-  stroke: red;
-  fill-opacity: 0;
+.pearl--passed:hover {
+    fill: rgba(152, 230, 152, 0.8);
 }
-.pearl--current.pearl--passed {
-  stroke: lime;
+
+.svg-interface-button-stroke {
+    /* fill not none, so elements are easily clickable */
+    fill: rgba(255, 255, 255, 0.2);
+    stroke: white;
+    stroke-width: 4px;
+    cursor: pointer;
 }
-.pearl--current:hover {
-  fill-opacity: 0.5;
+
+/* alternatively, some hitbox layer */
+.svg-interface-button-stroke:hover {
+    fill: rgba(152, 230, 152, 0.3);
 }
+
 
 .helper-hitbox {
   fill: lightgreen;

@@ -37,7 +37,7 @@ export const absorptionTextDuration = 8000;
 // Display message default timeout (ms)
 export const displayMessageTimeout = 3000;
 // Pearls per column
-export const pearlsPerCol = 36;
+export const pearlsPerRow = 3;
 // Maximal number of stock columns (for determining interface size)
 export const stockColumns = 5;
 // Stock height (in tiles)

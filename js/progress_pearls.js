@@ -1,4 +1,7 @@
-import {tileSize, pearlsPerCol} from './config';
+import {tileSize, pearlsPerRow} from './config';
+
+const pearlRadius = 0.2 * tileSize;
+const pearlDistance = 0.5 * tileSize;
 
 export class ProgressPearls {
 
@@ -16,9 +19,9 @@ export class ProgressPearls {
     this.pearls.enter()
       .append('circle')
         .attr('class', 'pearl')
-        .attr('r', 0.08 * tileSize)
-        .attr('cx', (d, i) => (0.25 * Math.floor(i / pearlsPerCol) - 0.75) * tileSize)
-        .attr('cy', (d, i) => (0.25 * (i % pearlsPerCol) + 0.5) * tileSize)
+        .attr('r', pearlRadius)
+        .attr('cx', (d, i) => (pearlDistance * (i % pearlsPerRow) + 0.5))
+        .attr('cy', (d, i) => (pearlDistance * Math.floor(i / pearlsPerRow) - 0.75))
         .on('click', (d) => {
           this.gameBoard.stop();
           this.gameBoard.loadLevel(d.id);
