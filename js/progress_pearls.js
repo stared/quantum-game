@@ -16,16 +16,20 @@ export class ProgressPearls {
     this.pearls = this.g.selectAll('.pearl')
       .data(this.levels);
 
-    this.pearls.enter()
-      .append('circle')
+    const pearlsEntered = this.pearls.enter()
+      .append('g')
         .attr('class', 'pearl')
-        .attr('r', pearlRadius)
-        .attr('cx', (d, i) => (pearlDistance * (i % pearlsPerRow) + 0.5))
-        .attr('cy', (d, i) => (pearlDistance * Math.floor(i / pearlsPerRow) - 0.75))
+        .attr('transform', (d, i) => `translate(${pearlDistance * (i % pearlsPerRow + 0.5)}, ${pearlDistance * (Math.floor(i / pearlsPerRow) - 0.75)})`)
         .on('click', (d) => {
           this.gameBoard.stop();
           this.gameBoard.loadLevel(d.id);
         });
+
+    pearlsEntered.append('circle')
+      .attr('r', pearlRadius);
+
+    pearlsEntered.append('text')
+      .text((d) => d.i);
 
     this.update();
   }

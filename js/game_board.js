@@ -47,7 +47,7 @@ export class GameBoard {
       level.levels.filter((d) => d.group === 'Game'),
       this
     );
-    this.progressPearls.g.attr('transform', `translate(${-1.5 * tileSize},${tileSize})`);
+    this.progressPearls.g.attr('transform', `translate(${-1.8 * tileSize},${tileSize})`);
     this.progressPearls.draw();
 
     this.stock = new Stock(svg, this.bareBoard);

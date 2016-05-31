@@ -463,20 +463,42 @@ div.tooltip {
 }
 
 .pearl {
+    cursor: pointer;
+}
+
+.pearl > circle {
     fill: rgba(255, 255, 255, 0.2);
     stroke: white;
     stroke-width: 2px;
-    cursor: pointer;
 }
-.pearl:not(.pearl--passed):hover {
+.pearl:not(.pearl--passed):hover > circle {
     fill: rgba(152, 230, 152, 0.3);
 }
-.pearl--passed {
+.pearl--passed > circle {
     fill: rgba(255, 255, 255, 0.6);
 }
-.pearl--passed:hover {
+.pearl--passed:hover > circle {
     fill: rgba(152, 230, 152, 0.8);
 }
+
+.pearl > text {
+    font-size: 20px;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+.pearl:not(.pearl--current) > text {
+    opacity: 0.4;
+}
+.pearl.pearl-current > text {
+    opacity: 0.9;
+}
+.pearl:not(.pearl--passed) > text {
+    fill: #fff;
+}
+.pearl.pearl-passed > text {
+    fill: #4f569f;
+}
+
 
 .svg-interface-button-stroke {
     /* fill not none, so elements are easily clickable */
