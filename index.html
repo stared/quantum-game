@@ -295,7 +295,7 @@
       </g>
 
 
-      <g class="animation-controls" transform="translate(1425, 900)">
+      <g class="board-controls" transform="translate(1425, 850)">
         <g class="play">
           <defs>
               <path id="pause-icon"
@@ -321,30 +321,30 @@
                 transform="translate(25, 25) scale(3.125)"></path>
           <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
         </g>
-        <g class="speed" transform="translate(125,125)">
+        <g class="speed" transform="translate(0,125)">
           <rect class="svg-interface-button" x="50" y="25" width="8" height="50"></rect>
           <path class="svg-interface-button" d="M0 50 L100 35 V65 Z"></path>
         </g>
+        <g class="reset" transform="translate(125, 125)">
+          <path class="svg-interface-button" transform="translate(25, 25) scale(3.125)" d="M0 16 A 6 6 0 0 0 6 12 V 8 H 0 A 8 8 1 1 1 16 8 H 10 V 12 A 6 6 0 0 0 16 16 Z"></path>
+          <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
+        </g>
+        <g class="download" transform="translate(250, 125)">
+          <a id="download" download="level.json" target="_blank">
+            <path class="svg-interface-button" transform="translate(25, 25) scale(3.125)" d="M5 0 V 8 H 0 L 8 16 L 16 8 H 11 V 0 Z"></path>
+            <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
+          </a>
+        </g>
       </g>
 
-      <g class="navigation-controls" transform="translate(-200, 0)">
+      <g class="navigation-controls" transform="translate(-325, 59)">
         <g class="level-list" transform="translate(0, 0)">
           <rect class="svg-interface-button" width="50" height="4" x="25" y="33"></rect>
           <rect class="svg-interface-button" width="50" height="4" x="25" y="48"></rect>
           <rect class="svg-interface-button" width="50" height="4" x="25" y="63"></rect>
           <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
         </g>
-        <g class="reset" transform="translate(0, 125)">
-          <path class="svg-interface-button" transform="translate(25, 25) scale(3.125)" d="M0 16 A 6 6 0 0 0 6 12 V 8 H 0 A 8 8 1 1 1 16 8 H 10 V 12 A 6 6 0 0 0 16 16 Z"></path>
-          <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
-        </g>
-        <g class="download" transform="translate(0, 250)">
-          <a id="download" download="level.json" target="_blank">
-            <path class="svg-interface-button" transform="translate(25, 25) scale(3.125)" d="M5 0 V 8 H 0 L 8 16 L 16 8 H 11 V 0 Z"></path>
-            <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
-          </a>
-        </g>
-        <g class="help" transform="translate(0, 375)">
+        <g class="help" transform="translate(0, 125)">
           <text class="unselectable svg-interface-button" x="33" y="70" style="font-size: 60px">?</text>
           <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
         </g>

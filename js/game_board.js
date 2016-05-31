@@ -56,11 +56,8 @@ export class GameBoard {
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
-    this.animationControls = svg.select('.animation-controls');
-    this.activateAnimationControls();
-
-    this.navigationControls = svg.select('.navigation-controls');
-    this.activateNavigationControls();
+    this.boardControls = svg.select('.board-controls');
+    this.activateBoardControls();
 
     this.loadLevel(levelId);
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
@@ -212,7 +209,7 @@ export class GameBoard {
     if (newState !== 'play' && newState !== 'pause') {
       return;
     }
-    const actualIcon = this.animationControls.select('.play .actual-icon');
+    const actualIcon = this.boardControls.select('.play .actual-icon');
     const newStateIcon = d3.select(`#${newState}-icon`);
     actualIcon
       .transition()
@@ -223,25 +220,25 @@ export class GameBoard {
    /**
     * Set up animation controls - bind events to buttons
     */
-  activateAnimationControls() {
+  activateBoardControls() {
     // Don't let d3 bind clicked element as `this` to methods.
     const gameBoard = this;
     const bareBoard = this.bareBoard;
-    const animationControls = this.animationControls;
-    animationControls.select('.play')
+    const boardControls = this.boardControls;
+    boardControls.select('.play')
       .on('click', bareBoard.play.bind(bareBoard))
       .on('mouseover', () => gameBoard.titleManager.displayMessage('PLAY/PAUSE'));
-    animationControls.select('.stop')
+    boardControls.select('.stop')
       .on('click', bareBoard.stop.bind(bareBoard))
       .on('mouseover', () => gameBoard.titleManager.displayMessage('STOP'));
-    animationControls.select('.forward')
+    boardControls.select('.forward')
       .on('click', bareBoard.forward.bind(bareBoard))
       .on('mouseover', () => gameBoard.titleManager.displayMessage('NEXT STEP'));
     const durationToSlider = d3.scale.log()
       .domain([animationStepDurationMax, animationStepDurationMin])
       .range([0, 1]);
 
-    animationControls.select('.speed')
+    boardControls.select('.speed')
       .on('click', function () {
         const baseWidth = 100; // width in px in SVG without scaling
         const mouseX = d3.mouse(this)[0];
@@ -256,32 +253,23 @@ export class GameBoard {
       })
       .on('mouseover', () => gameBoard.titleManager.displayMessage('CHANGE SPEED'));
 
-  }
+    boardControls.select('.reset')
+      .on('click', () => {
+        gameBoard.reloadLevel(false);
+      })
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
 
-  /**
-   * Set up animation controls - bind events to buttons
-   */
- activateNavigationControls() {
-   // Don't let d3 bind clicked element as `this` to methods.
-   const gameBoard = this;
-   const bareBoard = this.bareBoard;
-   const navigationControls = this.navigationControls;
-   navigationControls.select('.reset')
-     .on('click', () => {
-       gameBoard.reloadLevel(false);
-     })
-     .on('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
-   navigationControls.select('.download')
-     .on('click', function () {
-       bareBoard.logger.logAction('reset');
-       gameBoard.clipBoard(d3.select(this).select('a'));
-     })
-     .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
- }
+    boardControls.select('.download')
+      .on('click', function () {
+        bareBoard.logger.logAction('reset');
+        gameBoard.clipBoard(d3.select(this).select('a'));
+      })
+      .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
+  }
 
   clipBoard(link) {
     // NOTE original version for HTML does not work for SVG
-    // now it opends in a new tab 
+    // now it opends in a new tab
     const levelJSON = stringify(this.bareBoard.exportBoard(), {maxLength: 100, indent: 2});
     link.attr('download', _.kebabCase(`${this.bareBoard.level.name}_${(new Date()).toISOString()}`) + '.json');
     link.attr('xlink:href', `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`);
