@@ -543,16 +543,12 @@ text.helper-name {
   font-size: 24px;
   font-family: "Roboto Condensed";
   fill: white;
-  stroke: white;
-  stroke-width: 1px;
 }
 
 text.helper-summary {
   font-size: 24px;
   font-family: "Roboto Condensed";
   fill: white;
-  stroke: white;
-  stroke-width: 1px;
 }
 
 .board-hint > text {
