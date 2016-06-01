@@ -59,6 +59,8 @@ export class GameBoard {
 
     this.boardControls = svg.select('.board-controls');
     this.activateBoardControls();
+    this.navigationControls = svg.select('.navigation-controls');
+    this.activateNavigationControls();
 
     this.loadLevel(levelId);
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
@@ -116,6 +118,8 @@ export class GameBoard {
           absorptionDuration
         );
       }
+      // Show next level button
+      this.navigationControls.select('.next-level').classed('hidden', false);
 
       this.storage.setLevelIsWon(level.id, true);
       this.saveProgress();
@@ -257,6 +261,12 @@ export class GameBoard {
       .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
   }
 
+  activateNavigationControls() {
+    const navigationControls = this.navigationControls;
+    navigationControls.select('.next-level')
+      .on('click', () => this.nextLevel());
+  }
+
   clipBoard(link) {
     // NOTE original version for HTML does not work for SVG
     // now it opends in a new tab
@@ -306,6 +316,9 @@ export class GameBoard {
     this.bareBoard.alreadyWon = this.storage.getLevelIsWon(levelId);
     this.reset();
     this.progressPearls.update();
+
+    // Show next level button?
+    this.navigationControls.select('.next-level').classed('hidden', !this.bareBoard.alreadyWon);
   }
 
   nextLevel() {

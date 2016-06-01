@@ -376,6 +376,38 @@ body {
     stroke: none;
 }
 
+.navigation-controls .hidden {
+    display: none;
+}
+
+@-webkit-keyframes glowing  {
+  0% { fill: rgba(255, 255, 255, 0.2); }
+  50% { fill: rgba(152, 230, 152, 0.5); }
+  100% { fill: rgba(255, 255, 255, 0.2); }
+}
+@-moz-keyframes glowing {
+  0% { fill: rgba(255, 255, 255, 0.2); }
+  50% { fill: rgba(152, 230, 152, 0.5); }
+  100% { fill: rgba(255, 255, 255, 0.2); }
+}
+@-o-keyframes glowing {
+  0% { fill: rgba(255, 255, 255, 0.2); }
+  50% { fill: rgba(152, 230, 152, 0.5); }
+  100% { fill: rgba(255, 255, 255, 0.2); }
+}
+@keyframes glowing  {
+  0% { fill: rgba(255, 255, 255, 0.2); }
+  50% { fill: rgba(152, 230, 152, 0.5); }
+  100% { fill: rgba(255, 255, 255, 0.2); }
+}
+
+.navigation-controls .next-level > circle {
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+
 #level-header {
     position: fixed;
     top: 5px;
