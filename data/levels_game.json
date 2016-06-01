@@ -1,18 +1,15 @@
 [
   {
-    "name": "Empty",
+    "name": "Adventures of a curious character",
     "group": "A Dev",
     "width": 13,
     "height": 10,
     "tiles": [],
-    "stock": "all",
-    "texts": {"before": "Adventures of a Curious Character"}
+    "stock": "all"
   },
   {
-    "name": "Introducing mirrors",
+    "name": "The first steps",
     "group": "Game",
-    "texts": {"before": "Lead the way!"},
-    "initialHint": "Goal: lead a photon from the laser to the detector. Drag and drop mirrors from the right panel. Click an element to rotate. Click the laser to fire a photon.",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -31,12 +28,8 @@
     ]
   },
   {
-    "name": "Introducing beam splitters",
+    "name": "Divide and conquer!",
     "group": "Game",
-    "texts": {
-      "before": "Divide and conquer!"
-    },
-    "initialHint": "New element: beam splitter.</br>Make sure that every detector has some change od detecting a photon.",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -53,6 +46,7 @@
       {"i": 11, "j": 6, "name": "Source", "rotation": 2, "frozen": true}
     ],
     "boardHints": [
+      {"i": 0, "j": 0, "widthI": 7, "text": "give each detector some chance of catching a photon"},
       {"i": 9, "j": 0, "widthI": 4, "text": "brand-new beam splitters", "triangleI": 12, "triangleDir": "right"},
       {"i": 0, "j": 7, "widthI": 5, "text": "each run only a single detector clicks"},
       {"i": 5, "j": 9, "widthI": 5, "text": "but we display probabilities as well"}
@@ -61,9 +55,6 @@
   {
     "name": "Not all but everywhere",
     "group": "Game",
-    "texts": {
-      "before": ""
-    },
     "requiredDetectionProbability": 0.875,
     "width": 13,
     "height": 10,
@@ -77,13 +68,12 @@
     ],
     "boardHints": [
       {"i": 1, "j": 1, "widthI": 4, "text": "sometimes things get tricky"},
-      {"i": 7, "j": 6, "widthI": 5, "text": "we can afford losing 12.5% photons"}
+      {"i": 7, "j": 6, "widthI": 5, "text": "but we can afford losing 12.5% photons"}
     ]
   },
   {
     "name": "Introducing interference",
     "group": "Game",
-    "texts": {"before": "Sometimes in order to join you need to break."},
     "width": 13,
     "height": 10,
     "tiles": [
@@ -100,16 +90,15 @@
       {"i": 11, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
     ],
     "boardHints": [
-      {"i": 1, "j": 1, "widthI": 4, "text": "run it to see what happens"},
+      {"i": 1, "j": 1, "widthI": 4, "text": "run it to see what happens", "triangleI": 1, "triangleDir": "bottom"},
       {"i": 5, "j": 2, "widthI": 3, "text": "crazy, isn't it?"},
       {"i": 8, "j": 7, "widthI": 4, "text": "if you don't know what to do"},
-      {"i": 9, "j": 8, "widthI": 3, "text": "replicate what you see"}
+      {"i": 9, "j": 8, "widthI": 3, "text": "replicate what you saw"}
     ]
   },
   {
     "name": "Changing interference",
     "group": "Game",
-    "texts": {"before": "Comebacks can turn out either way."},
     "width": 13,
     "height": 10,
     "tiles": [
@@ -122,6 +111,10 @@
       {"i": 8, "j": 4, "name": "ThinSplitter", "rotation": 1},
       {"i": 8, "j": 1, "name": "Detector", "frozen": true, "rotation": 1},
       {"i": 10, "j": 4, "name": "Mine", "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 2, "j": 1, "widthI": 5, "text": "comebacks can turn out either way"},
+      {"i": 0, "j": 5, "widthI": 4, "text": "glass changes interference", "triangleI": 3, "triangleDir": "right"}
     ]
   },
   {
@@ -152,10 +145,14 @@
       {"i": 9, "j": 5, "name": "ThinMirror", "rotation": 3, "frozen": true},
       {"i": 9, "j": 7, "name": "ThinSplitter", "rotation": 3, "frozen": true},
       {"i": 11, "j": 1, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 3, "j": 8, "widthI": 3, "text": "interference is subtle"},
+      {"i": 6, "j": 9, "widthI": 4, "text": "use it to your own advantage"}
     ]
   },
   {
-    "name": "Breaking interference",
+    "name": "Breaking interference with a rock ",
     "group": "Game",
     "texts": {"before": "Interference is fragile."},
     "requiredDetectionProbability": 0.5,
@@ -170,10 +167,14 @@
       {"i": 9, "j": 2, "name": "Source", "rotation": 3, "frozen": true},
       {"i": 9, "j": 4, "name": "ThinSplitter", "rotation": 1, "frozen": true},
       {"i": 9, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 7, "j": 0, "widthI": 6, "text": "a ja wiem, że ten głaz ma także duszę, imię ma", "triangleI": 12, "triangleDir": "right"},
+      {"i": 5, "j": 8, "widthI": 4, "text": "one beam always gets split"}
     ]
   },
   {
-    "name": "Michelson-Morley",
+    "name": "Your own Michelson-Morley",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -183,6 +184,11 @@
       {"i": 6, "j": 5, "name": "ThinSplitter", "rotation": 1, "frozen": true},
       {"i": 6, "j": 8, "name": "Detector", "rotation": 3, "frozen": true},
       {"i": 10, "j": 5, "name": "ThinMirror", "rotation": 2, "frozen": false}
+    ],
+    "boardHints": [
+      {"i": 1, "j": 1, "widthI": 5, "text": "it's an important historical experiment"},
+      {"i": 1, "j": 2, "widthI": 3, "text": "but hey"},
+      {"i": 1, "j": 3, "widthI": 3, "text": "no pressure"}
     ]
   },
   {
@@ -201,6 +207,9 @@
       {"i": 9, "j": 6, "name": "Glass", "rotation": 0, "frozen": true},
       {"i": 9, "j": 9, "name": "ThinMirror", "rotation": 0, "frozen": false},
       {"i": 11, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 3, "j": 5, "widthI": 5, "text": "I hope you've learnt something"}
     ]
   },
   {
@@ -220,11 +229,15 @@
       {"i": 7, "j": 8, "name": "ThinMirror", "rotation": 1, "frozen": true},
       {"i": 9, "j": 4, "name": "DetectorFour", "rotation": 0, "frozen": true},
       {"i": 9, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 1, "j": 0, "widthI": 4, "text": "interference works perfectly"},
+      {"i": 3, "j": 1, "widthI": 6, "text": "only when intestities are exactly the same"}
     ]
   },
   {
     "name": "Attenuate the beam",
-    "texts": {"before": "Just don't blow it!"},
+    "texts": {"before": ""},
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -241,6 +254,9 @@
       {"i": 9, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
       {"i": 10, "j": 3, "name": "Absorber", "rotation": 0, "frozen": false},
       {"i": 11, "j": 3, "name": "Mine", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 9, "j": 4, "widthI": 3, "text": "just don't blow it!", "triangleI": 11, "triangleDir": "top"}
     ]
   },
   {
