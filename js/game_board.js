@@ -112,25 +112,14 @@ export class GameBoard {
 
       if (!this.storage.getLevelIsWon(level.id)) {
         window.setTimeout(
-          () => this.popupManager.popup('You won!'),
+          () => this.popupManager.popup('You won!', {close: false, nextLevel: true}),
           absorptionDuration
         );
-        // TODO(pathes) add next-level button
       }
 
       this.storage.setLevelIsWon(level.id, true);
       this.saveProgress();
       this.progressPearls.update();
-
-      d3.select('.top-bar__detection').classed('top-bar__detection--success', true);
-      if (level.group === 'Game') {
-        // TODO(pathes): make a separate component for detection % and next level button
-        d3.select('.top-bar__detection__caption').html('next level »');
-        d3.select('.top-bar__detection').on('click', () => {
-          this.logger.logAction('nextLevelButton');
-          this.loadLevel(level.next);
-        });
-      }
     }
   }
 
@@ -309,7 +298,7 @@ export class GameBoard {
 
     // Additionally, check if level is passed. If not, show popup.
     if (!this.storage.getLevelIsWon(levelToLoad.id) && levelToLoad.initialHint != null) {
-      this.popupManager.popup(levelToLoad.initialHint);
+      this.popupManager.popup(levelToLoad.initialHint, {close: true, nextLevel: false});
     }
 
     this.storage.setCurrentLevelId(levelId);
@@ -317,6 +306,12 @@ export class GameBoard {
     this.bareBoard.alreadyWon = this.storage.getLevelIsWon(levelId);
     this.reset();
     this.progressPearls.update();
+  }
+
+  nextLevel() {
+    if (this.bareBoard.level && this.bareBoard.level.next) {
+      this.loadLevel(this.bareBoard.level.next);
+    }
   }
 
   // dev = true only from console

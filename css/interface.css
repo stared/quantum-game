@@ -616,11 +616,14 @@ text.helper-summary {
   text-align: right;
 }
 .popup-buttons > button {
-  background-color: #008FAF;
+  background-color: #4f569f;
   border: none;
   padding: 1vh 3vh;
   font-size: 2vh;
   color: white;
+}
+.popup-buttons .hidden {
+  display: none;
 }
 
 .unselectable {

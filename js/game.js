@@ -19,10 +19,10 @@ export class Game {
     SoundService.initialize();
     // Outer dependencies and controllers
     this.storage = new Storage();
-
+    // Pop-ups
     this.popupManager = new PopupManager(
-      d3.select('.popup'));
-
+      d3.select('.popup'),
+      () => this.gameBoard.nextLevel());
     // View definitions
     this.views = this.createViews();
     // State
