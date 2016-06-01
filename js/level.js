@@ -41,7 +41,7 @@ export class Level {
         .value();
     }
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability === undefined ? 1 : levelRecipe.requiredDetectionProbability;
-    this.detectorsToFeed = levelRecipe.detectorsToFeed || _.filter(levelRecipe.tiles, (tile) => tile.frozen && tile.isDetector).length;
+    this.detectorsToFeed = levelRecipe.detectorsToFeed || _.filter(levelRecipe.tiles, (tile) => tile.frozen && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
   }
 }
 
