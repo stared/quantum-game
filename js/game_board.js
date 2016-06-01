@@ -151,13 +151,14 @@ export class GameBoard {
   }
 
   get title() {
-    const textBefore = (level) =>
-      level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
-    // const groupPrefix =
-    //   this.bareBoard.level.group ?
-    //   `[${this.bareBoard.level.group}] ` : '';
-    // return `${groupPrefix}${this.bareBoard.level.i}. ${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
-    return `${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
+    // const textBefore = (level) =>
+    //   level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
+    // // const groupPrefix =
+    // //   this.bareBoard.level.group ?
+    // //   `[${this.bareBoard.level.group}] ` : '';
+    // // return `${groupPrefix}${this.bareBoard.level.i}. ${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
+    // return `${this.bareBoard.level.name}${textBefore(this.bareBoard.level)}`;
+    return this.bareBoard.level.name;
   }
 
   get goalMessage() {
