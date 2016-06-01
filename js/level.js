@@ -70,4 +70,6 @@ _(levels)
   )
   .value();
 
+levels[0].i = '\u221E';
+
 export const idToLevel = _.indexBy(levels, 'id');
