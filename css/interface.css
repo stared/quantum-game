@@ -111,6 +111,7 @@ body {
     fill: white;
     stroke: none;
     cursor: pointer;
+    font-family: Roboto;
 }
 .svg-interface-button-stroke {
     /* fill not none, so elements are easily clickable */
@@ -118,6 +119,7 @@ body {
     stroke: white;
     stroke-width: 4px;
     cursor: pointer;
+    font-family: Roboto;
 }
 
 /* alternatively, some hitbox layer */
