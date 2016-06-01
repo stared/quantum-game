@@ -112,7 +112,7 @@ export class GameBoard {
 
       if (!this.storage.getLevelIsWon(level.id)) {
         window.setTimeout(
-          () => this.popupManager.popup('You won!', {close: false, nextLevel: true}),
+          () => this.popupManager.popup('You won!', {close: true, nextLevel: true}),
           absorptionDuration
         );
       }
