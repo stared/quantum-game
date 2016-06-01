@@ -50,6 +50,7 @@ const levelId = (level) => `${level.group} ${level.name}`;
 // below it's a quick&dirty hack to make the level ordering sensible
 export const levels = _(levelsGame)
   .concat(levelsOther)
+  .filter((level, i) => i <= 12) // XXX only for playable version XXX
   .forEach((level, i) => {
     level.i = i;
     level.id = levelId(level);
