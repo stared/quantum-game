@@ -4,7 +4,6 @@
       "d3": "github:mbostock/d3@^3.5.5",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "json-stringify-pretty-compact": "npm:json-stringify-pretty-compact@^1.0.1",
-      "katex": "npm:katex@^0.5.1",
       "lodash": "npm:lodash@^3.8.0",
       "normalize.css": "github:necolas/normalize.css@^3.0.3",
       "soundjs": "github:CreateJS/SoundJS@^0.6.2"

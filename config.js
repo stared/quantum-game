@@ -19,7 +19,6 @@ System.config({
     "d3": "github:mbostock/d3@3.5.6",
     "json": "github:systemjs/plugin-json@0.1.0",
     "json-stringify-pretty-compact": "npm:json-stringify-pretty-compact@1.0.1",
-    "katex": "npm:katex@0.5.1",
     "lodash": "npm:lodash@3.10.1",
     "normalize.css": "github:necolas/normalize.css@3.0.3",
     "soundjs": "github:CreateJS/SoundJS@0.6.2",
@@ -119,10 +118,6 @@ System.config({
     },
     "npm:isarray@1.0.0": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
-    },
-    "npm:katex@0.5.1": {
-      "match-at": "npm:match-at@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:lodash@3.10.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
