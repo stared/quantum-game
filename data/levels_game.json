@@ -26,7 +26,7 @@
     "boardHints": [
       {"i": 0, "j": 5, "widthI": 3, "text": "click laser to start", "triangleI": 2, "triangleDir": "top"},
       {"i": 10, "j": 0, "widthI": 3, "text": "drag & drop from here", "triangleI": 12, "triangleDir": "right"},
-      {"i": 4, "j": 7, "widthI": 3, "text": "some object are fixed", "triangleI": 4, "triangleDir": "top"},
+      {"i": 4, "j": 7, "widthI": 3, "text": "some objects are fixed", "triangleI": 4, "triangleDir": "top"},
       {"i": 9, "j": 3, "widthI": 4, "text": "photon should reach there", "triangleI": 9, "triangleDir": "left"},
     ]
   },
@@ -579,7 +579,7 @@
     ]
   },
   {
-    "name": "Sagnac interferemeter",
+    "name": "Sagnac interferometer",
     "group": "Game",
     "width": 13,
     "height": 10,
