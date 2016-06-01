@@ -102,8 +102,6 @@ export class GameBoard {
       winningStatus.noOfFedDets
     );
 
-    d3.select('.top-bar__detection__value').html(`${(100 * winningStatus.totalProbAtDets).toFixed(0)}%`);
-
     this.titleManager.displayMessage(
       winningStatus.message,
       winningStatus.isWon ? 'success' : 'failure',
@@ -129,11 +127,6 @@ export class GameBoard {
 
   reset() {
     // Reset detection
-    // TODO(pathes): make a separate component for detection % and next level button
-    d3.select('.top-bar__detection__value').html('0%');
-    d3.select('.top-bar__detection__caption').html('detection');
-    d3.select('.top-bar__detection').classed('top-bar__detection--success', false);
-    d3.select('.top-bar__detection').on('click', _.noop);
     this.setHeaderTexts();
     this.detectionBar.updateRequirements(
       this.bareBoard.level.requiredDetectionProbability,

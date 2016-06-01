@@ -77,47 +77,6 @@ body {
     height: 100%;
 }
 
-.top-bar__detection {
-  position: absolute;
-  top: 0;
-  right: 2vh;
-  width: 14vh;
-  height: 10vh;
-  font-size: 0;
-  background: none;
-}
-
-.top-bar__detection--success > .top-bar__detection__caption,
-.top-bar__detection--success > .top-bar__detection__value {
-  color: lime;
-  text-shadow: rgba(0, 255, 0, 0.7) 0 0 5px;
-}
-
-.top-bar__detection__caption {
-    width: 14vh;
-    height: 4vh;
-    text-align: center;
-    font-size: 2.5vh;
-    line-height: 5vh;
-    vertical-align: middle;
-    font-family: "Roboto Condensed";
-    color: white;
-    overflow: hidden;
-}
-
-.top-bar__detection__value {
-    width: 14vh;
-    height: 6vh;
-    text-align: center;
-    font-size: 4vh;
-    line-height: 5vh;
-    vertical-align: middle;
-    font-family: "Roboto";
-    font-weight: bold;
-    color: orange;
-    text-shadow: rgba(255, 0, 0, 0.7) 0 0 5px;
-}
-
 .bottom-bar {
     height: 8vh;
     color: white;
