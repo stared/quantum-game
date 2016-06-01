@@ -296,6 +296,9 @@ export class GameBoard {
     if (levelToLoad == null) {
       // TODO(pathes): remove magic constant
       levelToLoad = level.levels[1];
+      // NOTE(migdal): it is an ugly piece which already made me waste some time
+      // ideally - exception; at very least - console.log
+      window.console.log(`XXX For levelId ${levelId} there is no level; falling back to the first level.`);
       this.logger.logAction('invalidLoadLevel', {});
     }
 
