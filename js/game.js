@@ -96,6 +96,13 @@ export class Game {
       .on('mouseover', () =>
         this.gameBoard.titleManager.displayMessage('ENCYCLOPEDIA')
       );
+    this.gameBoard.svg.select('.navigation-controls .sandbox')
+      .on('click', () => {
+        this.gameBoard.loadLevel(level.levels[0].id);
+      })
+      .on('mouseover', () =>
+        this.gameBoard.titleManager.displayMessage('SANDBOX LEVEL')
+      );
   }
 
 }
