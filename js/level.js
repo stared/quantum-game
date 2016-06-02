@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {nonVacuumTiles} from './tile';
+import {isProduction, productionLevelLimit} from './config';
 
 import levelsGame from '../data/levels_game.json!';
 import levelsOther from '../data/levels_other.json!';
@@ -50,7 +51,7 @@ const levelId = (level) => `${level.group} ${level.name}`;
 // below it's a quick&dirty hack to make the level ordering sensible
 export const levels = _(levelsGame)
   .concat(levelsOther)
-  .filter((level, i) => i <= 12) // XXX only for playable version XXX
+  .filter((level, i) => !isProduction || i <= productionLevelLimit)
   .forEach((level, i) => {
     level.i = i;
     level.id = levelId(level);
