@@ -13,16 +13,16 @@
     "width": 13,
     "height": 10,
     "tiles": [
-      {"i": 2, "j": 4, "name": "Source", "frozen": true},
-      {"i": 4, "j": 4, "name": "ThinMirror", "rotation": 3},
-      {"i": 5, "j": 4, "name": "Rock", "frozen": true},
+      {"i": 2, "j": 3, "name": "Source", "frozen": true},
+      {"i": 4, "j": 3, "name": "ThinMirror", "rotation": 3},
+      {"i": 5, "j": 3, "name": "Rock", "frozen": true},
       {"i": 4, "j": 6, "name": "ThinMirror", "frozen": true, "rotation": 3},
       {"i": 8, "j": 6, "name": "ThinMirror", "rotation": 1},
       {"i": 8, "j": 3, "name": "Detector", "frozen": true, "rotation": 1}
     ],
     "boardHints": [
-      {"i": 0, "j": 5, "widthI": 3, "text": "click laser to start", "triangleI": 2, "triangleDir": "top"},
-      {"i": 10, "j": 0, "widthI": 3, "text": "drag & drop from here", "triangleI": 12, "triangleDir": "right"},
+      {"i": 0, "j": 4, "widthI": 3, "text": "click laser to start", "triangleI": 2, "triangleDir": "top"},
+      {"i": 9, "j": 0, "widthI": 4, "text": "drag & drop mirror from here", "triangleI": 12, "triangleDir": "right"},
       {"i": 4, "j": 7, "widthI": 3, "text": "some objects are fixed", "triangleI": 4, "triangleDir": "top"},
       {"i": 9, "j": 3, "widthI": 4, "text": "photon should reach there", "triangleI": 9, "triangleDir": "left"},
     ]
@@ -154,7 +154,6 @@
   {
     "name": "Breaking interference with a rock ",
     "group": "Game",
-    "texts": {"before": "Interference is fragile."},
     "requiredDetectionProbability": 0.5,
     "width": 13,
     "height": 10,
@@ -169,7 +168,7 @@
       {"i": 9, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": true}
     ],
     "boardHints": [
-      {"i": 7, "j": 0, "widthI": 6, "text": "a ja wiem, że ten głaz ma także duszę, imię ma", "triangleI": 12, "triangleDir": "right"},
+      {"i": 7, "j": 0, "widthI": 6, "text": "every rock has a life, has a spirit, has a name", "triangleI": 12, "triangleDir": "right"},
       {"i": 5, "j": 8, "widthI": 4, "text": "one beam always gets split"}
     ]
   },
@@ -187,8 +186,8 @@
     ],
     "boardHints": [
       {"i": 1, "j": 1, "widthI": 5, "text": "it's an important historical experiment"},
-      {"i": 1, "j": 2, "widthI": 3, "text": "but hey"},
-      {"i": 1, "j": 3, "widthI": 3, "text": "no pressure"}
+      {"i": 1, "j": 2, "widthI": 2, "text": "but hey..."},
+      {"i": 2, "j": 3, "widthI": 2, "text": "no pressure!"}
     ]
   },
   {
@@ -223,6 +222,7 @@
       {"i": 3, "j": 6, "name": "ThinSplitter", "rotation": 1, "frozen": false},
       {"i": 3, "j": 8, "name": "ThinSplitter", "rotation": 1, "frozen": true},
       {"i": 5, "j": 2, "name": "Detector", "rotation": 1, "frozen": true},
+      {"i": 5, "j": 6, "name": "Rock", "rotation": 1, "frozen": true},
       {"i": 5, "j": 8, "name": "ThinSplitter", "rotation": 1, "frozen": false},
       {"i": 7, "j": 2, "name": "Mine", "rotation": 0, "frozen": true},
       {"i": 7, "j": 4, "name": "ThinSplitter", "rotation": 1, "frozen": false},
@@ -231,8 +231,8 @@
       {"i": 9, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": true}
     ],
     "boardHints": [
-      {"i": 1, "j": 0, "widthI": 4, "text": "interference works perfectly"},
-      {"i": 3, "j": 1, "widthI": 6, "text": "only when intestities are exactly the same"}
+      {"i": 2, "j": 0, "widthI": 4, "text": "interference works perfectly"},
+      {"i": 5, "j": 1, "widthI": 6, "text": "only when intestities are exactly the same"}
     ]
   },
   {
@@ -279,6 +279,9 @@
       {"i": 11, "j": 5, "name": "Absorber", "rotation": 0, "frozen": false},
       {"i": 11, "j": 6, "name": "Glass", "rotation": 0, "frozen": true},
       {"i": 11, "j": 7, "name": "ThinMirror", "rotation": 1, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 2, "j": 2, "widthI": 6, "text": "losing some photons is a price worth paying"}
     ]
   },
   {
@@ -312,10 +315,10 @@
     "height": 10,
     "tiles": [
       {"i": 1, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
-      {"i": 3, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 4, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
       {"i": 3, "j": 2, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 3, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
-      {"i": 3, "j": 4, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 4, "j": 4, "name": "ThinMirror", "rotation": 3, "frozen": true},
       {"i": 5, "j": 1, "name": "PolarizerWE", "rotation": 2, "frozen": true},
       {"i": 5, "j": 4, "name": "PolarizerWE", "rotation": 0, "frozen": true},
       {"i": 7, "j": 1, "name": "ThinMirror", "rotation": 3, "frozen": true},
