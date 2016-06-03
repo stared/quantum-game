@@ -3,7 +3,7 @@ Quantum Game
 
 Quantum Game - play with photons, superposition and entanglement. In your browser! With true quantum mechanics underneath!
 
-* Official address: http://quantumgame.io/ (only mailing list for now, coming shortly).
+* Official address: http://play.quantumgame.io/ (initial beta released on 3 Jun 2016)
 * Social media: Facebook: [Quantum Game with Photons](https://www.facebook.com/quantumgameio), Twitter: [@quantumgameio](https://twitter.com/quantumgameio)
 * State: in development (alpha). Release data (estimate): 1 June 2016.
 * Authors: [Piotr Migdał](http://p.migdal.pl), [Patryk Hes](https://github.com/pathes), [Michał Krupiński](http://www.fiztaszki.pl/user/3).
