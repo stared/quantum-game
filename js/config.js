@@ -5,13 +5,13 @@ export const tileSize = 100;
 // Tile border (px)
 export const tileBorder = 1;
 // Rotation speed (ms)
-export const rotationSpeed = 250;
+export const rotationSpeed = 125;
 // Tile reposition speed (ms)
-export const repositionSpeed = 250;
+export const repositionSpeed = 125;
 // Maximum iteration count
 export const maxIterations = 1000;
 // Default animation step duration (ms)
-export const animationStepDuration = 600;
+export const animationStepDuration = 500;
 // Min animation step duration - for slider (ms)
 export const animationStepDurationMin = 100;
 // Max animation step duration - for slider (ms)
