@@ -111,6 +111,12 @@ export class GameBoard {
     if (winningStatus.isWon) {
 
       if (!this.storage.getLevelIsWon(level.id)) {
+        if (window.ga) {
+          window.ga('send', 'event', 'Level', 'won', level.id);
+          window.console.log('level winning logged');
+        } else {
+          window.console.log('no Google Analytics to track winning');
+        }
         window.setTimeout(
           () => this.popupManager.popup('You won!', {close: true, nextLevel: true}),
           absorptionDuration
