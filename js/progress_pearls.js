@@ -21,7 +21,6 @@ export class ProgressPearls {
         .attr('class', 'pearl')
         .attr('transform', (d, i) => `translate(${pearlDistance * (i % pearlsPerRow + 0.5)}, ${pearlDistance * (Math.floor(i / pearlsPerRow) - 0.75)})`)
         .on('click', (d) => {
-          this.gameBoard.stop();
           this.gameBoard.loadLevel(d.id);
         });
 

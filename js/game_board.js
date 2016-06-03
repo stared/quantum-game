@@ -132,6 +132,8 @@ export class GameBoard {
   }
 
   reset() {
+    this.stop();
+
     // Reset detection
     this.setHeaderTexts();
     this.detectionBar.updateRequirements(
