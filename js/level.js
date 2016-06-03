@@ -5,6 +5,7 @@ import {isProduction, productionLevelLimit} from './config';
 
 import levelsGame from '../data/levels_game.json!';
 import levelsOther from '../data/levels_other.json!';
+import lastLevel from '../data/levels_last.json!';
 
 
 export class Level {
@@ -58,6 +59,13 @@ export const levels = _(levelsGame)
   })
   .sortBy((level) => `${level.group} ${1e6 + level.i}`)
   .value();
+
+if (isProduction) {
+  lastLevel.i = -1;
+  lastLevel.group = 'Special';
+  lastLevel.id = '3413472342';
+  levels.push(lastLevel);
+}
 
 levels.forEach((level, i) => {
   level.next = _.get(levels[i + 1], 'id');
