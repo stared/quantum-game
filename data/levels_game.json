@@ -202,7 +202,7 @@
       {"i": 6, "j": 3, "name": "Glass", "rotation": 0, "frozen": true},
       {"i": 8, "j": 3, "name": "Glass", "rotation": 0, "frozen": true},
       {"i": 9, "j": 1, "name": "Source", "rotation": 3, "frozen": true},
-      {"i": 9, "j": 3, "name": "ThinSplitter", "rotation": 1, "frozen": false},
+      {"i": 9, "j": 3, "name": "ThinSplitter", "rotation": 1, "frozen": true},
       {"i": 9, "j": 6, "name": "Glass", "rotation": 0, "frozen": true},
       {"i": 9, "j": 9, "name": "ThinMirror", "rotation": 0, "frozen": false},
       {"i": 11, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
