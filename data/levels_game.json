@@ -108,7 +108,7 @@
       {"i": 4, "j": 4, "name": "ThinMirror", "frozen": true, "rotation": 1},
       {"i": 4, "j": 5, "name": "Glass", "frozen": true},
       {"i": 4, "j": 6, "name": "Glass"},
-      {"i": 8, "j": 4, "name": "ThinSplitter", "rotation": 1},
+      {"i": 8, "j": 4, "name": "ThinSplitter", "frozen": true, "rotation": 1},
       {"i": 8, "j": 1, "name": "Detector", "frozen": true, "rotation": 1},
       {"i": 10, "j": 4, "name": "Mine", "frozen": true}
     ],
@@ -208,7 +208,7 @@
       {"i": 11, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
     ],
     "boardHints": [
-      {"i": 3, "j": 5, "widthI": 5, "text": "I hope you've learnt something"}
+      {"i": 3, "j": 5, "widthI": 4, "text": "so, can you do it?"}
     ]
   },
   {
@@ -237,7 +237,6 @@
   },
   {
     "name": "Attenuate the beam",
-    "texts": {"before": ""},
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -261,7 +260,6 @@
   },
   {
     "name": "Match intensities",
-    "texts": {"before": "Better safe than sorry!"},
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -282,6 +280,30 @@
     ],
     "boardHints": [
       {"i": 2, "j": 2, "widthI": 6, "text": "losing some photons is a price worth paying"}
+    ]
+  },
+  {
+    "name": "Rotating polarization with sugar",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 1, "j": 8, "name": "Detector", "rotation": 2, "frozen": true},
+      {"i": 3, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 4, "j": 8, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 5, "j": 8, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 6, "j": 1, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 7, "j": 1, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 8, "j": 8, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 1, "name": "ThinMirror", "rotation": 3, "frozen": false},
+      {"i": 9, "j": 4, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 5, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 8, "name": "ThinMirror", "rotation": 1, "frozen": false}
+    ],
+    "boardHints": [
+      {"i": 1, "j": 2, "widthI": 4, "text": "it can oscillate up and down", "triangleI": 4, "triangleDir": "top"},
+      {"i": 8, "j": 0, "widthI": 4, "text": "or within the board plane", "triangleI": 8, "triangleDir": "bottom"},
+      {"i": 5, "j": 7, "widthI": 4, "text": "or at some angle", "triangleI": 7, "triangleDir": "bottom"}
     ]
   },
   {
@@ -306,6 +328,9 @@
       {"i": 10, "j": 4, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 12, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
       {"i": 12, "j": 4, "name": "ThinMirror", "rotation": 1, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 2, "j": 2, "widthI": 5, "text": "linear polarizers absorb one polarization", "triangleI": 3, "triangleDir": "bottom"}
     ]
   },
   {
@@ -333,7 +358,6 @@
   {
     "name": "Three polarizers",
     "group": "Game",
-    "texts": {"before": "Block light so it can pass."},
     "requiredDetectionProbability": 0.25,
     "width": 13,
     "height": 10,
@@ -343,6 +367,10 @@
       {"i": 6, "j": 3, "name": "PolarizerWE", "rotation": 3, "frozen": false},
       {"i": 8, "j": 3, "name": "PolarizerWE", "rotation": 0, "frozen": true},
       {"i": 10, "j": 3, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 5, "j": 1, "widthI": 3, "text": "seems unfixable :/"},
+      {"i": 4, "j": 5, "widthI": 5, "text": "...or block light so it can pass"}
     ]
   },
   {
@@ -367,11 +395,48 @@
       {"i": 9, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
       {"i": 9, "j": 4, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 9, "j": 5, "name": "ThinMirror", "rotation": 1, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 0, "j": 9, "widthI": 7, "text": "and after all that, you still don't like us? so sad...", "triangleI": 0, "triangleDir": "left"}
     ]
   },
   {
-    "name": "The sugar path",
-    "texts": {"before": "Should I bounce or should I pass?"},
+    "name": "Polarizing beam splitter",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 1, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 1, "j": 5, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 2, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 2, "j": 7, "name": "Detector", "rotation": 2, "frozen": true},
+      {"i": 3, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 5, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 4, "j": 5, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 4, "j": 6, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 4, "j": 7, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 4, "j": 9, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 3, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 5, "j": 5, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 6, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
+      {"i": 6, "j": 5, "name": "PolarizingSplitter", "rotation": 1, "frozen": false},
+      {"i": 6, "j": 7, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 8, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 8, "j": 5, "name": "Detector", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": true},
+      {"i": 11, "j": 1, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
+      {"i": 11, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 0, "j": 1, "widthI": 7, "text": "PBS or the full name, but never say 'polarizing BS'!"},
+      {"i": 9, "j": 0, "widthI": 4, "text": "vertical polarization bounces...", "triangleI": 10, "triangleDir": "bottom"},
+      {"i": 6, "j": 2, "widthI": 4, "text": "...and horizontal goes through", "triangleI": 7, "triangleDir": "bottom"},
+      {"i": 7, "j": 8, "widthI": 5, "text": "how about diagonal polarization?"}
+    ]
+  },
+  {
+    "name": "Optical table tennis",
     "group": "Game",
     "width": 13,
     "height": 10,
@@ -385,6 +450,7 @@
       {"i": 4, "j": 7, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
       {"i": 5, "j": 1, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 6, "j": 1, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 6, "j": 4, "name": "PolarizerWE", "rotation": 0, "frozen": true},
       {"i": 7, "j": 1, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
       {"i": 7, "j": 2, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 7, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
@@ -400,14 +466,14 @@
     ]
   },
   {
-    "name": "Interference was never easy",
+    "name": "Perpendicular are different",
     "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
       {"i": 1, "j": 5, "name": "Mine", "rotation": 0, "frozen": true},
       {"i": 3, "j": 1, "name": "ThinMirror", "rotation": 1, "frozen": true},
-      {"i": 3, "j": 3, "name": "Glass", "rotation": 0, "frozen": false},
+      {"i": 3, "j": 3, "name": "Glass", "rotation": 0, "frozen": true},
       {"i": 3, "j": 5, "name": "ThinSplitter", "rotation": 1, "frozen": true},
       {"i": 3, "j": 9, "name": "Detector", "rotation": 3, "frozen": true},
       {"i": 5, "j": 1, "name": "SugarSolution", "rotation": 0, "frozen": false},
@@ -420,6 +486,37 @@
       {"i": 8, "j": 5, "name": "PolarizingSplitter", "rotation": 1, "frozen": true},
       {"i": 10, "j": 5, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 12, "j": 5, "name": "Source", "rotation": 2, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 0, "j": 1, "widthI": 3, "text": "perpendicular"},
+      {"i": 0, "j": 2, "widthI": 3, "text": "polarizations"},
+      {"i": 0, "j": 3, "widthI": 3, "text": "do not"},
+      {"i": 0, "j": 4, "widthI": 3, "text": "interfere"}
+    ]
+  },
+  {
+    "name": "The minefield of interference",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 1, "j": 2, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 2, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 3, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 3, "j": 6, "name": "ThinMirror", "rotation": 3, "frozen": false},
+      {"i": 3, "j": 8, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 5, "j": 2, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 5, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 5, "j": 8, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 7, "j": 2, "name": "ThinMirror", "rotation": 3, "frozen": false},
+      {"i": 7, "j": 6, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 7, "j": 8, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 2, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 4, "name": "Detector", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 5, "j": 0, "widthI": 3, "text": "it's a mini-boss level!"}
     ]
   },
   {
@@ -617,28 +714,6 @@
       {"i": 10, "j": 4, "name": "FaradayRotator", "rotation": 1, "frozen": false},
       {"i": 10, "j": 5, "name": "FaradayRotator", "rotation": 1, "frozen": false},
       {"i": 10, "j": 6, "name": "ThinMirror", "rotation": 1, "frozen": true}
-    ]
-  },
-  {
-    "name": "Both need it",
-    "group": "Game",
-    "width": 13,
-    "height": 10,
-    "tiles": [
-      {"i": 1, "j": 2, "name": "Source", "rotation": 0, "frozen": true},
-      {"i": 3, "j": 2, "name": "ThinSplitter", "rotation": 3, "frozen": true},
-      {"i": 3, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 3, "j": 6, "name": "ThinMirror", "rotation": 3, "frozen": false},
-      {"i": 3, "j": 8, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 5, "j": 2, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 5, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 5, "j": 8, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 7, "j": 2, "name": "ThinMirror", "rotation": 3, "frozen": false},
-      {"i": 7, "j": 6, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 7, "j": 8, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 9, "j": 2, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 9, "j": 4, "name": "Detector", "rotation": 0, "frozen": true},
-      {"i": 9, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
     ]
   },
   {
