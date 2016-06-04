@@ -9,7 +9,7 @@
   ],
   "stock": {},
   "boardHints": [
-    {"i": 5, "j": 0, "widthI": 3, "text": "thank you for testing!"},
+    {"i": 4, "j": 0, "widthI": 5, "text": "thank you for testing!"},
     {"i": 5, "j": 1, "widthI": 3, "text": "(it's still beta)"},
     {"i": 4, "j": 2, "widthI": 5, "text": "we really hope you enjoyed it a bit"},
     {"i": 9, "j": 5, "widthI": 1, "text": "by:"},
@@ -18,7 +18,7 @@
     {"i": 9, "j": 8, "widthI": 3, "text": "Michał Krupiński"},
     {"i": 0, "j": 3, "widthI": 3, "text": "all missions over...", "triangleI": 0, "triangleDir": "left"},
     {"i": 0, "j": 4, "widthI": 4, "text": "...but we can make more..,"},
-    {"i": 0, "j": 4, "widthI": 4, "text": "...and you can as well!"},
-    {"i": 0, "j": 9, "widthI": 9, "text": "stay with us... :) at tell us what you enjoyed, and what was annoying)", "triangleI": 0, "triangleDir": "left"}
+    {"i": 0, "j": 5, "widthI": 4, "text": "...and you can as well!"},
+    {"i": 0, "j": 9, "widthI": 10, "text": "stay with us... :) at tell us what you enjoyed, and what was annoying)", "triangleI": 0, "triangleDir": "left"}
   ]
 }
