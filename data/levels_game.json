@@ -330,7 +330,7 @@
       {"i": 12, "j": 4, "name": "ThinMirror", "rotation": 1, "frozen": true}
     ],
     "boardHints": [
-      {"i": 2, "j": 2, "widthI": 5, "text": "linear polarizers absorb one polarization", "triangleI": 3, "triangleDir": "bottom"}
+      {"i": 1, "j": 2, "widthI": 7, "text": "linear polarizers absorb one polarization", "triangleI": 3, "triangleDir": "bottom"}
     ]
   },
   {
