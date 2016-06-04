@@ -500,7 +500,7 @@
     "width": 13,
     "height": 10,
     "tiles": [
-      {"i": 1, "j": 2, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 2, "j": 2, "name": "Source", "rotation": 0, "frozen": true},
       {"i": 3, "j": 2, "name": "ThinSplitter", "rotation": 3, "frozen": true},
       {"i": 3, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": false},
       {"i": 3, "j": 6, "name": "ThinMirror", "rotation": 3, "frozen": false},
