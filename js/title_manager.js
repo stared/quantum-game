@@ -7,6 +7,7 @@ export class TitleManager {
     this.subtitleElem = subtitleElem;
     this.messageElem = this.subtitleElem.select('.subtitle-message');
     this.levelNumberElem = levelNumberElem;
+    this.defaultMessage = '';
   }
 
   setTitle(title) {
@@ -17,16 +18,25 @@ export class TitleManager {
     this.levelNumberElem.html(levelNumber);
   }
 
+  setDefaultMessage(message, type) {
+    this.messageElem.interrupt();
+    this.defaultMessage = message;
+    this.displayMessage(message, type, -1);
+  }
+
   displayMessage(message, type, timeout = displayMessageTimeout) {
+    this.messageElem.interrupt().style('opacity', 1);
     this.messageElem
-      .html(message)
+      .text(message)
       .classed('message-success', type === 'success')
       .classed('message-failure', type === 'failure')
       .classed('message-progress', type === 'progress');
-    this.messageElem.interrupt().style('opacity', 1);
     if (timeout > 0) {
       this.messageElem.transition().duration(displayMessageTimeout)
-        .style('opacity', 0);
+        .style('opacity', 0)
+        .delay(displayMessageTimeout)
+        .style('opacity', 1)
+        .text(this.defaultMessage);
     }
   }
 }

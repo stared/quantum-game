@@ -187,7 +187,7 @@ export class GameBoard {
 
   setHeaderTexts() {
     this.titleManager.setTitle(this.title);
-    this.titleManager.displayMessage(this.goalMessage, '', -1);
+    this.titleManager.setDefaultMessage(this.goalMessage, '');
     this.titleManager.setLevelNumber(this.levelNumber);
   }
 
