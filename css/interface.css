@@ -126,7 +126,7 @@ body {
     fill: rgba(152, 230, 152, 0.3);
 }
 
-.speed:hover > rect {
+.speed:hover > rect.svg-interface-button {
   fill: rgba(152, 230, 152, 1) !important;
 }
 
