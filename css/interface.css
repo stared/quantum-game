@@ -116,8 +116,7 @@ body {
 .svg-interface-button-stroke {
     /* fill not none, so elements are easily clickable */
     fill: rgba(255, 255, 255, 0.2);
-    stroke: white;
-    stroke-width: 4px;
+    stroke: none;
     cursor: pointer;
     font-family: Roboto;
 }
@@ -136,14 +135,13 @@ body {
     cursor: default;
 }
 .svg-interface-box-stroke {
-    stroke: white;
-    stroke-width: 4px;
+    stroke: none;
     fill: rgba(255, 255, 255, 0.2);
 }
 
 .detection-bar-box-stroke {
     stroke: white;
-    stroke-width: 4px;
+    stroke-width: 2px;
     fill: rgba(255, 255, 255, 0.2);
 }
 
@@ -461,8 +459,7 @@ div.tooltip {
 
 .pearl > circle {
     fill: rgba(255, 255, 255, 0.2);
-    stroke: white;
-    stroke-width: 2px;
+    stroke: none;
 }
 .pearl:not(.pearl--passed):hover > circle {
     fill: rgba(152, 230, 152, 0.3);
@@ -491,21 +488,6 @@ div.tooltip {
 .pearl.pearl-passed > text {
     fill: #4f569f;
 }
-
-
-.svg-interface-button-stroke {
-    /* fill not none, so elements are easily clickable */
-    fill: rgba(255, 255, 255, 0.2);
-    stroke: white;
-    stroke-width: 4px;
-    cursor: pointer;
-}
-
-/* alternatively, some hitbox layer */
-.svg-interface-button-stroke:hover {
-    fill: rgba(152, 230, 152, 0.3);
-}
-
 
 .helper-hitbox {
   fill: lightgreen;
