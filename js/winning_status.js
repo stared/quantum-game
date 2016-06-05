@@ -54,13 +54,13 @@ export class WinningStatus {
     this.enoughDetectors = this.noOfFedDets >= detectorsToFeed;
     this.noExplosion = this.probsAtMines < EPSILON_DETECTION;
     this.isWon = this.enoughProbability && this.enoughDetectors && this.noExplosion;
-
+    const missingDets = detectorsToFeed - this.noOfFedDets;
     if (this.isWon) {
       this.message = 'You did it!';
     } else if (!this.noExplosion) {
       this.message = `Nothing else matters when you have ${(100 * this.probsAtMines).toFixed(0)}% chance of setting off a mine!`;
     } else if (this.enoughProbability) {
-      this.message = `${detectorsToFeed - this.noOfFedDets} detector feels sad and forgotten. Be fair! Give some chance to every detector!`;
+      this.message = `${missingDets} detector${missingDets > 1 ? 's' : ''} feel${missingDets > 1 ? '' : 's'} sad and forgotten. Be fair! Give every detector a chance!`;
     } else if (this.totalProbAtDets > EPSILON_DETECTION) {
       this.message = `Only ${(100 * this.totalProbAtDets).toFixed(0)}% (out of ${(100 * requiredDetectionProbability).toFixed(0)}%) chance of detecting a photon at a detector. Try harder!`;
     } else {
