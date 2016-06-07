@@ -54,7 +54,7 @@ export const source = _.range(4).map((rotation) => {
 export const detector = _.range(4).map((rotation) =>
   Tensor.product(
     direction.absorbOneDirReflectOther[rotation],
-    polarization.reflectPhase
+    polarization.reflectPhaseFromDenser
   )
 );
 
@@ -66,14 +66,15 @@ export const cornerCube = Tensor.product(
 export const thinMirror = _.range(4).map((rotation) =>
   Tensor.product(
     direction.mirror[rotation],
-    polarization.reflectPhase
+    polarization.reflectPhaseFromDenser
   )
 );
 
+// FIX(migdal) this one is not even unitary
 export const thinMirrorCoated = _.range(8).map((rotation) =>
   Tensor.product(
     direction.mirrorCoated[rotation],
-    polarization.reflectPhase
+    polarization.reflectPhaseFromDenser
   )
 );
 
@@ -85,7 +86,7 @@ export const thinSplitter = _.range(4).map((rotation) =>
     ),
     Tensor.byConstant(
       thinMirror[rotation],
-      {re: 0, im: Math.SQRT1_2}
+      {re: 0, im: -Math.SQRT1_2}
     )
   )
 );

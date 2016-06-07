@@ -10,9 +10,14 @@ export const source = Tensor.fromObject({
   '-': {'-': {re: 1, im: 0}},
 });
 
-export const reflectPhase = Tensor.fromObject({
+export const reflectPhaseFromLighter = Tensor.fromObject({
   '-': {'-': {re: -1, im: 0}},
   '|': {'|': {re: 1, im: 0}},
+});
+
+export const reflectPhaseFromDenser = Tensor.fromObject({
+  '-': {'-': {re: 1, im: 0}},
+  '|': {'|': {re: -1, im: 0}},
 });
 
 /**
