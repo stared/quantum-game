@@ -250,8 +250,8 @@ export const Rock = {
   svgName: 'rock',
   desc: {
     name: 'Rock',
-    flavour: 'Dark and immersive as your sweetheart\'s depth of eyes.',
-    summary: 'Perhaps coal. I haven\'t decided yet.',
+    flavour: 'Every rock has a life, has a spirit, has a name!',
+    summary: 'Dark and immersive as your sweetheart\'s depth of eyes. Absorbs light. And is sensitive.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
@@ -300,7 +300,7 @@ export const Glass = {
   desc: {
     name: 'Glass Slab',
     flavour: '',
-    summary: 'Higher reflective index makes light slower. We set its thickness so it retards the phase by \u03BB/4. Useful for changing interference.',
+    summary: 'Higher refractive index makes light slower. We set its thickness so it retards the phase by \u03BB/4. Useful for changing interference.',
   },
   maxRotation: 1, // []
   rotationAngle: 360,
