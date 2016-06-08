@@ -232,7 +232,7 @@
     ],
     "boardHints": [
       {"i": 2, "j": 0, "widthI": 4, "text": "interference works perfectly"},
-      {"i": 5, "j": 1, "widthI": 6, "text": "only when intestities are exactly the same"}
+      {"i": 5, "j": 1, "widthI": 6, "text": "only when intensities are exactly the same"}
     ]
   },
   {
