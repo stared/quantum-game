@@ -17,6 +17,7 @@ System.config({
     "clean-css": "npm:clean-css@3.4.6",
     "core-js": "npm:core-js@1.2.6",
     "d3": "github:mbostock/d3@3.5.6",
+    "file-saver": "npm:file-saver@1.3.1",
     "json": "github:systemjs/plugin-json@0.1.2",
     "json-stringify-pretty-compact": "npm:json-stringify-pretty-compact@1.0.1",
     "lodash": "npm:lodash@3.10.1",

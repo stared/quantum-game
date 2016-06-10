@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import d3 from 'd3';
 import stringify from 'json-stringify-pretty-compact';
+import {saveAs} from 'file-saver';
 
 import {absorptionDuration, animationStepDurationMin, animationStepDurationMax, playPauseTransitionDuration, stockColumns, tileSize} from './config';
 import {Stock} from './stock';
@@ -256,9 +257,9 @@ export class GameBoard {
       .on('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
 
     boardControls.select('.download')
-      .on('click', function () {
-        bareBoard.logger.logAction('reset');
-        gameBoard.clipBoard(d3.select(this).select('a'));
+      .on('click', () => {
+        bareBoard.logger.logAction('download');
+        gameBoard.downloadCurrentLevel();
       })
       .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
   }
@@ -269,12 +270,11 @@ export class GameBoard {
       .on('click', () => this.nextLevel());
   }
 
-  clipBoard(link) {
-    // NOTE original version for HTML does not work for SVG
-    // now it opends in a new tab
+  downloadCurrentLevel() {
     const levelJSON = stringify(this.bareBoard.exportBoard(), {maxLength: 100, indent: 2});
-    link.attr('download', _.kebabCase(`${this.bareBoard.level.name}_${(new Date()).toISOString()}`) + '.json');
-    link.attr('xlink:href', `data:text/plain;charset=utf-8,${encodeURIComponent(levelJSON)}`);
+    const fileName = _.kebabCase(`${this.bareBoard.level.name}_${(new Date()).toISOString()}`) + '.json';
+    const blob = new Blob([levelJSON], {type: 'text/plain;charset=utf-8'});
+    saveAs(blob, fileName);
     window.console.log(levelJSON);
   }
 
