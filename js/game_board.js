@@ -16,7 +16,7 @@ import {TitleManager} from './title_manager';
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, game, popupManager, storage, levelId) {
+  constructor(svg, blinkSvg, game, popupManager, storage, levelId) {
 
     const borderMargins = {
       top: 2,
@@ -35,6 +35,7 @@ export class GameBoard {
 
     this.game = game;
     this.svg = svg;
+    this.blinkSvg = blinkSvg;
 
     this.titleManager = new TitleManager(
       this.svg.select('.title-bar .title-text'),
@@ -125,6 +126,8 @@ export class GameBoard {
       }
       // Show next level button
       this.navigationControls.select('.next-level').classed('hidden', false);
+      // Show the blink SVG
+      this.blinkSvg.classed('hidden', false);
 
       this.storage.setLevelIsWon(level.id, true);
       this.saveProgress();
@@ -146,6 +149,10 @@ export class GameBoard {
     this.setPlayButtonState('play');
 
     this.bareBoard.redraw();
+    // Hack: bareBoard SVG sets its viewBox - use that information to set
+    // the viewBox of blinking SVG
+    // TODO(pathes): more elegant mechanism
+    this.blinkSvg.attr('viewBox', this.svg.attr('viewBox'));
     this.stock.elementCount(this.bareBoard.level);
     this.stock.drawStock();
   }
@@ -324,6 +331,7 @@ export class GameBoard {
 
     // Show next level button?
     this.navigationControls.select('.next-level').classed('hidden', !this.bareBoard.alreadyWon);
+    this.blinkSvg.classed('hidden', !this.bareBoard.alreadyWon);
   }
 
   nextLevel() {

@@ -72,7 +72,8 @@ export class Game {
   createGameBoard() {
     const initialLevelId = this.storage.getCurrentLevelId() || level.levels[1].id;
     this.gameBoard = new GameBoard(
-      d3.select('#game svg'),
+      d3.select('#game svg.game-svg'),
+      d3.select('#game svg.blink-svg'),
       this,
       this.popupManager,
       this.storage,
