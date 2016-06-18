@@ -66,7 +66,7 @@ export const mirrorCoated = _.range(8).map((rotation) => {
   return Tensor.fromObject(
     _.reduce(directions, (acc, dirFrom, iFrom) => {
       const dirTo = planeReflectionDirection(dirFrom, rotation);
-      const sign = (-rotation/2 + iFrom + 7) % 4 < 1.75 ? -1 : 1;
+      const sign = (-rotation/2 + iFrom + 8) % 4 < 1.75 ? -1 : 1;
       acc[dirFrom] = {};
       if (dirFrom !== dirTo) {
         acc[dirFrom][dirTo] = {re: sign, im: 0};

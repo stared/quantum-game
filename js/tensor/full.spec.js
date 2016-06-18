@@ -101,6 +101,42 @@ describe('thinSplitter', () => {
 });
 
 
+describe('thinSplitterCoated', () => {
+
+  it('should consist of 8 tensors', () => {
+    expect(full.thinSplitterCoated.length).toBe(8);
+  });
+
+  it('diagonal orientations should consist of unitary tensors', () => {
+    expect(matrixNormOnRandomVector(full.thinSplitterCoated[1].map)).toBeCloseTo(1, 5);
+    expect(matrixNormOnRandomVector(full.thinSplitterCoated[3].map)).toBeCloseTo(1, 5);
+    expect(matrixNormOnRandomVector(full.thinSplitterCoated[5].map)).toBeCloseTo(1, 5);
+    expect(matrixNormOnRandomVector(full.thinSplitterCoated[7].map)).toBeCloseTo(1, 5);
+  });
+
+  it('| and - orientations should be unitary for perpendicular directions', () => {
+
+    expect(matrixNormOnRandomVector(
+      full.thinSplitterCoated[0].map, subspaceDirNS
+    )).toBeCloseTo(1, 5);
+
+    expect(matrixNormOnRandomVector(
+      full.thinSplitterCoated[2].map, subspaceDirWE
+    )).toBeCloseTo(1, 5);
+
+    expect(matrixNormOnRandomVector(
+      full.thinSplitterCoated[4].map, subspaceDirNS
+    )).toBeCloseTo(1, 5);
+
+    expect(matrixNormOnRandomVector(
+      full.thinSplitterCoated[6].map, subspaceDirWE
+    )).toBeCloseTo(1, 5);
+
+  });
+
+});
+
+
 describe('polarizingSplitter', () => {
 
   it('should consist of 2 tensors', () => {
