@@ -157,12 +157,12 @@ describe('polarizerNS', () => {
     expect(full.polarizerNS.length).toBe(4);
   });
 
-  it('WE directions should be unitary', () => {
+  it('WE directions should be zero', () => {
 
     full.polarizerNS.forEach((tensor) => {
       expect(matrixNormOnRandomVector(
         tensor.map, subspaceDirWE
-      )).toBeCloseTo(1, 5);
+      )).toBeCloseTo(0, 5);
     });
 
   });
@@ -176,12 +176,12 @@ describe('polarizerWE', () => {
     expect(full.polarizerWE.length).toBe(4);
   });
 
-  it('NS directions should be unitary', () => {
+  it('NS directions should be zero', () => {
 
     full.polarizerWE.forEach((tensor) => {
       expect(matrixNormOnRandomVector(
         tensor.map, subspaceDirNS
-      )).toBeCloseTo(1, 5);
+      )).toBeCloseTo(0, 5);
     });
 
   });
@@ -195,12 +195,22 @@ describe('quarterWavePlateNS', () => {
     expect(full.quarterWavePlateNS.length).toBe(4);
   });
 
-  it('should consist of unitary tensors', () => {
+  it('should consist of unitary tensors for NS', () => {
 
     full.quarterWavePlateNS.forEach((tensor) => {
       expect(matrixNormOnRandomVector(
-        tensor.map
+        tensor.map, subspaceDirNS
       )).toBeCloseTo(1, 5);
+    });
+
+  });
+
+  it('WE directions should be zero', () => {
+
+    full.quarterWavePlateNS.forEach((tensor) => {
+      expect(matrixNormOnRandomVector(
+        tensor.map, subspaceDirWE
+      )).toBeCloseTo(0, 5);
     });
 
   });
@@ -214,12 +224,22 @@ describe('quarterWavePlateWE', () => {
     expect(full.quarterWavePlateWE.length).toBe(4);
   });
 
-  it('should consist of unitary tensors', () => {
+  it('should consist of unitary tensors for WE', () => {
 
     full.quarterWavePlateWE.forEach((tensor) => {
       expect(matrixNormOnRandomVector(
-        tensor.map
+        tensor.map, subspaceDirWE
       )).toBeCloseTo(1, 5);
+    });
+
+  });
+
+  it('NS directions should be zero', () => {
+
+    full.quarterWavePlateWE.forEach((tensor) => {
+      expect(matrixNormOnRandomVector(
+        tensor.map, subspaceDirNS
+      )).toBeCloseTo(0, 5);
     });
 
   });
