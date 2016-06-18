@@ -213,7 +213,7 @@
       <div class="top-bar__title unselectable"></div>
   </div>
 
-  <div class="view view--level-selector view--inline view--hidden">
+  <div class="view view--level-selector view--block view--hidden">
     <div class="level-selector">
       <ul></ul>
     </div>
@@ -226,7 +226,7 @@
     </div>
   </div>
 
-  <div class="view view--encyclopedia-selector view--inline view--hidden">
+  <div class="view view--encyclopedia-selector view--block view--hidden">
     <div class="encyclopedia-selector">
       <ul></ul>
     </div>
@@ -239,7 +239,7 @@
     </div>
   </div>
 
-  <div class="view view--encyclopedia-item view--inline view--hidden">
+  <div class="view view--encyclopedia-item view--block view--hidden">
     <div class="encyclopedia-item">
       <div class="encyclopedia-item__container">
         <ul class="encyclopedia-item__menu">
@@ -261,9 +261,20 @@
   </div>
 
 
-<div class="view view--game view--inline">
-  <div id="game">
-    <svg preserveAspectRatio="xMidYMid meet"
+  <div class="view view--game view--block">
+    <div id="game" style="position: relative; z-index: 2;">
+      <svg class="blink-svg hidden"
+           preserveAspectRatio="xMidYMid meet"
+           viewBox="-10 -2010 65 35"
+           xmlns="http://www.w3.org/2000/svg"
+           xmlns:xlink="http://www.w3.org/1999/xlink">
+       <g class="navigation-controls" transform="translate(-325, 59)">
+         <g class="next-level" transform="translate(0, 250)">
+           <circle cx="50" cy="50" r="50" class="glowing"></circle>
+         </g>
+       </g>
+      </svg>
+      <svg class="game-svg"
          viewBox="-10 -2010 65 35"
          xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink">
