@@ -82,6 +82,10 @@ path.triangular:hover {
   fill: #aaa;
 }
 
+.very-dark-silver {
+  fill: #666;
+}
+
 .absorber {
   fill: black;
   fill-opacity: 0.4;
@@ -127,6 +131,16 @@ path.triangular:hover {
   fill: #ffff00;
   stroke: #ffa900;
   stroke-width: 3px;
+}
+
+.gold-edge {
+  stroke: #ffa900;
+  stroke-width: 2;
+}
+
+.gold-edge-thick {
+  stroke: #ffa900;
+  stroke-width: 4;
 }
 
 .polarizer-side {
