@@ -283,7 +283,21 @@ export class BareBoard {
 
     this.winningStatus = new WinningStatus(this.tileMatrix);
     this.winningStatus.run();
-    this.winningStatus.compareToObjectives(this.level.requiredDetectionProbability, this.level.detectorsToFeed);
+    if (this.level.group === 'Game') {
+      this.winningStatus.compareToObjectives(
+        this.level.requiredDetectionProbability,
+        this.level.detectorsToFeed
+      );
+    } else {
+      this.winningStatus.isWon = false;
+      this.winningStatus.message = 'No goals, no judgement.';
+      // "Wszystko wolno - hulaj dusza
+      // Do niczego się nie zmuszaj!"
+      // "Nie planować i nie marzyć
+      // Co się zdarzy to się zdarzy.
+      // Nie znać dobra ani zła
+      // To jest gra i tylko gra!"
+    }
     window.console.log(this.winningStatus);
 
     // 'improved' history for the first win
