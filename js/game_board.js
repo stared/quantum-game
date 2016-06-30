@@ -55,7 +55,7 @@ export class GameBoard {
     this.stock = new Stock(svg, this.bareBoard);
     this.bareBoard.stock = this.stock;  // such monkey patching not nice
     this.detectionBar = new DetectionBar(this.svg.select('.subtitle-bar'));
-    this.detectionBar.g.attr('transform', `translate(${1.5 * tileSize},${tileSize / 4})`);
+    this.detectionBar.g.attr('transform', `translate(${0.5 * tileSize},${tileSize / 4})`);
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
@@ -101,7 +101,8 @@ export class GameBoard {
 
     this.detectionBar.updateActual(
       winningStatus.totalProbAtDets,
-      winningStatus.noOfFedDets
+      winningStatus.noOfFedDets,
+      winningStatus.noExplosion ? 0 : winningStatus.probsAtMines
     );
 
     this.titleManager.displayMessage(
