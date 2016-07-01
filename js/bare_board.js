@@ -247,7 +247,7 @@ export class BareBoard {
       }
 
       d.rotate();
-      SoundService.playThrottled('blip');
+      SoundService.play(d.tileName);
       this.logger.logAction('rotate', {name: d.tileName, i: d.i, j: d.j, toRotation: d.rotation});
       bareBoard.callbacks.tileRotated(d);
 

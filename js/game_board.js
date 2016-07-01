@@ -11,6 +11,7 @@ import {ProgressPearls} from './progress_pearls';
 import {TileHelper} from './tile_helper';
 import {DetectionBar} from './detection_bar';
 import {TitleManager} from './title_manager';
+import {SoundService} from './sound_service';
 
 // TODO decide where to use winning status; it seems I should move it here
 // TODO top_bar needs a separate module
@@ -77,6 +78,7 @@ export class GameBoard {
   }
 
   animationStartCallback() {
+    SoundService.play('fire');
     this.saveProgress();
     this.titleManager.displayMessage(
       'Experiment in progress...',
@@ -112,6 +114,7 @@ export class GameBoard {
     );
 
     if (winningStatus.isWon) {
+      SoundService.play('win');
 
       if (!this.storage.getLevelIsWon(level.id)) {
         if (window.ga) {
@@ -133,11 +136,15 @@ export class GameBoard {
       this.storage.setLevelIsWon(level.id, true);
       this.saveProgress();
       this.progressPearls.update();
+    } else {
+      SoundService.play('lose');
     }
   }
 
   reset() {
     this.stop();
+
+    SoundService.play('reset');
 
     // Reset detection
     this.setHeaderTexts();
