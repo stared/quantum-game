@@ -614,6 +614,29 @@ text.helper-summary {
   display: none;
 }
 
+.interface-hint-overlay.hidden {
+  display: none;
+}
+.interface-hint-overlay rect {
+  fill: black;
+  fill-opacity: 0.7;
+}
+
+.interface-hint-overlay path {
+  fill: white;
+  fill-opacity: 0.4;
+}
+
+.interface-hint-overlay text {
+  fill: white;
+  font-size: 25px;
+  text-anchor: middle;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 .unselectable {
   user-select: none;
   -moz-user-select: none;

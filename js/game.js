@@ -89,7 +89,7 @@ export class Game {
       .on('mouseover', () =>
         this.gameBoard.titleManager.displayMessage('SELECT LEVEL')
       );
-    this.gameBoard.svg.select('.navigation-controls .help')
+    this.gameBoard.svg.select('.navigation-controls .encyclopedia')
       .on('click', () => {
         this.gameBoard.stop();
         this.setView('encyclopediaSelector');
@@ -97,6 +97,13 @@ export class Game {
       .on('mouseover', () =>
         this.gameBoard.titleManager.displayMessage('ENCYCLOPEDIA')
       );
+
+    const overlay = this.gameBoard.svg.select('.interface-hint-overlay');
+    this.gameBoard.svg.select('.navigation-controls .help')
+      .on('click',     () => overlay.classed('hidden', !overlay.classed('hidden')))
+      .on('mouseover', () => overlay.classed('hidden', false))
+      .on('mouseout',  () => overlay.classed('hidden', true));
+
     this.gameBoard.svg.select('.navigation-controls .sandbox')
       .on('click', () => {
         this.gameBoard.loadLevel(level.levels[0].id);
