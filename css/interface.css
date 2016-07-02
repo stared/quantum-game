@@ -6,6 +6,7 @@ html, body {
     font-size: 0;
     overflow: hidden;
     box-sizing: border-box;
+    font-family: "Roboto";
 }
 body {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4f569f+0,1a2f55+100 */
@@ -44,7 +45,6 @@ body {
     text-align: center;
     font-size: 7.5vh;
     vertical-align: middle;
-    font-family: "Roboto";
     color: white;
     overflow: hidden;
 }
@@ -99,7 +99,6 @@ body {
 .interface-button > svg text {
   font-size: 14px;
   line-height: 16px;
-  font-family: Roboto;
   font-weight: bold;
   text-anchor: middle;
   fill: white;
@@ -111,14 +110,12 @@ body {
     fill: white;
     stroke: none;
     cursor: pointer;
-    font-family: Roboto;
 }
 .svg-interface-button-stroke {
     /* fill not none, so elements are easily clickable */
     fill: rgba(255, 255, 255, 0.2);
     stroke: none;
     cursor: pointer;
-    font-family: Roboto;
 }
 
 /* alternatively, some hitbox layer */
