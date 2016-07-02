@@ -72,7 +72,7 @@ export class DetectionBar {
     // mine group
     //
     this.mineG = this.g.append('g')
-      .attr('transform', `translate(${10.75 * tileSize},0)`);
+      .attr('transform', `translate(${10.5 * tileSize},0)`);
 
     this.mineBox = this.mineG.append('rect')
       .attr('class', 'mine-box detection-bar-box-stroke')
