@@ -263,20 +263,21 @@
   </div>
 
 
-  <div class="view view--game view--block">
-    <div id="game" style="position: relative; z-index: 2;">
-      <svg class="blink-svg hidden"
-           preserveAspectRatio="xMidYMid meet"
-           viewBox="-10 -2010 65 35"
-           xmlns="http://www.w3.org/2000/svg"
-           xmlns:xlink="http://www.w3.org/1999/xlink">
-       <g class="navigation-controls" transform="translate(-325, 59)">
-         <g class="next-level" transform="translate(0, 375)">
-           <circle cx="50" cy="50" r="50" class="glowing"></circle>
-         </g>
+<div class="view view--game view--block">
+  <div id="game" style="position: relative; z-index: 2;">
+    <svg class="blink-svg hidden"
+         preserveAspectRatio="xMidYMid meet"
+         viewBox="-10 -2010 65 35"
+         xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink">
+     <g class="title-bar" transform="translate(0, -175)">
+       <g class="next-level" transform="translate(1300, 0)">
+         <circle cx="-75" cy="75" r="50" class="glowing"></circle>
        </g>
-      </svg>
-      <svg class="game-svg"
+     </g>
+    </svg>
+    <svg class="game-svg"
+         preserveAspectRatio="xMidYMid meet"
          viewBox="-10 -2010 65 35"
          xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -289,6 +290,10 @@
         <circle cx="75" cy="75" r="50" class="svg-interface-button-stroke"></circle>
         <text class="level-number unselectable svg-interface-text" x="75" y="95" style="font-size: 60px; text-anchor: middle"></text>
         <text class="title-text unselectable svg-interface-text" x="700" y="100" style="font-size: 60px; text-anchor: middle"></text>
+        <g class="next-level" transform="translate(1300, 0)">
+          <text class="unselectable svg-interface-button" x="-75" y="97" style="font-size: 80px; text-anchor: middle">»</text>
+          <circle cx="-75" cy="75" r="50" class="svg-interface-button-stroke"></circle>
+        </g>
       </g>
 
       <g class="subtitle-bar" transform="translate(0, 1025)">
@@ -436,10 +441,6 @@
             <path d="M5 3.5C5 1 7 1.045 10 1h30l5 5" fill="none" stroke="#fff"/>
             <path d="M20.71 24.79l.39.78.66-.48c.57-.42 1.8-1.02 2.07-1.02.18 0 .3.12.3.33 0 .18-.06.42-.24 1.2l-1.77 7.23c-.09.42-.18 1.08-.18 1.56 0 .78.39 1.29.96 1.29 1.14 0 2.55-.69 4.98-2.43.39-.3.51-.36.84-.6l-.36-.84-.81.51c-1.05.66-1.53.9-1.83.9-.21 0-.36-.15-.36-.33 0-.39.21-1.38.6-2.79l1.62-5.88c.15-.54.27-1.44.27-2.01 0-.66-.3-1.11-.75-1.11-.87 0-2.67.9-4.5 2.28l-1.89 1.41zm6.93-10.47c-1.14 0-2.04.96-2.04 2.22 0 1.08.6 1.71 1.62 1.71 1.2 0 2.07-.93 2.07-2.16 0-1.02-.69-1.77-1.65-1.77z" fill="#fff" stroke="none"/>
           </g>
-          <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
-        </g>
-        <g class="next-level" transform="translate(0, 375)">
-          <text class="unselectable svg-interface-button" x="50" y="72" style="font-size: 80px; text-anchor: middle">»</text>
           <circle cx="50" cy="50" r="50" class="svg-interface-button-stroke"></circle>
         </g>
         <g class="sandbox" transform="translate(0, 500)">

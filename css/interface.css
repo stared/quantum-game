@@ -346,7 +346,7 @@ body {
     stroke: none;
 }
 
-.navigation-controls .hidden {
+.title-bar .hidden {
     display: none;
 }
 
@@ -371,7 +371,7 @@ body {
   100% { fill-opacity: 0; }
 }
 
-.navigation-controls .next-level > circle.glowing {
+.title-bar .next-level > circle.glowing {
   fill: rgb(0, 255, 0);
   fill-opacity: 0.2;
   -webkit-animation: glowing 1500ms infinite;

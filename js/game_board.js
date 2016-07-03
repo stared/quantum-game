@@ -37,10 +37,8 @@ export class GameBoard {
     this.svg = svg;
 
     this.titleManager = new TitleManager(
-      this.svg.select('.title-bar .title-text'),
+      this.svg.select('.title-bar'),
       this.svg.select('.subtitle-bar'),
-      this.svg.select('.title-bar .level-number'),
-      this.svg.select('.navigation-controls'),
       blinkSvg
     );
     this.titleManager.activateNextLevelButton(() => this.loadNextLevel());

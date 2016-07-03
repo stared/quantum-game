@@ -3,13 +3,13 @@ import {displayMessageTimeout} from './config';
 
 // TODO(migdal): passing that many selectors is nasty - refactor
 export class TitleManager {
-  constructor(titleElem, subtitleElem, levelNumberElem, navigationControls, blinkSvg) {
+  constructor(titleBar, titleElem, subtitleElem, levelNumberElem, blinkSvg) {
+    this.titleBar = titleBar;
     this.titleElem = titleElem;
     this.subtitleElem = subtitleElem;
     this.messageElem = this.subtitleElem.select('.subtitle-message');
     this.levelNumberElem = levelNumberElem;
     this.defaultMessage = '';
-    this.navigationControls = navigationControls;
     this.blinkSvg = blinkSvg;
   }
 
@@ -44,14 +44,14 @@ export class TitleManager {
   }
 
   activateNextLevelButton(nextLevelCallback) {
-    const navigationControls = this.navigationControls;
-    navigationControls.select('.next-level')
+    const titleBar = this.titleBar;
+    titleBar.select('.next-level')
       .on('click', nextLevelCallback);
   }
 
   showNextLevelButton(ifShow) {
     // Show next level button?
-    this.navigationControls.select('.next-level').classed('hidden', !ifShow);
+    this.titleBar.select('.next-level').classed('hidden', !ifShow);
     this.blinkSvg.classed('hidden', !ifShow);
   }
 
