@@ -3,14 +3,15 @@ import {displayMessageTimeout} from './config';
 
 // TODO(migdal): passing that many selectors is nasty - refactor
 export class TitleManager {
-  constructor(titleBar, titleElem, subtitleElem, levelNumberElem, blinkSvg) {
+  constructor(titleBar, subtitleElem, blinkSvg) {
     this.titleBar = titleBar;
-    this.titleElem = titleElem;
+    this.titleElem = titleBar.select('.title-text');
+    this.levelNumberElem = titleBar.select('.level-number');
+    this.blinkSvg = blinkSvg;
+
     this.subtitleElem = subtitleElem;
     this.messageElem = this.subtitleElem.select('.subtitle-message');
-    this.levelNumberElem = levelNumberElem;
     this.defaultMessage = '';
-    this.blinkSvg = blinkSvg;
   }
 
   setTitle(title) {
