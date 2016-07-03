@@ -35,12 +35,16 @@ export class GameBoard {
 
     this.game = game;
     this.svg = svg;
-    this.blinkSvg = blinkSvg;
 
     this.titleManager = new TitleManager(
       this.svg.select('.title-bar .title-text'),
       this.svg.select('.subtitle-bar'),
-      this.svg.select('.title-bar .level-number'));
+      this.svg.select('.title-bar .level-number'),
+      this.svg.select('.navigation-controls'),
+      blinkSvg
+    );
+    this.titleManager.activateNextLevelButton(() => this.loadNextLevel());
+
     this.popupManager = popupManager;
     this.storage = storage;
 
@@ -61,8 +65,6 @@ export class GameBoard {
 
     this.boardControls = svg.select('.board-controls');
     this.activateBoardControls();
-    this.navigationControls = svg.select('.navigation-controls');
-    this.activateNavigationControls();
 
     this.loadLevel(levelId);
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
@@ -125,11 +127,8 @@ export class GameBoard {
           absorptionDuration
         );
       }
-      // Show next level button
-      this.navigationControls.select('.next-level').classed('hidden', false);
-      // Show the blink SVG
-      this.blinkSvg.classed('hidden', false);
 
+      this.titleManager.showNextLevelButton(true);
       this.storage.setLevelIsWon(level.id, true);
       this.saveProgress();
       this.progressPearls.update();
@@ -153,7 +152,7 @@ export class GameBoard {
     // Hack: bareBoard SVG sets its viewBox - use that information to set
     // the viewBox of blinking SVG
     // TODO(pathes): more elegant mechanism
-    this.blinkSvg.attr('viewBox', this.svg.attr('viewBox'));
+    this.titleManager.blinkSvg.attr('viewBox', this.svg.attr('viewBox'));
     this.stock.elementCount(this.bareBoard.level);
     this.stock.drawStock();
   }
@@ -272,12 +271,6 @@ export class GameBoard {
       .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
   }
 
-  activateNavigationControls() {
-    const navigationControls = this.navigationControls;
-    navigationControls.select('.next-level')
-      .on('click', () => this.nextLevel());
-  }
-
   downloadCurrentLevel() {
     const levelJSON = stringify(this.bareBoard.exportBoard(), {maxLength: 100, indent: 2});
     const fileName = _.kebabCase(`${this.bareBoard.level.name}_${(new Date()).toISOString()}`) + '.json';
@@ -330,12 +323,11 @@ export class GameBoard {
     this.reset();
     this.progressPearls.update();
 
-    // Show next level button?
-    this.navigationControls.select('.next-level').classed('hidden', !this.bareBoard.alreadyWon);
-    this.blinkSvg.classed('hidden', !this.bareBoard.alreadyWon);
+    this.titleManager.showNextLevelButton(this.bareBoard.alreadyWon);
+
   }
 
-  nextLevel() {
+  loadNextLevel() {
     if (this.bareBoard.level && this.bareBoard.level.next) {
       this.loadLevel(this.bareBoard.level.next);
     }
