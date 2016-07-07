@@ -43,7 +43,7 @@ export class TileHelper {
 
     // NOTE this is a bit problematic as it depends on the level
     this.shiftX = (bareBoard.level.width + 1) * tileSize;
-    const marginForAnimationControls = 2;
+    const marginForAnimationControls = 2.5;
     this.shiftY = (bareBoard.level.height
                    - tileHelperHeight
                    - marginForAnimationControls) * tileSize;

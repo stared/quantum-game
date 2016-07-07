@@ -7,8 +7,8 @@ import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeTh
 import {ParticleAnimation} from './particle_animation';
 
 export class CanvasParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback) {
-    super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback);
+  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode) {
+    super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode);
     this.canvas = null;
     this.helperCanvas = null;
     this.ctx = null;
@@ -127,7 +127,12 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     const substepStart = Math.round(lastStepFloat * canvasDrawFrequency);
     const substepEnd = Math.round(stepFloat * canvasDrawFrequency);
     for (let substep = substepStart; substep <= substepEnd; ++substep) {
-      this.updateParticlesHelper(substep / canvasDrawFrequency);
+      const t = substep / canvasDrawFrequency;
+      if (this.drawMode === 'oscilloscope') {
+        this.drawParticlesOscilloscopeMode(t);
+      } else {
+        this.drawParticlesOrthogonalMode(t);
+      }
     }
   }
 
@@ -140,7 +145,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
    * It may happen that it's below 0, e.g. when we draw particles from previous
    * frame.
    */
-  updateParticlesHelper(t) {
+  drawParticlesOrthogonalMode(t) {
     this.clearAlpha(0.95);
     // Determine which step to access. It is possible that we progressed with
     // this.stepNo, but we have still to draw some dots from previous step.
@@ -164,6 +169,45 @@ export class CanvasParticleAnimation extends ParticleAnimation {
           ) / Math.sqrt(d.prob)
         );
       this.ctx.arc(x, y, s, 0, 360, false);
+      this.ctx.fill();
+    });
+  }
+
+  drawParticlesOscilloscopeMode(t) {
+    this.clearAlpha(0.9);
+    // Determine which step to access. It is possible that we progressed with
+    // this.stepNo, but we have still to draw some dots from previous step.
+    let stepNo = this.stepNo;
+    while (t < 0) {
+      stepNo--;
+      t += 1;
+    }
+    // Actual drawing
+    this.ctx.fillStyle = 'red';
+    _.each(this.history[stepNo], (d) => {
+
+      const movX = (1 - t) * d.startX + t * d.endX;
+      const movY = (1 - t) * d.startY + t * d.endY;
+
+      const polH = 25 * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t));
+      const polV = 25 * (d.vRe * Math.cos(oscillations * TAU * t) + d.vIm * Math.sin(oscillations * TAU * t));
+
+      const polX = perpendicularI[d.dir] * polV + perpendicularJ[d.dir] * polH;
+      const polY = perpendicularI[d.dir] * polH + perpendicularJ[d.dir] * polV;
+
+      const x = movX + polX;
+      const y = movY + polY;
+
+      this.ctx.beginPath();
+      this.ctx.globalAlpha = d.prob * 0.5;
+      this.ctx.strokeStyle = 'orange';
+      this.ctx.arc(movX, movY, 45, 0, 360, false);
+      this.ctx.stroke();
+
+      this.ctx.beginPath();
+      this.ctx.globalAlpha = d.prob;
+      this.ctx.fillStyle = 'red';
+      this.ctx.arc(x, y, 5, 0, 360, false);
       this.ctx.fill();
     });
   }

@@ -337,9 +337,24 @@
           </a>
         </g>
       </g>
-      <g class="credits" transform="translate(1350, 1120)">
-        <text style="font-size: 24px; fill:white;">beta version (3 Jun 2016)</text>
-        <text y=25 style="font-size: 24px; fill:white;">by Piotr Migdał, Patryk Hes, Michał Krupiński</text>
+      <g class="credits" style="opacity: 0.6" transform="translate(-350, -20)">
+        <text style="font-family: 'Roboto Condensed'; font-size: 22px; fill:white;">beta version (3 Jun 2016)</text>
+        <text y=23 style="font-family: 'Roboto Condensed'; font-size: 18px; fill:white;">by Piotr Migdał, Patryk Hes, Michał Krupiński</text>
+      </g>
+
+      <g class="board-controls" transform="translate(1425, 800)">
+        <g class="view-mode" transform="translate(0, 250)">
+          <rect x="0" y="0" width="350" height="100" class="svg-interface-button-stroke"></rect>
+          <g transform="translate(-250,-475)">
+            <path style="fill: none; stroke: white; stroke-width: 5px"
+              d="m 333,528 0,0 c -26,-21 -52,-20 -67,0 l 0,0"></path>
+            <path style="fill: none; stroke: white; stroke-width: 5px"
+              d="m 333,526 0,0 c -26,21 -52,20 -67,0 l 0,0"></path>
+            <ellipse style="fill: none; stroke: white; stroke-width: 8px"
+               cx="293" cy="524" rx="10" ry="10" />
+          </g>
+          <text class="unselectable svg-interface-button" x="220" y="60" style="font-size: 30px; text-anchor: middle">orthogonal</text>
+        </g>
       </g>
 
       <g class="interface-hint-overlay hidden">
@@ -357,30 +372,35 @@
           <text x="0" y="32.5">sandbox level</text>
         </g>
 
-        <g transform="translate(1475,812.5)">
+        <g transform="translate(1475,762.5)">
           <path d="M-12.5 0 L0 25 L12.5 0 L25 0 L25 -50 L-100 -50 L-100 0 Z"></path>
           <text x="-37.5" y="-15">play</text>
         </g>
-        <g transform="translate(1637.5,812.5)">
+        <g transform="translate(1637.5,762.5)">
           <path d="M-50 0 L-37.5 25 L-25 0 L25 0 L25 -50 L-100 -50 L-100 0 Z"></path>
           <text x="-37.5" y="-15">stop</text>
         </g>
-        <g transform="translate(1800,812.5)">
+        <g transform="translate(1800,762.5)">
           <path d="M-87.5 0 L-75 25 L-62.5 0 L25 0 L25 -50 L-100 -50 L-100 0 Z"></path>
           <text x="-37.5" y="-15">forward</text>
         </g>
 
-        <g transform="translate(1475,1112.5)">
+        <g transform="translate(1475,1062.5)">
           <path d="M-12.5 0 L0 -25 L12.5 0 L25 0 L25 50 L-100 50 L-100 0 Z"></path>
           <text x="-37.5" y="32.5">speed</text>
         </g>
-        <g transform="translate(1637.5,1112.5)">
+        <g transform="translate(1637.5,1062.5)">
           <path d="M-50 0 L-37.5 -25 L-25 0 L25 0 L25 50 L-100 50 L-100 0 Z"></path>
           <text x="-37.5" y="32.5">reset</text>
         </g>
-        <g transform="translate(1800,1112.5)">
+        <g transform="translate(1800,1062.5)">
           <path d="M-87.5 0 L-75 -25 L-62.5 0 L25 0 L25 50 L-100 50 L-100 0 Z"></path>
           <text x="-37.5" y="32.5">download</text>
+        </g>
+
+        <g transform="translate(1525, 1150)">
+          <path d="M-12.5 0 L0 -25 L12.5 0 L82.5 0 L82.5 50 L-82.5 50 L-82.5 0 Z"></path>
+          <text x="0" y="32.5">view mode</text>
         </g>
 
         <g transform="translate(1450,-25)">
@@ -389,7 +409,7 @@
         </g>
       </g>
 
-      <g class="board-controls" transform="translate(1425, 850)">
+      <g class="board-controls" transform="translate(1425, 800)">
         <g class="play">
           <defs>
               <path id="pause-icon"

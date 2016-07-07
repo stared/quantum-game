@@ -20,7 +20,8 @@ describe('Particle animation', () => {
       [],  // history
       [],  // measurementHistory
       [],  // absorptionProbabilities
-      finishCallback
+      finishCallback,
+      'defaultMode'
     );
     spyOn(dummyAnimation, 'nextFrame');
   });

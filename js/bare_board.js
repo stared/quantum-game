@@ -11,8 +11,9 @@ import {Logger} from './logger';
 import {SoundService} from './sound_service';
 
 export class BareBoard {
-  constructor(svg, margin = {}, callbacks = {}) {
+  constructor(svg, drawMode = 'orthogonal', margin = {}, callbacks = {}) {
     this.svg = svg;
+    this.drawMode = drawMode;
     this.margin = margin;
     this.tileMatrix = [];
     this.animationStepDuration = animationStepDuration;
@@ -340,7 +341,8 @@ export class BareBoard {
       this.simulationQ.measurementHistory,
       this.winningStatus.absorptionProbabilities,
       this.callbacks.animationInterrupt,
-      this.callbacks.animationEnd);
+      this.callbacks.animationEnd,
+      this.drawMode);
   }
 
   /**

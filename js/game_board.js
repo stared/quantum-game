@@ -24,7 +24,7 @@ export class GameBoard {
       bottom: 2,
       right: 1 + stockColumns,
     };
-    this.bareBoard = new BareBoard(svg, borderMargins, {
+    this.bareBoard = new BareBoard(svg, 'orthogonal', borderMargins, {
       tileRotated: this.tileRotatedCallback.bind(this),
       tileMouseover: this.tileMouseoverCallback.bind(this),
       animationStart: this.animationStartCallback.bind(this),
@@ -61,7 +61,7 @@ export class GameBoard {
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
-    this.boardControls = svg.select('.board-controls');
+    this.boardControls = svg.selectAll('.board-controls');
     this.activateBoardControls();
 
     this.loadLevel(levelId);
@@ -267,6 +267,20 @@ export class GameBoard {
         gameBoard.downloadCurrentLevel();
       })
       .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
+
+    boardControls.select('.view-mode')
+      .on('click', function () {
+        let newMode;
+        if (bareBoard.drawMode === 'oscilloscope') {
+          newMode = 'orthogonal';
+        } else {
+          newMode = 'oscilloscope';
+        }
+        bareBoard.drawMode = newMode;
+        d3.select(this)
+          .select('text')
+          .html(newMode);
+      });
   }
 
   downloadCurrentLevel() {

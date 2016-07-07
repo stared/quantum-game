@@ -5,7 +5,7 @@ import {tileSize, absorptionDuration, absorptionTextDuration} from '../config';
 import {Particle} from './particle';
 
 export class ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback) {
+  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode) {
 
     this.history = history.map((state) => {
       return _.chain(state)
@@ -29,6 +29,7 @@ export class ParticleAnimation {
     this.animationStepDuration = board.animationStepDuration;
     this.interruptCallback = interruptCallback;
     this.finishCallback = finishCallback;
+    this.drawMode = drawMode;
     this.board = board;
     this.stepNo = 0;
     this.playing = false;

@@ -7,8 +7,8 @@ import {oscillations, polarizationScaleH, polarizationScaleV} from '../config';
 import {ParticleAnimation} from './particle_animation';
 
 export class SVGParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback) {
-    super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback);
+  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode) {
+    super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode);
     this.particleGroup = null;
     this.currentTimeout = 0;
   }
