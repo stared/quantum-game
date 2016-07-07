@@ -53,6 +53,10 @@ if (!isProduction) {
   levelsGame
     .filter((level) => level.group === 'Candidate')
     .forEach((level) => level.group = 'Game');
+} else {
+  levelsGame
+    .filter((level) => level.group === 'Candidate')
+    .forEach((level) => level.group = 'X Candidate');  // a hack for sorting purpose
 }
 
 export const levels = _(levelsGame)
