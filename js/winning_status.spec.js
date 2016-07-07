@@ -10,6 +10,8 @@ import * as tile from './tile';
 
 //TODO modification of puzzles so they do not work (1 missing element?)
 
+const num2percent = (p) => `${(100 * p).toFixed(1)}%`
+
 describe('All game levels have solutions', () => {
 
   levels
@@ -39,8 +41,11 @@ describe('All game levels have solutions', () => {
       winningStatus.run();
       winningStatus.compareToObjectives(level.requiredDetectionProbability, level.detectorsToFeed);
 
-      it(`${level.i} ${level.name} (${level.detectorsToFeed} detectors at ${(100 * level.requiredDetectionProbability).toFixed(1)}%)`, () => {
-        expect(winningStatus.isWon).toBe(true);
+      it(`${level.i} ${level.name} (${level.detectorsToFeed} detectors at ${num2percent(level.requiredDetectionProbability)})`, () => {
+        expect(winningStatus.isWon).toBe(
+          true,
+          `was: ${winningStatus.noOfFedDets} detectors at ${num2percent(winningStatus.totalProbAtDets)} with ${num2percent(winningStatus.probsAtMinesjasmine)} risk`
+        );
       });
 
     });
