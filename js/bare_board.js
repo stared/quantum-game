@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import d3 from 'd3';
 
-import {tileSize, tileBorder, DEV_MODE, animationStepDuration} from './config';
+import {tileSize, tileBorder, animationStepDuration} from './config';
 import {CanvasParticleAnimation} from './particle/canvas_particle_animation';
 import * as simulation from './simulation';
 import * as tile from './tile';
@@ -261,7 +261,7 @@ export class BareBoard {
     // this is a tricky part
     // freeze/unfreeze traingular button
     // FIX allow adding it later
-    if (this.level.group === 'A Dev' || DEV_MODE) {
+    if (this.level.group === 'A Dev') {
       tileSelection
         .append('path')
           .attr('class', 'triangular')

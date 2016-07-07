@@ -15,7 +15,11 @@ export class Level {
     // because Level is not exactly an Object instance.
     this.next = levelRecipe.next;
     this.name = levelRecipe.name;
-    this.group = levelRecipe.group;
+    if (mode === 'dev') {
+      this.group = 'A Dev';
+    } else {
+      this.group = levelRecipe.group;
+    }
     this.i = levelRecipe.i;
     this.id = levelRecipe.id;
     this.next = levelRecipe.next;
