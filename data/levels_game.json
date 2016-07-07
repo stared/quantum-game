@@ -542,7 +542,7 @@
   },
   {
     "name": "Sagnac-Michelson-Morley",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -559,7 +559,7 @@
   },
   {
     "name": "Odd reflections",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -582,7 +582,7 @@
   },
   {
     "name": "Only a spiral can pass",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -602,7 +602,7 @@
   },
   {
     "name": "Sweet madness",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -640,7 +640,7 @@
   },
   {
     "name": "The sign thing",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -659,7 +659,7 @@
   },
   {
     "name": "No leakage",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -679,7 +679,7 @@
   },
   {
     "name": "Faraday and mirrors",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -696,7 +696,7 @@
   },
   {
     "name": "Sagnac interferometer",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -718,7 +718,7 @@
   },
   {
     "name": "It can wait",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -736,7 +736,7 @@
   },
   {
     "name": "Nine polarizing beam splitters",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -759,7 +759,7 @@
   },
   {
     "name": "Sweet Faraday",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -795,7 +795,7 @@
   },
   {
     "name": "Nine polarizing - hardcore mode",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -834,7 +834,7 @@
   },
   {
     "name": "A bit of a lot",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "requiredDetectionProbability": 0.75,
@@ -861,7 +861,7 @@
   },
   {
     "name": "Sugar eigenbasis",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "texts": {"before": "It has its sweet, circular basis."},
@@ -881,7 +881,7 @@
   },
   {
     "name": "Cascade switches",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "texts": {"before": "Splitting and joining..."},
@@ -902,7 +902,7 @@
   },
   {
     "name": "Polarization and interference cascade",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "texts": {"before": "Sort polarization before it's too late!"},
@@ -929,7 +929,7 @@
   },
   {
     "name": "Interfering polarization",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "texts": {"before": "Adding and subtracting."},
@@ -951,7 +951,7 @@
   },
   {
     "name": "Polarizing beam joiner",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -972,7 +972,7 @@
   },
   {
     "name": "You shouldn't look back",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -990,7 +990,7 @@
   },
   {
     "name": "Back to the future",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1008,7 +1008,7 @@
   },
   {
     "name": "One-way mirror",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1033,7 +1033,7 @@
   },
   {
     "name": "Twisting and splitting",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1057,7 +1057,7 @@
   },
   {
     "name": "Align",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1076,7 +1076,7 @@
   },
   {
     "name": "One-way back",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "requiredDetectionProbability": 0.88,
@@ -1099,7 +1099,7 @@
   },
   {
     "name": "Polarization equality",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1125,7 +1125,7 @@
   },
   {
     "name": "Reinterference",
-    "group": "Game",
+    "group": "Candidate",
     "width": 13,
     "height": 10,
     "tiles": [

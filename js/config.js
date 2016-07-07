@@ -47,5 +47,3 @@ export const tileHelperWidth = 4;
 export const tileHelperHeight = 3;
 // Is production?
 export const isProduction = document.URL.indexOf('play.quantumgame.io') !== -1;
-// Levels for production
-export const productionLevelLimit = 21;
