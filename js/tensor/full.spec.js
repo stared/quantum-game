@@ -260,6 +260,19 @@ describe('sugarSolution', () => {
 });
 
 
+describe('doubleSugarSolution', () => {
+
+  it('should be a unitary tensor', () => {
+
+    expect(matrixNormOnRandomVector(
+      full.doubleSugarSolution.map
+    )).toBeCloseTo(1, 5);
+
+  });
+
+});
+
+
 describe('glass', () => {
 
   it('should be a unitary tensor', () => {

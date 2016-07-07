@@ -144,6 +144,11 @@ export const sugarSolution = Tensor.product(
   polarization.rotation(TAU / 8)
 );
 
+export const doubleSugarSolution = Tensor.product(
+  direction.identity,
+  polarization.rotation(TAU / 4)
+);
+
 // TODO make the formula easier or at least understand it
 const covariantAngle = (elementRotation, lightDirection) =>
   (1 - (lightDirection & 2)) * (1 - 2 * (lightDirection & 1)) * (-elementRotation - 2 * lightDirection) * TAU / 8;

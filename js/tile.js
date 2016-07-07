@@ -208,6 +208,18 @@ export const SugarSolution = {
   transition: () => full.sugarSolution,
 };
 
+export const DoubleSugarSolution = {
+  svgName: 'double-sugar-solution',
+  desc: {
+    name: 'Double Sugar Solution',
+    flavour: 'Vodka is a solution. But Sugar Solution is the light-twisting solution.',
+    summary: 'Table sugar is a chiral molecule – it does not look the same as its mirror reflection. It is the American version - more straws, more sugar, so it rotates polarization by 90\u00B0.',
+  },
+  maxRotation: 1, // []
+  rotationAngle: 360,
+  transition: () => full.doubleSugarSolution,
+};
+
 export const Mine = {
   svgName: 'mine',
   desc: {
@@ -519,6 +531,7 @@ export const allTiles = [
   'QuarterWavePlateNS',
   'QuarterWavePlateWE',
   'SugarSolution',
+  'DoubleSugarSolution',
   'Mine',
   'Rock',
   'Glass',
