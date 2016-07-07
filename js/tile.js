@@ -231,7 +231,7 @@ export const Mine = {
   rotationAngle: 360,
   transition: () => full.zero,
   absorbSound: () => {
-    SoundService.play('mine');
+    SoundService.play('boom');
   },
   absorbAnimation: (that) => {
 
@@ -269,7 +269,7 @@ export const Rock = {
   rotationAngle: 360,
   transition: () => full.zero,
   absorbSound: () => {
-    SoundService.play('rock');
+    SoundService.play('blink');
   },
   absorbAnimation: (that) => {
     const r = 7;
@@ -357,7 +357,7 @@ export const Detector = {
   rotationAngle: 90,
   transition: (rotation) => full.detector[rotation],
   absorbSound: () => {
-    SoundService.play('detector');
+    SoundService.play('detect');
   },
   absorbAnimation: (that) => {
 
@@ -396,7 +396,7 @@ export const DetectorFour = {
   rotationAngle: 360,
   transition: () => full.zero,
   absorbSound: () => {
-    SoundService.play('detector');
+    SoundService.play('detect');
   },
   absorbAnimation: (that) => {
 

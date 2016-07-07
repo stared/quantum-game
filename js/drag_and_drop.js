@@ -52,6 +52,8 @@ export const bindDrag = (tileSelection, board, stock) => {
       // Is it impossible to drag item and it's not a Source? Play sound.
       if (source.frozen && source.tileName !== 'Source') {
         SoundService.playThrottled('error');
+      } else {
+        SoundService.play(source.tileName);
       }
     })
     .on('drag', function (source) {
