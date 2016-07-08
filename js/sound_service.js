@@ -64,7 +64,7 @@ const SOUNDS_NEW = {
   SugarSolution: '22. E - solution 2.mp3',
 }
 
-const SOUNDS_NEW_PATH = '/sounds/surma1/';
+const SOUNDS_NEW_PATH = 'sounds/surma1/';
 
 // missing:
 // 'CornerCube',
@@ -80,7 +80,7 @@ export class SoundService {
     }
     // Register sounds
     _.forIn(SOUND_DEFS, (def, name) => {
-      soundjs.Sound.registerSound(`/sounds/${def.file}`, name);
+      soundjs.Sound.registerSound(`sounds/${def.file}`, name);
     });
     // Registern new sounds
     _.forIn(SOUNDS_NEW, (file, name) => {
