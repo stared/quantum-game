@@ -11,7 +11,7 @@ export class ParticleAnimation {
       return _.chain(state)
         .groupBy((val) => `${val.i},${val.j},${val.to[0]}`)
         .mapValues((ray) => {
-          const rayind = _.indexBy(ray, (val) => val.to[1]);
+          const rayind = _.keyBy(ray, (val) => val.to[1]);
 
           const hRe = rayind['-'] ? rayind['-'].re : 0;
           const hIm = rayind['-'] ? rayind['-'].im : 0;

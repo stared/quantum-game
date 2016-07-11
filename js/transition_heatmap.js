@@ -75,7 +75,7 @@ export class TransitionHeatmap {
 
   update(labels, matrixElements=null) {
 
-    const position = _.zipObject(labels.map((d, i) => [d, i]));
+    const position = _.fromPairs(labels.map((d, i) => [d, i]));
 
     const scale = d3.scale.linear()
       .domain([-1, labels.length])

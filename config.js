@@ -20,7 +20,7 @@ System.config({
     "file-saver": "npm:file-saver@1.3.1",
     "json": "github:systemjs/plugin-json@0.1.2",
     "json-stringify-pretty-compact": "npm:json-stringify-pretty-compact@1.0.1",
-    "lodash": "npm:lodash@3.10.1",
+    "lodash": "npm:lodash@4.13.1",
     "normalize.css": "github:necolas/normalize.css@3.0.3",
     "soundjs": "github:CreateJS/SoundJS@0.6.2",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -128,9 +128,6 @@ System.config({
     },
     "npm:isarray@1.0.0": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
-    },
-    "npm:lodash@3.10.1": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"

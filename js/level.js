@@ -65,9 +65,10 @@ if (!isProduction) {
 
 export const levels = _(levelsGame)
   .concat(levelsOther)
-  .forEach((level, i) => {
+  .map((level, i) => {
     level.i = i;
     level.id = levelId(level);
+    return level;
   })
   .sortBy((level) => `${level.group} ${1e6 + level.i}`)
   .value();
@@ -89,9 +90,8 @@ _(levels)
   .groupBy('group')
   .forEach((group) =>
     group.forEach((level, i) => level.i = i + 1)
-  )
-  .value();
+  );
 
 levels[0].i = '\u221E';
 
-export const idToLevel = _.indexBy(levels, 'id');
+export const idToLevel = _.keyBy(levels, 'id');

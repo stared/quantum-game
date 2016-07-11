@@ -13,7 +13,7 @@ const subspaceDirNS = ['^-', '^|', 'v-', 'v|'];
 // calculates norm of a random unit vector within a subspace
 function matrixNormOnRandomVector(matrix, subspace = subspaceAll) {
   const inputVector = subspace.map((key) => [key, {re: Math.random(), im: Math.random()}]);
-  const norm = _.sum(inputVector, (input) => probability(input[1]));
+  const norm = _.sumBy(inputVector, (input) => probability(input[1]));
   const outputVector = {};
   let zIn;
   inputVector.forEach((input) => {
@@ -27,7 +27,7 @@ function matrixNormOnRandomVector(matrix, subspace = subspaceAll) {
     });
   });
 
-  return _.sum(outputVector, probability) / norm;
+  return _(outputVector).values().map(probability).sum() / norm;
 }
 
 

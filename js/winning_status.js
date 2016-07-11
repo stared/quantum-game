@@ -18,8 +18,8 @@ export class WinningStatus {
       .flatten()
       .groupBy((entry) => `${entry.i} ${entry.j}`)
       .mapValues((groupedEntry) =>
-        _.sum(groupedEntry, 'probability')
-    )
+        _.sumBy(groupedEntry, 'probability')
+      )
       .map((probability, location) => ({
         probability: probability,
         i: parseInt(location.split(' ')[0]),
@@ -29,13 +29,13 @@ export class WinningStatus {
 
     this.probsAtDets = _(this.absorptionProbabilities)
       .filter((entry) => _.get(this.tileMatrix, `[${entry.i}][${entry.j}].isDetector`))
-      .pluck('probability')
+      .map('probability')
       .value();
 
     this.probsAtDetsByTime = _.map(simulationC.measurementHistory, (each) =>
       _(each)
         .filter((entry) => _.get(this.tileMatrix, `[${entry.i}][${entry.j}].isDetector`))
-        .sum('probability')
+        .sumBy('probability')
     );
 
     this.totalProbAtDets = _.sum(this.probsAtDets);
@@ -46,7 +46,7 @@ export class WinningStatus {
       .filter((entry) =>
         this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].tileName === 'Mine'
       )
-      .sum('probability');
+      .sumBy('probability');
   }
 
   compareToObjectives(requiredDetectionProbability, detectorsToFeed) {

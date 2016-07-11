@@ -12,7 +12,7 @@ const intensityPerPosition = (state) =>
   _(state)
     .groupBy((entry) => `${entry.i} ${entry.j}`)
     .mapValues((groupedEntry) =>
-      _.sum(groupedEntry, zAbs)
+      _.sumBy(groupedEntry, zAbs)
     )
     .value();
 
@@ -90,7 +90,7 @@ export class Simulation {
       }
     }
 
-    if (_.any(absorbed, 'measured') && quantum) {
+    if (_.some(absorbed, 'measured') && quantum) {
       return [];
     } else {
       return newState;
@@ -127,7 +127,7 @@ export class Simulation {
       .mapValues((prob, location) =>
         prob - (intensityNew[location] || 0)
       )
-      .pick((prob) => prob > EPSILON)
+      .pickBy((prob) => prob > EPSILON)
       .map((prob, location) => {
         return {
           probability: prob,

@@ -11,8 +11,8 @@ export class Tensor {
 
   static fromObject(object) {
     const map = new Map(null);
-    for (let [key, value] of _.pairs(object)) {
-      map.set(key, new Map(_.pairs(value)));
+    for (let [key, value] of _.toPairs(object)) {
+      map.set(key, new Map(_.toPairs(value)));
     }
     return new Tensor(map);
   }
