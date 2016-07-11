@@ -407,7 +407,8 @@ export class BareBoard {
           name: d.tileName,
           rotation: d.rotation,
           frozen: d.frozen,
-        })),
+        }))
+        .value(),
       stock:                        this.stock ? this.stock.stock : {},  // hack for non-attached stock
       requiredDetectionProbability: this.level.requiredDetectionProbability,
       detectorsToFeed:              this.level.detectorsToFeed,
