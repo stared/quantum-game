@@ -1,15 +1,12 @@
 import _ from 'lodash';
 
 // NOTE could be done automatically, but mnemotechnics may make sense
-// just be sure to test it properly:
-// - if letters are distinct
-// - if each element is present
 const tileAbbreviations = [
   ['Vacuum', 'u'],
   ['Source', 's'],
   ['CornerCube', 'x'],
   ['ThinMirror', 't'],
-  ['ThinSplitter', 's'],
+  ['ThinSplitter', 'h'],
   ['ThinSplitterCoated', 'c'],
   ['PolarizingSplitter', 'b'],
   ['PolarizerNS', 'p'],
@@ -17,6 +14,7 @@ const tileAbbreviations = [
   ['QuarterWavePlateNS', 'q'],
   ['QuarterWavePlateWE', 'w'],
   ['SugarSolution', 'g'],
+  ['DoubleSugarSolution', 'i'],
   ['Mine', 'm'],
   ['Rock', 'k'],
   ['Glass', 'a'],
@@ -27,7 +25,8 @@ const tileAbbreviations = [
   ['FaradayRotator', 'f'],
 ];
 
-const name2abbr = _.fromPairs(tileAbbreviations);
+// export only for tests
+export const name2abbr = _.fromPairs(tileAbbreviations);
 const abbr2name = _(tileAbbreviations)
   .map((each) => [each[1], each[0]])
   .fromPairs()
@@ -36,7 +35,7 @@ const abbr2name = _(tileAbbreviations)
 const vacuumCode = name2abbr['Vacuum'] + '0';
 
 // e.g. {name: 'Source', frozen: true, rotation: 2} -> 'S2'
-const encodeTile = (tileRecipe) => {
+export const encodeTile = (tileRecipe) => {
   let s = name2abbr[tileRecipe.name];
   if (tileRecipe.frozen) {
     s = s.toUpperCase();
@@ -45,7 +44,7 @@ const encodeTile = (tileRecipe) => {
 }
 
 // e.g. 'S2' -> {name: 'Source', frozen: true, rotation: 2}
-const decodeTile = (abbrRot) => ({
+export const decodeTile = (abbrRot) => ({
   name:     abbr2name[abbrRot[0].toLowerCase()],
   frozen:   abbrRot[0] === abbrRot[0].toUpperCase(),
   rotation: parseInt(abbrRot[1]),
