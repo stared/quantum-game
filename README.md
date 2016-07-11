@@ -32,6 +32,8 @@ npm install
 jspm install
 ```
 
+Additionally, for development we use `eslint` with `eslint-plugin-lodash`. 
+
 ## Running server
 
 Start local HTTP server in the quantum game directory (e.g. by [http-server](https://www.npmjs.com/package/http-server)).

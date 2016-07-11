@@ -3,12 +3,14 @@
       "ecmaVersion": 6,
       "sourceType": "module"
   },
-  "extends": "eslint:recommended",
+  "plugins": ["lodash"],
+  "extends": ["eslint:recommended", "plugin:lodash/recommended"],
   "rules": {
     "comma-dangle": [1, "always-multiline"],
     "no-var": 2,
     "quotes": [1, "single"],
-    "no-unused-vars": 1
+    "no-unused-vars": 1,
+    "lodash/prefer-lodash-method": 0
   },
   "env": {
     "browser": true
