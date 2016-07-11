@@ -11,6 +11,7 @@ import {ProgressPearls} from './progress_pearls';
 import {TileHelper} from './tile_helper';
 import {DetectionBar} from './detection_bar';
 import {TitleManager} from './title_manager';
+import {levelRecipe2queryString, queryString2levelRecipe} from './level_io_uri';
 
 // TODO decide where to use winning status; it seems I should move it here
 // TODO top_bar needs a separate module
@@ -289,6 +290,17 @@ export class GameBoard {
     const blob = new Blob([levelJSON], {type: 'text/plain;charset=utf-8'});
     saveAs(blob, fileName);
     window.console.log(levelJSON);
+
+    // now for testing
+    window.console.log(
+      'levelRecipe2queryString(this.bareBoard.exportBoard())',
+      levelRecipe2queryString(this.bareBoard.exportBoard())
+    );
+
+    window.console.log(
+      'queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard()))',
+       queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard()))
+    );
   }
 
 
