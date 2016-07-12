@@ -13,6 +13,8 @@
     "lodash/prefer-lodash-method": 0
   },
   "env": {
-    "browser": true
+    "es6": true,
+    "browser": true,
+    "jasmine": true
   }
 }

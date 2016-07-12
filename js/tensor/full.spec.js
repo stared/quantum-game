@@ -1,4 +1,3 @@
-/*global describe:false, it:false, expect:false*/
 import * as full from './full';
 import _ from 'lodash';
 

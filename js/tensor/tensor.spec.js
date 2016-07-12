@@ -1,4 +1,3 @@
-/*global describe:false, it:false, expect:false*/
 import {Tensor} from './tensor';
 
 describe('Tensor', () => {
