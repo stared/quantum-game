@@ -520,27 +520,6 @@
     ]
   },
   {
-    "name": "Interfrenzy",
-    "group": "Game",
-    "width": 13,
-    "height": 10,
-    "tiles": [
-      {"i": 0, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
-      {"i": 2, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
-      {"i": 2, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 2, "j": 7, "name": "ThinMirror", "rotation": 3, "frozen": true},
-      {"i": 5, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 5, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 7, "j": 1, "name": "ThinMirror", "rotation": 3, "frozen": true},
-      {"i": 7, "j": 7, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 7, "j": 9, "name": "Mine", "rotation": 0, "frozen": true},
-      {"i": 9, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
-      {"i": 9, "j": 7, "name": "ThinSplitter", "rotation": 3, "frozen": false},
-      {"i": 9, "j": 9, "name": "Detector", "rotation": 3, "frozen": true},
-      {"i": 11, "j": 7, "name": "Mine", "rotation": 0, "frozen": true}
-    ]
-  },
-  {
     "name": "It can wait",
     "group": "Game",
     "width": 13,
@@ -615,6 +594,27 @@
       {"i": 9, "j": 6, "name": "SugarSolution", "rotation": 0, "frozen": false},
       {"i": 9, "j": 7, "name": "Source", "rotation": 1, "frozen": true},
       {"i": 11, "j": 4, "name": "Mine", "rotation": 0, "frozen": true}
+    ]
+  },
+  {
+    "name": "Interfrenzy",
+    "group": "Game",
+    "width": 13,
+    "height": 10,
+    "tiles": [
+      {"i": 0, "j": 1, "name": "Source", "rotation": 0, "frozen": true},
+      {"i": 2, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": true},
+      {"i": 2, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 2, "j": 7, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 5, "j": 1, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 5, "j": 3, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 7, "j": 1, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 7, "j": 7, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 7, "j": 9, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 9, "j": 3, "name": "ThinMirror", "rotation": 3, "frozen": true},
+      {"i": 9, "j": 7, "name": "ThinSplitter", "rotation": 3, "frozen": false},
+      {"i": 9, "j": 9, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 11, "j": 7, "name": "Mine", "rotation": 0, "frozen": true}
     ]
   },
   {
