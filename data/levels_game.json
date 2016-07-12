@@ -542,7 +542,7 @@
   },
   {
     "name": "Sagnac-Michelson-Morley",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -555,6 +555,10 @@
       {"i": 9, "j": 6, "name": "ThinSplitter", "rotation": 3, "frozen": true},
       {"i": 9, "j": 8, "name": "Source", "rotation": 1, "frozen": true},
       {"i": 11, "j": 6, "name": "Detector", "rotation": 0, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 1, "j": 8, "widthI": 5, "text": "two interferometers for a price of one!"},
+      {"i": 6, "j": 1, "widthI": 5, "text": "there will be a Sagnac interfrerometer ", "triangleI": 8, "triangleDir": "bottom"}
     ]
   },
   {
@@ -602,7 +606,7 @@
   },
   {
     "name": "Sweet madness",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -679,7 +683,7 @@
   },
   {
     "name": "Faraday and mirrors",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -692,11 +696,15 @@
       {"i": 5, "j": 7, "name": "ThinMirror", "rotation": 0, "frozen": false},
       {"i": 7, "j": 3, "name": "FaradayRotator", "rotation": 0, "frozen": false},
       {"i": 9, "j": 3, "name": "ThinMirror", "rotation": 2, "frozen": true}
+    ],
+    "boardHints": [
+      {"i": 5, "j": 6, "widthI": 5, "text": "Faraday rotators are like sugar"},
+      {"i": 5, "j": 7, "widthI": 5, "text": "but rotation depends on the direction"}
     ]
   },
   {
-    "name": "Sagnac interferometer",
-    "group": "Candidate",
+    "name": "Sagnac twist",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -718,7 +726,7 @@
   },
   {
     "name": "It can wait",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -736,7 +744,7 @@
   },
   {
     "name": "Nine polarizing beam splitters",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -759,7 +767,7 @@
   },
   {
     "name": "Sweet Faraday",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -834,7 +842,7 @@
   },
   {
     "name": "A bit of a lot",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "requiredDetectionProbability": 0.75,
@@ -881,7 +889,7 @@
   },
   {
     "name": "Cascade switches",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "texts": {"before": "Splitting and joining..."},
@@ -929,7 +937,7 @@
   },
   {
     "name": "Interfering polarization",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "texts": {"before": "Adding and subtracting."},
@@ -972,7 +980,7 @@
   },
   {
     "name": "You shouldn't look back",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
@@ -1008,7 +1016,7 @@
   },
   {
     "name": "One-way mirror",
-    "group": "Candidate",
+    "group": "Game",
     "width": 13,
     "height": 10,
     "tiles": [
