@@ -22,7 +22,7 @@ export class Game {
     // Pop-ups
     this.popupManager = new PopupManager(
       d3.select('.popup'),
-      () => this.gameBoard.nextLevel());
+      () => this.gameBoard.loadNextLevel());
     // View definitions
     this.views = this.createViews();
     // State
