@@ -645,9 +645,9 @@
     "height": 10,
     "tiles": [
       {"i": 1, "j": 4, "name": "Source", "rotation": 0, "frozen": true},
-      {"i": 3, "j": 2, "name": "Mine", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 3, "name": "Mine", "rotation": 0, "frozen": true},
       {"i": 3, "j": 4, "name": "ThinSplitter", "rotation": 3, "frozen": true},
-      {"i": 3, "j": 6, "name": "Rock", "rotation": 0, "frozen": true},
+      {"i": 3, "j": 5, "name": "Rock", "rotation": 0, "frozen": true},
       {"i": 5, "j": 4, "name": "PolarizerWE", "rotation": 2, "frozen": false},
       {"i": 6, "j": 4, "name": "FaradayRotator", "rotation": 0, "frozen": false},
       {"i": 7, "j": 4, "name": "PolarizerWE", "rotation": 1, "frozen": false},
