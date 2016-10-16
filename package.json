@@ -1,7 +1,7 @@
 {
   "jspm": {
     "dependencies": {
-      "d3": "github:mbostock/d3@^3.5.5",
+      "d3": "github:d3/d3@^3.5.5",
       "file-saver": "npm:file-saver@^1.3.1",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "json-stringify-pretty-compact": "npm:json-stringify-pretty-compact@^1.0.1",
