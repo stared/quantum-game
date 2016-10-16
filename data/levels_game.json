@@ -624,8 +624,7 @@
     "height": 10,
     "tiles": [
       {"i": 1, "j": 3, "name": "Source", "rotation": 0, "frozen": true},
-      {"i": 2, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": true},
-      {"i": 3, "j": 3, "name": "SugarSolution", "rotation": 0, "frozen": false},
+      {"i": 2, "j": 3, "name": "DoubleSugarSolution", "rotation": 0, "frozen": true},
       {"i": 5, "j": 1, "name": "Detector", "rotation": 1, "frozen": true},
       {"i": 5, "j": 3, "name": "PolarizingSplitter", "rotation": 0, "frozen": true},
       {"i": 5, "j": 5, "name": "FaradayRotator", "rotation": 1, "frozen": false},
