@@ -4,6 +4,7 @@ import {nonVacuumTiles} from './tile';
 import {isProduction} from './config';
 
 import levelsGame from '../data/levels_game.json!';
+import levelsCandidate from '../data/levels_candidate.json!';
 import levelsOther from '../data/levels_other.json!';
 import lastLevel from '../data/levels_last.json!';
 
@@ -54,16 +55,13 @@ export class Level {
 const levelId = (level) => `${level.group} ${level.name}`;
 
 if (!isProduction) {
-  levelsGame
-    .filter((level) => level.group === 'Candidate')
-    .forEach((level) => level.group = 'Game');
+  levelsCandidate.forEach((level) => level.group = 'Game');
 } else {
-  levelsGame
-    .filter((level) => level.group === 'Candidate')
-    .forEach((level) => level.group = 'X Candidate');  // a hack for sorting purpose
+  levelsCandidate.forEach((level) => level.group = 'X Candidate');
 }
 
 export const levels = _(levelsGame)
+  .concat(levelsCandidate)
   .concat(levelsOther)
   .map((level, i) => {
     level.i = i;
