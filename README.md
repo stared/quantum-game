@@ -52,7 +52,7 @@ Bundle it (and minify, if you want):
 jspm bundle-sfx --minify app
 ```
 
-It creates a `build.js` file. To run it wee need a modified `index.html` (it is a *manually*-modified file, stored in `bundled/index.html`).
+It creates a `build.js` file. To run it we need a modified `index.html` (it is a *manually*-modified file, stored in `bundled/index.html`).
 
 On the server, the structure of files should look as follows:
 
