@@ -555,7 +555,7 @@
     ],
     "boardHints": [
       {"i": 1, "j": 8, "widthI": 5, "text": "two interferometers for a price of one!"},
-      {"i": 6, "j": 1, "widthI": 5, "text": "there will be a Sagnac interfrerometer ", "triangleI": 8, "triangleDir": "bottom"}
+      {"i": 6, "j": 1, "widthI": 5, "text": "there will be a Sagnac interferometer ", "triangleI": 8, "triangleDir": "bottom"}
     ]
   },
   {
