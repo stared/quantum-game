@@ -829,6 +829,7 @@
       {"i": 8, "j": 4, "name": "VacuumJar", "rotation": 0, "frozen": false},
       {"i": 8, "j": 5, "name": "ThinSplitter", "rotation": 3, "frozen": true},
       {"i": 8, "j": 8, "name": "Detector", "rotation": 3, "frozen": true},
+      {"i": 10, "j": 3, "name": "Mine", "rotation": 0, "frozen": true},
       {"i": 10, "j": 5, "name": "Mine", "rotation": 0, "frozen": true}
     ]
   }
