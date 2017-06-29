@@ -355,6 +355,9 @@ export class GameBoard {
     if (this.bareBoard.level && this.bareBoard.level.next) {
       this.loadLevel(this.bareBoard.level.next);
     }
+    if (window.mobileLayout) {
+      d3.select('#game svg.game-svg').attr('viewBox', '-30 -10 1400 1200');
+    }
   }
 
   // dev = true only from console

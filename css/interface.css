@@ -528,6 +528,12 @@ text.helper-summary {
 
 .board-hint {
   cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .board-hint > rect {
@@ -637,9 +643,17 @@ text.helper-summary {
   -ms-user-select: none;
 }
 
-.unselectable {
+.unselectable, .tile, .background-tile {
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+}
+
+@media (max-width: 800px) {
+  .social-buttons, .progress-pearls, .navigation-controls, .helper, .logoed {
+    display: none;
+  }
 }
