@@ -71,6 +71,9 @@ export class Stock {
 
   regenerateTile(stockSlotG) {
 
+    const xOffset = window.mobileLayout ? 400 : 0;
+    const yOffset = window.mobileLayout ? -1720 : 0;
+
     const newTile = stockSlotG.append('g')
       .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
       .attr('class', 'tile')
