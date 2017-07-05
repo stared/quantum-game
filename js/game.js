@@ -71,7 +71,7 @@ export class Game {
 
   createGameBoard() {
     const initialLevelId = this.storage.getCurrentLevelId() || level.levels[1].id;
-    window.mobileLayout = (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) < 800);
+    window.mobileLayout = ((window.outerWidth || 1000) < 800);
     this.gameBoard = new GameBoard(
       d3.select('#game svg.game-svg'),
       d3.select('#game svg.blink-svg'),

@@ -40,9 +40,9 @@ export class Stock {
     const dataForStockDrawing = _.map(this.usedTileNames, (name, i) => ({
         name: name,
         i: (window.mobileLayout ? (i % maxRows) : (Math.floor(i / maxRows) + iShift)),
-        j: (window.mobileLayout ? (Math.floor(i / maxRows) + iShift) : Math.floor(i / maxRows) + iShift),
+        j: (window.mobileLayout ? (Math.floor(i / maxRows) + iShift) : (i % maxRows)),
     }));
-    
+
     const xOffset = window.mobileLayout ? 400 : 0;
     const yOffset = window.mobileLayout ? -1720 : 0;
 
