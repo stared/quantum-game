@@ -93,6 +93,15 @@ export const bindDrag = (tileSelection, board, stock) => {
         return;
       }
 
+      // rotation fallback
+      if (source.newI == source.i && source.newJ == source.j && !source.fromStock) {
+        source.rotate();
+        SoundService.playThrottled('blip');
+        board.logger.logAction('rotate', {name: source.tileName, i: source.i, j: source.j, toRotation: source.rotation});
+        board.callbacks.tileRotated(source);
+        // no return as I need to move it back to stick to the grid
+      }
+
       // Drag ended outside of board?
       // The put in into the stock!
       if (
