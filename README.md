@@ -32,7 +32,7 @@ npm install
 jspm install
 ```
 
-Additionally, for development we use `eslint` with `eslint-plugin-lodash`. 
+Additionally, for development we use `eslint` with `eslint-plugin-lodash`.
 
 ## Running server
 
@@ -62,3 +62,19 @@ favicon.ico
 build.js
 index.html
 ```
+
+# Docker
+
+## Building
+
+`docker build .`
+or
+`docker build --build-arg JSPM_GITHUB_AUTH_TOKEN="a_jspm_encrypted_github_token" .`
+
+## Running
+
+`docker run -d -p 80:8080 ${IMAGE_ID}`
+or for a community built image try:
+`docker run -d -p 80:8080 spkane/quantum-game:latest`
+
+and then open up a web browser and point it to port 80 on your Docker host.
