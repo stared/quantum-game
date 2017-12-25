@@ -22,6 +22,7 @@
     ],
     "boardHints": [
       {"i": 0, "j": 4, "widthI": 3, "text": "click laser to start", "triangleI": 2, "triangleDir": "top"},
+      {"i": 1, "j": 2, "widthI": 4, "text": "after dropping, click to rotate ", "triangleI": 4, "triangleDir": "bottom"},
       {"i": 9, "j": 0, "widthI": 4, "text": "drag & drop mirror from here", "triangleI": 12, "triangleDir": "right"},
       {"i": 4, "j": 7, "widthI": 3, "text": "some objects are fixed", "triangleI": 4, "triangleDir": "top"},
       {"i": 9, "j": 3, "widthI": 4, "text": "photon should reach there", "triangleI": 9, "triangleDir": "left"}
