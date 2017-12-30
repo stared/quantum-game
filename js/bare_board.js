@@ -11,9 +11,13 @@ import {Logger} from './logger';
 import {SoundService} from './sound_service';
 
 export class BareBoard {
-  constructor(svg, drawMode = 'orthogonal', margin = {}, callbacks = {}) {
+  constructor(svg, drawMode = 'orthogonal', measurementMode = 'measurement: Copenhagen', margin = {}, callbacks = {}) {
     this.svg = svg;
+
+    // TODO: refactor as it is being changed remotly
     this.drawMode = drawMode;
+    this.measurementMode = measurementMode;
+
     this.margin = margin;
     this.tileMatrix = [];
     this.animationStepDuration = animationStepDuration;
@@ -309,10 +313,16 @@ export class BareBoard {
     // (for animations)
     this.simulationQ = new simulation.Simulation(this.tileMatrix, 'logging');
     this.simulationQ.initialize();
-    if (firstWin && this.winningStatus.totalProbAtDets > 0) {
-      this.simulationQ.propagateToEndCheated(this.winningStatus.probsAtDetsByTime);
+
+    if (this.measurementMode == 'Copenhagen') {
+      if (firstWin && this.winningStatus.totalProbAtDets > 0) {
+        // TO DO - to fix!
+        this.simulationQ.propagateToEndCheated(this.winningStatus.probsAtDetsByTime);
+      } else {
+        this.simulationQ.propagateToEnd(true);
+      }
     } else {
-      this.simulationQ.propagateToEnd(true);
+      this.simulationQ.propagateToEnd(false);
     }
 
     this.logger.logAction('run', {

@@ -25,7 +25,8 @@ export class GameBoard {
       bottom: 2,
       right: 1 + stockColumns,
     };
-    this.bareBoard = new BareBoard(svg, 'orthogonal', borderMargins, {
+    this.bareBoard = new BareBoard(svg, 'orthogonal', 'Copenhagen',
+      borderMargins, {
       tileRotated: this.tileRotatedCallback.bind(this),
       tileMouseover: this.tileMouseoverCallback.bind(this),
       animationStart: this.animationStartCallback.bind(this),
@@ -278,6 +279,20 @@ export class GameBoard {
           newMode = 'oscilloscope';
         }
         bareBoard.drawMode = newMode;
+        d3.select(this)
+          .select('text')
+          .html(newMode);
+      });
+
+    boardControls.select('.measurement-mode')
+      .on('click', function () {
+        let newMode;
+        if (bareBoard.measurementMode === 'Copenhagen') {
+          newMode = 'delayed meas.';
+        } else {
+          newMode = 'Copenhagen';
+        }
+        bareBoard.measurementMode = newMode;
         d3.select(this)
           .select('text')
           .html(newMode);

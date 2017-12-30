@@ -63,6 +63,7 @@ export class Simulation {
 
     this.history.push(initialState);
     this.measurementHistory.push([]);
+    this.noClickYet = true;
   }
 
   /**
@@ -146,24 +147,28 @@ export class Simulation {
     const rand = Math.random();
 
     let probSum = 0;
-    if (onlyDetectors > 0) {
-      // the cheated variant
-      for (let k = 0; k < bins.length; k++) {
-        if (bins[k].tile.isDetector) {
-          probSum += bins[k].probability * onlyDetectors;
-          if (probSum > rand) {
-            bins[k].measured = true;
-            break;
+    if (this.noClickYet) {
+      if (onlyDetectors > 0) {
+        // the cheated variant
+        for (let k = 0; k < bins.length; k++) {
+          if (bins[k].tile.isDetector) {
+            probSum += bins[k].probability * onlyDetectors;
+            if (probSum > rand) {
+              bins[k].measured = true;
+              this.noClickYet = false;
+              break;
+            }
           }
         }
-      }
-    } else {
-      // usual variarant
-      for (let k = 0; k < bins.length; k++) {
-        probSum += bins[k].probability;
-        if (probSum > rand) {
-          bins[k].measured = true;
-          break;
+      } else {
+        // usual variarant
+        for (let k = 0; k < bins.length; k++) {
+          probSum += bins[k].probability;
+          if (probSum > rand) {
+            bins[k].measured = true;
+            this.noClickYet = false;
+            break;
+          }
         }
       }
     }
