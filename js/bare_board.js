@@ -11,9 +11,9 @@ import {Logger} from './logger';
 import {SoundService} from './sound_service';
 
 export class BareBoard {
-  constructor(svg, drawMode = 'orthogonal', measurementMode = 'measurement: Copenhagen', margin = {}, callbacks = {}) {
+  constructor(svg, gameBoard, drawMode = 'orthogonal', measurementMode = 'measurement: Copenhagen', margin = {}, callbacks = {}) {
     this.svg = svg;
-
+    this.gameBoard = gameBoard;
     // TODO: refactor as it is being changed remotly
     this.drawMode = drawMode;
     this.measurementMode = measurementMode;
@@ -352,7 +352,9 @@ export class BareBoard {
       this.winningStatus.absorptionProbabilities,
       this.callbacks.animationInterrupt,
       this.callbacks.animationEnd,
-      this.drawMode);
+      this.drawMode,
+      (s) => this.gameBoard.titleManager.displayMessage(s, 'progress', -1)
+    );
   }
 
   /**

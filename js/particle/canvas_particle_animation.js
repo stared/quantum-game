@@ -7,8 +7,8 @@ import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeTh
 import {ParticleAnimation} from './particle_animation';
 
 export class CanvasParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode) {
-    super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode);
+  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode, displayMessage) {
+    super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode, displayMessage);
     this.canvas = null;
     this.helperCanvas = null;
     this.ctx = null;
@@ -111,7 +111,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
       // Request next frame if playing or if the animation didn't manage
       // to get to the keyframe.
       if (this.playing || !stepIncreased) {
-        window.requestAnimationFrame(this.nextFrame.bind(this));
+        window.requestAnimationFrame(this.forward.bind(this));
       } else {
         this.pauseTime = time;
       }

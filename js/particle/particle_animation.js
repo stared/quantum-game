@@ -3,10 +3,12 @@ import _ from 'lodash';
 
 import {tileSize, absorptionDuration, absorptionTextDuration} from '../config';
 import {Particle} from './particle';
+import * as print from '../print';
 
 export class ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode) {
+  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode, displayMessage) {
 
+    this.stateHistory = history;
     this.history = history.map((state) => {
       return _.chain(state)
         .groupBy((val) => `${val.i},${val.j},${val.to[0]}`)
@@ -31,11 +33,14 @@ export class ParticleAnimation {
     this.finishCallback = finishCallback;
     this.drawMode = drawMode;
     this.board = board;
+    this.displayMessage = displayMessage;
     this.stepNo = 0;
     this.playing = false;
     this.initialized = false;
     // report it to the board
     this.board.animationExists = true;
+
+    this.previousStepNo = -1;
   }
 
   initialize() {
@@ -55,7 +60,7 @@ export class ParticleAnimation {
     }
     if (!this.playing) {
       this.playing = true;
-      this.nextFrame();
+      this.forward();
     }
   }
 
@@ -71,6 +76,10 @@ export class ParticleAnimation {
   }
 
   forward() {
+    if (this.stepNo > this.previousStepNo) {
+      this.previousStepNo = this.stepNo;
+      this.displayMessage(print.stateToStr(this.stateHistory[this.stepNo]));
+    }
     this.nextFrame();
   }
 

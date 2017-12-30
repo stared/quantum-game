@@ -25,7 +25,7 @@ export class GameBoard {
       bottom: 2,
       right: 1 + stockColumns,
     };
-    this.bareBoard = new BareBoard(svg, 'orthogonal', 'Copenhagen',
+    this.bareBoard = new BareBoard(svg, this, 'orthogonal', 'Copenhagen',
       borderMargins, {
       tileRotated: this.tileRotatedCallback.bind(this),
       tileMouseover: this.tileMouseoverCallback.bind(this),
