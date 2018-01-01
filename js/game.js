@@ -71,6 +71,7 @@ export class Game {
 
   createGameBoard() {
     const initialLevelId = this.storage.getCurrentLevelId() || level.levels[1].id;
+    window.mobileLayout = ((window.outerWidth || 1000) < 800);
     this.gameBoard = new GameBoard(
       d3.select('#game svg.game-svg'),
       d3.select('#game svg.blink-svg'),
@@ -78,6 +79,9 @@ export class Game {
       this.popupManager,
       this.storage,
       initialLevelId);
+    if (window.mobileLayout) {
+      d3.select('#game svg.game-svg').attr('viewBox', '-30 -10 1400 1200');
+    }
   }
 
   bindMenuEvents() {

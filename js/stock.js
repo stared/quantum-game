@@ -39,9 +39,12 @@ export class Stock {
 
     const dataForStockDrawing = _.map(this.usedTileNames, (name, i) => ({
         name: name,
-        i: Math.floor(i / maxRows) + iShift,
-        j: i % maxRows,
+        i: (window.mobileLayout ? (i % maxRows) : (Math.floor(i / maxRows) + iShift)),
+        j: (window.mobileLayout ? (Math.floor(i / maxRows) + iShift) : (i % maxRows)),
     }));
+
+    const xOffset = window.mobileLayout ? 400 : 0;
+    const yOffset = window.mobileLayout ? -1720 : 0;
 
     this.stockSlots = this.stockGroup
       .selectAll('.stock-slot')
@@ -56,11 +59,11 @@ export class Stock {
       .attr('class', 'background-tile')
       .attr('width', tileSize - 2 * tileBorder)
       .attr('height', tileSize - 2 * tileBorder)
-      .attr('transform', (d) => `translate(${d.i * tileSize + tileBorder},${d.j * tileSize + tileBorder})`);
+      .attr('transform', (d) => `translate(${d.i * tileSize + tileBorder + xOffset},${d.j * tileSize + tileBorder + yOffset})`);
 
     stockSlotsEntered.append('text')
       .attr('class', 'stock-count unselectable')
-      .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 0.9) * tileSize})`)
+      .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize + xOffset},${(d.j + 0.9) * tileSize + yOffset})`)
       .text((d) => `x ${this.stock[d.name]}`);
 
     this.regenerateTile(stockSlotsEntered);
@@ -68,10 +71,13 @@ export class Stock {
 
   regenerateTile(stockSlotG) {
 
+    const xOffset = window.mobileLayout ? 400 : 0;
+    const yOffset = window.mobileLayout ? -1720 : 0;
+
     const newTile = stockSlotG.append('g')
       .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
       .attr('class', 'tile')
-      .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
+      .attr('transform', (d) => `translate(${d.x + tileSize / 2 + xOffset},${d.y + tileSize / 2 + yOffset})`)
       .each(function (tileObj) {
         tileObj.g = d3.select(this);
         tileObj.node = this;
