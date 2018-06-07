@@ -87,7 +87,7 @@ export const PolarizingSplitter = {
   desc: {
     name: 'Polarizing Beam Splitter',
     flavour: '',
-    summary: 'Reflects vertical polarization (↕), transmitts horizonal polarization (↔).',
+    summary: 'Reflects vertical polarization (↕), transmits horizonal polarization (↔).',
   },
   maxRotation: 2, // / \
   rotationAngle: 90,
