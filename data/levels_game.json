@@ -560,6 +560,7 @@
     ]
   },
   {
+    "note": "TO FIX - can be one element less",
     "name": "Sweet madness",
     "group": "Game",
     "width": 13,
