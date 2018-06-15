@@ -1,4 +1,4 @@
-Quantum Game
+Quantum Game with Photons
 ============
 
 Quantum Game - play with photons, superposition and entanglement. In your browser! With true quantum mechanics underneath!
@@ -15,6 +15,8 @@ Quantum Game - play with photons, superposition and entanglement. In your browse
 # Development version
 
 It's JavaScript, ES6. To build it you need [Node.JS](https://nodejs.org/) and [jspm.io](http://jspm.io/) package manager.
+
+It's open for collaboration - from level creation, through interface (re)design and adding additional effects (two-photon interference, interactions with an electron). Interested? Mail pmigdal@gmail.com.
 
 
 ## Installing
@@ -63,16 +65,19 @@ build.js
 index.html
 ```
 
-# Docker
+## Docker
 
-## Building
+Alternatively, you can install dependencies using Docker.
+
+### Building
+
 * You can build this image by running the following command in the root of this repository: `docker build .`
 * You can also pass in a valid JSPM_GITHUB_AUTH_TOKEN by building like this: `docker build --build-arg JSPM_GITHUB_AUTH_TOKEN="a_jspm_encrypted_github_token" .`
   * For more information see: https://stackoverflow.com/questions/30995040/jspm-saying-github-rate-limit-reached-how-to-fix
 
-## Running
+### Running
+
 * If your build completes sucessfully there will be a new image ID printed at the end of the build, which you can then use to to run it: `docker run -d -p 80:8080 ${IMAGE_ID_FROM_BUILD}`
 * or for a community built image try this: `docker run -d -p 80:8080 spkane/quantum-game:latest`
 
 and then open up a web browser and point it to port 80 on your Docker host.
-
