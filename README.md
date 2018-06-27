@@ -14,6 +14,8 @@ Quantum Game - play with photons, superposition and entanglement. In your browse
 
 # Development version
 
+**Open for collaboration!** [For more details, see here.](https://github.com/stared/quantum-game/issues/17)
+
 It's JavaScript, ES6. To build it you need [Node.JS](https://nodejs.org/) and [jspm.io](http://jspm.io/) package manager.
 
 It's open for collaboration - from level creation, through interface (re)design and adding additional effects (two-photon interference, interactions with an electron). Interested? Mail pmigdal@gmail.com.
