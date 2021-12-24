@@ -25,11 +25,6 @@ It's open for collaboration - from level creation, through interface (re)design 
 
 After installing Node.js and jspm.io, and cloning this repository:
 
-First, install global packages:
-```bash
-npm install --global karma-cli
-```
-
 Then install local packages.
 ```bash
 npm install
@@ -48,7 +43,7 @@ Start local HTTP server in the quantum game directory (e.g. by [http-server](htt
 ## Running tests
 
 ```bash
-karma start
+./node_modules/.bin/karma start
 ```
 
 # Production version
