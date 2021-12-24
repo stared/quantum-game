@@ -1,10 +1,9 @@
-Quantum Game with Photons
+Quantum Game with Photons (2014-2016)
 ============
 
+**A note: this repository is an old Quanutm Game (2014-2016), no longer maintained. The new one (2019-) is at [quantumgame.io](http://quantumgame.io).**
+
 Quantum Game - play with photons, superposition and entanglement. In your browser! With true quantum mechanics underneath!
-
-
-**A note**: this repository is an old Quanutm Game (2014-2016). The new one (2019-) is here: [github.com/Quantum-Game](https://github.com/Quantum-Game). Social handles remain the same ([Quantum Game with Photons](https://www.facebook.com/quantumgameio), Twitter: [@QuantumGameIO](https://twitter.com/quantumgameio)) - feel invited to follow us there. There is a new blog, [Quantum Photon - Medium](https://medium.com/quantum-photons/). Also: all ideas, issues and pull requests should go to the new game!
 
 * Official address: http://quantumgame.io (initial beta released on 3 Jun 2016, http://play.quantumgame.io)
 * Social media: Facebook: [Quantum Game with Photons](https://www.facebook.com/quantumgameio), Twitter: [@quantumgameio](https://twitter.com/quantumgameio)
@@ -16,8 +15,6 @@ Quantum Game - play with photons, superposition and entanglement. In your browse
 
 
 # Development version
-
-**Open for collaboration!** [For more details, see here.](https://github.com/stared/quantum-game/issues/17)
 
 It's JavaScript, ES6. To build it you need [Node.JS](https://nodejs.org/) and [jspm.io](http://jspm.io/) package manager.
 
@@ -41,9 +38,12 @@ jspm install
 
 Additionally, for development we use `eslint` with `eslint-plugin-lodash`.
 
+**A note: jspm is seriously outdated and the build may not work.** 
+
 ## Running server
 
 Start local HTTP server in the quantum game directory (e.g. by [http-server](https://www.npmjs.com/package/http-server)).
+**Does not need an install, as there are pre-built files.**
 
 ## Running tests
 
