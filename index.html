@@ -1,19 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="/" />
   <title>Quantum Game with Photons</title>
   <meta name="description" content="Play with photons, superposition and entanglement. With true quantum mechanics underneath.">
   <meta name="keywords" content="quantum, game, optics, educational">
   <meta name="author" content="Piotr Migdał, Patryk Hes">
-  <meta charset="utf-8">
   <meta content="http://play.quantumgame.io/screenshot_qg_dev.png" property="og:image">
-  <script src="jspm_packages/system.js"></script>
-  <script src="config.js"></script>
-  <script>
-    System.import('./app');
-  </script>
-
+  <meta charset="utf-8">
   <link rel="icon" href="favicon.ico"/>
   <link rel="stylesheet" type="text/css" href="css/interface.css">
   <link rel="stylesheet" type="text/css" href="css/tiles.css">
@@ -345,7 +338,7 @@
         </g>
       </g>
       <g class="credits" style="opacity: 0.6" transform="translate(-350, -20)">
-        <text style="font-family: 'Roboto Condensed'; font-size: 22px; fill:white;">beta version</text>
+        <text style="font-family: 'Roboto Condensed'; font-size: 22px; fill:white;">eternal beta version</text>
         <text y=23 style="font-family: 'Roboto Condensed'; font-size: 18px; fill:white;">by Piotr Migdał, Patryk Hes, Michał Krupiński</text>
       </g>
 
@@ -507,5 +500,16 @@
   </div>
 </div>
 
+  <script src="build.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-56225776-2', 'auto');
+    ga('send', 'pageview');
+
+  </script>
 </body>
 </html>
