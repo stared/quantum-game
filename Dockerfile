@@ -1,20 +1,16 @@
-FROM node:9.3-alpine
+FROM node:14-alpine
 
-# If Github throtlling is an issue try building with something like:
-# docker build --build-arg JSPM_GITHUB_AUTH_TOKEN="a_jspm_encrypted_github_token" .
-
-ARG JSPM_GITHUB_AUTH_TOKEN=""
 RUN mkdir /app
 WORKDIR /app
-ADD . /app
-RUN apk add --no-cache git && \
-      npm install --global karma-cli && \
-      npm install jspm -g && \
-      jspm config registries.github.auth ${JSPM_GITHUB_AUTH_TOKEN} && \
-      npm install http-server -g && \
-      npm install && \
-      jspm install -y && \
-      jspm bundle-sfx --minify app && \
-      jspm config registries.github.auth ""
+COPY package*.json /app
+RUN npm config set unsafe-perm true && \
+    npm install http-server -g && \
+    npm install
+COPY *.svg *.jpg /app/
+COPY css/* /app/css/
+COPY sounds/* /app/sounds/
+COPY favicon.ico /app/
+COPY build.js /app/
+COPY index.html /app/
 CMD ["http-server",".","-p","8080"]
 

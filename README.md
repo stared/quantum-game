@@ -71,13 +71,11 @@ Alternatively, you can install dependencies using Docker.
 
 ### Building
 
-* You can build this image by running the following command in the root of this repository: `docker build .`
-* You can also pass in a valid JSPM_GITHUB_AUTH_TOKEN by building like this: `docker build --build-arg JSPM_GITHUB_AUTH_TOKEN="a_jspm_encrypted_github_token" .`
-  * For more information see: https://stackoverflow.com/questions/30995040/jspm-saying-github-rate-limit-reached-how-to-fix
+* You can assemble a Linux container image by running the following command in the root of this repository: `docker build .`
 
 ### Running
 
-* If your build completes sucessfully there will be a new image ID printed at the end of the build, which you can then use to to run it: `docker run -d -p 80:8080 ${IMAGE_ID_FROM_BUILD}`
+* If your build completes sucessfully there will be a new image ID or SHA printed at the end of the build, which you can then use to to run it: `docker run -d -p 80:8080 ${IMAGE_ID_FROM_BUILD}`
 * or for a community built image try this: `docker run -d -p 80:8080 spkane/quantum-game:latest`
 
 and then open up a web browser and point it to port 80 on your Docker host.
