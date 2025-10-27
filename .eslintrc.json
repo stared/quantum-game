@@ -1,16 +1,40 @@
 {
+  "root": true,
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-      "ecmaVersion": 2020,
-      "sourceType": "module"
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
-  "plugins": ["lodash"],
-  "extends": ["eslint:recommended", "plugin:lodash/recommended"],
+  "plugins": [
+    "@typescript-eslint",
+    "lodash"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:lodash/recommended"
+  ],
   "rules": {
-    "comma-dangle": [1, "always-multiline"],
-    "no-var": 2,
-    "quotes": [1, "single"],
-    "no-unused-vars": 1,
-    "lodash/prefer-lodash-method": 0
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unsafe-assignment": "error",
+    "@typescript-eslint/no-unsafe-member-access": "error",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/no-unsafe-return": "error",
+    "@typescript-eslint/explicit-function-return-type": ["warn", {
+      "allowExpressions": true,
+      "allowTypedFunctionExpressions": true
+    }],
+    "@typescript-eslint/strict-boolean-expressions": "warn",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_"
+    }],
+    "comma-dangle": ["warn", "always-multiline"],
+    "no-var": "error",
+    "quotes": ["warn", "single"],
+    "lodash/prefer-lodash-method": "off"
   },
   "env": {
     "es2020": true,
@@ -26,5 +50,18 @@
     "vi": "readonly",
     "jasmine": "readonly",
     "spyOn": "readonly"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ]
 }

@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
   root: '.',
@@ -31,10 +34,6 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['d3'],
-    esbuildOptions: {
-      // Inject window as this for D3 v3 UMD module
-      inject: ['./js/d3-shim.js'],
-    },
   },
   define: {
     // Ensure browser globals are available
