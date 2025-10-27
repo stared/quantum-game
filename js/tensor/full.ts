@@ -1,5 +1,4 @@
 // @ts-nocheck
-import _ from 'lodash';
 
 import {Tensor} from './tensor';
 import * as direction from './direction';
@@ -44,7 +43,7 @@ const pipes = [pipeH, pipeV];
 
 // TODO Following thing is not a Tensor.
 // TODO Make it easy to distinguish types of things.
-export const source = _.range(4).map((rotation) => {
+export const source = Array.from({length: 4}, (_, rotation) => {
   return [{
     to: `${direction.directions[rotation]}|`,
     re: 1.0,
@@ -52,7 +51,7 @@ export const source = _.range(4).map((rotation) => {
   }];
 });
 
-export const detector = _.range(4).map((rotation) =>
+export const detector = Array.from({length: 4}, (_, rotation) =>
   Tensor.product(
     direction.absorbOneDirReflectOther[rotation],
     polarization.reflectPhaseFromDenser
@@ -64,7 +63,7 @@ export const cornerCube = Tensor.product(
   polarization.identity
 );
 
-export const thinMirror = _.range(4).map((rotation) =>
+export const thinMirror = Array.from({length: 4}, (_, rotation) =>
   Tensor.product(
     direction.mirror[rotation],
     polarization.reflectPhaseFromDenser
@@ -72,14 +71,14 @@ export const thinMirror = _.range(4).map((rotation) =>
 );
 
 // FIX(migdal) this one is not even unitary
-export const thinMirrorCoated = _.range(8).map((rotation) =>
+export const thinMirrorCoated = Array.from({length: 8}, (_, rotation) =>
   Tensor.product(
     direction.mirrorCoated[rotation],
     polarization.reflectPhaseFromDenser
   )
 );
 
-export const thinSplitter = _.range(4).map((rotation) =>
+export const thinSplitter = Array.from({length: 4}, (_, rotation) =>
   Tensor.sum(
     Tensor.byConstant(
       rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2],
@@ -92,7 +91,7 @@ export const thinSplitter = _.range(4).map((rotation) =>
   )
 );
 
-export const thinSplitterCoated = _.range(8).map((rotation) =>
+export const thinSplitterCoated = Array.from({length: 8}, (_, rotation) =>
   Tensor.sum(
     Tensor.byConstant(
       rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2],
@@ -105,10 +104,10 @@ export const thinSplitterCoated = _.range(8).map((rotation) =>
   )
 );
 
-export const polarizingSplitter = _.range(2).map((rotation) => {
+export const polarizingSplitter = Array.from({length: 2}, (_, rotation) => {
   // Convert polarizing splitter rotation (/ \) into mirror rotation (- / | \)
   const mirrorRotation = 2 * rotation + 1;
-  return Tensor.fromObject(_.reduce(direction.directions, (acc, dir) => {
+  return Tensor.fromObject(direction.directions.reduce((acc, dir) => {
     const reflectedDirection = direction.planeReflectionDirection(dir, mirrorRotation);
     // Polarization - passes through
     acc[`${dir}-`] = {};
@@ -154,7 +153,7 @@ export const doubleSugarSolution = Tensor.product(
 const covariantAngle = (elementRotation, lightDirection) =>
   (1 - (lightDirection & 2)) * (1 - 2 * (lightDirection & 1)) * (-elementRotation - 2 * lightDirection) * TAU / 8;
 
-export const polarizer = _.range(4).map((rotation) =>
+export const polarizer = Array.from({length: 4}, (_, rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) =>
       Tensor.product(
@@ -165,7 +164,7 @@ export const polarizer = _.range(4).map((rotation) =>
   )
 );
 
-export const polarizerNS = _.range(4).map((rotation) =>
+export const polarizerNS = Array.from({length: 4}, (_, rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) => {
       if (i === 1 || i === 3) {
@@ -183,7 +182,7 @@ export const polarizerNS = _.range(4).map((rotation) =>
   )
 );
 
-export const polarizerWE = _.range(4).map((rotation) =>
+export const polarizerWE = Array.from({length: 4}, (_, rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) => {
       if (i === 0 || i === 2) {
@@ -202,7 +201,7 @@ export const polarizerWE = _.range(4).map((rotation) =>
 );
 
 // NOTE same notes as for polarizer
-export const quarterWavePlate = _.range(4).map((rotation) =>
+export const quarterWavePlate = Array.from({length: 4}, (_, rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) =>
       Tensor.product(
@@ -218,7 +217,7 @@ export const quarterWavePlate = _.range(4).map((rotation) =>
 
 // NOTE if I use 'zero' instead of this tensor product,
 // 'zero' changes; I am not sure if it is a priblem with sumList or what
-export const quarterWavePlateNS = _.range(4).map((rotation) =>
+export const quarterWavePlateNS = Array.from({length: 4}, (_, rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) => {
       if (i === 1 || i === 3) {
@@ -239,7 +238,7 @@ export const quarterWavePlateNS = _.range(4).map((rotation) =>
   )
 );
 
-export const quarterWavePlateWE = _.range(4).map((rotation) =>
+export const quarterWavePlateWE = Array.from({length: 4}, (_, rotation) =>
   Tensor.sumList(
     direction.diode.map((directionGo, i) => {
       if (i === 0 || i === 2) {
@@ -260,7 +259,7 @@ export const quarterWavePlateWE = _.range(4).map((rotation) =>
   )
 );
 
-export const faradayRotator = _.range(4).map((rotation) =>
+export const faradayRotator = Array.from({length: 4}, (_, rotation) =>
   Tensor.sum(
     Tensor.product(
       direction.diode[rotation],

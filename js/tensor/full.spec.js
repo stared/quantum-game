@@ -1,5 +1,4 @@
 import * as full from './full';
-import _ from 'lodash';
 
 function probability(entry) {
   return entry.re * entry.re + entry.im * entry.im;
@@ -12,13 +11,13 @@ const subspaceDirNS = ['^-', '^|', 'v-', 'v|'];
 // calculates norm of a random unit vector within a subspace
 function matrixNormOnRandomVector(matrix, subspace = subspaceAll) {
   const inputVector = subspace.map((key) => [key, {re: Math.random(), im: Math.random()}]);
-  const norm = _.sumBy(inputVector, (input) => probability(input[1]));
+  const norm = inputVector.reduce((sum, input) => sum + probability(input[1]), 0);
   const outputVector = {};
   let zIn;
   inputVector.forEach((input) => {
     zIn = input[1];
     matrix.get(input[0]).forEach((zOut, keyOut) => {
-      if (!_.has(outputVector, keyOut)) {
+      if (!(keyOut in outputVector)) {
         outputVector[keyOut] = {re: 0, im: 0};
       }
       outputVector[keyOut].re += zIn.re * zOut.re - zIn.im * zOut.im;
@@ -26,7 +25,7 @@ function matrixNormOnRandomVector(matrix, subspace = subspaceAll) {
     });
   });
 
-  return _(outputVector).values().map(probability).sum() / norm;
+  return Object.values(outputVector).map(probability).reduce((a, b) => a + b, 0) / norm;
 }
 
 

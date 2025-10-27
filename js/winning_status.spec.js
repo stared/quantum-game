@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {levels, Level} from './level';
 import {WinningStatus} from './winning_status';
 import * as tile from './tile';
@@ -21,13 +19,13 @@ describe('All game levels have solutions', () => {
       const level = new Level(levelRecipe, 'as_it_is');
 
       // clearTileMatrix and fillTileMatrix from board.js
-      const tileMatrix = _.range(level.width).map((i) =>
-        _.range(level.height).map((j) =>
+      const tileMatrix = Array.from({length: level.width}, (_, i) =>
+        Array.from({length: level.height}, (_, j) =>
           new tile.Tile(tile.Vacuum, 0, false, i, j)
         )
       );
 
-      _.each(level.tileRecipes, (tileRecipe) => {
+      level.tileRecipes.forEach((tileRecipe) => {
         tileMatrix[tileRecipe.i][tileRecipe.j] = new tile.Tile(
           tile[tileRecipe.name],
           tileRecipe.rotation || 0,

@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { Simulation } from './simulation';
 import { EPSILON_DETECTION } from './const';
 import type { Tile } from './tile';
@@ -44,40 +42,42 @@ export class WinningStatus {
     simulationC.initialize();
     simulationC.propagateToEnd(false);
 
-    this.absorptionProbabilities = _(simulationC.measurementHistory)
-      .flatten()
-      .groupBy((entry) => `${entry.i} ${entry.j}`)
-      .mapValues((groupedEntry) =>
-        _.sumBy(groupedEntry, 'probability')
-      )
-      .map((probability, location): AbsorptionProbability => ({
-        probability: probability,
-        i: parseInt(location.split(' ')[0]!),
-        j: parseInt(location.split(' ')[1]!),
-      }))
-      .value();
+    const flatHistory = simulationC.measurementHistory.flat();
+    const grouped = flatHistory.reduce((acc, entry) => {
+      const key = `${entry.i} ${entry.j}`;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(entry);
+      return acc;
+    }, {} as Record<string, typeof flatHistory>);
 
-    this.probsAtDets = _(this.absorptionProbabilities)
-      .filter((entry) => _.get(this.tileMatrix, `[${entry.i}][${entry.j}].isDetector`))
-      .map('probability')
-      .value();
+    this.absorptionProbabilities = Object.entries(grouped).map(([location, groupedEntry]): AbsorptionProbability => ({
+      probability: groupedEntry.reduce((sum, e) => sum + e.probability, 0),
+      i: parseInt(location.split(' ')[0]!),
+      j: parseInt(location.split(' ')[1]!),
+    }));
 
-    this.probsAtDetsByTime = _.map(simulationC.measurementHistory, (each) =>
-      _(each)
-        .filter((entry) => _.get(this.tileMatrix, `[${entry.i}][${entry.j}].isDetector`))
-        .sumBy('probability')
+    this.probsAtDets = this.absorptionProbabilities
+      .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector)
+      .map(entry => entry.probability);
+
+    this.probsAtDetsByTime = simulationC.measurementHistory.map((each) =>
+      each
+        .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector)
+        .reduce((sum, entry) => sum + entry.probability, 0)
     );
 
-    this.totalProbAtDets = _.sum(this.probsAtDets);
+    this.totalProbAtDets = this.probsAtDets.reduce((sum, prob) => sum + prob, 0);
     this.noOfFedDets = this.probsAtDets
       .filter((probability) => probability > EPSILON_DETECTION)
       .length;
-    this.probsAtMines = _(this.absorptionProbabilities)
+    this.probsAtMines = this.absorptionProbabilities
       .filter((entry) => {
         const tile = this.tileMatrix[entry.i]?.[entry.j];
         return tile !== undefined && tile.tileName === 'Mine';
       })
-      .sumBy('probability');
+      .reduce((sum, entry) => sum + entry.probability, 0);
   }
 
   compareToObjectives(requiredDetectionProbability: number, detectorsToFeed: number): boolean {

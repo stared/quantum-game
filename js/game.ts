@@ -1,6 +1,5 @@
 // @ts-nocheck
 /*global window:false*/
-import _ from 'lodash';
 import d3 from './d3-wrapper';
 
 import * as level from './level';
@@ -41,7 +40,7 @@ export class Game {
   }
 
   setView(viewName) {
-    if (!_.has(this.views, viewName)) {
+    if (!Object.hasOwn(this.views, viewName)) {
       window.console.error(`Invalid view: ${viewName}`);
       return;
     }

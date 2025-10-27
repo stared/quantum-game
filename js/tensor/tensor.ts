@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import type { ComplexNumber } from '../types';
 
 // Type for tensor object representation (before conversion to Tensor)
@@ -21,8 +20,8 @@ export class Tensor {
 
   static fromObject(object: TensorObject): Tensor {
     const map = new Map<string, Map<string, ComplexNumber>>();
-    for (const [key, value] of _.toPairs(object)) {
-      map.set(key, new Map(_.toPairs(value)));
+    for (const [key, value] of Object.entries(object)) {
+      map.set(key, new Map(Object.entries(value)));
     }
     return new Tensor(map);
   }
@@ -74,10 +73,10 @@ export class Tensor {
     ]);
 
     for (const outerKey of outerKeys) {
-      const sourceMaps = _.compact([
+      const sourceMaps = [
         t1.map.get(outerKey),
         t2.map.get(outerKey),
-      ]);
+      ].filter(Boolean);
 
       // Collect all values in a temporary object
       const tempValues: Record<string, ComplexNumber> = {};

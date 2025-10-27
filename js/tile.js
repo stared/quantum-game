@@ -1,11 +1,11 @@
-import _ from 'lodash';
-
 import * as config from './config';
 import * as full from './tensor/full';
 import {SoundService} from './sound_service';
 
-const pascalCase = (str) =>
-  str.charAt(0).toUpperCase() + _.camelCase(str.slice(1));
+const pascalCase = (str) => {
+  const camelCase = str.replace(/[-_](.)/g, (_, c) => c.toUpperCase());
+  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+};
 
 export const Vacuum = {
   svgName: 'vacuum',
@@ -479,7 +479,7 @@ export class Tile {
   }
 
   absorbSound() {
-    (this.type.absorbSound || _.noop)();
+    (this.type.absorbSound || (() => {}))();
   }
 
   absorbAnimation() {
@@ -542,4 +542,4 @@ export const allTiles = [
   'FaradayRotator',
 ];
 
-export const nonVacuumTiles = _.without(allTiles, 'Vacuum');
+export const nonVacuumTiles = allTiles.filter((tile) => tile !== 'Vacuum');

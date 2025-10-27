@@ -1,5 +1,4 @@
 // @ts-nocheck
-import _ from 'lodash';
 import d3 from './d3-wrapper';
 
 import * as tile from './tile';
@@ -17,12 +16,12 @@ export class Stock {
 
     // initialize 0-count stock for non-frozen tiles on board
     level.tileRecipes.forEach((tileRecipe) => {
-      if (!tileRecipe.frozen && !_.has(this.stock, tileRecipe.name)) {
+      if (!tileRecipe.frozen && !Object.hasOwn(this.stock, tileRecipe.name)) {
         this.stock[tileRecipe.name] = 0;
       }
     });
 
-    this.usedTileNames = _.keys(this.stock);  // add some ordering to the stock?
+    this.usedTileNames = Object.keys(this.stock);  // add some ordering to the stock?
     this.level = level;
   }
 
@@ -38,7 +37,7 @@ export class Stock {
     const maxRows = stockHeight;
     const iShift = this.level.width + 1;
 
-    const dataForStockDrawing = _.map(this.usedTileNames, (name, i) => ({
+    const dataForStockDrawing = this.usedTileNames.map((name, i) => ({
         name: name,
         i: Math.floor(i / maxRows) + iShift,
         j: i % maxRows,

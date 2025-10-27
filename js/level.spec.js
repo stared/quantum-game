@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {levels, Level} from './level';
 
 describe('All level JSON recipes have required fields', () => {
@@ -40,15 +38,20 @@ describe('Game levels: source, detector, mines - present, fixed', () => {
     .forEach((levelRecipe) => {
     it(`${levelRecipe.i} ${levelRecipe.name}`, () => {
 
-      const tileCount = _.countBy(levelRecipe.tiles, 'name');
+      const tileCount = levelRecipe.tiles.reduce((acc, tile) => {
+        acc[tile.name] = (acc[tile.name] || 0) + 1;
+        return acc;
+      }, {});
 
       expect(tileCount['Source']).toBe(1);
       expect((tileCount['Detector'] || 0) + (tileCount['Mine'] || 0)).toBeGreaterThan(0);
 
-      const nonfrozenCount = _(levelRecipe.tiles)
+      const nonfrozenCount = levelRecipe.tiles
         .filter((tile) => !tile.frozen)
-        .countBy('name')
-        .value();
+        .reduce((acc, tile) => {
+          acc[tile.name] = (acc[tile.name] || 0) + 1;
+          return acc;
+        }, {});
 
       expect(nonfrozenCount['Source']).toBeUndefined();
       expect(nonfrozenCount['Detector']).toBeUndefined();
@@ -61,11 +64,9 @@ describe('Game levels: source, detector, mines - present, fixed', () => {
 describe('Level group-name pairs are unique', () => {
 
   it(`${levels.length} level names are unique`, () => {
-    const uniqueLength = _(levels)
-      .map((levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`)
-      .uniq()
-      .value()
-      .length;
+    const uniqueLength = [...new Set(
+      levels.map((levelRecipe) => `${levelRecipe.group} ${levelRecipe.name}`)
+    )].length;
     expect(uniqueLength).toBe(levels.length);
   });
 

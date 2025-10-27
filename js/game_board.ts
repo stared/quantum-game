@@ -1,5 +1,4 @@
 // @ts-nocheck
-import _ from 'lodash';
 import d3 from './d3-wrapper';
 import stringify from 'json-stringify-pretty-compact';
 import {saveAs} from 'file-saver';
@@ -302,7 +301,8 @@ export class GameBoard {
 
   downloadCurrentLevel() {
     const levelJSON = stringify(this.bareBoard.exportBoard(), {maxLength: 100, indent: 2});
-    const fileName = _.kebabCase(`${this.bareBoard.level.name}_${(new Date()).toISOString()}`) + '.json';
+    const timestamp = (new Date()).toISOString();
+    const fileName = `${this.bareBoard.level.name}_${timestamp}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.json';
     const blob = new Blob([levelJSON], {type: 'text/plain;charset=utf-8'});
     saveAs(blob, fileName);
     window.console.log(levelJSON);

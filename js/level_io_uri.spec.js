@@ -1,19 +1,13 @@
-import _ from 'lodash';
-
 import {name2abbr, encodeTile, decodeTile} from './level_io_uri';
 import {allTiles} from './tile';
 
 
 describe('Tile URI codes', () => {
 
-  const noOfCodes = _.values(name2abbr).length;
+  const noOfCodes = Object.values(name2abbr).length;
 
   it('Tile codes are unique', () => {
-    const uniqueLength = _(name2abbr)
-      .values()
-      .uniq()
-      .value()
-      .length;
+    const uniqueLength = [...new Set(Object.values(name2abbr))].length;
     expect(uniqueLength).toBe(noOfCodes);
   });
 
@@ -22,9 +16,9 @@ describe('Tile URI codes', () => {
   });
 
   it('Each tile has its code', () => {
-    const numberOfTilesWithCode = _(allTiles)
-      .map((name) => _.has(name2abbr, name))
-      .sum();
+    const numberOfTilesWithCode = allTiles
+      .map((name) => name in name2abbr ? 1 : 0)
+      .reduce((a, b) => a + b, 0);
     expect(numberOfTilesWithCode).toBe(allTiles.length);
   });
 

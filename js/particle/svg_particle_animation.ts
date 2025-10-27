@@ -1,6 +1,5 @@
 // @ts-nocheck
 /*global window:false*/
-import _ from 'lodash';
 import d3 from '../d3-wrapper';
 
 import {TAU, perpendicularI, perpendicularJ} from '../const';

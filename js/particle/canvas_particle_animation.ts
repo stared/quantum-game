@@ -1,6 +1,5 @@
 // @ts-nocheck
 /*global window:false*/
-import _ from 'lodash';
 import d3 from '../d3-wrapper';
 
 import {TAU, perpendicularI, perpendicularJ} from '../const';
@@ -16,9 +15,14 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     this.startTime = 0;
     this.pauseTime = 0;
     // Prepare throttled version of resizeCanvas
-    this.throttledResizeCanvas =
-      _.throttle(this.resizeCanvas, resizeThrottle)
-      .bind(this);
+    let lastResize = 0;
+    this.throttledResizeCanvas = () => {
+      const now = Date.now();
+      if (now - lastResize >= resizeThrottle) {
+        lastResize = now;
+        this.resizeCanvas();
+      }
+    };
   }
 
   updateStartTime() {
@@ -157,7 +161,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
     // Actual drawing
     this.ctx.fillStyle = 'red';
-    _.each(this.history[stepNo], (d) => {
+    this.history[stepNo].forEach((d) => {
       this.ctx.beginPath();
       this.ctx.globalAlpha = d.prob;
       const h = polarizationScaleH * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
@@ -185,7 +189,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
     // Actual drawing
     this.ctx.fillStyle = 'red';
-    _.each(this.history[stepNo], (d) => {
+    this.history[stepNo].forEach((d) => {
 
       const movX = (1 - t) * d.startX + t * d.endX;
       const movY = (1 - t) * d.startY + t * d.endY;

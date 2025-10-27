@@ -1,13 +1,14 @@
-import _ from 'lodash';
-
 import * as config from './config';
 import * as full from './tensor/full';
 import { SoundService } from './sound_service';
 import type { D3Selection, TileDescription, PhotonGeneration } from './types';
 import type { Tensor } from './tensor/tensor';
 
-const pascalCase = (str: string): string =>
-  str.charAt(0).toUpperCase() + _.camelCase(str.slice(1));
+const pascalCase = (str: string): string => {
+  // Convert kebab-case or snake_case to camelCase, then capitalize first letter
+  const camelCase = str.replace(/[-_]([a-z])/g, (_, letter) => letter.toUpperCase());
+  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+};
 
 // Interface for tile type configuration
 export interface TileType {
@@ -500,7 +501,7 @@ export class Tile {
   }
 
   absorbSound(): void {
-    (this.type.absorbSound || _.noop)();
+    (this.type.absorbSound || (() => {}))();
   }
 
   absorbAnimation(): void {
@@ -563,4 +564,4 @@ export const allTiles = [
   'FaradayRotator',
 ];
 
-export const nonVacuumTiles = _.without(allTiles, 'Vacuum');
+export const nonVacuumTiles = allTiles.filter(tile => tile !== 'Vacuum');

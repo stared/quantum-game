@@ -1,5 +1,4 @@
 // @ts-nocheck
-import _ from 'lodash';
 import d3 from './d3-wrapper';
 
 import {tileSize, tileBorder, animationStepDuration} from './config';
@@ -25,12 +24,12 @@ export class BareBoard {
 
     // NOTE maybe some event listener instead?
     this.callbacks = {
-      tileRotated: callbacks.tileRotated || _.noop,
-      tileMouseover: callbacks.tileMouseover || _.noop,
-      animationStart: callbacks.animationStart || _.noop,
-      animationInterrupt: callbacks.animationInterrupt || _.noop,
-      animationEnd: callbacks.animationEnd || _.noop,
-      setPlayButtonState: callbacks.setPlayButtonState || _.noop,
+      tileRotated: callbacks.tileRotated || (() => {}),
+      tileMouseover: callbacks.tileMouseover || (() => {}),
+      animationStart: callbacks.animationStart || (() => {}),
+      animationInterrupt: callbacks.animationInterrupt || (() => {}),
+      animationEnd: callbacks.animationEnd || (() => {}),
+      setPlayButtonState: callbacks.setPlayButtonState || (() => {}),
     };
 
     this.logger = new Logger();
@@ -54,15 +53,15 @@ export class BareBoard {
 
   clearTileMatrix() {
     // Create matrix filled with Vacuum
-    this.tileMatrix = _.range(this.level.width).map((i) =>
-        _.range(this.level.height).map((j) =>
+    this.tileMatrix = Array.from({length: this.level.width}, (_, i) =>
+        Array.from({length: this.level.height}, (_, j) =>
             new tile.Tile(tile.Vacuum, 0, false, i, j)
         )
     );
   }
 
   fillTileMatrix(tileRecipes) {
-    _.each(tileRecipes, (tileRecipe) => {
+    tileRecipes.forEach((tileRecipe) => {
       this.tileMatrix[tileRecipe.i][tileRecipe.j] = new tile.Tile(
         tile[tileRecipe.name],
         tileRecipe.rotation || 0,
@@ -96,10 +95,8 @@ export class BareBoard {
       .append('g')
       .attr('class', 'background')
       .selectAll('.background-tile')
-      .data(_.chain(this.tileMatrix)  // NOTE I cannot just clone due to d.x and d.y getters
-        .flatten()
-        .map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j))
-        .value()
+      .data(
+        this.tileMatrix.flat().map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j))
       )
       .enter()
       .append('rect')
@@ -174,7 +171,7 @@ export class BareBoard {
       .append('g')
       .attr('class', 'board');
 
-    _.flatten(this.tileMatrix)
+    this.tileMatrix.flat()
         .filter((t) => t.type !== tile.Vacuum)
         .forEach((t) => this.addTile(t));
   }
@@ -411,8 +408,8 @@ export class BareBoard {
       next:   this.level.next,
       width:  this.level.width,
       height: this.level.height,
-      tiles:  _.chain(this.tileMatrix)
-        .flatten()
+      tiles:  this.tileMatrix
+        .flat()
         .filter((d) => d.tileName !== 'Vacuum')
         .map((d) => ({
           i: d.i,
@@ -420,8 +417,7 @@ export class BareBoard {
           name: d.tileName,
           rotation: d.rotation,
           frozen: d.frozen,
-        }))
-        .value(),
+        })),
       stock:                        this.stock ? this.stock.stock : {},  // hack for non-attached stock
       requiredDetectionProbability: this.level.requiredDetectionProbability,
       detectorsToFeed:              this.level.detectorsToFeed,

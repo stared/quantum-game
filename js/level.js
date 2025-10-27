@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {nonVacuumTiles} from './tile';
 import {isProduction} from './config';
 
@@ -31,7 +29,7 @@ export class Level {
     this.texts = levelRecipe.texts || {};
     this.tileRecipes = levelRecipe.tiles;
     this.initialStock = {};
-    if (levelRecipe.stock == null && _.filter(levelRecipe.tiles, 'frozen').length === 0) {
+    if (levelRecipe.stock == null && levelRecipe.tiles.filter((t) => t.frozen).length === 0) {
       levelRecipe.stock = 'all';
     }
     if (typeof levelRecipe.stock === 'object' || mode === 'as_it_is') {
@@ -41,14 +39,16 @@ export class Level {
         this.initialStock[tile] = (tile === 'Source' ? 1 : 99);
       });
     } else if (levelRecipe.stock === 'non-frozen' || mode === 'game') {
-      this.tileRecipes = _.filter(levelRecipe.tiles, 'frozen');
-      this.initialStock = _(levelRecipe.tiles)
+      this.tileRecipes = levelRecipe.tiles.filter((t) => t.frozen);
+      this.initialStock = levelRecipe.tiles
         .filter((tile) => !tile.frozen)
-        .countBy('name')
-        .value();
+        .reduce((acc, tile) => {
+          acc[tile.name] = (acc[tile.name] || 0) + 1;
+          return acc;
+        }, {});
     }
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability === undefined ? 1 : levelRecipe.requiredDetectionProbability;
-    this.detectorsToFeed = levelRecipe.detectorsToFeed || _.filter(levelRecipe.tiles, (tile) => tile.frozen && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
+    this.detectorsToFeed = levelRecipe.detectorsToFeed || levelRecipe.tiles.filter((tile) => tile.frozen && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
   }
 }
 
@@ -60,16 +60,17 @@ if (!isProduction) {
   levelsCandidate.forEach((level) => level.group = 'X Candidate');
 }
 
-export const levels = _(levelsGame)
-  .concat(levelsCandidate)
-  .concat(levelsOther)
+export const levels = [...levelsGame, ...levelsCandidate, ...levelsOther]
   .map((level, i) => {
     level.i = i;
     level.id = levelId(level);
     return level;
   })
-  .sortBy((level) => `${level.group} ${1e6 + level.i}`)
-  .value();
+  .sort((a, b) => {
+    const keyA = `${a.group} ${1e6 + a.i}`;
+    const keyB = `${b.group} ${1e6 + b.i}`;
+    return keyA.localeCompare(keyB);
+  });
 
 if (isProduction) {
   lastLevel.i = -1;
@@ -79,17 +80,26 @@ if (isProduction) {
 }
 
 levels.forEach((level, i) => {
-  level.next = _.get(levels[i + 1], 'id');
+  level.next = levels[i + 1]?.id;
   delete level.i;
 });
 
 // ordering within groups
-_(levels)
-  .groupBy('group')
-  .forEach((group) =>
-    group.forEach((level, i) => level.i = i + 1)
-  );
+const groupedLevels = levels.reduce((acc, level) => {
+  if (!acc[level.group]) {
+    acc[level.group] = [];
+  }
+  acc[level.group].push(level);
+  return acc;
+}, {});
+
+Object.values(groupedLevels).forEach((group) =>
+  group.forEach((level, i) => level.i = i + 1)
+);
 
 levels[0].i = '\u221E';
 
-export const idToLevel = _.keyBy(levels, 'id');
+export const idToLevel = levels.reduce((acc, level) => {
+  acc[level.id] = level;
+  return acc;
+}, {});

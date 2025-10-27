@@ -1,5 +1,4 @@
 // @ts-nocheck
-import _ from 'lodash';
 
 import {Tensor} from './tensor';
 
@@ -42,7 +41,7 @@ export function planeReflectionDirection(direction, rotation) {
 }
 
 export const cube = Tensor.fromObject(
-  _.reduce(directions, (acc, dirFrom) => {
+  directions.reduce((acc, dirFrom) => {
     const dirTo = pointReflectionDirection(dirFrom);
     acc[dirFrom] = {};
     acc[dirFrom][dirTo] = {re: 1, im: 0};
@@ -50,9 +49,9 @@ export const cube = Tensor.fromObject(
   }, {})
 );
 
-export const mirror = _.range(4).map((rotation) => {
+export const mirror = Array.from({length: 4}, (_, rotation) => {
   return Tensor.fromObject(
-    _.reduce(directions, (acc, dirFrom) => {
+    directions.reduce((acc, dirFrom) => {
       const dirTo = planeReflectionDirection(dirFrom, rotation);
       acc[dirFrom] = {};
       if (dirFrom !== dirTo) {
@@ -63,9 +62,9 @@ export const mirror = _.range(4).map((rotation) => {
   );
 });
 
-export const mirrorCoated = _.range(8).map((rotation) => {
+export const mirrorCoated = Array.from({length: 8}, (_, rotation) => {
   return Tensor.fromObject(
-    _.reduce(directions, (acc, dirFrom, iFrom) => {
+    directions.reduce((acc, dirFrom, iFrom) => {
       const dirTo = planeReflectionDirection(dirFrom, rotation);
       const sign = (-rotation/2 + iFrom + 8) % 4 < 1.75 ? -1 : 1;
       acc[dirFrom] = {};
@@ -77,9 +76,9 @@ export const mirrorCoated = _.range(8).map((rotation) => {
   );
 });
 
-export const diode = _.range(4).map((rotation) => {
+export const diode = Array.from({length: 4}, (_, rotation) => {
   return Tensor.fromObject(
-    _.reduce(directions, (acc, dirFrom) => {
+    directions.reduce((acc, dirFrom) => {
       acc[dirFrom] = {};
       if (dirFrom === directions[rotation]) {
         acc[dirFrom][dirFrom] = {re: 1, im: 0};
@@ -89,9 +88,9 @@ export const diode = _.range(4).map((rotation) => {
   );
 });
 
-export const absorbOneDirReflectOther = _.range(4).map((rotation) => {
+export const absorbOneDirReflectOther = Array.from({length: 4}, (_, rotation) => {
   return Tensor.fromObject(
-    _.reduce(directions, (acc, dirFrom, iFrom) => {
+    directions.reduce((acc, dirFrom, iFrom) => {
       const dirTo = pointReflectionDirection(dirFrom);
       acc[dirFrom] = {};
       if (rotation !== iFrom) {

@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 /**
  * Tensor - mathematically it corresponds to sparse matrices.
  * In JS, it's made of map of maps.
@@ -11,8 +9,8 @@ export class Tensor {
 
   static fromObject(object) {
     const map = new Map(null);
-    for (let [key, value] of _.toPairs(object)) {
-      map.set(key, new Map(_.toPairs(value)));
+    for (let [key, value] of Object.entries(object)) {
+      map.set(key, new Map(Object.entries(value)));
     }
     return new Tensor(map);
   }
@@ -64,10 +62,10 @@ export class Tensor {
     ]);
     for (let outerKey of outerKeys) {
       const innerMap = new Map(null);
-      const sourceMaps = _.compact([
+      const sourceMaps = [
         t1.map.get(outerKey),
-        t2.map.get(outerKey)]
-      );
+        t2.map.get(outerKey)
+      ].filter(Boolean);
       for (let sourceMap of sourceMaps) {
         for (let [innerKey, innerValue] of sourceMap) {
           if (innerMap.has(innerKey)) {

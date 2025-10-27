@@ -1,6 +1,5 @@
 // @ts-nocheck
 import d3 from '../d3-wrapper';
-import _ from 'lodash';
 
 import {View} from './view';
 import * as level from '../level';
@@ -31,7 +30,7 @@ export class LevelSelectorView extends View {
     level.levels.forEach((d) => {
       d.newTiles = [];
       d.tiles.forEach((tile) => {
-        if (!_.has(elementsEncountered, tile.name)) {
+        if (!Object.hasOwn(elementsEncountered, tile.name)) {
           elementsEncountered[tile.name] = true;
           d.newTiles.push(tile.name);
         }
@@ -40,14 +39,18 @@ export class LevelSelectorView extends View {
 
     listOfElements.append('span')
       .style('font-size', '1.5vh')
-      .text((d) =>
-        _(d.tiles)
-          .groupBy('name')
-          .keys()
-          .filter((tile) => !_.includes(['Detector', 'Rock', 'Source'], tile))
-          .value()
-          .join(' ')
-      );
+      .text((d) => {
+        const grouped = d.tiles.reduce((acc, tile) => {
+          if (!acc[tile.name]) {
+            acc[tile.name] = [];
+          }
+          acc[tile.name].push(tile);
+          return acc;
+        }, {});
+        return Object.keys(grouped)
+          .filter((tile) => !['Detector', 'Rock', 'Source'].includes(tile))
+          .join(' ');
+      });
 
     listOfElements.append('span')
       .style('font-size', '1.5vh')

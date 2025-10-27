@@ -1,6 +1,4 @@
 /*global window:false*/
-import _ from 'lodash';
-
 import {EPSILON, velocityI, velocityJ} from './const';
 import {maxIterations} from './config';
 import * as print from './print';
@@ -8,13 +6,21 @@ import * as print from './print';
 const zAbs = (z) =>
   z.re * z.re + z.im * z.im;
 
-const intensityPerPosition = (state) =>
-  _(state)
-    .groupBy((entry) => `${entry.i} ${entry.j}`)
-    .mapValues((groupedEntry) =>
-      _.sumBy(groupedEntry, zAbs)
-    )
-    .value();
+const intensityPerPosition = (state) => {
+  const grouped = state.reduce((acc, entry) => {
+    const key = `${entry.i} ${entry.j}`;
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(entry);
+    return acc;
+  }, {});
+
+  return Object.entries(grouped).reduce((acc, [key, entries]) => {
+    acc[key] = entries.reduce((sum, entry) => sum + zAbs(entry), 0);
+    return acc;
+  }, {});
+};
 
 export class Simulation {
 
@@ -33,28 +39,27 @@ export class Simulation {
    */
   initialize() {
 
-    const initialState =
-      _.reduce(_.range(this.levelWidth), (accI, i) => {
-        return _.reduce(_.range(this.levelHeight), (accJ, j) => {
-          // Recognize generating tiles by having 'generation' method
-          if (!this.tileMatrix[i][j].type.generation) {
-            return accJ;
-          }
-          const emissions =
-            this.tileMatrix[i][j].type.generation(
-              this.tileMatrix[i][j].rotation
-            );
-          _.forEach(emissions, (emission) => {
-            accJ.push({i:  i,
-                       j:  j,
-                       to: emission.to,
-                       re: emission.re,
-                       im: emission.im,
-                      });
-          });
-          return accJ;
-        }, accI);
-      }, []);
+    const initialState = [];
+    for (let i = 0; i < this.levelWidth; i++) {
+      for (let j = 0; j < this.levelHeight; j++) {
+        // Recognize generating tiles by having 'generation' method
+        if (!this.tileMatrix[i][j].type.generation) {
+          continue;
+        }
+        const emissions =
+          this.tileMatrix[i][j].type.generation(
+            this.tileMatrix[i][j].rotation
+          );
+        emissions.forEach((emission) => {
+          initialState.push({i:  i,
+                     j:  j,
+                     to: emission.to,
+                     re: emission.re,
+                     im: emission.im,
+                    });
+        });
+      }
+    }
 
     if (this.logging) {
       window.console.log('Simulation started:');
@@ -72,7 +77,7 @@ export class Simulation {
    */
   propagate(quantum, onlyDetectors = -1) {
 
-    const lastState = _.last(this.history);
+    const lastState = this.history[this.history.length - 1];
     const displacedState = this.displace(lastState);
     let newState = this.interact(displacedState);
     const absorbed = this.absorb(displacedState, newState, onlyDetectors);
@@ -91,7 +96,7 @@ export class Simulation {
       }
     }
 
-    if (_.some(absorbed, 'measured') && quantum) {
+    if (absorbed.some((a) => a.measured) && quantum) {
       return [];
     } else {
       return newState;
@@ -105,7 +110,7 @@ export class Simulation {
    */
   // WARNING: creating may be slower than just modifying i and j
   displace(state) {
-    return _.map(state, (entry) => {
+    return state.map((entry) => {
       // 'to' value = direction + polarization
       const dir = entry.to[0];
       const newI = entry.i + velocityI[dir];
@@ -124,20 +129,18 @@ export class Simulation {
     const intensityOld = intensityPerPosition(stateOld);
     const intensityNew = intensityPerPosition(stateNew);
 
-    const bins = _(intensityOld)
-      .mapValues((prob, location) =>
-        prob - (intensityNew[location] || 0)
-      )
-      .pickBy((prob) => prob > EPSILON)
-      .map((prob, location) => {
+    const bins = Object.entries(intensityOld)
+      .map(([location, prob]) => {
+        const diff = prob - (intensityNew[location] || 0);
+        if (diff <= EPSILON) return null;
         return {
-          probability: prob,
+          probability: diff,
           measured: false,
           i: parseInt(location.split(' ')[0]),
           j: parseInt(location.split(' ')[1]),
         };
       })
-      .value();
+      .filter(Boolean);
 
     bins.forEach((each) => {
       each.tile = this.tileMatrix[each.i] && this.tileMatrix[each.i][each.j];
@@ -184,7 +187,7 @@ export class Simulation {
   interact(state) {
     // Collect all transitions into bins. Each bin will be labeled
     // with position (i, j) and momentum direction.
-    const bins = _.reduce(state, (acc, entry) => {
+    const bins = state.reduce((acc, entry) => {
       // Check if particle is out of bound
       if (
            entry.i < 0 || entry.i >= this.levelWidth
@@ -201,7 +204,7 @@ export class Simulation {
         const re = entry.re * change.re - entry.im * change.im;
         const im = entry.re * change.im + entry.im * change.re;
         // Add to bin
-        if (_.has(acc, binKey)) {
+        if (binKey in acc) {
           acc[binKey].re += re;
           acc[binKey].im += im;
         } else {
@@ -216,21 +219,21 @@ export class Simulation {
       return acc;
     }, {});
     // Remove keys; filter out zeroes
-    return _.values(bins).filter((entry) =>
+    return Object.values(bins).filter((entry) =>
       entry.re * entry.re + entry.im * entry.im > EPSILON
     );
   }
 
   normalize(state) {
 
-    let norm = _.chain(state)
+    let norm = state
       .map((entry) => entry.re * entry.re + entry.im * entry.im)
-      .sum();
+      .reduce((a, b) => a + b, 0);
 
     norm = Math.sqrt(norm);
 
     return state.map((entry) =>
-      _.assign(entry, {
+      Object.assign(entry, {
         re: entry.re / norm,
         im: entry.im / norm,
       })
@@ -255,7 +258,7 @@ export class Simulation {
 
   // propagation making sure that it will click at one of the detectors
   propagateToEndCheated(absAtDetByTime) {
-    const totalDetection = _.sum(absAtDetByTime);
+    const totalDetection = absAtDetByTime.reduce((a, b) => a + b, 0);
     let detectionSoFar = 0;
     let stepNo, lastStep;
     for (stepNo = 0; stepNo < absAtDetByTime.length; ++stepNo) {

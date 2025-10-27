@@ -1,5 +1,4 @@
 // @ts-nocheck
-import _ from 'lodash';
 
 // NOTE could be done automatically, but mnemotechnics may make sense
 const tileAbbreviations = [
@@ -27,11 +26,10 @@ const tileAbbreviations = [
 ];
 
 // export only for tests
-export const name2abbr = _.fromPairs(tileAbbreviations);
-const abbr2name = _(tileAbbreviations)
-  .map((each) => [each[1], each[0]])
-  .fromPairs()
-  .value();
+export const name2abbr = Object.fromEntries(tileAbbreviations);
+const abbr2name = Object.fromEntries(
+  tileAbbreviations.map((each) => [each[1], each[0]])
+);
 
 const vacuumCode = name2abbr['Vacuum'] + '0';
 
@@ -55,13 +53,13 @@ const encodeKeyValue = (k, v) =>
   `${k}=${window.encodeURIComponent(v)}`;
 
 const serializeAllTiles = (tiles, width, height) => {
-  const tileMatrix = _.range(height).map(() =>
-    _.range(width).map(() => vacuumCode)
+  const tileMatrix = Array.from({length: height}, () =>
+    Array.from({length: width}, () => vacuumCode)
   );
   tiles.forEach((tileRecipe) => {
     tileMatrix[tileRecipe.j][tileRecipe.i] = encodeTile(tileRecipe);
   });
-  return _(tileMatrix).flatten().join('');
+  return tileMatrix.flat().join('');
 };
 
 export const levelRecipe2queryString = (levelRecipe) =>
@@ -77,18 +75,16 @@ export const levelRecipe2queryString = (levelRecipe) =>
 
 // for one-letter keys
 const parseQueryString = (queryString) =>
-   _(queryString.split('&'))
-     .map((s) => [s[0], decodeURIComponent(s.slice(2))])
-     .fromPairs()
-     .value();
+   Object.fromEntries(
+     queryString.split('&').map((s) => [s[0], decodeURIComponent(s.slice(2))])
+   );
 
 const parseAllTiles = (allTileString, width) =>
-  _.range(allTileString.length / 2)
-    .map((k) => ({
-      i: k % width,
-      j: Math.floor(k / width),
-      t: allTileString.slice(2 * k, 2 * k + 2),
-    }))
+  Array.from({length: allTileString.length / 2}, (_, k) => ({
+    i: k % width,
+    j: Math.floor(k / width),
+    t: allTileString.slice(2 * k, 2 * k + 2),
+  }))
     .filter((tile) => tile.t !== vacuumCode)
     .map((tile) => {
       const res = decodeTile(tile.t);

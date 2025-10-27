@@ -1,6 +1,5 @@
 // @ts-nocheck
 import d3 from './d3-wrapper';
-import _ from 'lodash';
 import {TAU, EPSILON} from './const';
 import {Tooltip} from './tooltip';
 
@@ -59,7 +58,7 @@ export class TransitionHeatmap {
         })
       );
 
-    this.update(this.basis, _.flatten(arrayContent));
+    this.update(this.basis, arrayContent.flat());
   }
 
   toggleBasis() {
@@ -76,7 +75,7 @@ export class TransitionHeatmap {
 
   update(labels, matrixElements=null) {
 
-    const position = _.fromPairs(labels.map((d, i) => [d, i]));
+    const position = Object.fromEntries(labels.map((d, i) => [d, i]));
 
     const scale = d3.scale.linear()
       .domain([-1, labels.length])

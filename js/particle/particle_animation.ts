@@ -1,6 +1,5 @@
 // @ts-nocheck
 /*global window:false*/
-import _ from 'lodash';
 
 import {tileSize, absorptionDuration, absorptionTextDuration} from '../config';
 import {Particle} from './particle';
@@ -11,20 +10,27 @@ export class ParticleAnimation {
 
     this.stateHistory = history;
     this.history = history.map((state) => {
-      return _.chain(state)
-        .groupBy((val) => `${val.i},${val.j},${val.to[0]}`)
-        .mapValues((ray) => {
-          const rayind = _.keyBy(ray, (val) => val.to[1]);
+      const grouped = state.reduce((acc, val) => {
+        const key = `${val.i},${val.j},${val.to[0]}`;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(val);
+        return acc;
+      }, {});
 
-          const hRe = rayind['-'] ? rayind['-'].re : 0;
-          const hIm = rayind['-'] ? rayind['-'].im : 0;
-          const vRe = rayind['|'] ? rayind['|'].re : 0;
-          const vIm = rayind['|'] ? rayind['|'].im : 0;
+      return Object.values(grouped).map((ray) => {
+        const rayind = Object.fromEntries(
+          ray.map((val) => [val.to[1], val])
+        );
 
-          return new Particle(ray[0].i, ray[0].j, ray[0].to[0], hRe, hIm, vRe, vIm);
-        })
-        .values()
-        .value();
+        const hRe = rayind['-'] ? rayind['-'].re : 0;
+        const hIm = rayind['-'] ? rayind['-'].im : 0;
+        const vRe = rayind['|'] ? rayind['|'].re : 0;
+        const vIm = rayind['|'] ? rayind['|'].im : 0;
+
+        return new Particle(ray[0].i, ray[0].j, ray[0].to[0], hRe, hIm, vRe, vIm);
+      });
     });
 
     this.measurementHistory = measurementHistory;
@@ -120,7 +126,7 @@ export class ParticleAnimation {
   }
 
   displayMeasurementTexts(stepNo) {
-    _.forEach(this.measurementHistory[stepNo], (measurement) => {
+    this.measurementHistory[stepNo].forEach((measurement) => {
       this.measurementTextGroup.datum(measurement)
         .append('text')
         .attr('class', 'measurement-text unselectable')

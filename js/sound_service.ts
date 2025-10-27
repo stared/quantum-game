@@ -1,5 +1,4 @@
 // @ts-nocheck
-import _ from 'lodash';
 import * as soundjs from './soundjs-wrapper';
 
 const SOUND_DEFS = {
@@ -36,21 +35,24 @@ export class SoundService {
       return;
     }
     // Register sounds
-    _.forIn(SOUND_DEFS, (def, name) => {
+    Object.entries(SOUND_DEFS).forEach(([name, def]) => {
       soundjs.Sound.registerSound(`/sounds/${def.file}`, name);
     });
     // Create throttled versions
-    SoundService.throttled = _.mapValues(SOUND_DEFS, (def, name) => {
-      return _.throttle(
-        () => {
-          soundjs.Sound.play(name);
-        },
-        def.throttleMs,
-        {
-          leading: true,
-          trailing: false,
-        });
-    });
+    SoundService.throttled = Object.fromEntries(
+      Object.entries(SOUND_DEFS).map(([name, def]) => {
+        // Simple throttle implementation
+        let lastCall = 0;
+        const throttled = () => {
+          const now = Date.now();
+          if (now - lastCall >= def.throttleMs) {
+            lastCall = now;
+            soundjs.Sound.play(name);
+          }
+        };
+        return [name, throttled];
+      })
+    );
     SoundService.initialized = true;
   }
 

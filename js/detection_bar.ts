@@ -1,6 +1,5 @@
 // @ts-nocheck
 import d3 from './d3-wrapper';
-import _ from 'lodash';
 
 import {tileSize, absorptionDuration} from './config';
 
@@ -99,7 +98,7 @@ export class DetectionBar {
     this.percentRequired
       .attr('width', this.percentScale(probability));
 
-    this.counts = _.range(count);
+    this.counts = Array.from({length: count}, (_, i) => i);
     this.countBoxes = this.countG
       .selectAll('.count-box')
       .data(this.counts);

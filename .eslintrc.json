@@ -7,14 +7,12 @@
     "project": "./tsconfig.json"
   },
   "plugins": [
-    "@typescript-eslint",
-    "lodash"
+    "@typescript-eslint"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:lodash/recommended"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "error",
@@ -33,8 +31,7 @@
     }],
     "comma-dangle": ["warn", "always-multiline"],
     "no-var": "error",
-    "quotes": ["warn", "single"],
-    "lodash/prefer-lodash-method": "off"
+    "quotes": ["warn", "single"]
   },
   "env": {
     "es2020": true,

@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { nonVacuumTiles } from './tile';
 import { isProduction } from './config';
 import type { LevelRecipe, LevelMode, Stock, TileRecipe, BoardHint } from './types';
@@ -50,7 +48,7 @@ export class Level {
 
     // Determine stock based on mode and levelRecipe
     let stockConfig = levelRecipe.stock;
-    if (stockConfig == null && _.filter(levelRecipe.tiles, 'frozen').length === 0) {
+    if (stockConfig == null && levelRecipe.tiles.filter(tile => tile.frozen).length === 0) {
       stockConfig = 'all';
     }
 
@@ -61,15 +59,16 @@ export class Level {
         this.initialStock[tile] = (tile === 'Source' ? 1 : 99);
       });
     } else if (stockConfig === 'non-frozen' || mode === 'game') {
-      this.tileRecipes = _.filter(levelRecipe.tiles, 'frozen');
-      this.initialStock = _(levelRecipe.tiles)
-        .filter((tile) => !tile.frozen)
-        .countBy('name')
-        .value();
+      this.tileRecipes = levelRecipe.tiles.filter(tile => tile.frozen);
+      const nonFrozenTiles = levelRecipe.tiles.filter((tile) => !tile.frozen);
+      this.initialStock = nonFrozenTiles.reduce((acc, tile) => {
+        acc[tile.name] = (acc[tile.name] || 0) + 1;
+        return acc;
+      }, {} as Stock);
     }
 
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability === undefined ? 1 : levelRecipe.requiredDetectionProbability;
-    this.detectorsToFeed = levelRecipe.detectorsToFeed || _.filter(levelRecipe.tiles, (tile) => tile.frozen && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
+    this.detectorsToFeed = levelRecipe.detectorsToFeed || levelRecipe.tiles.filter((tile) => tile.frozen && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
   }
 }
 
@@ -81,7 +80,7 @@ if (!isProduction) {
   levelsCandidate.forEach((level) => (level as unknown as LevelRecipe).group = 'X Candidate');
 }
 
-export const levels: LevelRecipe[] = _(levelsGame as unknown as LevelRecipe[])
+export const levels: LevelRecipe[] = (levelsGame as unknown as LevelRecipe[])
   .concat(levelsCandidate as unknown as LevelRecipe[])
   .concat(levelsOther as unknown as LevelRecipe[])
   .map((level, i) => {
@@ -89,8 +88,11 @@ export const levels: LevelRecipe[] = _(levelsGame as unknown as LevelRecipe[])
     level.id = levelId(level);
     return level;
   })
-  .sortBy((level) => `${level.group} ${1e6 + (level.i ?? 0)}`)
-  .value();
+  .sort((a, b) => {
+    const keyA = `${a.group} ${1e6 + (a.i ?? 0)}`;
+    const keyB = `${b.group} ${1e6 + (b.i ?? 0)}`;
+    return keyA.localeCompare(keyB);
+  });
 
 if (isProduction) {
   const last = lastLevel as unknown as LevelRecipe;
@@ -101,17 +103,25 @@ if (isProduction) {
 }
 
 levels.forEach((level, i) => {
-  level.next = _.get(levels[i + 1], 'id') as string | undefined;
+  level.next = levels[i + 1]?.id as string | undefined;
   delete level.i;
 });
 
 // ordering within groups
-_(levels)
-  .groupBy('group')
-  .forEach((group) =>
-    group.forEach((level, i) => level.i = i + 1)
-  );
+const groupedLevels = levels.reduce((acc, level) => {
+  if (!acc[level.group]) {
+    acc[level.group] = [];
+  }
+  acc[level.group].push(level);
+  return acc;
+}, {} as Record<string, LevelRecipe[]>);
+
+Object.values(groupedLevels).forEach((group) =>
+  group.forEach((level, i) => level.i = i + 1)
+);
 
 (levels[0]! as { i?: number | string }).i = '\u221E';
 
-export const idToLevel: Record<string, LevelRecipe> = _.keyBy(levels, 'id');
+export const idToLevel: Record<string, LevelRecipe> = Object.fromEntries(
+  levels.map(level => [level.id, level])
+);

@@ -1,5 +1,4 @@
 /*global window:false*/
-import _ from 'lodash';
 
 import { EPSILON, velocityI, velocityJ } from './const';
 import { maxIterations } from './config';
@@ -10,13 +9,23 @@ import type { Tile } from './tile';
 const zAbs = (z: { re: number; im: number }): number =>
   z.re * z.re + z.im * z.im;
 
-const intensityPerPosition = (state: ParticleEntry[]): Record<string, number> =>
-  _(state)
-    .groupBy((entry) => `${entry.i} ${entry.j}`)
-    .mapValues((groupedEntry) =>
-      _.sumBy(groupedEntry, zAbs)
-    )
-    .value();
+const intensityPerPosition = (state: ParticleEntry[]): Record<string, number> => {
+  const grouped = state.reduce((acc, entry) => {
+    const key = `${entry.i} ${entry.j}`;
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(entry);
+    return acc;
+  }, {} as Record<string, ParticleEntry[]>);
+
+  return Object.fromEntries(
+    Object.entries(grouped).map(([key, groupedEntry]) => [
+      key,
+      groupedEntry.reduce((sum, entry) => sum + zAbs(entry), 0)
+    ])
+  );
+};
 
 export class Simulation {
   tileMatrix: Tile[][];
@@ -43,32 +52,31 @@ export class Simulation {
    */
   initialize(): void {
 
-    const initialState: ParticleEntry[] =
-      _.reduce<number, ParticleEntry[]>(_.range(this.levelWidth), (accI, i) => {
-        return _.reduce<number, ParticleEntry[]>(_.range(this.levelHeight), (accJ, j) => {
-          // Recognize generating tiles by having 'generation' method
-          if (!this.tileMatrix[i]![j]!.type.generation) {
-            return accJ;
-          }
-          const emissions =
-            this.tileMatrix[i]![j]!.type.generation!(
-              this.tileMatrix[i]![j]!.rotation
-            );
-          // emissions is PhotonGeneration[][] (array of arrays)
-          _.forEach(emissions, (emissionSet) => {
-            _.forEach(emissionSet, (emission) => {
-              accJ.push({
-                i:  i,
-                j:  j,
-                to: emission.to,
-                re: emission.re,
-                im: emission.im,
-              });
+    const initialState: ParticleEntry[] = [];
+    for (let i = 0; i < this.levelWidth; i++) {
+      for (let j = 0; j < this.levelHeight; j++) {
+        // Recognize generating tiles by having 'generation' method
+        if (!this.tileMatrix[i]![j]!.type.generation) {
+          continue;
+        }
+        const emissions =
+          this.tileMatrix[i]![j]!.type.generation!(
+            this.tileMatrix[i]![j]!.rotation
+          );
+        // emissions is PhotonGeneration[][] (array of arrays)
+        emissions.forEach((emissionSet) => {
+          emissionSet.forEach((emission) => {
+            initialState.push({
+              i:  i,
+              j:  j,
+              to: emission.to,
+              re: emission.re,
+              im: emission.im,
             });
           });
-          return accJ;
-        }, accI);
-      }, []);
+        });
+      }
+    }
 
     if (this.logging) {
       window.console.log('Simulation started:');
@@ -86,7 +94,7 @@ export class Simulation {
    */
   propagate(quantum?: boolean, onlyDetectors = -1): ParticleEntry[] {
 
-    const lastState = _.last(this.history)!;
+    const lastState = this.history[this.history.length - 1]!;
     const displacedState = this.displace(lastState);
     let newState = this.interact(displacedState);
     const absorbed = this.absorb(displacedState, newState, onlyDetectors);
@@ -105,7 +113,7 @@ export class Simulation {
       }
     }
 
-    if (_.some(absorbed, 'measured') && quantum) {
+    if (absorbed.some(a => a.measured) && quantum) {
       return [];
     } else {
       return newState;
@@ -119,7 +127,7 @@ export class Simulation {
    */
   // WARNING: creating may be slower than just modifying i and j
   displace(state: ParticleEntry[]): ParticleEntry[] {
-    return _.map(state, (entry) => {
+    return state.map((entry) => {
       // 'to' value = direction + polarization
       const dir = entry.to[0]! as Direction;
       const newI = entry.i + velocityI[dir];
@@ -139,20 +147,20 @@ export class Simulation {
     const intensityOld = intensityPerPosition(stateOld);
     const intensityNew = intensityPerPosition(stateNew);
 
-    const bins: AbsorptionEvent[] = _(intensityOld)
-      .mapValues((prob, location) =>
-        prob - (intensityNew[location] || 0)
-      )
-      .pickBy((prob) => prob > EPSILON)
-      .map((prob, location): AbsorptionEvent => {
+    const bins: AbsorptionEvent[] = Object.entries(intensityOld)
+      .map(([location, prob]) => ({
+        prob: prob - (intensityNew[location] || 0),
+        location
+      }))
+      .filter(({prob}) => prob > EPSILON)
+      .map(({prob, location}): AbsorptionEvent => {
         return {
           probability: prob,
           measured: false,
           i: parseInt(location.split(' ')[0]!),
           j: parseInt(location.split(' ')[1]!),
         };
-      })
-      .value();
+      });
 
     bins.forEach((each) => {
       each.tile = this.tileMatrix[each.i] && this.tileMatrix[each.i]![each.j];
@@ -199,7 +207,7 @@ export class Simulation {
   interact(state: ParticleEntry[]): ParticleEntry[] {
     // Collect all transitions into bins. Each bin will be labeled
     // with position (i, j) and momentum direction.
-    const bins: Record<string, ParticleEntry> = _.reduce<ParticleEntry, Record<string, ParticleEntry>>(state, (acc, entry) => {
+    const bins: Record<string, ParticleEntry> = state.reduce<Record<string, ParticleEntry>>((acc, entry) => {
       // Check if particle is out of bound
       if (
            entry.i < 0 || entry.i >= this.levelWidth
@@ -223,7 +231,7 @@ export class Simulation {
           const re = entry.re * change.re - entry.im * change.im;
           const im = entry.re * change.im + entry.im * change.re;
           // Add to bin
-          if (_.has(acc, binKey)) {
+          if (Object.hasOwn(acc, binKey)) {
             acc[binKey]!.re += re;
             acc[binKey]!.im += im;
           } else {
@@ -240,22 +248,21 @@ export class Simulation {
       return acc;
     }, {});
     // Remove keys; filter out zeroes
-    return _.values(bins).filter((entry) =>
+    return Object.values(bins).filter((entry) =>
       entry.re * entry.re + entry.im * entry.im > EPSILON
     );
   }
 
   normalize(state: ParticleEntry[]): ParticleEntry[] {
 
-    let norm = _.chain(state)
+    let norm = state
       .map((entry) => entry.re * entry.re + entry.im * entry.im)
-      .sum()
-      .value();
+      .reduce((sum, val) => sum + val, 0);
 
     norm = Math.sqrt(norm);
 
     return state.map((entry) =>
-      _.assign(entry, {
+      Object.assign(entry, {
         re: entry.re / norm,
         im: entry.im / norm,
       })
@@ -281,7 +288,7 @@ export class Simulation {
 
   // propagation making sure that it will click at one of the detectors
   propagateToEndCheated(absAtDetByTime: number[]): void {
-    const totalDetection = _.sum(absAtDetByTime);
+    const totalDetection = absAtDetByTime.reduce((sum, val) => sum + val, 0);
     let detectionSoFar = 0;
     let stepNo: number;
     let lastStep: ParticleEntry[];
