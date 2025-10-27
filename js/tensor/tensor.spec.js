@@ -47,16 +47,16 @@ describe('Tensor.product', () => {
         Bb: {re: -5, im: 12},
       },
       Ba: {
-        Aa: {re: -1, im: 0},
-        Ab: {re: -2, im: -3},
-        Ba: {re: 2, im: 3},
-        Bb: {re: -5, im: 12},
+        Ba: {re: -1, im: 0},
+        Bb: {re: -2, im: -3},
+        Ca: {re: 2, im: 3},
+        Cb: {re: -5, im: 12},
       },
       Bb: {
-        Aa: {re: 1, im: -0},
-        Ab: {re: -2, im: -3},
-        Ba: {re: -2, im: -3},
-        Bb: {re: -5, im: 12},
+        Ba: {re: 1, im: -0},
+        Bb: {re: -2, im: -3},
+        Ca: {re: -2, im: -3},
+        Cb: {re: -5, im: 12},
       },
     });
     expect(Tensor.product(first, second)).toEqual(product);
@@ -84,7 +84,7 @@ describe('Tensor.byConstant', () => {
       },
       B: {
         B: {re: -1, im: -1},
-        C: {re: 5, im: -1},
+        C: {re: -1, im: 5},
       },
     });
     expect(Tensor.byConstant(matrix, factor)).toEqual(product);

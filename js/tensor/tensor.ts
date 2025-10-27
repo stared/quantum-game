@@ -85,11 +85,19 @@ export class Tensor {
           if (innerMap.has(innerKey)) {
             const existing = innerMap.get(innerKey);
             if (existing) {
-              innerValue.re += existing.re;
-              innerValue.im += existing.im;
+              // Create new object instead of mutating
+              innerMap.set(innerKey, {
+                re: existing.re + innerValue.re,
+                im: existing.im + innerValue.im,
+              });
             }
+          } else {
+            // First time seeing this key, copy the value
+            innerMap.set(innerKey, {
+              re: innerValue.re,
+              im: innerValue.im,
+            });
           }
-          innerMap.set(innerKey, innerValue);
         }
       }
       outerMap.set(outerKey, innerMap);
