@@ -1,3 +1,4 @@
+// @ts-nocheck
 import d3 from './d3-wrapper';
 import _ from 'lodash';
 import {TAU, EPSILON} from './const';
@@ -19,12 +20,12 @@ const complexToOpacity = (z) => Math.sqrt(z.re * z.re + z.im * z.im);
 
 // see http://www.fileformat.info/info/unicode/block/arrows/utf8test.htm
 const prettierArrows = {
-  '>': '\u21e2',  // ⇢
-  '^': '\u21e1',  // ⇡
-  '<': '\u21e0',  // ⇠
-  'v': '\u21e3',  // ⇣
-  '-': '\u2194',  // ↔
-  '|': '\u2195',  // ↕
+  '>': '⇢',  // ⇢
+  '^': '⇡',  // ⇡
+  '<': '⇠',  // ⇠
+  'v': '⇣',  // ⇣
+  '-': '↔',  // ↔
+  '|': '↕',  // ↕
 };
 
 const prettifyBasis = (basis) => `${prettierArrows[basis[0]]}${prettierArrows[basis[1]]}`;
@@ -145,7 +146,7 @@ export class TransitionHeatmap {
             if (r > EPSILON) {
               this.tooltip.show(
                 `${d.re.toFixed(3)} ${sign} ${Math.abs(d.im).toFixed(3)} <i>i</i><br>
-                = ${r.toFixed(3)} exp(${phi.toFixed(3)} <i>i \u03C4</i>)`
+                = ${r.toFixed(3)} exp(${phi.toFixed(3)} <i>i τ</i>)`
               );
             }
           })

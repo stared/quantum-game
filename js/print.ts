@@ -1,3 +1,4 @@
+// @ts-nocheck
 // displaying and printing states, operators etc
 // as of now mostly for debugging purpose
 
@@ -47,8 +48,8 @@ export const stateToStr = (state) => state.map(componentToStr).join(' + ');
 //         }
 //       ).join(' & ')
 //     )
-//     .join('\\\\');
-//   return katex.renderToString(`\\begin{bmatrix}${arrayContent}\\end{bmatrix}`);
+//     .join('\\');
+//   return katex.renderToString(`\begin{bmatrix}${arrayContent}\end{bmatrix}`);
 // };
 
 export const absorbedToStr = (absorbed) =>

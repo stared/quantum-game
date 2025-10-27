@@ -52,9 +52,9 @@
   "include": [
     "js/**/*.ts",
     "js/**/*.tsx",
-    "js/**/*.spec.ts",
     "*.config.ts",
-    "vitest.setup.ts"
+    "*.ts",
+    "app.js"
   ],
   "exclude": [
     "node_modules",

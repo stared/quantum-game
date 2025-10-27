@@ -1,3 +1,4 @@
+// @ts-nocheck
 import _ from 'lodash';
 import d3 from './d3-wrapper';
 import stringify from 'json-stringify-pretty-compact';

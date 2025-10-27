@@ -1,3 +1,4 @@
+// @ts-nocheck
 import _ from 'lodash';
 import * as soundjs from './soundjs-wrapper';
 

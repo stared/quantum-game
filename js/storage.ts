@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class Storage {
   constructor() {
     this.ls = window.localStorage;

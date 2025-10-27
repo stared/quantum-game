@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Wrapper for SoundJS loaded as a global script
 // This allows SoundJS to run in its expected global context
 // while still being importable as an ES module

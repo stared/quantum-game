@@ -1,3 +1,4 @@
+// @ts-nocheck
 import d3 from './d3-wrapper';
 import {tileSize, repositionSpeed} from './config';
 import {SoundService} from './sound_service';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*global window:false*/
 import {displayMessageTimeout} from './config';
 

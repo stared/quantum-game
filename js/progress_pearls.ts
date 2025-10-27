@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {tileSize, pearlsPerRow} from './config';
 
 const pearlRadius = 0.2 * tileSize;

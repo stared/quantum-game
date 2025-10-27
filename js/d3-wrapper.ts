@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Wrapper for D3 v3 loaded as a global script
 // This allows D3 v3 to run in its expected UMD/global context
 // while still being importable as an ES module

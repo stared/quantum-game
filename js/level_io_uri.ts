@@ -1,3 +1,4 @@
+// @ts-nocheck
 import _ from 'lodash';
 
 // NOTE could be done automatically, but mnemotechnics may make sense

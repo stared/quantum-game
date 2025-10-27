@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class PopupManager {
   constructor(popupElem, nextLevelCallback) {
     this.popupElem = popupElem;

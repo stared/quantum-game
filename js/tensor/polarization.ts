@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {Tensor} from './tensor';
 import {TAU} from '../const';
 

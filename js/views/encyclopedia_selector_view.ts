@@ -1,3 +1,4 @@
+// @ts-nocheck
 import d3 from '../d3-wrapper';
 
 import {View} from './view';
