@@ -1,6 +1,6 @@
 /*global window:false*/
 import _ from 'lodash';
-import d3 from 'd3';
+import d3 from './d3-wrapper';
 
 import * as level from './level';
 import {GameBoard} from './game_board';

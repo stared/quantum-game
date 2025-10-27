@@ -1,6 +1,6 @@
 /*global window:false*/
 import _ from 'lodash';
-import d3 from 'd3';
+import d3 from '../d3-wrapper';
 
 import {TAU, perpendicularI, perpendicularJ} from '../const';
 import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle, canvasDrawFrequency} from '../config';

@@ -3,10 +3,10 @@ import _ from 'lodash';
 import {nonVacuumTiles} from './tile';
 import {isProduction} from './config';
 
-import levelsGame from '../data/levels_game.json!';
-import levelsCandidate from '../data/levels_candidate.json!';
-import levelsOther from '../data/levels_other.json!';
-import lastLevel from '../data/levels_last.json!';
+import levelsGame from '../data/levels_game.json';
+import levelsCandidate from '../data/levels_candidate.json';
+import levelsOther from '../data/levels_other.json';
+import lastLevel from '../data/levels_last.json';
 
 
 export class Level {

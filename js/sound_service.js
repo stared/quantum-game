@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as soundjs from 'soundjs';
+import * as soundjs from './soundjs-wrapper';
 
 const SOUND_DEFS = {
   blip: {

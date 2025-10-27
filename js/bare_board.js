@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import d3 from 'd3';
+import d3 from './d3-wrapper';
 
 import {tileSize, tileBorder, animationStepDuration} from './config';
 import {CanvasParticleAnimation} from './particle/canvas_particle_animation';

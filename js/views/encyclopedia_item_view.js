@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import d3 from '../d3-wrapper';
 
 import * as tile from '../tile';
 import {tileSize} from '../config';

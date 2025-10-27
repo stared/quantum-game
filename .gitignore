@@ -4,3 +4,5 @@
 /jspm_packages
 /node_modules
 /bundled/build.*
+/dist
+pnpm-lock.yaml

@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import d3 from './d3-wrapper';
 import {tileSize, repositionSpeed} from './config';
 import {SoundService} from './sound_service';
 import * as tile from './tile';

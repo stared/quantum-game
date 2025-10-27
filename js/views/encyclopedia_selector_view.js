@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import d3 from '../d3-wrapper';
 
 import {View} from './view';
 import * as tile from '../tile';

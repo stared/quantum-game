@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-      "ecmaVersion": 6,
+      "ecmaVersion": 2020,
       "sourceType": "module"
   },
   "plugins": ["lodash"],
@@ -13,8 +13,18 @@
     "lodash/prefer-lodash-method": 0
   },
   "env": {
-    "es6": true,
+    "es2020": true,
     "browser": true,
-    "jasmine": true
+    "node": true
+  },
+  "globals": {
+    "describe": "readonly",
+    "it": "readonly",
+    "expect": "readonly",
+    "beforeEach": "readonly",
+    "afterEach": "readonly",
+    "vi": "readonly",
+    "jasmine": "readonly",
+    "spyOn": "readonly"
   }
 }

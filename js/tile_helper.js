@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import d3 from './d3-wrapper';
 import {tileSize, tileHelperWidth, tileHelperHeight} from './config';
 
 // shamelessly stolen from https://bl.ocks.org/mbostock/7555321

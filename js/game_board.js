@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import d3 from 'd3';
+import d3 from './d3-wrapper';
 import stringify from 'json-stringify-pretty-compact';
 import {saveAs} from 'file-saver';
 

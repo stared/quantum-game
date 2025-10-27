@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import d3 from './d3-wrapper';
 import _ from 'lodash';
 
 import {tileSize, absorptionDuration} from './config';
