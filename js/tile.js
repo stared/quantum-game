@@ -2,10 +2,12 @@ import * as config from './config';
 import * as full from './tensor/full';
 import {SoundService} from './sound_service';
 
-const pascalCase = (str) => {
-  const camelCase = str.replace(/[-_](.)/g, (_, c) => c.toUpperCase());
-  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+const camelCase = (str) => {
+  return str.replace(/[-_\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : '');
 };
+
+const pascalCase = (str) =>
+  str.charAt(0).toUpperCase() + camelCase(str.slice(1));
 
 export const Vacuum = {
   svgName: 'vacuum',
@@ -542,4 +544,4 @@ export const allTiles = [
   'FaradayRotator',
 ];
 
-export const nonVacuumTiles = allTiles.filter((tile) => tile !== 'Vacuum');
+export const nonVacuumTiles = allTiles.filter(tile => tile !== 'Vacuum');

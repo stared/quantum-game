@@ -6,11 +6,26 @@ import levelsCandidate from '../data/levels_candidate.json';
 import levelsOther from '../data/levels_other.json';
 import lastLevel from '../data/levels_last.json';
 
+const countBy = (array, key) => {
+  return array.reduce((acc, item) => {
+    const value = typeof key === 'function' ? key(item) : item[key];
+    acc[value] = (acc[value] || 0) + 1;
+    return acc;
+  }, {});
+};
+
+const groupBy = (array, key) => {
+  return array.reduce((acc, item) => {
+    const value = typeof key === 'function' ? key(item) : item[key];
+    (acc[value] = acc[value] || []).push(item);
+    return acc;
+  }, {});
+};
 
 export class Level {
   constructor(levelRecipe, mode = 'game') {
     // TODO(migdal) remove mindless attribute copying
-    // It cannot be done using _.assign(this, _.pick(levelRecipe, [...])),
+    // It cannot be done using Object.assign(this, ...),
     // because Level is not exactly an Object instance.
     this.next = levelRecipe.next;
     this.name = levelRecipe.name;
@@ -29,7 +44,7 @@ export class Level {
     this.texts = levelRecipe.texts || {};
     this.tileRecipes = levelRecipe.tiles;
     this.initialStock = {};
-    if (levelRecipe.stock == null && levelRecipe.tiles.filter((t) => t.frozen).length === 0) {
+    if (levelRecipe.stock == null && levelRecipe.tiles.filter(tile => tile.frozen).length === 0) {
       levelRecipe.stock = 'all';
     }
     if (typeof levelRecipe.stock === 'object' || mode === 'as_it_is') {
@@ -39,13 +54,11 @@ export class Level {
         this.initialStock[tile] = (tile === 'Source' ? 1 : 99);
       });
     } else if (levelRecipe.stock === 'non-frozen' || mode === 'game') {
-      this.tileRecipes = levelRecipe.tiles.filter((t) => t.frozen);
-      this.initialStock = levelRecipe.tiles
-        .filter((tile) => !tile.frozen)
-        .reduce((acc, tile) => {
-          acc[tile.name] = (acc[tile.name] || 0) + 1;
-          return acc;
-        }, {});
+      this.tileRecipes = levelRecipe.tiles.filter(tile => tile.frozen);
+      this.initialStock = countBy(
+        levelRecipe.tiles.filter((tile) => !tile.frozen),
+        'name'
+      );
     }
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability === undefined ? 1 : levelRecipe.requiredDetectionProbability;
     this.detectorsToFeed = levelRecipe.detectorsToFeed || levelRecipe.tiles.filter((tile) => tile.frozen && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
@@ -60,7 +73,9 @@ if (!isProduction) {
   levelsCandidate.forEach((level) => level.group = 'X Candidate');
 }
 
-export const levels = [...levelsGame, ...levelsCandidate, ...levelsOther]
+export const levels = levelsGame
+  .concat(levelsCandidate)
+  .concat(levelsOther)
   .map((level, i) => {
     level.i = i;
     level.id = levelId(level);
@@ -85,21 +100,10 @@ levels.forEach((level, i) => {
 });
 
 // ordering within groups
-const groupedLevels = levels.reduce((acc, level) => {
-  if (!acc[level.group]) {
-    acc[level.group] = [];
-  }
-  acc[level.group].push(level);
-  return acc;
-}, {});
-
-Object.values(groupedLevels).forEach((group) =>
+Object.values(groupBy(levels, 'group')).forEach((group) =>
   group.forEach((level, i) => level.i = i + 1)
 );
 
 levels[0].i = '\u221E';
 
-export const idToLevel = levels.reduce((acc, level) => {
-  acc[level.id] = level;
-  return acc;
-}, {});
+export const idToLevel = Object.fromEntries(levels.map(level => [level.id, level]));

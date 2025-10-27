@@ -15,30 +15,27 @@ export class WinningStatus {
     const flattened = simulationC.measurementHistory.flat();
     const grouped = flattened.reduce((acc, entry) => {
       const key = `${entry.i} ${entry.j}`;
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(entry);
+      (acc[key] = acc[key] || []).push(entry);
       return acc;
     }, {});
 
     this.absorptionProbabilities = Object.entries(grouped).map(([location, groupedEntry]) => ({
-      probability: groupedEntry.reduce((sum, e) => sum + e.probability, 0),
+      probability: groupedEntry.reduce((sum, entry) => sum + entry.probability, 0),
       i: parseInt(location.split(' ')[0]),
       j: parseInt(location.split(' ')[1]),
     }));
 
     this.probsAtDets = this.absorptionProbabilities
       .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector)
-      .map((entry) => entry.probability);
+      .map(entry => entry.probability);
 
     this.probsAtDetsByTime = simulationC.measurementHistory.map((each) =>
       each
         .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector)
-        .reduce((sum, e) => sum + e.probability, 0)
+        .reduce((sum, entry) => sum + entry.probability, 0)
     );
 
-    this.totalProbAtDets = this.probsAtDets.reduce((a, b) => a + b, 0);
+    this.totalProbAtDets = this.probsAtDets.reduce((sum, val) => sum + val, 0);
     this.noOfFedDets = this.probsAtDets
       .filter((probability) => probability > EPSILON_DETECTION)
       .length;
@@ -46,7 +43,7 @@ export class WinningStatus {
       .filter((entry) =>
         this.tileMatrix[entry.i] && this.tileMatrix[entry.i][entry.j] && this.tileMatrix[entry.i][entry.j].tileName === 'Mine'
       )
-      .reduce((sum, e) => sum + e.probability, 0);
+      .reduce((sum, entry) => sum + entry.probability, 0);
   }
 
   compareToObjectives(requiredDetectionProbability, detectorsToFeed) {

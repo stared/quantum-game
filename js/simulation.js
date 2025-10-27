@@ -9,17 +9,16 @@ const zAbs = (z) =>
 const intensityPerPosition = (state) => {
   const grouped = state.reduce((acc, entry) => {
     const key = `${entry.i} ${entry.j}`;
-    if (!acc[key]) {
-      acc[key] = [];
-    }
-    acc[key].push(entry);
+    (acc[key] = acc[key] || []).push(entry);
     return acc;
   }, {});
 
-  return Object.entries(grouped).reduce((acc, [key, entries]) => {
-    acc[key] = entries.reduce((sum, entry) => sum + zAbs(entry), 0);
-    return acc;
-  }, {});
+  return Object.fromEntries(
+    Object.entries(grouped).map(([key, entries]) => [
+      key,
+      entries.reduce((sum, entry) => sum + zAbs(entry), 0)
+    ])
+  );
 };
 
 export class Simulation {
@@ -96,7 +95,7 @@ export class Simulation {
       }
     }
 
-    if (absorbed.some((a) => a.measured) && quantum) {
+    if (absorbed.some(entry => entry.measured) && quantum) {
       return [];
     } else {
       return newState;
@@ -130,17 +129,17 @@ export class Simulation {
     const intensityNew = intensityPerPosition(stateNew);
 
     const bins = Object.entries(intensityOld)
-      .map(([location, prob]) => {
-        const diff = prob - (intensityNew[location] || 0);
-        if (diff <= EPSILON) return null;
-        return {
-          probability: diff,
-          measured: false,
-          i: parseInt(location.split(' ')[0]),
-          j: parseInt(location.split(' ')[1]),
-        };
-      })
-      .filter(Boolean);
+      .map(([location, prob]) => ({
+        probability: prob - (intensityNew[location] || 0),
+        location: location
+      }))
+      .filter(item => item.probability > EPSILON)
+      .map(item => ({
+        probability: item.probability,
+        measured: false,
+        i: parseInt(item.location.split(' ')[0]),
+        j: parseInt(item.location.split(' ')[1]),
+      }));
 
     bins.forEach((each) => {
       each.tile = this.tileMatrix[each.i] && this.tileMatrix[each.i][each.j];
@@ -204,7 +203,7 @@ export class Simulation {
         const re = entry.re * change.re - entry.im * change.im;
         const im = entry.re * change.im + entry.im * change.re;
         // Add to bin
-        if (binKey in acc) {
+        if (Object.prototype.hasOwnProperty.call(acc, binKey)) {
           acc[binKey].re += re;
           acc[binKey].im += im;
         } else {
@@ -228,12 +227,12 @@ export class Simulation {
 
     let norm = state
       .map((entry) => entry.re * entry.re + entry.im * entry.im)
-      .reduce((a, b) => a + b, 0);
+      .reduce((sum, val) => sum + val, 0);
 
     norm = Math.sqrt(norm);
 
     return state.map((entry) =>
-      Object.assign(entry, {
+      Object.assign({}, entry, {
         re: entry.re / norm,
         im: entry.im / norm,
       })
@@ -258,7 +257,7 @@ export class Simulation {
 
   // propagation making sure that it will click at one of the detectors
   propagateToEndCheated(absAtDetByTime) {
-    const totalDetection = absAtDetByTime.reduce((a, b) => a + b, 0);
+    const totalDetection = absAtDetByTime.reduce((sum, val) => sum + val, 0);
     let detectionSoFar = 0;
     let stepNo, lastStep;
     for (stepNo = 0; stepNo < absAtDetByTime.length; ++stepNo) {
