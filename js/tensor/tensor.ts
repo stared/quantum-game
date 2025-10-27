@@ -74,32 +74,39 @@ export class Tensor {
     ]);
 
     for (const outerKey of outerKeys) {
-      const innerMap = new Map<string, ComplexNumber>();
       const sourceMaps = _.compact([
         t1.map.get(outerKey),
         t2.map.get(outerKey),
       ]);
 
+      // Collect all values in a temporary object
+      const tempValues: Record<string, ComplexNumber> = {};
+
       for (const sourceMap of sourceMaps) {
         for (const [innerKey, innerValue] of sourceMap) {
-          if (innerMap.has(innerKey)) {
-            const existing = innerMap.get(innerKey);
-            if (existing) {
-              // Create new object instead of mutating
-              innerMap.set(innerKey, {
-                re: existing.re + innerValue.re,
-                im: existing.im + innerValue.im,
-              });
-            }
+          if (tempValues[innerKey]) {
+            // Add to existing value
+            tempValues[innerKey] = {
+              re: tempValues[innerKey].re + innerValue.re,
+              im: tempValues[innerKey].im + innerValue.im,
+            };
           } else {
             // First time seeing this key, copy the value
-            innerMap.set(innerKey, {
+            tempValues[innerKey] = {
               re: innerValue.re,
               im: innerValue.im,
-            });
+            };
           }
         }
       }
+
+      // Build innerMap with sorted keys for consistent ordering
+      const innerMap = new Map<string, ComplexNumber>();
+      const sortedKeys = Object.keys(tempValues).sort();
+      for (const key of sortedKeys) {
+        innerMap.set(key, tempValues[key]!);
+      }
+
       outerMap.set(outerKey, innerMap);
     }
     return new Tensor(outerMap);

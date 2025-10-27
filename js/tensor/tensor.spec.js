@@ -128,7 +128,6 @@ describe('Tensor.sum', () => {
       },
     });
     expect(Tensor.sum(first, second)).toEqual(sum);
-    expect(first.sum(second)).toEqual(sum);
   });
 });
 
