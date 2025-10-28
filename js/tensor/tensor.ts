@@ -76,7 +76,7 @@ export class Tensor {
       const sourceMaps = [
         t1.map.get(outerKey),
         t2.map.get(outerKey),
-      ].filter(Boolean);
+      ].filter((m): m is Map<string, ComplexNumber> => m !== undefined);
 
       // Collect all values in a temporary object
       const tempValues: Record<string, ComplexNumber> = {};

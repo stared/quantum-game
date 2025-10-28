@@ -45,7 +45,7 @@ export const Source: TileType = {
   maxRotation: 4, // > ^ < v
   rotationAngle: 90,
   transition: () => full.zero,
-  generation: (rotation: number) => full.source[rotation]!,
+  generation: (rotation: number) => [full.source[rotation]!],
 };
 
 // maybe will be changed to a typical, one-side corner sube

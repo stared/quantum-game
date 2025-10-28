@@ -231,7 +231,7 @@ export class Simulation {
           const re = entry.re * change.re - entry.im * change.im;
           const im = entry.re * change.im + entry.im * change.re;
           // Add to bin
-          if (Object.hasOwn(acc, binKey)) {
+          if (binKey in acc) {
             acc[binKey]!.re += re;
             acc[binKey]!.im += im;
           } else {

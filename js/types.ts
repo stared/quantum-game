@@ -118,5 +118,5 @@ export interface AbsorptionEvent {
   measured: boolean;
   i: number;
   j: number;
-  tile?: unknown; // Tile type, but avoiding circular dependency
+  tile?: { tileName: string }; // Tile type, but avoiding circular dependency
 }

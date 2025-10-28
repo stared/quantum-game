@@ -112,7 +112,7 @@ const groupedLevels = levels.reduce((acc, level) => {
   if (!acc[level.group]) {
     acc[level.group] = [];
   }
-  acc[level.group].push(level);
+  acc[level.group]!.push(level);
   return acc;
 }, {} as Record<string, LevelRecipe[]>);
 

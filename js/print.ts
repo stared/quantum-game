@@ -1,6 +1,8 @@
 // displaying and printing states, operators etc
 // as of now mostly for debugging purpose
 
+import type { AbsorptionEvent } from './types';
+
 interface Component {
   re: number;
   im: number;
@@ -59,15 +61,7 @@ export const stateToStr = (state: Component[]): string => state.map(componentToS
 //   return katex.renderToString(`\begin{bmatrix}${arrayContent}\end{bmatrix}`);
 // };
 
-interface AbsorbedEntry {
-  measured: boolean;
-  probability: number;
-  i: number;
-  j: number;
-  tile: { tileName: string } | null;
-}
-
-export const absorbedToStr = (absorbed: AbsorbedEntry[]): string =>
+export const absorbedToStr = (absorbed: AbsorptionEvent[]): string =>
   absorbed
     .map((a) =>
       `${a.measured ? '!!!' : '...'} ${(100 * a.probability).toFixed(0)}% (${a.i},${a.j}) ${a.tile != null ? a.tile.tileName : 'out'}`
