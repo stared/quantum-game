@@ -26,7 +26,7 @@ export class LevelSelectorView extends View {
       .append('li')
       .attr('class', 'level-item unselectable')
       .text((d: LevelRecipe) => `[${d.group}] ${d.i}. ${d.name} `)
-      .on('click', (d: LevelRecipe) => {
+      .on('click', (_event, d: LevelRecipe) => {
         this.game.gameBoard!.loadLevel(d.id!);
         this.game.setView('game');
       });
@@ -61,13 +61,13 @@ export class LevelSelectorView extends View {
 
     listOfElements.append('span')
       .style('font-size', '1.5vh')
-      .text((d: LevelWithNewTiles) => d.newTiles.length ? ` (NEW: ${d.newTiles.join(' ')})` : '');
+      .text(((d: LevelWithNewTiles) => d.newTiles.length ? ` (NEW: ${d.newTiles.join(' ')})` : '') as any);
 
     this.bindMenuEvents();
   }
 
   bindMenuEvents(): void {
-    d3.select('.view--level-selector .bottom-bar__back-to-game-button').on('click', () => {
+    d3.select('.view--level-selector .bottom-bar__back-to-game-button').on('click', (_event) => {
       this.game.setView('game');
     });
   }

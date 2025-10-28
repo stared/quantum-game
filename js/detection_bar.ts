@@ -13,7 +13,7 @@ const percentStr = (probability: number): string =>
 export class DetectionBar {
   g: D3Selection;
   percentG!: D3Selection;
-  percentScale!: D3Selection;
+  percentScale!: d3.ScaleLinear<number, number, never>;
   percentActual!: D3Selection;
   percentRequired!: D3Selection;
   percentText!: D3Selection;
@@ -40,7 +40,7 @@ export class DetectionBar {
     //
     this.percentG = this.g.append('g');
 
-    this.percentScale = d3.scale.linear()
+    this.percentScale = d3.scaleLinear()
       .domain([0, 1])
       .range([0, barWidth]);
 
@@ -82,7 +82,7 @@ export class DetectionBar {
     this.detectorsText = this.countG.append('text')
       .attr('class', 'detection-bar-text')
       .attr('y', barHeight / 2)
-      ['text']('detectors');
+      .text('detectors');
 
     //
     // mine group
@@ -112,24 +112,24 @@ export class DetectionBar {
     this.requiredCount = count;
 
     this.percentRequired
-      .attr('width', this.percentScale(probability));
+      .attr('width', this.percentScale(probability) as number);
 
     this.counts = Array.from({length: count}, (_, i) => i);
     this.countBoxes = this.countG
-      ['selectAll']('.count-box')
+      .selectAll('.count-box')
       .data(this.counts);
 
-    this.countBoxes['enter']()
+    this.countBoxes.enter()
       .append('rect')
       .attr('class', 'count-box detection-bar-box-stroke')
-      .attr('x', (d, i) => barHeight * i)
+      .attr('x', (_d, i) => barHeight * i)
       .attr('y', 0)
       .attr('width', barHeight / 2)
       .attr('height', barHeight)
       .style('fill', '#fff')
       .style('fill-opacity', 0.2);
 
-    this.countBoxes['exit']()
+    this.countBoxes.exit()
       .remove();
 
     this.detectorsText
@@ -141,22 +141,22 @@ export class DetectionBar {
   updateActual(probability: number, count: number, risk: number): void {
 
     this.percentActual.transition().duration(absorptionDuration)
-      .attr('width', this.percentScale(probability));
+      .attr('width', this.percentScale(probability) as number);
 
     this.percentText
-      ['text'](`${percentStr(probability)}% (out of ${percentStr(this.requiredProbability)}%) detection`);
+      .text(`${percentStr(probability)}% (out of ${percentStr(this.requiredProbability)}%) detection`);
 
     this.countBoxes.transition().duration(absorptionDuration)
-      .style('fill', (d, i) => count > i ? '#0a0' : '#fff')
-      .style('fill-opacity', (d, i) => count > i ? 1 : 0.2);
+      .style('fill', (_d, i) => count > i ? '#0a0' : '#fff')
+      .style('fill-opacity', (_d, i) => count > i ? 1 : 0.2);
 
     this.mineBox.transition().duration(absorptionDuration)
       .style('fill', risk ? '#f00' : '#fff')
       .style('fill-opacity', risk ? 0.5 : 0.2);
 
     this.mineText
-      ['text'](`${risk ? (100 * risk).toFixed(1) :  ''}${risk ? '% risk' : "it's safe"}`)
-      ['classed']('message-failure', risk);
+      .text(`${risk ? (100 * risk).toFixed(1) :  ''}${risk ? '% risk' : "it's safe"}`)
+      .classed('message-failure', risk > 0);
 
   }
 

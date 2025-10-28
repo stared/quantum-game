@@ -1,3 +1,4 @@
+import d3 from './d3-wrapper';
 import * as config from './config';
 import * as full from './tensor/full';
 import { SoundService } from './sound_service';
@@ -251,8 +252,8 @@ export const Mine: TileType = {
   },
   absorbAnimation: (that: Tile) => {
 
-    const gDom = that.g[0][0];
-    gDom.parentNode.appendChild(gDom);
+    const gDom = that.g.node() as Element;
+    gDom.parentNode!.appendChild(gDom);
 
     that.g.select('.element')
       .style('opacity', 0)
@@ -266,7 +267,7 @@ export const Mine: TileType = {
       .attr('transform', 'scale(0.1)')
       .transition()
         .duration(config.absorptionDuration / 3)
-        .ease('linear')
+        .ease(d3.easeLinear)
         .attr('transform', 'scale(100)')
         .style('opacity', 0)
         .remove();
@@ -296,7 +297,7 @@ export const Rock: TileType = {
       .attr('height', 0)
       .style('fill', 'black')
       .transition()
-        .ease('linear')
+        .ease(d3.easeLinear)
         .duration(0.2 * config.absorptionDuration)
           .attr('height', 2 * r)
       .transition()
@@ -312,7 +313,7 @@ export const Rock: TileType = {
       .attr('height', 0)
       .style('fill', 'black')
       .transition()
-        .ease('linear')
+        .ease(d3.easeLinear)
         .duration(0.2 * config.absorptionDuration)
           .attr('height', 2 * r)
       .transition()
@@ -393,7 +394,7 @@ export const Detector: TileType = {
       .attr('transform', 'scale(1)')
       .transition()
         .duration(config.absorptionDuration / 3)
-        .ease('linear')
+        .ease(d3.easeLinear)
         .attr('transform', 'scale(20)')
         .style('opacity', 0)
         .remove();
@@ -432,7 +433,7 @@ export const DetectorFour: TileType = {
       .attr('transform', 'scale(1)')
       .transition()
         .duration(config.absorptionDuration / 3)
-        .ease('linear')
+        .ease(d3.easeLinear)
         .attr('transform', 'scale(20)')
         .style('opacity', 0)
         .remove();

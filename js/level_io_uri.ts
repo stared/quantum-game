@@ -37,9 +37,9 @@ const vacuumCode = name2abbr['Vacuum'] + '0';
 export const encodeTile = (tileRecipe: TileRecipe): string => {
   let s = name2abbr[tileRecipe.name];
   if (tileRecipe.frozen) {
-    s = s.toUpperCase();
+    s = s!.toUpperCase();
   }
-  return `${s}${tileRecipe.rotation.toFixed(0)}`;
+  return `${s}${(tileRecipe.rotation ?? 0).toFixed(0)}`;
 }
 
 // e.g. 'S2' -> {name: 'Source', frozen: true, rotation: 2}
@@ -59,7 +59,7 @@ const serializeAllTiles = (tiles: TileRecipe[], width: number, height: number): 
     Array.from({length: width}, () => vacuumCode)
   );
   tiles.forEach((tileRecipe) => {
-    tileMatrix[tileRecipe.j][tileRecipe.i] = encodeTile(tileRecipe);
+    tileMatrix[tileRecipe.j]![tileRecipe.i] = encodeTile(tileRecipe);
   });
   return tileMatrix.flat().join('');
 };
@@ -72,7 +72,7 @@ export const levelRecipe2queryString = (levelRecipe: LevelRecipe): string =>
     ['t', serializeAllTiles(levelRecipe.tiles, levelRecipe.width, levelRecipe.height)],
     // ['s', ...] for now without stock
   ]
-  .map((each) => encodeKeyValue(each[0]!, each[1]!))
+  .map((each) => encodeKeyValue(each[0] as string, each[1] as string | number))
   .join('&');
 
 // for one-letter keys

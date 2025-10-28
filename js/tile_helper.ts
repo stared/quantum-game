@@ -7,7 +7,6 @@ import type {Game} from './game';
 
 // shamelessly stolen from https://bl.ocks.org/mbostock/7555321
 const wrap = (text: D3Selection, width: number): void => {
-  // @ts-expect-error - D3 v3 each expects Element context
   text.each(function(this: Element) {
     const text = d3.select(this);
     const words = text.text().split(/\s+/).reverse();
@@ -25,7 +24,7 @@ const wrap = (text: D3Selection, width: number): void => {
     while (word = words.pop()) {
       line.push(word);
       tspan.text(line.join(' '));
-      if (tspan.node().getComputedTextLength() > width) {
+      if (tspan.node()!.getComputedTextLength() > width) {
         line.pop();
         tspan.text(line.join(' '));
         line = [word];
@@ -115,16 +114,13 @@ export class TileHelper {
 
   show(tile: Tile): void {
 
-    // @ts-expect-error - D3 v3 compatibility
-    this.helperHitbox.on('click', () => {
+    this.helperHitbox.on('click', (_event) => {
       this.game.setEncyclopediaItem(tile.tileName);
       this.game.setView('encyclopediaItem');
     });
     this.tileUse.attr('xlink:href', `#${tile.type.svgName}`);
-    // @ts-expect-error - D3 v3 compatibility
     this.tileName.text(tile.type.desc.name)
       .call(wrap, (tileHelperWidth - 2) * tileSize);
-    // @ts-expect-error - D3 v3 compatibility
     this.tileSummmary.text(tile.type.desc.summary)
       .call(wrap, (tileHelperWidth - 0.5) * tileSize);
 

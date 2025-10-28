@@ -7,6 +7,12 @@ import type {D3Selection} from './types';
 import type {BareBoard} from './bare_board';
 import type {Level} from './level';
 
+interface StockSlotData {
+  name: string;
+  i: number;
+  j: number;
+}
+
 export class Stock {
   svg: D3Selection;
   board: BareBoard;
@@ -54,46 +60,40 @@ export class Stock {
     }));
 
     this.stockSlots = this.stockGroup
-      ['selectAll']('.stock-slot')
+      .selectAll('.stock-slot')
       .data(dataForStockDrawing);
 
-    const stockSlotsEntered = this.stockSlots['enter']()
+    const stockSlotsEntered = this.stockSlots.enter()
       .append('g')
         .attr('class', 'stock-slot')
-        .classed('stock-empty', (d) => this.stock[d.name] <= 0);
+        .classed('stock-empty', (d: StockSlotData) => this.stock[d.name]! <= 0);
 
     stockSlotsEntered.append('rect')
       .attr('class', 'background-tile')
       .attr('width', tileSize - 2 * tileBorder)
       .attr('height', tileSize - 2 * tileBorder)
-      .attr('transform', (d) => `translate(${d.i * tileSize + tileBorder},${d.j * tileSize + tileBorder})`);
+      .attr('transform', (d: StockSlotData) => `translate(${d.i * tileSize + tileBorder},${d.j * tileSize + tileBorder})`);
 
     stockSlotsEntered.append('text')
       .attr('class', 'stock-count unselectable')
-      .attr('transform', (d) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 0.9) * tileSize})`)
-      .text((d) => `x ${this.stock[d.name]}`);
+      .attr('transform', (d: StockSlotData) => `translate(${(d.i + 0.9) * tileSize},${(d.j + 0.9) * tileSize})`)
+      .text((d: StockSlotData) => `x ${this.stock[d.name]!}`);
 
     this.regenerateTile(stockSlotsEntered);
   }
 
   regenerateTile(stockSlotG: D3Selection): void {
 
-    interface StockSlotData {
-      name: string;
-      i: number;
-      j: number;
-    }
-
     const newTile = stockSlotG.append('g')
-      ['datum']((d: StockSlotData) => new tile.Tile(tile.tileMap[d.name]!, 0, false, d.i, d.j))
+      .datum((d: StockSlotData) => new tile.Tile(tile.tileMap[d.name]!, 0, false, d.i, d.j))
       .attr('class', 'tile')
-      .attr('transform', (d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
-      .each(function (tileObj: tile.Tile) {
+      .attr('transform', ((d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`) as any)
+      .each((function (this: SVGGElement, tileObj: tile.Tile) {
         tileObj.g = d3.select(this);
         tileObj.node = this;
         tileObj.fromStock = true;
         tileObj.draw();
-      });
+      }) as any);
 
     newTile.append('rect')
       .attr('class', 'hitbox')
@@ -109,13 +109,13 @@ export class Stock {
 
   updateCount(tileName: string, change: number): void {
 
-    this.stock[tileName] += change;
+    this.stock[tileName]! += change;
 
     this.stockSlots
-      ['classed']('stock-empty', (d) => this.stock[d.name] <= 0);
+      .classed('stock-empty', (d: StockSlotData) => this.stock[d.name]! <= 0);
 
     this.stockSlots.select('text')
-      ['text']((d) => `x ${this.stock[d.name]}`);
+      .text((d: StockSlotData) => `x ${this.stock[d.name]!}`);
   }
 
 }

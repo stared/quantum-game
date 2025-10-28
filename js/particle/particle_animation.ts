@@ -171,7 +171,6 @@ export class ParticleAnimation {
 
   displayMeasurementTexts(stepNo: number): void {
     this.measurementHistory[stepNo]!.forEach((measurement) => {
-      // @ts-expect-error - D3 v3 compatibility
       this.measurementTextGroup.datum(measurement)
         .append('text')
         .attr('class', 'measurement-text unselectable')
@@ -185,7 +184,6 @@ export class ParticleAnimation {
         .style('opacity', 0)
         .remove();
 
-      // @ts-expect-error - D3 v3 compatibility
       this.measurementTextGroup.datum(measurement)
         .each((d: MeasurementResult) => {
           if (d.measured && d.tile != null) {
@@ -199,7 +197,6 @@ export class ParticleAnimation {
 
   displayAbsorptionTexts(): void {
     // TODO(pmigdal): instead of texts - a heatmap of colorful tiles?
-    // @ts-expect-error - D3 v3 compatibility
     this.absorptionTextGroup.selectAll('.absorption-text')
       .data(this.absorptionProbabilities)
       .enter()

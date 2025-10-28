@@ -14,12 +14,16 @@
     "lint:fix": "eslint js/**/*.{js,ts} --fix"
   },
   "dependencies": {
+    "d3": "^7.9.0",
     "file-saver": "^2.0.5",
     "json-stringify-pretty-compact": "^4.0.0",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "soundjs": "^1.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
+    "@types/d3": "^7.4.3",
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^24.9.1",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",

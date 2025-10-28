@@ -82,7 +82,7 @@ export class GameBoard {
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
-    this.boardControls = svg['selectAll']('.board-controls');
+    this.boardControls = svg.selectAll('.board-controls');
     this.activateBoardControls();
 
     this.loadLevel(levelId);
@@ -134,9 +134,9 @@ export class GameBoard {
 
     if (winningStatus.isWon) {
 
-      if (!this.storage.getLevelIsWon(level.id)) {
-        if (window.ga) {
-          window.ga('send', 'event', 'Level', 'won', level.id);
+      if (!this.storage.getLevelIsWon(level.id!)) {
+        if ((window as any).ga) {
+          (window as any).ga('send', 'event', 'Level', 'won', level.id);
           window.console.log('level winning logged');
         } else {
           window.console.log('no Google Analytics to track winning');
@@ -148,7 +148,7 @@ export class GameBoard {
       }
 
       this.titleManager.showNextLevelButton(true);
-      this.storage.setLevelIsWon(level.id, true);
+      this.storage.setLevelIsWon(level.id!, true);
       this.saveProgress();
       this.progressPearls.update();
     }
@@ -171,7 +171,7 @@ export class GameBoard {
     // Hack: bareBoard SVG sets its viewBox - use that information to set
     // the viewBox of blinking SVG
     // TODO(pathes): more elegant mechanism
-    this.titleManager.blinkSvg.attr('viewBox', this.svg.attr('viewBox'));
+    (this.titleManager as any).blinkSvg.attr('viewBox', this.svg.attr('viewBox'));
     this.stock.elementCount(this.bareBoard.level);
     this.stock.drawStock();
   }
@@ -214,8 +214,8 @@ export class GameBoard {
 
   setHeaderTexts(): void {
     this.titleManager.setTitle(this.title);
-    this.titleManager.setDefaultMessage(this.goalMessage, '');
-    this.titleManager.setLevelNumber(this.levelNumber);
+    this.titleManager.setDefaultMessage(this.goalMessage, 'progress');
+    this.titleManager.setLevelNumber(String(this.levelNumber!));
   }
 
   showTileHelper(tile: Tile): void {
@@ -249,49 +249,49 @@ export class GameBoard {
     const bareBoard = this.bareBoard;
     const boardControls = this.boardControls;
     boardControls.select('.play')
-      ['on']('click', bareBoard.play.bind(bareBoard))
-      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('PLAY/PAUSE'));
+      .on('click', (_event) => bareBoard.play.bind(bareBoard)())
+      .on('mouseover', (_event) => gameBoard.titleManager.displayMessage('PLAY/PAUSE', 'progress'));
     boardControls.select('.stop')
-      ['on']('click', bareBoard.stop.bind(bareBoard))
-      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('STOP'));
+      .on('click', (_event) => bareBoard.stop.bind(bareBoard)())
+      .on('mouseover', (_event) => gameBoard.titleManager.displayMessage('STOP', 'progress'));
     boardControls.select('.forward')
-      ['on']('click', bareBoard.forward.bind(bareBoard))
-      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('NEXT STEP'));
-    const durationToSlider = d3.scale.log()
+      .on('click', (_event) => bareBoard.forward.bind(bareBoard)())
+      .on('mouseover', (_event) => gameBoard.titleManager.displayMessage('NEXT STEP', 'progress'));
+    const durationToSlider = d3.scaleLog()
       .domain([animationStepDurationMax, animationStepDurationMin])
       .range([0, 1]);
 
     boardControls.select('.speed')
-      ['on']('click', function () {
+      .on('click', function (event) {
         const baseWidth = 100; // width in px in SVG without scaling
-        const mouseX = d3.mouse(this)[0];
+        const mouseX = d3.pointer(event, this)[0] as number;
         bareBoard.animationStepDuration = durationToSlider.invert(mouseX/baseWidth);
         gameBoard.titleManager.displayMessage(
           `Speed of light: ${(1000/bareBoard.animationStepDuration).toFixed(2)} tiles/s`,
-          ''
+          'progress'
         );
 
         d3.select(this).select('rect')
           .attr('x', mouseX - 3);
       })
-      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('CHANGE SPEED'));
+      .on('mouseover', (_event) => gameBoard.titleManager.displayMessage('CHANGE SPEED', 'progress'));
 
     boardControls.select('.reset')
-      ['on']('click', () => {
+      .on('click', (_event) => {
         gameBoard.reloadLevel(false);
       })
-      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
+      .on('mouseover', (_event) => gameBoard.titleManager.displayMessage('RESET LEVEL', 'progress'));
 
     boardControls.select('.download')
-      ['on']('click', () => {
+      .on('click', (_event) => {
         bareBoard.logger.logAction('download');
         gameBoard.downloadCurrentLevel();
       })
-      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
+      .on('mouseover', (_event) => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON', 'progress'));
 
     boardControls.select('.view-mode')
-      ['on']('click', function () {
-        let newMode;
+      .on('click', function (_event) {
+        let newMode: 'orthogonal' | 'oscilloscope';
         if (bareBoard.drawMode === 'oscilloscope') {
           newMode = 'orthogonal';
         } else {
@@ -304,8 +304,8 @@ export class GameBoard {
       });
 
     boardControls.select('.measurement-mode')
-      ['on']('click', function () {
-        let newMode;
+      .on('click', function (_event) {
+        let newMode: 'Copenhagen' | 'delayed meas.';
         if (bareBoard.measurementMode === 'Copenhagen') {
           newMode = 'delayed meas.';
         } else {
@@ -329,12 +329,12 @@ export class GameBoard {
     // now for testing
     window.console.log(
       'levelRecipe2queryString(this.bareBoard.exportBoard())',
-      levelRecipe2queryString(this.bareBoard.exportBoard() as LevelRecipe)
+      levelRecipe2queryString(this.bareBoard.exportBoard() as unknown as LevelRecipe)
     );
 
     window.console.log(
       'queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard()))',
-       queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard() as LevelRecipe))
+       queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard() as unknown as LevelRecipe))
     );
   }
 
@@ -345,26 +345,26 @@ export class GameBoard {
     this.logger.save();
     this.logger.reset();
 
-    let levelToLoad = null;
+    let levelToLoad: LevelRecipe | null = null;
     let loadedFromStorage = false;
 
     // Try to load level from storage
     if (checkStorage && this.storage.hasLevelProgress(levelId)) {
-      levelToLoad = this.storage.getLevelProgress(levelId);
+      levelToLoad = this.storage.getLevelProgress(levelId) as LevelRecipe;
       this.logger.logAction('loadLevel', {fromStorage: true});
       loadedFromStorage = true;
     }
 
     // Try to create level from scratch, if such exists
     if (!loadedFromStorage && level.idToLevel[levelId] != null) {
-      levelToLoad = level.idToLevel[levelId];
+      levelToLoad = level.idToLevel[levelId] as LevelRecipe;
       this.logger.logAction('loadLevel', {fromStorage: false});
     }
 
     // If levelId is invalid, load first Level
     if (levelToLoad == null) {
       // TODO(pathes): remove magic constant
-      levelToLoad = level.levels[1];
+      levelToLoad = level.levels[1] as LevelRecipe;
       // NOTE(migdal): it is an ugly piece which already made me waste some time
       // ideally - exception; at very least - console.log
       window.console.log(`XXX For levelId ${levelId} there is no level; falling back to the first level.`);
@@ -372,7 +372,7 @@ export class GameBoard {
     }
 
     // Additionally, check if level is passed. If not, show popup.
-    if (!this.storage.getLevelIsWon(levelToLoad.id) && levelToLoad.initialHint != null) {
+    if (levelToLoad && !this.storage.getLevelIsWon(levelToLoad.id!) && levelToLoad.initialHint != null) {
       this.popupManager.popup(levelToLoad.initialHint, {close: true, nextLevel: false});
     }
 

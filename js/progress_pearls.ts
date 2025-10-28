@@ -19,10 +19,10 @@ export class ProgressPearls {
   }
 
   draw(): void {
-    this.pearls = this.g['selectAll']('.pearl')
+    this.pearls = this.g.selectAll('.pearl')
       .data(this.levels);
 
-    const pearlsEntered = this.pearls['enter']()
+    const pearlsEntered = this.pearls.enter()
       .append('g')
         .attr('class', 'pearl')
         .attr('transform', (_d, i) => `translate(${pearlDistance * (i % pearlsPerRow + 0.5)}, ${pearlDistance * (Math.floor(i / pearlsPerRow) - 0.75)})`)
@@ -34,7 +34,7 @@ export class ProgressPearls {
       .attr('r', pearlRadius);
 
     pearlsEntered.append('text')
-      .text((d: LevelRecipe) => d.i);
+      .text((d: LevelRecipe) => String(d.i ?? ''));
 
     this.update();
   }
@@ -46,12 +46,12 @@ export class ProgressPearls {
     const isWon = (d: LevelRecipe): boolean => this.gameBoard.storage.getLevelIsWon(d.id!);
 
     this.pearls
-      ['classed']('pearl--passed', isWon)
-      ['classed']('pearl--current', (d: LevelRecipe) => d.id === this.gameBoard.storage.getCurrentLevelId())
-      ['on']('mouseover', (d: LevelRecipe) => {
+      .classed('pearl--passed', isWon)
+      .classed('pearl--current', (d: LevelRecipe) => d.id === this.gameBoard.storage.getCurrentLevelId())
+      .on('mouseover', (d: LevelRecipe) => {
         this.gameBoard.titleManager.displayMessage(
           `GO TO: ${d.i}. ${d.name} ${isWon(d) ? '[won]' : ''}`,
-          ''
+          'progress'
         );
       });
   }

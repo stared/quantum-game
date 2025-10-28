@@ -69,19 +69,15 @@ export class SVGParticleAnimation extends ParticleAnimation {
   }
 
   updateParticles(): void {
-    const particles = this.particleGroup['selectAll']('.particle').data(this.history[this.stepNo]);
+    const particles = this.particleGroup.selectAll('.particle').data(this.history[this.stepNo] || []);
 
-    particles['exit']().remove();
+    particles.exit().remove();
 
-    particles['enter']().append('use').attr({
-        'xlink:href': '#particle',
-        'class': 'particle',
-      });
+    particles.enter().append('use').attr('xlink:href', '#particle').attr('class', 'particle');
 
     particles.attr('transform', (d: Particle) => `translate(${d.startX},${d.startY})`).style('opacity', (d: Particle) => Math.sqrt(d.prob));
 
-    // @ts-expect-error - D3 v3 compatibility
-    particles.interrupt().transition().ease([0, 1]).duration(this.animationStepDuration).attrTween('transform', (d: Particle) => (t: number) => {
+    particles.interrupt().transition().ease([0, 1] as any).duration(this.animationStepDuration).attrTween('transform', (d: Particle) => (t: number) => {
         const h = polarizationScaleH * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
         const x = (1 - t) * d.startX + t * d.endX + perpendicularI[d.dir] * h;
         const y = (1 - t) * d.startY + t * d.endY + perpendicularJ[d.dir] * h;
@@ -91,7 +87,6 @@ export class SVGParticleAnimation extends ParticleAnimation {
   }
 
   exitParticles(): void {
-    // @ts-expect-error - D3 v3 compatibility
     this.particleGroup.selectAll('.particle').transition().duration(this.animationStepDuration).style('opacity', 0).delay(this.animationStepDuration).remove();
   }
 }

@@ -2,6 +2,8 @@
  * Shared type definitions for Quantum Game
  */
 
+import type * as d3 from 'd3';
+
 // Direction types for particle movement
 export type Direction = '>' | '^' | '<' | 'v';
 
@@ -29,21 +31,10 @@ export type ViewMode = 'orthogonal' | 'polar';
 // Measurement mode
 export type MeasurementMode = 'Copenhagen' | 'Many-worlds';
 
-// Minimal D3 Selection interface for v3 compatibility
-// Full typing will be added when we upgrade to D3 v7
-export interface D3Selection {
-  append(name: string): D3Selection;
-  select(selector: string): D3Selection;
-  attr(name: string, value: string | number | ((d: unknown, i: number) => string | number)): D3Selection;
-  style(name: string, value: string | number): D3Selection;
-  transition(): D3Selection;
-  duration(milliseconds: number): D3Selection;
-  delay(milliseconds: number): D3Selection;
-  ease(easing: string): D3Selection;
-  remove(): D3Selection;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any; // Allow other D3 methods until we have full types
-}
+// D3 Selection type alias for D3 v7
+// Uses the actual D3 Selection type with flexible generics to support various element types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type D3Selection = d3.Selection<any, any, any, any>;
 
 // Tile description
 export interface TileDescription {

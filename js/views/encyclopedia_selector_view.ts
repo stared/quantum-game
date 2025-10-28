@@ -25,7 +25,7 @@ export class EncyclopediaSelectorView extends View {
       .append('li')
       .append('button')
       .attr('class', 'unselectable')
-      .on('click', (d: string) => {
+      .on('click', (_event, d: string) => {
         this.game.setEncyclopediaItem(d);
         this.game.setView('encyclopediaItem');
       });
@@ -41,7 +41,7 @@ export class EncyclopediaSelectorView extends View {
   }
 
   bindMenuEvents(): void {
-    d3.select('.view--encyclopedia-selector .bottom-bar__back-to-game-button').on('click', () => {
+    d3.select('.view--encyclopedia-selector .bottom-bar__back-to-game-button').on('click', (_event) => {
       this.game.setView('game');
     });
   }

@@ -104,34 +104,34 @@ export class Game {
 
   bindMenuEvents(): void {
     this.gameBoard!.svg.select('.navigation-controls .level-list')
-      ['on']('click', () => {
+      .on('click', (_event) => {
         this.gameBoard!.stop();
         this.setView('levelSelector');
       })
-      ['on']('mouseover', () =>
-        this.gameBoard!.titleManager.displayMessage('SELECT LEVEL')
+      .on('mouseover', (_event) =>
+        this.gameBoard!.titleManager.displayMessage('SELECT LEVEL', 'progress')
       );
     this.gameBoard!.svg.select('.navigation-controls .encyclopedia')
-      ['on']('click', () => {
+      .on('click', (_event) => {
         this.gameBoard!.stop();
         this.setView('encyclopediaSelector');
       })
-      ['on']('mouseover', () =>
-        this.gameBoard!.titleManager.displayMessage('ENCYCLOPEDIA')
+      .on('mouseover', (_event) =>
+        this.gameBoard!.titleManager.displayMessage('ENCYCLOPEDIA', 'progress')
       );
 
     const overlay = this.gameBoard!.svg.select('.interface-hint-overlay');
     this.gameBoard!.svg.select('.navigation-controls .help')
-      ['on']('click',     () => overlay['classed']('hidden', !overlay['classed']('hidden')))
-      ['on']('mouseover', () => overlay['classed']('hidden', false))
-      ['on']('mouseout',  () => overlay['classed']('hidden', true));
+      .on('click',     (_event) => overlay.classed('hidden', !overlay.classed('hidden')))
+      .on('mouseover', (_event) => overlay.classed('hidden', false))
+      .on('mouseout',  (_event) => overlay.classed('hidden', true));
 
     this.gameBoard!.svg.select('.navigation-controls .sandbox')
-      ['on']('click', () => {
+      .on('click', (_event) => {
         this.gameBoard!.loadLevel(level.levels[0]!.id!);
       })
-      ['on']('mouseover', () =>
-        this.gameBoard!.titleManager.displayMessage('SANDBOX LEVEL')
+      .on('mouseover', (_event) =>
+        this.gameBoard!.titleManager.displayMessage('SANDBOX LEVEL', 'progress')
       );
   }
 

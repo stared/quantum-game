@@ -136,7 +136,7 @@ export class BareBoard {
     this.svg
       .append('g')
       .attr('class', 'background')
-      ['selectAll']('.background-tile')
+      .selectAll('.background-tile')
       .data(
         this.tileMatrix.flat().map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j))
       )
@@ -158,7 +158,7 @@ export class BareBoard {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.boardHints = this.svg.append('g')
       .attr('class', 'board-hints')
-        ['selectAll']('.board-hint')
+        .selectAll('.board-hint')
         .data(this.level.boardHints)
         .enter().append('g')
           .attr('class', 'board-hint')
@@ -166,7 +166,7 @@ export class BareBoard {
           .attr('transform', (d: any) =>
             `translate(${tileSize * d.i + tipMargin},${tileSize * d.j + tipMargin})`
           )
-          ['on']('click', function (this: Element) {
+          .on('click', function (this: Element, _event) {
             d3.select(this)
               .style('opacity', 1)
               .transition().duration(animationStepDuration)
@@ -180,10 +180,10 @@ export class BareBoard {
       .attr('width', (d: any) => d.widthI * tileSize - 2 * tipMargin)
       .attr('height', tileSize - 2 * tipMargin);
 
-    this.boardHints!['append']('text')
+    this.boardHints!.append('text')
       .attr('x', (d: any) => d.widthI * tileSize / 2 - tipMargin)
       .attr('y', tileSize / 2 - tipMargin)
-      ['text']((d: any) => d.text);
+      .text((d: any) => d.text);
 
     // Triangle size unit
     const t = tileSize / 4;
@@ -197,7 +197,7 @@ export class BareBoard {
 
     // Board hint can have a triangle tip (like in dialogue balloon)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.boardHints!['filter']((d: any) => d.triangleI != null)
+    this.boardHints!.filter((d: any) => d.triangleI != null)
       .append('path')
         .attr('d', `M${-t/2} 0 L0 ${t} L${t/2} 0 Z`)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -227,15 +227,14 @@ export class BareBoard {
     this.tileMatrix[tileObj.i]![tileObj.j] = tileObj;
 
     const tileSelection = this.boardGroup!
-      ['datum'](tileObj)
       .append('g')
+        .datum(tileObj)
         .attr('class', 'tile')
         .attr('transform', (d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`);
 
     tileObj.g = tileSelection;
     // DOM element for g
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    tileObj.node = (tileSelection as any)[0][0];
+    tileObj.node = tileSelection.node() as Element;
 
     // frozen background
     tileSelection
@@ -258,7 +257,7 @@ export class BareBoard {
         .attr('height', tileSize);
 
     this.clickBehavior(tileSelection, this);
-    bindDrag(tileSelection, this, this.stock);
+    bindDrag(tileSelection, this, this.stock!);
 
   }
 
@@ -270,10 +269,10 @@ export class BareBoard {
   }
 
   clickBehavior(tileSelection: D3Selection, bareBoard: BareBoard): void {
-    tileSelection.select('.hitbox')['on']('click', (d: Tile) => {
+    tileSelection.select('.hitbox').on('click', (event, d: Tile) => {
 
       // Avoid rotation when dragged
-      if (d3.event.defaultPrevented) {
+      if (event.defaultPrevented) {
         return;
       }
 
@@ -301,7 +300,7 @@ export class BareBoard {
       bareBoard.callbacks.tileRotated(d);
 
     })
-    .on('mouseover', function (this: Element, d: Tile) {
+    .on('mouseover', function (_event: any, d: Tile) {
       bareBoard.callbacks.tileMouseover(d);
       d3.select(this).classed('hitbox-disabled', d.frozen);
     });
@@ -315,7 +314,7 @@ export class BareBoard {
           .attr('class', 'triangular')
           .attr('d', 'M 0 0 L -1 0 L 0 1 Z')
           .attr('transform', `translate(${tileSize / 2},${-tileSize / 2}) scale(${tileSize / 4})`)
-          ['on']('click', (d: Tile) => {
+          .on('click', (_event, d: Tile) => {
             d.frozen = !d.frozen;
             this.logger.logAction('changeFreeze', {name: d.tileName, i: d.i, j: d.j, toFrozen: d.frozen});
             d.g!.select('.frost')
@@ -392,7 +391,7 @@ export class BareBoard {
     this.particleAnimation = new CanvasParticleAnimation(
       this,
       this.simulationQ.history,
-      this.simulationQ.measurementHistory,
+      this.simulationQ.measurementHistory as any,
       this.winningStatus.absorptionProbabilities,
       this.callbacks.animationInterrupt,
       this.callbacks.animationEnd,

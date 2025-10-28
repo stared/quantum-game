@@ -52,14 +52,12 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   override stop(): void {
     super.stop();
     window.removeEventListener('resize', this.throttledResizeCanvas);
-    // @ts-expect-error - D3 v3 compatibility
     this.canvas.classed('canvas--hidden', true);
   }
 
   override play(): void {
     this.updateStartTime();
     super.play();
-    // @ts-expect-error - D3 v3 compatibility
     this.canvas.classed('canvas--hidden', false);
   }
 
@@ -72,12 +70,12 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     super.initialize();
     // Create canvas, get context
     this.canvas = d3.select('#gameCanvas');
-    this.ctx = this.canvas[0][0].getContext('2d')!;
+    this.ctx = (this.canvas.node() as HTMLCanvasElement).getContext('2d')!;
     // Similar for helper canvas
     this.helperCanvas = d3.select('#gameHelperCanvas');
-    this.helperCtx = this.helperCanvas[0][0].getContext('2d')!;
+    this.helperCtx = (this.helperCanvas.node() as HTMLCanvasElement).getContext('2d')!;
     // Interrupt animation when clicked on canvas
-    this.canvas[0][0].addEventListener('click', this.interrupt.bind(this));
+    (this.canvas.node() as HTMLCanvasElement).addEventListener('click', this.interrupt.bind(this));
     // Initial canvas resize
     this.resizeCanvas();
     // Cancel old clearing events
@@ -87,7 +85,6 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     this.startTime = new Date().getTime();
     this.lastStepFloat = 0;
     // Show the canvas (useful when initing animation via "next step" button)
-    // @ts-expect-error - D3 v3 compatibility
     this.canvas.classed('canvas--hidden', false);
   }
 
@@ -257,7 +254,6 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
     if (CanvasParticleAnimation.clearingFramesLeft === 1) {
       this.clearAlpha(0);
-      // @ts-expect-error - D3 v3 compatibility
       this.canvas.classed('canvas--hidden', true);
       return;
     }
@@ -286,7 +282,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
          this.board.level.height * tileSize
        );
        this.helperCtx.globalAlpha = alpha;
-       this.helperCtx.drawImage(this.canvas[0][0], 0, 0);
+       this.helperCtx.drawImage(this.canvas.node() as HTMLCanvasElement, 0, 0);
      }
      // Draw image from helper context, a bit faded-out
      this.ctx.clearRect(
@@ -295,7 +291,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
        this.board.level.height * tileSize
      );
      if (alpha > 0) {
-       this.ctx.drawImage(this.helperCanvas[0][0], 0, 0);
+       this.ctx.drawImage(this.helperCanvas.node() as HTMLCanvasElement, 0, 0);
      }
    }
 }

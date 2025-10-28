@@ -22,7 +22,6 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
         `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
       )
       .delay(repositionSpeed)
-      // @ts-expect-error - D3 v3 compatibility
       .each((d: Tile) => {
         if (!keep) {
           d.g.remove();
@@ -30,11 +29,11 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       });
   }
 
-  const drag = d3.behavior.drag();
+  const drag = d3.drag<Element, Tile>();
   drag
-    .on('dragstart', (source: Tile) => {
+    .on('dragstart', (event, source: Tile) => {
 
-      d3.event.sourceEvent.stopPropagation();
+      event.sourceEvent.stopPropagation();
       source.top = false;
 
       if (board.animationExists) {
@@ -49,9 +48,8 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
           SoundService.playThrottled('error');
           return;
         }
-        stock.regenerateTile(d3.select(source.node!.parentNode));
+        stock.regenerateTile(d3.select(source.node!.parentNode as any) as D3Selection);
         stock.updateCount(source.tileName, -1);
-        // @ts-expect-error - D3 v3 compatibility
         source.g.classed('stock-dragged', true);
       }
 
@@ -60,7 +58,7 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
         SoundService.playThrottled('error');
       }
     })
-    .on('drag', function (this: Element, source: Tile) {
+    .on('drag', function (event: any, source: Tile) {
 
       // Is it impossible to drag item?
       if (source.frozen) {
@@ -79,11 +77,11 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       }
 
       d3.select(this)
-        .attr('transform', `translate(${d3.event.x},${d3.event.y})`);
-      source.newI = Math.floor(d3.event.x / tileSize);
-      source.newJ = Math.floor(d3.event.y / tileSize);
+        .attr('transform', `translate(${event.x as number},${event.y as number})`);
+      source.newI = Math.floor(event.x / tileSize);
+      source.newJ = Math.floor(event.y / tileSize);
     })
-    .on('dragend', (source: Tile) => {
+    .on('dragend', (_event, source: Tile) => {
 
       if (source.dontDrag) {
         delete source.dontDrag;
@@ -175,10 +173,8 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       source.j = target.j;
       if (source.fromStock) {
         source.fromStock = false;
-        // @ts-expect-error - D3 v3 compatibility
-        board.boardGroup!.node().appendChild(source.node!);
+        board.boardGroup!.node()!.appendChild(source.node!);
         board.clickBehavior(source.g, board);
-        // @ts-expect-error - D3 v3 compatibility
         source.g.insert('rect', ':first-child')
           .attr('class', (d: Tile) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
           .attr('x', -tileSize / 2)
@@ -190,6 +186,5 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
 
     });
 
-  // @ts-expect-error - D3 v3 compatibility
-  tileSelection.call(drag);
+  tileSelection.call(drag as any);
 }
