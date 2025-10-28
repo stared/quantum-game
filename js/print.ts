@@ -1,8 +1,15 @@
-// @ts-nocheck
 // displaying and printing states, operators etc
 // as of now mostly for debugging purpose
 
-export const componentToStr = (component) => {
+interface Component {
+  re: number;
+  im: number;
+  i: number;
+  j: number;
+  to: string;
+}
+
+export const componentToStr = (component: Component): string => {
   let amplitudeStr = '';
 
   if (component.re !== 0 && component.im !== 0) {
@@ -20,7 +27,7 @@ export const componentToStr = (component) => {
   return `${amplitudeStr}*|${component.i},${component.j},${component.to})`;
 };
 
-export const stateToStr = (state) => state.map(componentToStr).join(' + ');
+export const stateToStr = (state: Component[]): string => state.map(componentToStr).join(' + ');
 
 // NOTE(migdal) switched off katex for now; I will reload once it is actually being used
 //// NOTE right now it is only for the direction-polarization basis
@@ -52,7 +59,15 @@ export const stateToStr = (state) => state.map(componentToStr).join(' + ');
 //   return katex.renderToString(`\begin{bmatrix}${arrayContent}\end{bmatrix}`);
 // };
 
-export const absorbedToStr = (absorbed) =>
+interface AbsorbedEntry {
+  measured: boolean;
+  probability: number;
+  i: number;
+  j: number;
+  tile: { tileName: string } | null;
+}
+
+export const absorbedToStr = (absorbed: AbsorbedEntry[]): string =>
   absorbed
     .map((a) =>
       `${a.measured ? '!!!' : '...'} ${(100 * a.probability).toFixed(0)}% (${a.i},${a.j}) ${a.tile != null ? a.tile.tileName : 'out'}`

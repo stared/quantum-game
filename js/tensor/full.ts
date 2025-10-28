@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import {Tensor} from './tensor';
 import * as direction from './direction';
 import * as polarization from './polarization';
@@ -25,16 +23,16 @@ export const zero = Tensor.product(
 
 const pipeH = Tensor.product(
   Tensor.sum(
-    direction.diode[0],
-    direction.diode[2]
+    direction.diode[0]!,
+    direction.diode[2]!
   ),
   polarization.identity
 );
 
 const pipeV = Tensor.product(
   Tensor.sum(
-    direction.diode[1],
-    direction.diode[3]
+    direction.diode[1]!,
+    direction.diode[3]!
   ),
   polarization.identity
 );
@@ -53,7 +51,7 @@ export const source = Array.from({length: 4}, (_, rotation) => {
 
 export const detector = Array.from({length: 4}, (_, rotation) =>
   Tensor.product(
-    direction.absorbOneDirReflectOther[rotation],
+    direction.absorbOneDirReflectOther[rotation]!,
     polarization.reflectPhaseFromDenser
   )
 );
@@ -65,7 +63,7 @@ export const cornerCube = Tensor.product(
 
 export const thinMirror = Array.from({length: 4}, (_, rotation) =>
   Tensor.product(
-    direction.mirror[rotation],
+    direction.mirror[rotation]!,
     polarization.reflectPhaseFromDenser
   )
 );
@@ -73,7 +71,7 @@ export const thinMirror = Array.from({length: 4}, (_, rotation) =>
 // FIX(migdal) this one is not even unitary
 export const thinMirrorCoated = Array.from({length: 8}, (_, rotation) =>
   Tensor.product(
-    direction.mirrorCoated[rotation],
+    direction.mirrorCoated[rotation]!,
     polarization.reflectPhaseFromDenser
   )
 );
@@ -81,11 +79,11 @@ export const thinMirrorCoated = Array.from({length: 8}, (_, rotation) =>
 export const thinSplitter = Array.from({length: 4}, (_, rotation) =>
   Tensor.sum(
     Tensor.byConstant(
-      rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2],
+      rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2]!,
       {re: Math.SQRT1_2, im: 0}
     ),
     Tensor.byConstant(
-      thinMirror[rotation],
+      thinMirror[rotation]!,
       {re: 0, im: -Math.SQRT1_2}
     )
   )
@@ -94,11 +92,11 @@ export const thinSplitter = Array.from({length: 4}, (_, rotation) =>
 export const thinSplitterCoated = Array.from({length: 8}, (_, rotation) =>
   Tensor.sum(
     Tensor.byConstant(
-      rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2],
+      rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2]!,
       {re: Math.SQRT1_2, im: 0}
     ),
     Tensor.byConstant(
-      thinMirrorCoated[rotation],
+      thinMirrorCoated[rotation]!,
       {re: Math.SQRT1_2, im: 0}
     )
   )
@@ -109,14 +107,18 @@ export const polarizingSplitter = Array.from({length: 2}, (_, rotation) => {
   const mirrorRotation = 2 * rotation + 1;
   return Tensor.fromObject(direction.directions.reduce((acc, dir) => {
     const reflectedDirection = direction.planeReflectionDirection(dir, mirrorRotation);
+    const dirH = `${dir}-`;
+    const dirV = `${dir}|`;
     // Polarization - passes through
-    acc[`${dir}-`] = {};
-    acc[`${dir}-`][`${dir}-`] = {re: 1, im: 0};
+    acc[dirH] = {};
+    acc[dirH]![dirH] = {re: 1, im: 0};
     // Polarization | gets reflected
-    acc[`${dir}|`] = {};
-    acc[`${dir}|`][`${reflectedDirection}|`] = {re: 1, im: 0};
+    acc[dirV] = {};
+    if (reflectedDirection) {
+      acc[dirV]![`${reflectedDirection}|`] = {re: 1, im: 0};
+    }
     return acc;
-  }, {}));
+  }, {} as Record<string, Record<string, {re: number, im: number}>>));
 });
 
 // TODO check sign (?)
@@ -150,7 +152,7 @@ export const doubleSugarSolution = Tensor.product(
 );
 
 // TODO make the formula easier or at least understand it
-const covariantAngle = (elementRotation, lightDirection) =>
+const covariantAngle = (elementRotation: number, lightDirection: number): number =>
   (1 - (lightDirection & 2)) * (1 - 2 * (lightDirection & 1)) * (-elementRotation - 2 * lightDirection) * TAU / 8;
 
 export const polarizer = Array.from({length: 4}, (_, rotation) =>
@@ -262,11 +264,11 @@ export const quarterWavePlateWE = Array.from({length: 4}, (_, rotation) =>
 export const faradayRotator = Array.from({length: 4}, (_, rotation) =>
   Tensor.sum(
     Tensor.product(
-      direction.diode[rotation],
+      direction.diode[rotation]!,
       polarization.rotation(TAU / 8)
     ),
     Tensor.product(
-      direction.diode[(rotation + 2) % 4],
+      direction.diode[(rotation + 2) % 4]!,
       polarization.rotation(- TAU / 8)
     )
   )

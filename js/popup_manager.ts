@@ -1,16 +1,26 @@
-// @ts-nocheck
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type D3Selection = any;
+
+interface PopupButtons {
+  close: boolean;
+  nextLevel: boolean;
+}
+
 export class PopupManager {
-  constructor(popupElem, nextLevelCallback) {
+  private popupElem: D3Selection;
+  private nextLevel: () => void;
+
+  constructor(popupElem: D3Selection, nextLevelCallback: () => void) {
     this.popupElem = popupElem;
     this.nextLevel = nextLevelCallback;
     this.bindEvents();
   }
 
-  toggle(shown, buttons) {
+  toggle(shown: boolean): void {
     this.popupElem.classed('popup--shown', shown);
   }
 
-  popup(content, buttons) {
+  popup(content: string, buttons: PopupButtons): void {
     this.popupElem.select('.popup-content')
       .html(content);
     // Toggle button visibility
@@ -21,7 +31,7 @@ export class PopupManager {
     this.toggle(true);
   }
 
-  bindEvents() {
+  bindEvents(): void {
     const popupManager = this;
     this.popupElem.selectAll('.popup-action--close')
       .on('click', () => {

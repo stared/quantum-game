@@ -1,28 +1,30 @@
-// @ts-nocheck
-
 // level-level logger
 // TODO also a general level logger
 
 // NSA approves!
 // PiS tez!
 
-export class Logger {
+type LogEntry = [string, number, Record<string, unknown>];
 
-  constructor(databaseConnector) {
+export class Logger {
+  private log: LogEntry[] = [];
+  private time0: number = +(new Date());
+
+  constructor(_databaseConnector?: unknown) {
     this.reset();
     this.logAction('loggingStarted', {clientAbsTime: (new Date()).toISOString()});
   }
 
-  logAction(actionName, dict = {}) {
+  logAction(actionName: string, dict: Record<string, unknown> = {}): void {
     this.log.push([actionName, +(new Date()) - this.time0, dict]);
   }
 
-  reset() {
+  reset(): void {
     this.log = [];
     this.time0 = +(new Date());
   }
 
-  save() {
+  save(): void {
     // save to DB
   }
 

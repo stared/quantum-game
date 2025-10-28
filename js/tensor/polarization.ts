@@ -1,8 +1,9 @@
-// @ts-nocheck
 import {Tensor} from './tensor';
 import {TAU} from '../const';
 
-export const polarizations = ['-', '|'];
+export type Polarization = '-' | '|';
+
+export const polarizations: Polarization[] = ['-', '|'];
 
 export const identity = Tensor.fill(polarizations, {re: 1, im: 0});
 export const zero = Tensor.fill(polarizations, {re: 0, im: 0});
@@ -27,7 +28,7 @@ export const reflectPhaseFromDenser = Tensor.fromObject({
  */
 // TODO check the sign of rotation
 // TODO tests
-export const rotation = (alpha) => Tensor.fromObject({
+export const rotation = (alpha: number): Tensor => Tensor.fromObject({
   '-': {'-': {re: Math.cos(alpha), im: 0},
         '|': {re: Math.sin(alpha), im: 0}},
   '|': {'-': {re: -Math.sin(alpha), im: 0},
@@ -39,7 +40,7 @@ export const rotation = (alpha) => Tensor.fromObject({
  * Sample usage: polarizer.
  */
 // TODO tests
-export const projection = (alpha) => Tensor.fromObject({
+export const projection = (alpha: number): Tensor => Tensor.fromObject({
   '-': {'-': {re: Math.cos(alpha) * Math.cos(alpha), im: 0},
         '|': {re: Math.cos(alpha) * Math.sin(alpha), im: 0}},
   '|': {'-': {re: Math.cos(alpha) * Math.sin(alpha), im: 0},
@@ -53,7 +54,7 @@ export const projection = (alpha) => Tensor.fromObject({
 // one gets shifted, second stays the same
 // TODO better description
 // TODO tests
-export const phaseShift = (alpha, phi) => (
+export const phaseShift = (alpha: number, phi: number): Tensor => (
   Tensor.sum(
     Tensor.byConstant(
       projection(alpha),
@@ -69,10 +70,10 @@ export const phaseShift = (alpha, phi) => (
 // but it might be simpler to keep them there
 // or maybe use just tensor.byConstant?
 
-export const globalPhase = (phi) => Tensor.fill(
+export const globalPhase = (phi: number): Tensor => Tensor.fill(
   polarizations, {re: Math.cos(phi), im: Math.sin(phi)}
 );
 
-export const globalAbsorption = (transmission) => Tensor.fill(
+export const globalAbsorption = (transmission: number): Tensor => Tensor.fill(
   polarizations, {re: Math.sqrt(transmission), im: 0}
 );
