@@ -1,11 +1,11 @@
-// @ts-nocheck
 import d3 from './d3-wrapper';
 import {TAU, EPSILON} from './const';
 import {Tooltip} from './tooltip';
+import type {D3Selection, ComplexNumber} from './types';
 
 const toggleDuraton = 1000;
 
-const complexToPureColor = (z) => {
+const complexToPureColor = (z: ComplexNumber): string => {
   if (z.re === 0 && z.im === 0) {
     return '#ffffff';
   } else {
@@ -15,10 +15,10 @@ const complexToPureColor = (z) => {
   }
 };
 
-const complexToOpacity = (z) => Math.sqrt(z.re * z.re + z.im * z.im);
+const complexToOpacity = (z: ComplexNumber): number => Math.sqrt(z.re * z.re + z.im * z.im);
 
 // see http://www.fileformat.info/info/unicode/block/arrows/utf8test.htm
-const prettierArrows = {
+const prettierArrows: Record<string, string> = {
   '>': '⇢',  // ⇢
   '^': '⇡',  // ⇡
   '<': '⇠',  // ⇠
@@ -27,13 +27,26 @@ const prettierArrows = {
   '|': '↕',  // ↕
 };
 
-const prettifyBasis = (basis) => `${prettierArrows[basis[0]]}${prettierArrows[basis[1]]}`;
+const prettifyBasis = (basis: string): string => `${prettierArrows[basis[0]!]!}${prettierArrows[basis[1]!]!}`;
 
 const basisDirPol = ['>-', '>|', '^-', '^|', '<-', '<|', 'v-', 'v|'];
 const basisPolDir = ['>-', '^-', '<-', 'v-', '>|', '^|', '<|', 'v|'];
 
+interface MatrixElement extends ComplexNumber {
+  from: string;
+  to: string;
+}
+
 export class TransitionHeatmap {
-  constructor(selectorSvg, selectorForTooltip, size=200) {
+  g: D3Selection;
+  tooltip: Tooltip;
+  size: number;
+  basis: string[];
+  labelIn!: D3Selection;
+  labelOut!: D3Selection;
+  matrixElement!: D3Selection;
+
+  constructor(selectorSvg: D3Selection, selectorForTooltip: D3Selection, size = 200) {
     this.g = selectorSvg.append('g')
       .attr('class', 'transition-heatmap')
       .on('click', () => this.toggleBasis());
@@ -43,12 +56,15 @@ export class TransitionHeatmap {
     this.basis = basisDirPol;
   }
 
-  updateFromTensor(tensor) {
+  updateFromTensor(tensor: unknown): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tensorAny = tensor as any;
 
     const arrayContent = this.basis
       .map((outputBase) => this.basis
         .map((inputBase) => {
-          const element = tensor.get(inputBase).get(outputBase) || {re: 0, im: 0};
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+          const element = (tensorAny.get(inputBase).get(outputBase) as ComplexNumber | undefined) || {re: 0, im: 0};
           return {
             from: inputBase,
             to: outputBase,
@@ -61,7 +77,7 @@ export class TransitionHeatmap {
     this.update(this.basis, arrayContent.flat());
   }
 
-  toggleBasis() {
+  toggleBasis(): void {
 
     if (this.basis === basisDirPol) {
       this.basis = basisPolDir;
@@ -73,9 +89,9 @@ export class TransitionHeatmap {
 
   }
 
-  update(labels, matrixElements=null) {
+  update(labels: string[], matrixElements: MatrixElement[] | null = null): void {
 
-    const position = Object.fromEntries(labels.map((d, i) => [d, i]));
+    const position: Record<string, number> = Object.fromEntries(labels.map((d, i) => [d, i]));
 
     const scale = d3.scale.linear()
       .domain([-1, labels.length])
@@ -87,7 +103,7 @@ export class TransitionHeatmap {
 
     this.labelIn = this.g
       .selectAll('.label-in')
-      .data(labels, (d) => d);
+      .data(labels, (d: string) => d);
 
     this.labelIn.enter()
       .append('text')
@@ -109,7 +125,7 @@ export class TransitionHeatmap {
 
     this.labelOut = this.g
       .selectAll('.label-out')
-      .data(labels, (d) => d);
+      .data(labels, (d: string) => d);
 
     this.labelOut.enter()
       .append('text')
@@ -133,12 +149,12 @@ export class TransitionHeatmap {
 
       this.matrixElement = this.g
         .selectAll('.matrix-element')
-        .data(matrixElements, (d) => `${d.from} ${d.to}`);
+        .data(matrixElements, (d: MatrixElement) => `${d.from} ${d.to}`);
 
       this.matrixElement.enter()
         .append('rect')
           .attr('class', 'matrix-element')
-          .on('mouseover', (d) => {
+          .on('mouseover', (d: MatrixElement) => {
             const r = Math.sqrt(d.re * d.re + d.im * d.im);
             const phi = Math.atan2(d.im, d.re) / TAU;
             const sign = d.im >= 0 ? '+' : '-';
@@ -160,8 +176,8 @@ export class TransitionHeatmap {
       .style('fill-opacity', complexToOpacity)
       .transition()
         .duration(toggleDuraton)
-          .attr('y', (d) => scale(position[d.to]) + 0.5)
-          .attr('x', (d) => scale(position[d.from]) + 0.5);
+          .attr('y', (d: MatrixElement) => scale(position[d.to]!) + 0.5)
+          .attr('x', (d: MatrixElement) => scale(position[d.from]!) + 0.5);
 
     this.matrixElement.exit()
       .remove();

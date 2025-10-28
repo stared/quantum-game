@@ -1,23 +1,39 @@
-// @ts-nocheck
 import d3 from './d3-wrapper';
 
 import {tileSize, absorptionDuration} from './config';
+import type {D3Selection} from './types';
 
 const barHeight = tileSize / 3;
 const barWidth = 2 * tileSize;
 const textMargin = 10;
 
-const percentStr = (probability) =>
-  (100 * probability).toFixed(1)
+const percentStr = (probability: number): string =>
+  (100 * probability).toFixed(1);
 
 export class DetectionBar {
-  constructor(svg) {
+  g: D3Selection;
+  percentG!: D3Selection;
+  percentScale!: D3Selection;
+  percentActual!: D3Selection;
+  percentRequired!: D3Selection;
+  percentText!: D3Selection;
+  countG!: D3Selection;
+  detectorsText!: D3Selection;
+  mineG!: D3Selection;
+  mineBox!: D3Selection;
+  mineText!: D3Selection;
+  requiredProbability!: number;
+  requiredCount!: number;
+  counts!: number[];
+  countBoxes!: D3Selection;
+
+  constructor(svg: D3Selection) {
     this.g = svg.append('g')
       .attr('class', 'detection-bar');
     this.draw();
   }
 
-  draw() {
+  draw(): void {
 
     //
     // percent group
@@ -90,7 +106,7 @@ export class DetectionBar {
 
   }
 
-  updateRequirements(probability, count) {
+  updateRequirements(probability: number, count: number): void {
 
     this.requiredProbability = probability;
     this.requiredCount = count;
@@ -122,7 +138,7 @@ export class DetectionBar {
     this.updateActual(0, 0, 0);
   }
 
-  updateActual(probability, count, risk) {
+  updateActual(probability: number, count: number, risk: number): void {
 
     this.percentActual.transition().duration(absorptionDuration)
       .attr('width', this.percentScale(probability));

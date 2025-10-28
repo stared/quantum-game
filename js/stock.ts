@@ -1,17 +1,27 @@
-// @ts-nocheck
 import d3 from './d3-wrapper';
 
 import * as tile from './tile';
 import {tileSize, tileBorder, stockHeight} from './config';
 import {bindDrag} from './drag_and_drop';
+import type {D3Selection} from './types';
+import type {BareBoard} from './bare_board';
+import type {Level} from './level';
 
 export class Stock {
-  constructor(svg, board) {
+  svg: D3Selection;
+  board: BareBoard;
+  stock!: Record<string, number>;
+  usedTileNames!: string[];
+  level!: Level;
+  stockGroup!: D3Selection;
+  stockSlots!: D3Selection;
+
+  constructor(svg: D3Selection, board: BareBoard) {
     this.svg = svg;
     this.board = board;
   }
 
-  elementCount(level) {
+  elementCount(level: Level): void {
     this.stock = level.initialStock;
 
     // initialize 0-count stock for non-frozen tiles on board
@@ -25,7 +35,7 @@ export class Stock {
     this.level = level;
   }
 
-  drawStock() {
+  drawStock(): void {
 
     // Reset element
     this.svg.select('.stock').remove();
@@ -66,13 +76,19 @@ export class Stock {
     this.regenerateTile(stockSlotsEntered);
   }
 
-  regenerateTile(stockSlotG) {
+  regenerateTile(stockSlotG: D3Selection): void {
+
+    interface StockSlotData {
+      name: string;
+      i: number;
+      j: number;
+    }
 
     const newTile = stockSlotG.append('g')
-      .datum((d) => new tile.Tile(tile[d.name], 0, false, d.i, d.j))
+      .datum((d: StockSlotData) => new tile.Tile((tile as unknown as Record<string, tile.TileType>)[d.name]!, 0, false, d.i, d.j))
       .attr('class', 'tile')
-      .attr('transform', (d) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
-      .each(function (tileObj) {
+      .attr('transform', (d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
+      .each(function (tileObj: tile.Tile) {
         tileObj.g = d3.select(this);
         tileObj.node = this;
         tileObj.fromStock = true;
@@ -91,7 +107,7 @@ export class Stock {
 
   }
 
-  updateCount(tileName, change) {
+  updateCount(tileName: string, change: number): void {
 
     this.stock[tileName] += change;
 
