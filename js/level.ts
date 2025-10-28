@@ -48,27 +48,28 @@ export class Level {
 
     // Determine stock based on mode and levelRecipe
     let stockConfig = levelRecipe.stock;
-    if (stockConfig == null && levelRecipe.tiles.filter(tile => tile.frozen).length === 0) {
+    if (stockConfig == null && levelRecipe.tiles.filter(tile => tile.frozen === true).length === 0) {
       stockConfig = 'all';
     }
 
     if (typeof stockConfig === 'object' || mode === 'as_it_is') {
-      this.initialStock = (stockConfig as Stock) || {};
+      this.initialStock = (stockConfig as Stock) ?? {};
     } else if (stockConfig === 'all' || mode === 'dev') {
       nonVacuumTiles.forEach((tile) => {
         this.initialStock[tile] = (tile === 'Source' ? 1 : 99);
       });
     } else if (stockConfig === 'non-frozen' || mode === 'game') {
-      this.tileRecipes = levelRecipe.tiles.filter(tile => tile.frozen);
-      const nonFrozenTiles = levelRecipe.tiles.filter((tile) => !tile.frozen);
+      this.tileRecipes = levelRecipe.tiles.filter(tile => tile.frozen === true);
+      const nonFrozenTiles = levelRecipe.tiles.filter((tile) => tile.frozen !== true);
       this.initialStock = nonFrozenTiles.reduce((acc, tile) => {
-        acc[tile.name] = (acc[tile.name] || 0) + 1;
+        acc[tile.name] = (acc[tile.name] ?? 0) + 1;
         return acc;
       }, {} as Stock);
     }
 
     this.requiredDetectionProbability = levelRecipe.requiredDetectionProbability === undefined ? 1 : levelRecipe.requiredDetectionProbability;
-    this.detectorsToFeed = levelRecipe.detectorsToFeed || levelRecipe.tiles.filter((tile) => tile.frozen && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
+    const frozenDetectors = levelRecipe.tiles.filter((tile) => tile.frozen === true && (tile.name === 'Detector' || tile.name === 'DetectorFour')).length;
+    this.detectorsToFeed = levelRecipe.detectorsToFeed ?? frozenDetectors;
   }
 }
 
@@ -103,13 +104,13 @@ if (isProduction) {
 }
 
 levels.forEach((level, i) => {
-  level.next = levels[i + 1]?.id as string | undefined;
+  level.next = levels[i + 1]?.id;
   delete level.i;
 });
 
 // ordering within groups
 const groupedLevels = levels.reduce((acc, level) => {
-  if (!acc[level.group]) {
+  if (acc[level.group] === undefined) {
     acc[level.group] = [];
   }
   acc[level.group]!.push(level);
@@ -117,11 +118,11 @@ const groupedLevels = levels.reduce((acc, level) => {
 }, {} as Record<string, LevelRecipe[]>);
 
 Object.values(groupedLevels).forEach((group) =>
-  group.forEach((level, i) => level.i = i + 1)
+  group.forEach((level, i) => level.i = i + 1),
 );
 
 (levels[0]! as { i?: number | string }).i = '\u221E';
 
 export const idToLevel: Record<string, LevelRecipe> = Object.fromEntries(
-  levels.map(level => [level.id, level])
+  levels.map(level => [level.id, level] as [string, LevelRecipe]),
 );

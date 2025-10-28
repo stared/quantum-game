@@ -59,13 +59,13 @@ export class WinningStatus {
     }));
 
     this.probsAtDets = this.absorptionProbabilities
-      .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector)
+      .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector === true)
       .map(entry => entry.probability);
 
     this.probsAtDetsByTime = simulationC.measurementHistory.map((each) =>
       each
-        .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector)
-        .reduce((sum, entry) => sum + entry.probability, 0)
+        .filter((entry) => this.tileMatrix[entry.i]?.[entry.j]?.isDetector === true)
+        .reduce((sum, entry) => sum + entry.probability, 0),
     );
 
     this.totalProbAtDets = this.probsAtDets.reduce((sum, prob) => sum + prob, 0);

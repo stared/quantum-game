@@ -1,5 +1,3 @@
-/*global window:false*/
-
 import { EPSILON, velocityI, velocityJ } from './const';
 import { maxIterations } from './config';
 import * as print from './print';
@@ -22,8 +20,8 @@ const intensityPerPosition = (state: ParticleEntry[]): Record<string, number> =>
   return Object.fromEntries(
     Object.entries(grouped).map(([key, groupedEntry]) => [
       key,
-      groupedEntry.reduce((sum, entry) => sum + zAbs(entry), 0)
-    ])
+      groupedEntry.reduce((sum, entry) => sum + zAbs(entry), 0),
+    ]),
   );
 };
 
@@ -61,7 +59,7 @@ export class Simulation {
         }
         const emissions =
           this.tileMatrix[i]![j]!.type.generation!(
-            this.tileMatrix[i]![j]!.rotation
+            this.tileMatrix[i]![j]!.rotation,
           );
         // emissions is PhotonGeneration[][] (array of arrays)
         emissions.forEach((emissionSet) => {
@@ -99,7 +97,7 @@ export class Simulation {
     let newState = this.interact(displacedState);
     const absorbed = this.absorb(displacedState, newState, onlyDetectors);
 
-    if (quantum && onlyDetectors < 0) {
+    if (quantum === true && onlyDetectors < 0) {
       newState = this.normalize(newState);
     }
 
@@ -113,7 +111,7 @@ export class Simulation {
       }
     }
 
-    if (absorbed.some(a => a.measured) && quantum) {
+    if (absorbed.some(a => a.measured === true) && quantum === true) {
       return [];
     } else {
       return newState;
@@ -149,8 +147,8 @@ export class Simulation {
 
     const bins: AbsorptionEvent[] = Object.entries(intensityOld)
       .map(([location, prob]) => ({
-        prob: prob - (intensityNew[location] || 0),
-        location
+        prob: prob - (intensityNew[location] ?? 0),
+        location,
       }))
       .filter(({prob}) => prob > EPSILON)
       .map(({prob, location}): AbsorptionEvent => {
@@ -249,7 +247,7 @@ export class Simulation {
     }, {});
     // Remove keys; filter out zeroes
     return Object.values(bins).filter((entry) =>
-      entry.re * entry.re + entry.im * entry.im > EPSILON
+      entry.re * entry.re + entry.im * entry.im > EPSILON,
     );
   }
 
@@ -265,7 +263,7 @@ export class Simulation {
       Object.assign(entry, {
         re: entry.re / norm,
         im: entry.im / norm,
-      })
+      }),
     );
 
   }

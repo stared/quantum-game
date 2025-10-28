@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type D3Selection = any;
+import type {D3Selection} from './types';
 
 interface PopupButtons {
   close: boolean;
@@ -32,14 +31,13 @@ export class PopupManager {
   }
 
   bindEvents(): void {
-    const popupManager = this;
     this.popupElem.selectAll('.popup-action--close')
       .on('click', () => {
-        popupManager.toggle(false);
+        this.toggle(false);
       });
     this.popupElem.selectAll('.popup-action--next-level')
       .on('click', () => {
-        popupManager.toggle(false);
+        this.toggle(false);
         this.nextLevel();
       })
   }

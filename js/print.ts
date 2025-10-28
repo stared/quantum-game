@@ -64,6 +64,6 @@ export const stateToStr = (state: Component[]): string => state.map(componentToS
 export const absorbedToStr = (absorbed: AbsorptionEvent[]): string =>
   absorbed
     .map((a) =>
-      `${a.measured ? '!!!' : '...'} ${(100 * a.probability).toFixed(0)}% (${a.i},${a.j}) ${a.tile != null ? a.tile.tileName : 'out'}`
+      `${a.measured ? '!!!' : '...'} ${(100 * a.probability).toFixed(0)}% (${a.i},${a.j}) ${a.tile != null ? a.tile.tileName : 'out'}`,
     )
     .join('\n');

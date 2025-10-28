@@ -1,4 +1,3 @@
-/*global window:false*/
 import d3 from './d3-wrapper';
 
 import * as level from './level';
@@ -25,6 +24,7 @@ interface View {
   title: string;
   className: string;
   initialize(): void;
+  resetContent?(): void;
 }
 
 export class Game {
@@ -32,7 +32,7 @@ export class Game {
   popupManager: PopupManager;
   views: GameViews;
   gameBoard: GameBoard | null;
-  currentEncyclopediaItem: unknown | null;
+  currentEncyclopediaItem: unknown;
   currentView?: View;
 
   constructor() {
@@ -76,7 +76,9 @@ export class Game {
   setEncyclopediaItem(item: unknown): void {
     this.currentEncyclopediaItem = item;
     // Reset the encyclopedia item view
-    this.views.encyclopediaItem.resetContent();
+    if (this.views.encyclopediaItem.resetContent !== undefined) {
+      this.views.encyclopediaItem.resetContent();
+    }
   }
 
   htmlReady(): void {
@@ -87,12 +89,15 @@ export class Game {
     this.setView('game');
 
     // for debugging purposes
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).gameBoard = this.gameBoard;
+    interface WindowWithGameBoard extends Window {
+      gameBoard?: GameBoard | null;
+    }
+    (window as WindowWithGameBoard).gameBoard = this.gameBoard;
   }
 
   createGameBoard(): void {
-    const initialLevelId = this.storage.getCurrentLevelId() || level.levels[1]!.id!;
+    const currentLevelId = this.storage.getCurrentLevelId();
+    const initialLevelId = (currentLevelId !== null && currentLevelId !== '') ? currentLevelId : level.levels[1]!.id!;
     this.gameBoard = new GameBoard(
       d3.select('#game svg.game-svg'),
       d3.select('#game svg.blink-svg'),
@@ -109,7 +114,7 @@ export class Game {
         this.setView('levelSelector');
       })
       .on('mouseover', (_event) =>
-        this.gameBoard!.titleManager.displayMessage('SELECT LEVEL', 'progress')
+        this.gameBoard!.titleManager.displayMessage('SELECT LEVEL', 'progress'),
       );
     this.gameBoard!.svg.select('.navigation-controls .encyclopedia')
       .on('click', (_event) => {
@@ -117,7 +122,7 @@ export class Game {
         this.setView('encyclopediaSelector');
       })
       .on('mouseover', (_event) =>
-        this.gameBoard!.titleManager.displayMessage('ENCYCLOPEDIA', 'progress')
+        this.gameBoard!.titleManager.displayMessage('ENCYCLOPEDIA', 'progress'),
       );
 
     const overlay = this.gameBoard!.svg.select('.interface-hint-overlay');
@@ -131,7 +136,7 @@ export class Game {
         this.gameBoard!.loadLevel(level.levels[0]!.id!);
       })
       .on('mouseover', (_event) =>
-        this.gameBoard!.titleManager.displayMessage('SANDBOX LEVEL', 'progress')
+        this.gameBoard!.titleManager.displayMessage('SANDBOX LEVEL', 'progress'),
       );
   }
 

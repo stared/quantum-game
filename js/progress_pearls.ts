@@ -51,7 +51,7 @@ export class ProgressPearls {
       .on('mouseover', (d: LevelRecipe) => {
         this.gameBoard.titleManager.displayMessage(
           `GO TO: ${d.i}. ${d.name} ${isWon(d) ? '[won]' : ''}`,
-          'progress'
+          'progress',
         );
       });
   }

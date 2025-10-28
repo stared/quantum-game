@@ -10,7 +10,6 @@ const wrap = (text: D3Selection, width: number): void => {
   text.each(function(this: Element) {
     const text = d3.select(this);
     const words = text.text().split(/\s+/).reverse();
-    let word;
     let line: string[] = [];
     let lineNumber = 0;
     const lineHeight = 1.1; // ems
@@ -21,18 +20,19 @@ const wrap = (text: D3Selection, width: number): void => {
       .attr('x', x)
       .attr('y', y)
       .attr('dy', dy + 'em');
-    while (word = words.pop()) {
-      line.push(word);
+    let currentWord: string | undefined;
+    while ((currentWord = words.pop()) !== undefined && currentWord !== '') {
+      line.push(currentWord);
       tspan.text(line.join(' '));
       if (tspan.node()!.getComputedTextLength() > width) {
         line.pop();
         tspan.text(line.join(' '));
-        line = [word];
+        line = [currentWord];
         tspan = text.append('tspan')
           .attr('x', x)
           .attr('y', y)
           .attr('dy', ++lineNumber * lineHeight + dy + 'em')
-          .text(word);
+          .text(currentWord);
       }
     }
   });

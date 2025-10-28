@@ -1,8 +1,5 @@
-/*global window:false*/
 import {displayMessageTimeout} from './config';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type D3Selection = any;
+import type {D3Selection} from './types';
 
 type MessageType = 'success' | 'failure' | 'progress';
 
@@ -11,7 +8,7 @@ export class TitleManager {
   private titleBar: D3Selection;
   private titleElem: D3Selection;
   private levelNumberElem: D3Selection;
-  private blinkSvg: D3Selection;
+  public blinkSvg: D3Selection;
   private subtitleElem: D3Selection;
   private messageElem: D3Selection;
   private defaultMessage: string;

@@ -7,7 +7,7 @@ import type { Tensor } from './tensor/tensor';
 
 const pascalCase = (str: string): string => {
   // Convert kebab-case or snake_case to camelCase, then capitalize first letter
-  const camelCase = str.replace(/[-_]([a-z])/g, (_, letter) => letter.toUpperCase());
+  const camelCase = str.replace(/[-_]([a-z])/g, (_match, letter: string) => letter.toUpperCase());
   return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
 };
 

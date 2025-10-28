@@ -44,29 +44,31 @@ export class SoundService {
       return;
     }
     // Register sounds
+    const soundAPI = soundjs.Sound as { registerSound: (path: string, id: string) => void; play: (id: string) => void };
     Object.entries(SOUND_DEFS).forEach(([name, def]) => {
-      soundjs.Sound.registerSound(`/sounds/${def.file}`, name);
+      soundAPI.registerSound(`/sounds/${def.file}`, name);
     });
     // Create throttled versions
     SoundService.throttled = Object.fromEntries(
-      Object.entries(SOUND_DEFS).map(([name, def]) => {
+      Object.entries(SOUND_DEFS).map(([name, def]): [string, () => void] => {
         // Simple throttle implementation
         let lastCall = 0;
-        const throttled = () => {
+        const throttled = (): void => {
           const now = Date.now();
           if (now - lastCall >= def.throttleMs) {
             lastCall = now;
-            soundjs.Sound.play(name);
+            soundAPI.play(name);
           }
         };
         return [name, throttled];
-      })
+      }),
     );
     SoundService.initialized = true;
   }
 
   static play(name: string): void {
-    soundjs.Sound.play(name);
+    const soundAPI = soundjs.Sound as { play: (id: string) => void };
+    soundAPI.play(name);
   }
 
   static playThrottled(name: string): void {

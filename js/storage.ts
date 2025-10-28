@@ -8,12 +8,12 @@ export class Storage {
   setLevelProgress(levelId: string, boardExport: unknown): void {
     this.ls.setItem(
       `LevelProgress ${levelId}`,
-      JSON.stringify(boardExport)
+      JSON.stringify(boardExport),
     );
   }
 
   hasLevelProgress(levelId: string): boolean {
-    return this.ls.hasOwnProperty(`LevelProgress ${levelId}`);
+    return Object.prototype.hasOwnProperty.call(this.ls, `LevelProgress ${levelId}`);
   }
 
   getLevelProgress(levelId: string): unknown {

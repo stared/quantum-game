@@ -32,7 +32,7 @@ export class Stock {
 
     // initialize 0-count stock for non-frozen tiles on board
     level.tileRecipes.forEach((tileRecipe) => {
-      if (!tileRecipe.frozen && !Object.hasOwn(this.stock, tileRecipe.name)) {
+      if (tileRecipe.frozen !== true && !Object.hasOwn(this.stock, tileRecipe.name)) {
         this.stock[tileRecipe.name] = 0;
       }
     });
@@ -84,16 +84,21 @@ export class Stock {
 
   regenerateTile(stockSlotG: D3Selection): void {
 
-    const newTile = stockSlotG.append('g')
-      .datum((d: StockSlotData) => new tile.Tile(tile.tileMap[d.name]!, 0, false, d.i, d.j))
-      .attr('class', 'tile')
-      .attr('transform', ((d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`) as any)
-      .each((function (this: SVGGElement, tileObj: tile.Tile) {
+    const newTileGroup = stockSlotG.append('g')
+      .datum((d: StockSlotData) => new tile.Tile(tile.tileMap[d.name], 0, false, d.i, d.j))
+      .attr('class', 'tile');
+
+    // Type assertion needed because D3 types don't properly track datum type change through .datum()
+    const newTile = newTileGroup as unknown as d3.Selection<SVGGElement, tile.Tile, SVGGElement, StockSlotData>;
+
+    newTile
+      .attr('transform', (d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
+      .each(function (this: SVGGElement, tileObj: tile.Tile) {
         tileObj.g = d3.select(this);
         tileObj.node = this;
         tileObj.fromStock = true;
         tileObj.draw();
-      }) as any);
+      });
 
     newTile.append('rect')
       .attr('class', 'hitbox')

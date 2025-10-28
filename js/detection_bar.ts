@@ -112,7 +112,7 @@ export class DetectionBar {
     this.requiredCount = count;
 
     this.percentRequired
-      .attr('width', this.percentScale(probability) as number);
+      .attr('width', this.percentScale(probability));
 
     this.counts = Array.from({length: count}, (_, i) => i);
     this.countBoxes = this.countG
@@ -141,7 +141,7 @@ export class DetectionBar {
   updateActual(probability: number, count: number, risk: number): void {
 
     this.percentActual.transition().duration(absorptionDuration)
-      .attr('width', this.percentScale(probability) as number);
+      .attr('width', this.percentScale(probability));
 
     this.percentText
       .text(`${percentStr(probability)}% (out of ${percentStr(this.requiredProbability)}%) detection`);
@@ -155,7 +155,7 @@ export class DetectionBar {
       .style('fill-opacity', risk ? 0.5 : 0.2);
 
     this.mineText
-      .text(`${risk ? (100 * risk).toFixed(1) :  ''}${risk ? '% risk' : "it's safe"}`)
+      .text(`${risk ? (100 * risk).toFixed(1) :  ''}${risk ? '% risk' : 'it\'s safe'}`)
       .classed('message-failure', risk > 0);
 
   }

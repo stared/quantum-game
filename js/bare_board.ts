@@ -97,28 +97,30 @@ export class BareBoard {
     // Create matrix filled with Vacuum
     this.tileMatrix = Array.from({length: this.level.width}, (_, i) =>
         Array.from({length: this.level.height}, (_, j) =>
-            new tile.Tile(tile.Vacuum, 0, false, i, j)
-        )
+            new tile.Tile(tile.Vacuum, 0, false, i, j),
+        ),
     );
   }
 
   fillTileMatrix(tileRecipes: TileRecipe[]): void {
     tileRecipes.forEach((tileRecipe) => {
+      const tileRotation = tileRecipe.rotation ?? 0;
+      const tileFrozen = tileRecipe.frozen === true;
       this.tileMatrix[tileRecipe.i]![tileRecipe.j] = new tile.Tile(
         tile[tileRecipe.name as keyof typeof tile] as tile.TileType,
-        tileRecipe.rotation || 0,
-        !!tileRecipe.frozen,
+        tileRotation,
+        tileFrozen,
         tileRecipe.i,
-        tileRecipe.j
+        tileRecipe.j,
       );
     });
   }
 
   resizeSvg(): void {
-    const top = this.margin.top || 0;
-    const left = this.margin.left || 0;
-    const bottom = this.margin.bottom || 0;
-    const right = this.margin.right || 0;
+    const top = this.margin.top ?? 0;
+    const left = this.margin.left ?? 0;
+    const bottom = this.margin.bottom ?? 0;
+    const right = this.margin.right ?? 0;
     // Use margin to calculate effective size
     const width = this.level.width + left + right;
     const height = this.level.height + top + bottom;
@@ -138,7 +140,7 @@ export class BareBoard {
       .attr('class', 'background')
       .selectAll('.background-tile')
       .data(
-        this.tileMatrix.flat().map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j))
+        this.tileMatrix.flat().map((d) => new tile.Tile(d.type, d.rotation, d.frozen, d.i, d.j)),
       )
       .enter()
       .append('rect')
@@ -155,16 +157,15 @@ export class BareBoard {
 
     this.svg.select('.board-hints').remove();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     this.boardHints = this.svg.append('g')
       .attr('class', 'board-hints')
         .selectAll('.board-hint')
         .data(this.level.boardHints)
         .enter().append('g')
           .attr('class', 'board-hint')
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .attr('transform', (d: any) =>
-            `translate(${tileSize * d.i + tipMargin},${tileSize * d.j + tipMargin})`
+          .attr('transform', (d: import('./types').BoardHint) =>
+            `translate(${tileSize * (d.i ?? 0) + tipMargin},${tileSize * (d.j ?? 0) + tipMargin})`,
           )
           .on('click', function (this: Element, _event) {
             d3.select(this)
@@ -173,17 +174,16 @@ export class BareBoard {
                 .style('opacity', 0);
           });
 
-    this.boardHints!.append('rect')
+    this.boardHints.append('rect')
       .attr('x', 0)
       .attr('y', 0)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .attr('width', (d: any) => d.widthI * tileSize - 2 * tipMargin)
+      .attr('width', (d: import('./types').BoardHint) => (d.widthI ?? 1) * tileSize - 2 * tipMargin)
       .attr('height', tileSize - 2 * tipMargin);
 
-    this.boardHints!.append('text')
-      .attr('x', (d: any) => d.widthI * tileSize / 2 - tipMargin)
+    this.boardHints.append('text')
+      .attr('x', (d: import('./types').BoardHint) => (d.widthI ?? 1) * tileSize / 2 - tipMargin)
       .attr('y', tileSize / 2 - tipMargin)
-      .text((d: any) => d.text);
+      .text((d: import('./types').BoardHint) => d.text);
 
     // Triangle size unit
     const t = tileSize / 4;
@@ -196,12 +196,10 @@ export class BareBoard {
     };
 
     // Board hint can have a triangle tip (like in dialogue balloon)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.boardHints!.filter((d: any) => d.triangleI != null)
+    this.boardHints.filter((d: import('./types').BoardHint) => d.triangleI != null)
       .append('path')
         .attr('d', `M${-t/2} 0 L0 ${t} L${t/2} 0 Z`)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .attr('transform', (d: any) => `translate(${(d.triangleI - d.i) * tileSize + t}, ${t}) rotate(${dirToRot[d.triangleDir as keyof typeof dirToRot]}) translate(0, ${t})`);
+        .attr('transform', (d: import('./types').BoardHint) => `translate(${((d.triangleI ?? 0) - (d.i ?? 0)) * tileSize + t}, ${t}) rotate(${dirToRot[d.triangleDir as keyof typeof dirToRot] ?? 0}) translate(0, ${t})`);
 
   }
 
@@ -263,16 +261,16 @@ export class BareBoard {
 
   removeTile(i: number, j: number): void {
     if (this.tileMatrix[i]![j]!.node) {
-      this.tileMatrix[i]![j]!.node!.remove();
+      this.tileMatrix[i]![j]!.node.remove();
     }
     this.tileMatrix[i]![j] = new tile.Tile(tile.Vacuum, 0, false, i, j);
   }
 
   clickBehavior(tileSelection: D3Selection, bareBoard: BareBoard): void {
-    tileSelection.select('.hitbox').on('click', (event, d: Tile) => {
+    tileSelection.select('.hitbox').on('click', (event: MouseEvent, d: Tile) => {
 
       // Avoid rotation when dragged
-      if (event.defaultPrevented) {
+      if (event.defaultPrevented === true) {
         return;
       }
 
@@ -300,7 +298,7 @@ export class BareBoard {
       bareBoard.callbacks.tileRotated(d);
 
     })
-    .on('mouseover', function (_event: any, d: Tile) {
+    .on('mouseover', function (_event: MouseEvent, d: Tile) {
       bareBoard.callbacks.tileMouseover(d);
       d3.select(this).classed('hitbox-disabled', d.frozen);
     });
@@ -317,7 +315,7 @@ export class BareBoard {
           .on('click', (_event, d: Tile) => {
             d.frozen = !d.frozen;
             this.logger.logAction('changeFreeze', {name: d.tileName, i: d.i, j: d.j, toFrozen: d.frozen});
-            d.g!.select('.frost')
+            d.g.select('.frost')
               .attr('class', d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen');
           });
     }
@@ -334,7 +332,7 @@ export class BareBoard {
     if (this.level.group === 'Game') {
       this.winningStatus.compareToObjectives(
         this.level.requiredDetectionProbability,
-        this.level.detectorsToFeed
+        this.level.detectorsToFeed,
       );
     } else {
       this.winningStatus.isWon = false;
@@ -349,8 +347,8 @@ export class BareBoard {
     window.console.log(this.winningStatus);
 
     // 'improved' history for the first win
-    const firstWin = this.winningStatus.isWon && !this.alreadyWon;
-    this.alreadyWon = this.alreadyWon || this.winningStatus.isWon;
+    const firstWin = this.winningStatus.isWon && (this.alreadyWon !== true);
+    this.alreadyWon = (this.alreadyWon === true) || this.winningStatus.isWon;
 
     // non-deterministic quantum simulation
     // (for animations)
@@ -391,13 +389,15 @@ export class BareBoard {
     this.particleAnimation = new CanvasParticleAnimation(
       this,
       this.simulationQ.history,
-      this.simulationQ.measurementHistory as any,
+      this.simulationQ.measurementHistory,
       this.winningStatus.absorptionProbabilities,
       this.callbacks.animationInterrupt,
       this.callbacks.animationEnd,
       this.drawMode,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (s: any) => (this.gameBoard as any).titleManager.displayMessage(s, 'progress', -1)
+      (s: string) => {
+        const gameBoard = this.gameBoard as { titleManager: import('./title_manager').TitleManager };
+        gameBoard.titleManager.displayMessage(s, 'progress', -1);
+      },
     );
   }
 
@@ -412,8 +412,8 @@ export class BareBoard {
       this.generateAnimation();
     }
     // After generation, this.animationExists is true
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((this.particleAnimation as any).playing) {
+    const animation = this.particleAnimation as { playing: boolean; pause: () => void; play: () => void };
+    if (animation.playing === true) {
       this.particleAnimation.pause();
       this.callbacks.setPlayButtonState('play');
     } else {
@@ -436,8 +436,8 @@ export class BareBoard {
       this.particleAnimation.initialize();
     }
     // After generation, this.animationExists is true
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((this.particleAnimation as any).playing) {
+    const animation = this.particleAnimation as { playing: boolean; pause: () => void; forward: () => void };
+    if (animation.playing === true) {
       this.particleAnimation.pause();
       this.callbacks.setPlayButtonState('play');
     } else {
@@ -466,8 +466,7 @@ export class BareBoard {
           rotation: d.rotation,
           frozen: d.frozen,
         })),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      stock:                        this.stock ? (this.stock as any).stock : {},  // hack for non-attached stock
+      stock:                        this.stock ? (this.stock as { stock: Record<string, number> }).stock : {},  // hack for non-attached stock
       requiredDetectionProbability: this.level.requiredDetectionProbability,
       detectorsToFeed:              this.level.detectorsToFeed,
       texts:                        this.level.texts,

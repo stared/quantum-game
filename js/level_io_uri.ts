@@ -28,7 +28,7 @@ const tileAbbreviations: [string, string][] = [
 // export only for tests
 export const name2abbr = Object.fromEntries(tileAbbreviations);
 const abbr2name = Object.fromEntries(
-  tileAbbreviations.map((each) => [each[1], each[0]])
+  tileAbbreviations.map((each) => [each[1], each[0]]),
 );
 
 const vacuumCode = name2abbr['Vacuum'] + '0';
@@ -36,7 +36,7 @@ const vacuumCode = name2abbr['Vacuum'] + '0';
 // e.g. {name: 'Source', frozen: true, rotation: 2} -> 'S2'
 export const encodeTile = (tileRecipe: TileRecipe): string => {
   let s = name2abbr[tileRecipe.name];
-  if (tileRecipe.frozen) {
+  if (tileRecipe.frozen === true) {
     s = s!.toUpperCase();
   }
   return `${s}${(tileRecipe.rotation ?? 0).toFixed(0)}`;
@@ -56,7 +56,7 @@ const encodeKeyValue = (k: string, v: string | number): string =>
 
 const serializeAllTiles = (tiles: TileRecipe[], width: number, height: number): string => {
   const tileMatrix = Array.from({length: height}, () =>
-    Array.from({length: width}, () => vacuumCode)
+    Array.from({length: width}, () => vacuumCode),
   );
   tiles.forEach((tileRecipe) => {
     tileMatrix[tileRecipe.j]![tileRecipe.i] = encodeTile(tileRecipe);
@@ -78,7 +78,7 @@ export const levelRecipe2queryString = (levelRecipe: LevelRecipe): string =>
 // for one-letter keys
 const parseQueryString = (queryString: string): Record<string, string> =>
    Object.fromEntries(
-     queryString.split('&').map((s) => [s[0], decodeURIComponent(s.slice(2))])
+     queryString.split('&').map((s) => [s[0], decodeURIComponent(s.slice(2))] as [string, string]),
    );
 
 const parseAllTiles = (allTileString: string, width: number): TileRecipe[] =>

@@ -3,6 +3,7 @@
  */
 
 import type * as d3 from 'd3';
+import type { Tile } from './tile';
 
 // Direction types for particle movement
 export type Direction = '>' | '^' | '<' | 'v';
@@ -109,5 +110,5 @@ export interface AbsorptionEvent {
   measured: boolean;
   i: number;
   j: number;
-  tile?: { tileName: string }; // Tile type, but avoiding circular dependency
+  tile?: Tile;
 }

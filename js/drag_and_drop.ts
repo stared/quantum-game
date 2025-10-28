@@ -19,7 +19,7 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       .duration(repositionSpeed)
       .attr(
         'transform',
-        `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
+        `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`,
       )
       .delay(repositionSpeed)
       .each((d: Tile) => {
@@ -31,9 +31,10 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
 
   const drag = d3.drag<Element, Tile>();
   drag
-    .on('dragstart', (event, source: Tile) => {
+    .on('dragstart', (event: d3.D3DragEvent<Element, Tile, Tile>, source: Tile) => {
 
-      event.sourceEvent.stopPropagation();
+      const sourceEvent = event.sourceEvent as Event;
+      sourceEvent.stopPropagation();
       source.top = false;
 
       if (board.animationExists) {
@@ -42,55 +43,61 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       }
 
       // Is it from stock?
-      if (source.fromStock) {
+      if (source.fromStock === true) {
         if (stock.stock[source.tileName] === 0) {
           source.dontDrag = true;
           SoundService.playThrottled('error');
           return;
         }
-        stock.regenerateTile(d3.select(source.node!.parentNode as any) as D3Selection);
+        const parentNode = source.node!.parentNode;
+        if (parentNode !== null) {
+          stock.regenerateTile(d3.select(parentNode as Element) as D3Selection);
+        }
         stock.updateCount(source.tileName, -1);
         source.g.classed('stock-dragged', true);
       }
 
       // Is it impossible to drag item and it's not a Source? Play sound.
-      if (source.frozen && source.tileName !== 'Source') {
+      if (source.frozen === true && source.tileName !== 'Source') {
         SoundService.playThrottled('error');
       }
     })
-    .on('drag', function (event: any, source: Tile) {
+    .on('drag', function (event: d3.D3DragEvent<Element, Tile, Tile>, source: Tile) {
 
       // Is it impossible to drag item?
-      if (source.frozen) {
+      if (source.frozen === true) {
         return;
       }
 
-      if (source.dontDrag) {
+      if (source.dontDrag === true) {
         return;
       }
 
       // Move element to the top
-      if (!source.top) {
+      if (source.top !== true) {
         // TODO still there are problems in Safari
-        source.node!.parentNode!.appendChild(source.node!);
+        const parentNode = source.node!.parentNode;
+        if (parentNode !== null && source.node !== null) {
+          parentNode.appendChild(source.node as Node);
+        }
         source.top = true;
       }
 
       d3.select(this)
-        .attr('transform', `translate(${event.x as number},${event.y as number})`);
+        .attr('transform', `translate(${event.x},${event.y})`);
       source.newI = Math.floor(event.x / tileSize);
       source.newJ = Math.floor(event.y / tileSize);
     })
     .on('dragend', (_event, source: Tile) => {
 
-      if (source.dontDrag) {
+      if (source.dontDrag === true) {
         delete source.dontDrag;
         return;
       }
 
       // No drag? Return.
       if (source.newI == null || source.newJ == null) {
-        if (source.fromStock) {
+        if (source.fromStock === true) {
           source.g.remove();
           stock.updateCount(source.tileName, +1);
         }
@@ -98,7 +105,7 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       }
 
       // rotation fallback
-      if (source.newI == source.i && source.newJ == source.j && !source.fromStock) {
+      if (source.newI == source.i && source.newJ == source.j && source.fromStock !== true) {
         source.rotate();
         SoundService.playThrottled('blip');
         board.logger.logAction('rotate', {name: source.tileName, i: source.i, j: source.j, toRotation: source.rotation});
@@ -115,13 +122,13 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
         stock.updateCount(source.tileName, +1);
         board.logger.logAction('drag', {
           name: source.tileName,
-          fromStock: !!source.fromStock,
+          fromStock: source.fromStock === true,
           fromI: source.i,
           fromJ: source.j,
           toStock: true,
-          success: !source.fromStock,
+          success: source.fromStock !== true,
         });
-        if (source.fromStock) {
+        if (source.fromStock === true) {
           reposition(source, false);
         } else {
           board.removeTile(source.i, source.j);
@@ -131,21 +138,21 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
 
       // Otherwise...
       // Find target and target element
-      const target = board.tileMatrix[source.newI!]![source.newJ!]!;
+      const target = board.tileMatrix[source.newI]![source.newJ]!;
 
       //  Dragged on an occupied tile?
       if (target.tileName !== 'Vacuum') {
         board.logger.logAction('drag', {
           name: source.tileName,
-          fromStock: !!source.fromStock,
+          fromStock: source.fromStock === true,
           fromI: source.i,
           fromJ: source.j,
-          toStock: !!source.fromStock,
+          toStock: source.fromStock === true,
           toI: target.i,
           toJ: target.i,
           success: false,
         });
-        if (source.fromStock) {
+        if (source.fromStock === true) {
           reposition(source, false);
           stock.updateCount(source.tileName, +1);
         } else {
@@ -155,12 +162,12 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       }
 
       // Dragging on and empty tile
-      if (!source.fromStock) {
+      if (source.fromStock !== true) {
         board.tileMatrix[source.i]![source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
       }
       board.logger.logAction('drag', {
         name: source.tileName,
-        fromStock: !!source.fromStock,
+        fromStock: source.fromStock === true,
         fromI: source.i,
         fromJ: source.j,
         toStock: false,
@@ -171,9 +178,12 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       board.tileMatrix[target.i]![target.j] = source;
       source.i = target.i;
       source.j = target.j;
-      if (source.fromStock) {
+      if (source.fromStock === true) {
         source.fromStock = false;
-        board.boardGroup!.node()!.appendChild(source.node!);
+        const boardGroupNode = board.boardGroup!.node() as Element | null;
+        if (boardGroupNode !== null && source.node !== null) {
+          boardGroupNode.appendChild(source.node as Node);
+        }
         board.clickBehavior(source.g, board);
         source.g.insert('rect', ':first-child')
           .attr('class', (d: Tile) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
@@ -186,5 +196,5 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
 
     });
 
-  tileSelection.call(drag as any);
+  tileSelection.call(drag);
 }

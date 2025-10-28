@@ -57,21 +57,23 @@ export class TransitionHeatmap {
   }
 
   updateFromTensor(tensor: unknown): void {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const tensorAny = tensor as any;
+    interface TensorLike {
+      get: (key: string) => TensorLike | ComplexNumber;
+    }
+    const tensorAny = tensor as TensorLike;
 
     const arrayContent = this.basis
       .map((outputBase) => this.basis
         .map((inputBase) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-          const element = (tensorAny.get(inputBase).get(outputBase) as ComplexNumber | undefined) || {re: 0, im: 0};
+          const inputTensor = tensorAny.get(inputBase) as TensorLike;
+          const element = (inputTensor.get(outputBase) as ComplexNumber | undefined) || {re: 0, im: 0};
           return {
             from: inputBase,
             to: outputBase,
             re: element.re,
             im: element.im,
           };
-        })
+        }),
       );
 
     this.update(this.basis, arrayContent.flat());
@@ -102,8 +104,8 @@ export class TransitionHeatmap {
     // in (top) basis labels
 
     this.labelIn = this.g
-      .selectAll('.label-in')
-      .data(labels, ((d: string) => d) as any);
+      .selectAll<SVGTextElement, string>('.label-in')
+      .data(labels, (_d, _i, _nodes) => _d);
 
     this.labelIn.enter()
       .append('text')
@@ -124,8 +126,8 @@ export class TransitionHeatmap {
     // out (left) basis labels
 
     this.labelOut = this.g
-      .selectAll('.label-out')
-      .data(labels, ((d: string) => d) as any);
+      .selectAll<SVGTextElement, string>('.label-out')
+      .data(labels, (_d, _i, _nodes) => _d);
 
     this.labelOut.enter()
       .append('text')
@@ -148,20 +150,22 @@ export class TransitionHeatmap {
     if (matrixElements != null) {
 
       this.matrixElement = this.g
-        .selectAll('.matrix-element')
-        .data(matrixElements, ((d: MatrixElement) => `${d.from} ${d.to}`) as any);
+        .selectAll<SVGRectElement, MatrixElement>('.matrix-element')
+        .data(matrixElements, (_d, _i, _nodes) => `${_d.from} ${_d.to}`);
 
       this.matrixElement.enter()
         .append('rect')
           .attr('class', 'matrix-element')
-          .on('mouseover', (_event, d: MatrixElement) => {
+          .on('mouseover', (event, d: MatrixElement) => {
             const r = Math.sqrt(d.re * d.re + d.im * d.im);
             const phi = Math.atan2(d.im, d.re) / TAU;
             const sign = d.im >= 0 ? '+' : '-';
             if (r > EPSILON) {
               this.tooltip.show(
                 `${d.re.toFixed(3)} ${sign} ${Math.abs(d.im).toFixed(3)} <i>i</i><br>
-                = ${r.toFixed(3)} exp(${phi.toFixed(3)} <i>i τ</i>)`
+                = ${r.toFixed(3)} exp(${phi.toFixed(3)} <i>i τ</i>)`,
+                (event as MouseEvent).pageX,
+                (event as MouseEvent).pageY,
               );
             }
           })
