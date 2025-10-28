@@ -1,10 +1,16 @@
-// @ts-nocheck
 // Wrapper for D3 v3 loaded as a global script
 // This allows D3 v3 to run in its expected UMD/global context
 // while still being importable as an ES module
 
+// Extend Window interface to include d3
+declare global {
+  interface Window {
+    d3: any;
+  }
+}
+
 // D3 is loaded via script tag in index.html and available as window.d3
-const d3 = window.d3;
+const d3: any = window.d3;
 
 if (!d3) {
   console.error('D3 v3 not loaded! Make sure d3.min.js is loaded via script tag before app.js');

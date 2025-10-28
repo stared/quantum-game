@@ -1,7 +1,13 @@
-// @ts-nocheck
 import * as soundjs from './soundjs-wrapper';
 
-const SOUND_DEFS = {
+interface SoundDef {
+  file: string;
+  throttleMs: number;
+}
+
+type SoundName = 'blip' | 'error' | 'detector' | 'mine' | 'rock' | 'absorber';
+
+const SOUND_DEFS: Record<SoundName, SoundDef> = {
   blip: {
     file: 'blip.mp3',
     throttleMs: 100,
@@ -30,7 +36,10 @@ const SOUND_DEFS = {
 
 
 export class SoundService {
-  static initialize() {
+  static initialized: boolean;
+  static throttled: Record<string, () => void>;
+
+  static initialize(): void {
     if (SoundService.initialized) {
       return;
     }
@@ -56,11 +65,11 @@ export class SoundService {
     SoundService.initialized = true;
   }
 
-  static play(name) {
+  static play(name: string): void {
     soundjs.Sound.play(name);
   }
 
-  static playThrottled(name) {
-    SoundService.throttled[name]();
+  static playThrottled(name: string): void {
+    SoundService.throttled[name]!();
   }
 }
