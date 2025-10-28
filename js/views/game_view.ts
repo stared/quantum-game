@@ -1,16 +1,16 @@
-// @ts-nocheck
 import {View} from './view';
 
 export class GameView extends View {
-  get title() {
-    return this.game.gameBoard.title;
+  get title(): string {
+    return this.game.gameBoard!.title;
   }
-  get className() {
+
+  get className(): string {
     return 'view--game';
   }
-  initialize() {
+
+  override initialize(): void {
     this.game.createGameBoard();
     this.game.bindMenuEvents();
   }
-
 }

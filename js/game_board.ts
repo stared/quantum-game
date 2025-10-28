@@ -1,4 +1,3 @@
-// @ts-nocheck
 import d3 from './d3-wrapper';
 import stringify from 'json-stringify-pretty-compact';
 import {saveAs} from 'file-saver';
@@ -12,12 +11,32 @@ import {TileHelper} from './tile_helper';
 import {DetectionBar} from './detection_bar';
 import {TitleManager} from './title_manager';
 import {levelRecipe2queryString, queryString2levelRecipe} from './level_io_uri';
+import type {D3Selection, LevelRecipe} from './types';
+import type {Game} from './game';
+import type {PopupManager} from './popup_manager';
+import type {Storage} from './storage';
+import type {Tile} from './tile';
+import type {Logger} from './logger';
+import type {Level} from './level';
 
 // TODO decide where to use winning status; it seems I should move it here
 // TODO top_bar needs a separate module
 
 export class GameBoard {
-  constructor(svg, blinkSvg, game, popupManager, storage, levelId) {
+  bareBoard: BareBoard;
+  game: Game;
+  svg: D3Selection;
+  titleManager: TitleManager;
+  popupManager: PopupManager;
+  storage: Storage;
+  progressPearls: ProgressPearls;
+  stock: Stock;
+  detectionBar: DetectionBar;
+  logger: Logger;
+  boardControls: D3Selection;
+  tileHelper: TileHelper;
+
+  constructor(svg: D3Selection, blinkSvg: D3Selection, game: Game, popupManager: PopupManager, storage: Storage, levelId: string) {
 
     const borderMargins = {
       top: 2,
@@ -70,22 +89,22 @@ export class GameBoard {
     this.tileHelper = new TileHelper(svg, this.bareBoard, this.game);
   }
 
-  tileRotatedCallback(tile) {
+  tileRotatedCallback(tile: Tile): void {
     this.showTileHelper(tile);
   }
 
-  tileMouseoverCallback(tile) {
+  tileMouseoverCallback(tile: Tile): void {
     this.showTileHelper(tile);
   }
 
-  animationStartCallback() {
+  animationStartCallback(): void {
     this.saveProgress();
     this.titleManager.displayMessage(
       'Experiment in progress...',
       'progress', -1);
   }
 
-  animationInterruptCallback() {
+  animationInterruptCallback(): void {
     this.titleManager.displayMessage(
       'Experiment disturbed! Quantum states are fragile...',
       'failure');
@@ -93,7 +112,7 @@ export class GameBoard {
     this.setPlayButtonState('play');
   }
 
-  animationEndCallback() {
+  animationEndCallback(): void {
 
     const winningStatus = this.bareBoard.winningStatus;
     const level = this.bareBoard.level;
@@ -135,7 +154,7 @@ export class GameBoard {
     }
   }
 
-  reset() {
+  reset(): void {
     this.stop();
 
     // Reset detection
@@ -157,16 +176,16 @@ export class GameBoard {
     this.stock.drawStock();
   }
 
-  stop() {
+  stop(): void {
     this.bareBoard.stop();
   }
 
-  get level() {
+  get level(): Level {
     return this.bareBoard.level;
     // then also shortcut some gameBoard.level below
   }
 
-  get title() {
+  get title(): string {
     // const textBefore = (level) =>
     //   level.texts && level.texts.before ? `: "${level.texts.before}"` : '';
     // // const groupPrefix =
@@ -177,7 +196,7 @@ export class GameBoard {
     return this.bareBoard.level.name;
   }
 
-  get goalMessage() {
+  get goalMessage(): string {
     if (this.bareBoard.level.requiredDetectionProbability === 0) {
       return 'GOAL: Avoid launching any mines!';
     } else if (this.bareBoard.level.detectorsToFeed === 0) {
@@ -189,17 +208,17 @@ export class GameBoard {
     }
   }
 
-  get levelNumber() {
+  get levelNumber(): number | string | undefined {
     return this.bareBoard.level.i;
   }
 
-  setHeaderTexts() {
+  setHeaderTexts(): void {
     this.titleManager.setTitle(this.title);
     this.titleManager.setDefaultMessage(this.goalMessage, '');
     this.titleManager.setLevelNumber(this.levelNumber);
   }
 
-  showTileHelper(tile) {
+  showTileHelper(tile: Tile): void {
 
     this.tileHelper.show(tile);
 
@@ -209,7 +228,7 @@ export class GameBoard {
    * Set the play/pause button visual state.
    * @param newState string "play" or "pause"
    */
-  setPlayButtonState(newState) {
+  setPlayButtonState(newState: 'play' | 'pause'): void {
     if (newState !== 'play' && newState !== 'pause') {
       return;
     }
@@ -224,7 +243,7 @@ export class GameBoard {
    /**
     * Set up animation controls - bind events to buttons
     */
-  activateBoardControls() {
+  activateBoardControls(): void {
     // Don't let d3 bind clicked element as `this` to methods.
     const gameBoard = this;
     const bareBoard = this.bareBoard;
@@ -299,7 +318,7 @@ export class GameBoard {
       });
   }
 
-  downloadCurrentLevel() {
+  downloadCurrentLevel(): void {
     const levelJSON = stringify(this.bareBoard.exportBoard(), {maxLength: 100, indent: 2});
     const timestamp = (new Date()).toISOString();
     const fileName = `${this.bareBoard.level.name}_${timestamp}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.json';
@@ -310,17 +329,17 @@ export class GameBoard {
     // now for testing
     window.console.log(
       'levelRecipe2queryString(this.bareBoard.exportBoard())',
-      levelRecipe2queryString(this.bareBoard.exportBoard())
+      levelRecipe2queryString(this.bareBoard.exportBoard() as LevelRecipe)
     );
 
     window.console.log(
       'queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard()))',
-       queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard()))
+       queryString2levelRecipe(levelRecipe2queryString(this.bareBoard.exportBoard() as LevelRecipe))
     );
   }
 
 
-  loadLevel(levelId, checkStorage = true, dev = false) {
+  loadLevel(levelId: string, checkStorage = true, dev = false): void {
 
     this.saveProgress();
     this.logger.save();
@@ -367,21 +386,21 @@ export class GameBoard {
 
   }
 
-  loadNextLevel() {
+  loadNextLevel(): void {
     if (this.bareBoard.level && this.bareBoard.level.next) {
       this.loadLevel(this.bareBoard.level.next);
     }
   }
 
   // dev = true only from console
-  reloadLevel(dev = false) {
-    this.loadLevel(this.bareBoard.level.id, false, dev);
+  reloadLevel(dev = false): void {
+    this.loadLevel(this.bareBoard.level.id!, false, dev);
   }
 
-  saveProgress() {
+  saveProgress(): void {
     // Save progress if there was any level loaded
     if (this.bareBoard.level != null) {
-      this.storage.setLevelProgress(this.bareBoard.level.id, this.bareBoard.exportBoard());
+      this.storage.setLevelProgress(this.bareBoard.level.id!, this.bareBoard.exportBoard());
     }
   }
 }

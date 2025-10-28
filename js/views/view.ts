@@ -1,7 +1,11 @@
-// @ts-nocheck
+import type {Game} from '../game';
+
 export class View {
-  constructor(game) {
+  game: Game;
+
+  constructor(game: Game) {
     this.game = game;
   }
-  initialize () {}
+
+  initialize(): void {}
 }

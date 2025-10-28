@@ -1,21 +1,23 @@
-// @ts-nocheck
 import d3 from '../d3-wrapper';
 
 import {View} from './view';
 import * as tile from '../tile';
 
 export class EncyclopediaSelectorView extends View {
-  get title() {
+  get title(): string {
     return 'Encyclopedia';
   }
-  get className() {
+
+  get className(): string {
     return 'view--encyclopedia-selector';
   }
-  initialize() {
+
+  override initialize(): void {
     this.createSelectorEntries();
     this.bindMenuEvents();
   }
-  createSelectorEntries() {
+
+  createSelectorEntries(): void {
     const items = d3.select('.encyclopedia-selector > ul')
       .selectAll('li')
       .data(tile.nonVacuumTiles)
@@ -23,7 +25,7 @@ export class EncyclopediaSelectorView extends View {
       .append('li')
       .append('button')
       .attr('class', 'unselectable')
-      .on('click', (d) => {
+      .on('click', (d: string) => {
         this.game.setEncyclopediaItem(d);
         this.game.setView('encyclopediaItem');
       });
@@ -31,13 +33,14 @@ export class EncyclopediaSelectorView extends View {
       .append('svg')
       .attr('viewBox', '0 0 100 100')
       .append('use')
-      .attr('xlink:href', (d) => `#${tile[d].svgName}`)
+      .attr('xlink:href', (d: string) => `#${(tile as unknown as Record<string, tile.TileType>)[d]!.svgName}`)
       .attr('transform', 'translate(50, 50)');
     items
       .append('h4')
-      .text((d) => tile[d].desc.name);
+      .text((d: string) => (tile as unknown as Record<string, tile.TileType>)[d]!.desc.name);
   }
-  bindMenuEvents() {
+
+  bindMenuEvents(): void {
     d3.select('.view--encyclopedia-selector .bottom-bar__back-to-game-button').on('click', () => {
       this.game.setView('game');
     });

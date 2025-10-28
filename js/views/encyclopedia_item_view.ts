@@ -1,27 +1,31 @@
-// @ts-nocheck
 import d3 from '../d3-wrapper';
 
 import * as tile from '../tile';
 import {tileSize} from '../config';
 import {View} from './view';
 import {TransitionHeatmap} from '../transition_heatmap';
+import type {D3Selection} from '../types';
+import type {TileType} from '../tile';
 
 export class EncyclopediaItemView extends View {
-  get title() {
-    return tile[this.game.currentEncyclopediaItem].desc.name;
+  get title(): string {
+    return (tile as unknown as Record<string, TileType>)[this.game.currentEncyclopediaItem as string]!.desc.name;
   }
-  get className() {
+
+  get className(): string {
     return 'view--encyclopedia-item';
   }
-  initialize() {
+
+  override initialize(): void {
     this.bindMenuEvents();
   }
-  resetContent() {
+
+  resetContent(): void {
     if (!this.game.currentEncyclopediaItem) {
       return;
     }
 
-    const tileData = tile[this.game.currentEncyclopediaItem];
+    const tileData = (tile as unknown as Record<string, TileType>)[this.game.currentEncyclopediaItem as string]!;
 
     const article = d3.select('.encyclopedia-item__container > article');
 
@@ -34,7 +38,7 @@ export class EncyclopediaItemView extends View {
     this.createUsage(article, tileData);
   }
 
-  createBasicInfo(article, tileData) {
+  createBasicInfo(article: D3Selection, tileData: TileType): void {
     article
       .append('h1')
       .attr('id', 'encyclopedia-item__basic-info')
@@ -63,7 +67,7 @@ export class EncyclopediaItemView extends View {
     }
   }
 
-  createTransitions(article, tileData) {
+  createTransitions(article: D3Selection, tileData: TileType): void {
     article
       .append('h1')
       .attr('id', 'encyclopedia-item__transitions')
@@ -119,23 +123,22 @@ export class EncyclopediaItemView extends View {
 
   }
 
-  createHowItWorks(article, tileData) {
+  createHowItWorks(_article: D3Selection, _tileData: TileType): void {
     // TODO(pathes): content
   }
 
-  createUsage(article, tileData) {
+  createUsage(_article: D3Selection, _tileData: TileType): void {
     // TODO(pathes): content
   }
 
-
-  bindMenuEvents() {
+  bindMenuEvents(): void {
     // Navigation between views
     d3.select('.bottom-bar__back-to-encyclopedia-selector-button').on('click', () => {
       this.game.setView('encyclopediaSelector');
     });
     // Navigation in encyclopedia entry
     const menuButtons = d3.selectAll('.encyclopedia-item__menu li button');
-    menuButtons.on('click', function () {
+    menuButtons.on('click', function (this: HTMLElement) {
       const article = d3.select('.encyclopedia-item__container > article');
       const headerIdSuffix = this.getAttribute('encyclopedia-nav');
       const headerId = `encyclopedia-item__${headerIdSuffix}`;

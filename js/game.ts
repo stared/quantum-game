@@ -1,4 +1,3 @@
-// @ts-nocheck
 /*global window:false*/
 import d3 from './d3-wrapper';
 
@@ -13,7 +12,29 @@ import {LevelSelectorView} from './views/level_selector_view';
 import {EncyclopediaSelectorView} from './views/encyclopedia_selector_view';
 import {EncyclopediaItemView} from './views/encyclopedia_item_view';
 
+interface GameViews {
+  levelSelector: LevelSelectorView;
+  game: GameView;
+  encyclopediaSelector: EncyclopediaSelectorView;
+  encyclopediaItem: EncyclopediaItemView;
+}
+
+type ViewName = keyof GameViews;
+
+interface View {
+  title: string;
+  className: string;
+  initialize(): void;
+}
+
 export class Game {
+  storage: Storage;
+  popupManager: PopupManager;
+  views: GameViews;
+  gameBoard: GameBoard | null;
+  currentEncyclopediaItem: unknown | null;
+  currentView?: View;
+
   constructor() {
     // Initialize sound
     SoundService.initialize();
@@ -22,7 +43,7 @@ export class Game {
     // Pop-ups
     this.popupManager = new PopupManager(
       d3.select('.popup'),
-      () => this.gameBoard.loadNextLevel());
+      () => this.gameBoard?.loadNextLevel());
     // View definitions
     this.views = this.createViews();
     // State
@@ -30,7 +51,7 @@ export class Game {
     this.currentEncyclopediaItem = null;
   }
 
-  createViews() {
+  createViews(): GameViews {
     return {
       levelSelector: new LevelSelectorView(this),
       game: new GameView(this),
@@ -39,8 +60,8 @@ export class Game {
     }
   }
 
-  setView(viewName) {
-    if (!Object.hasOwn(this.views, viewName)) {
+  setView(viewName: ViewName): void {
+    if (!(viewName in this.views)) {
       window.console.error(`Invalid view: ${viewName}`);
       return;
     }
@@ -52,25 +73,26 @@ export class Game {
     d3.selectAll(`.view:not(.${this.currentView.className})`).classed('view--hidden', true);
   }
 
-  setEncyclopediaItem(item) {
+  setEncyclopediaItem(item: unknown): void {
     this.currentEncyclopediaItem = item;
     // Reset the encyclopedia item view
     this.views.encyclopediaItem.resetContent();
   }
 
-  htmlReady() {
+  htmlReady(): void {
     // Initialize views' controllers
-    for (let view in this.views) {
-      this.views[view].initialize();
+    for (const view in this.views) {
+      this.views[view as ViewName].initialize();
     }
     this.setView('game');
 
     // for debugging purposes
-    window.gameBoard = this.gameBoard;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).gameBoard = this.gameBoard;
   }
 
-  createGameBoard() {
-    const initialLevelId = this.storage.getCurrentLevelId() || level.levels[1].id;
+  createGameBoard(): void {
+    const initialLevelId = this.storage.getCurrentLevelId() || level.levels[1]!.id!;
     this.gameBoard = new GameBoard(
       d3.select('#game svg.game-svg'),
       d3.select('#game svg.blink-svg'),
@@ -80,36 +102,36 @@ export class Game {
       initialLevelId);
   }
 
-  bindMenuEvents() {
-    this.gameBoard.svg.select('.navigation-controls .level-list')
+  bindMenuEvents(): void {
+    this.gameBoard!.svg.select('.navigation-controls .level-list')
       .on('click', () => {
-        this.gameBoard.stop();
+        this.gameBoard!.stop();
         this.setView('levelSelector');
       })
       .on('mouseover', () =>
-        this.gameBoard.titleManager.displayMessage('SELECT LEVEL')
+        this.gameBoard!.titleManager.displayMessage('SELECT LEVEL')
       );
-    this.gameBoard.svg.select('.navigation-controls .encyclopedia')
+    this.gameBoard!.svg.select('.navigation-controls .encyclopedia')
       .on('click', () => {
-        this.gameBoard.stop();
+        this.gameBoard!.stop();
         this.setView('encyclopediaSelector');
       })
       .on('mouseover', () =>
-        this.gameBoard.titleManager.displayMessage('ENCYCLOPEDIA')
+        this.gameBoard!.titleManager.displayMessage('ENCYCLOPEDIA')
       );
 
-    const overlay = this.gameBoard.svg.select('.interface-hint-overlay');
-    this.gameBoard.svg.select('.navigation-controls .help')
+    const overlay = this.gameBoard!.svg.select('.interface-hint-overlay');
+    this.gameBoard!.svg.select('.navigation-controls .help')
       .on('click',     () => overlay.classed('hidden', !overlay.classed('hidden')))
       .on('mouseover', () => overlay.classed('hidden', false))
       .on('mouseout',  () => overlay.classed('hidden', true));
 
-    this.gameBoard.svg.select('.navigation-controls .sandbox')
+    this.gameBoard!.svg.select('.navigation-controls .sandbox')
       .on('click', () => {
-        this.gameBoard.loadLevel(level.levels[0].id);
+        this.gameBoard!.loadLevel(level.levels[0]!.id!);
       })
       .on('mouseover', () =>
-        this.gameBoard.titleManager.displayMessage('SANDBOX LEVEL')
+        this.gameBoard!.titleManager.displayMessage('SANDBOX LEVEL')
       );
   }
 
