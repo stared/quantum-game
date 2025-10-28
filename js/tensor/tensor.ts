@@ -40,7 +40,7 @@ export class Tensor {
               {
                 re: w1.re * w2.re - w1.im * w2.im,
                 im: w1.re * w2.im + w1.im * w2.re,
-              }
+              },
             );
           }
         }
@@ -57,7 +57,7 @@ export class Tensor {
 
   static byConstant(t1: Tensor, z: ComplexNumber): Tensor {
     return Tensor.product(t1, Tensor.fromObject(
-      {'': {'': {re: z.re, im: z.im}}}
+      {'': {'': {re: z.re, im: z.im}}},
     ));
   }
 

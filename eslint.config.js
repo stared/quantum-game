@@ -5,6 +5,23 @@ import tsparser from '@typescript-eslint/parser';
 export default [
   js.configs.recommended,
   {
+    ignores: [
+      // Ignore duplicate .js source files (old versions before TypeScript migration)
+      'js/config.js',
+      'js/const.js',
+      'js/tile.js',
+      'js/simulation.js',
+      'js/level.js',
+      'js/winning_status.js',
+      'js/particle/particle.js',
+      'js/tensor/tensor.js',
+      // Ignore .js spec files (not in tsconfig)
+      'js/**/*.spec.js',
+      // Ignore .d.ts files (type declarations only, not linted by tsconfig)
+      'js/**/*.d.ts',
+    ],
+  },
+  {
     files: ['js/**/*.{js,ts}'],
     languageOptions: {
       parser: tsparser,

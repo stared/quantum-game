@@ -21,7 +21,7 @@ export class EncyclopediaItemView extends View {
   }
 
   resetContent(): void {
-    if (!this.game.currentEncyclopediaItem) {
+    if (this.game.currentEncyclopediaItem === null || this.game.currentEncyclopediaItem === undefined) {
       return;
     }
 
@@ -138,15 +138,18 @@ export class EncyclopediaItemView extends View {
     });
     // Navigation in encyclopedia entry
     const menuButtons = d3.selectAll('.encyclopedia-item__menu li button');
-    menuButtons.on('click', (function (this: HTMLElement, _event: any) {
+    menuButtons.on('click', function (this: HTMLElement) {
       const article = d3.select('.encyclopedia-item__container > article');
       const headerIdSuffix = this.getAttribute('encyclopedia-nav');
       const headerId = `encyclopedia-item__${headerIdSuffix}`;
-      const header = window.document.getElementById(headerId!);
+      const header = window.document.getElementById(headerId);
       if (!header) {
         return;
       }
-      (article.node() as HTMLElement).scrollTop = header.offsetTop;
-    }) as any);
+      const articleNode = article.node() as HTMLElement | null;
+      if (articleNode) {
+        articleNode.scrollTop = header.offsetTop;
+      }
+    });
   }
 }

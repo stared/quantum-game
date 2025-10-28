@@ -1,9 +1,8 @@
-/*global window:false*/
 import d3 from '../d3-wrapper';
 
 import {TAU, perpendicularI, perpendicularJ} from '../const';
 import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle, canvasDrawFrequency} from '../config';
-import {ParticleAnimation, type MeasurementResult, type AbsorptionProbability} from './particle_animation';
+import {ParticleAnimation, type MeasurementResult, type AbsorptionProbability, type AnimationBoard} from './particle_animation';
 import type {D3Selection, ParticleEntry} from '../types';
 
 export class CanvasParticleAnimation extends ParticleAnimation {
@@ -18,14 +17,14 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   static clearingFramesLeft?: number;
 
   constructor(
-    board: any,
+    board: AnimationBoard,
     history: ParticleEntry[][],
     measurementHistory: MeasurementResult[][],
     absorptionProbabilities: AbsorptionProbability[],
     interruptCallback: () => void,
     finishCallback: () => void,
     drawMode: string,
-    displayMessage: (message: string) => void
+    displayMessage: (message: string) => void,
   ) {
     super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode, displayMessage);
     this.startTime = 0;
@@ -95,7 +94,11 @@ export class CanvasParticleAnimation extends ParticleAnimation {
 
   resizeCanvas(): void {
     // Get the size of #game > svg > .background element
-    const box = this.board.svg.select('.background').node().getBoundingClientRect();
+    const backgroundNode = this.board.svg.select('.background').node();
+    if (!backgroundNode) {
+      return;
+    }
+    const box = (backgroundNode as SVGElement).getBoundingClientRect();
     const resizer = (canvas: D3Selection): void => {
       canvas
         .style('width', `${Math.round(box.width)}px`)
@@ -279,7 +282,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
        this.helperCtx.clearRect(
          0, 0,
          this.board.level.width * tileSize,
-         this.board.level.height * tileSize
+         this.board.level.height * tileSize,
        );
        this.helperCtx.globalAlpha = alpha;
        this.helperCtx.drawImage(this.canvas.node() as HTMLCanvasElement, 0, 0);
@@ -288,7 +291,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
      this.ctx.clearRect(
        0, 0,
        this.board.level.width * tileSize,
-       this.board.level.height * tileSize
+       this.board.level.height * tileSize,
      );
      if (alpha > 0) {
        this.ctx.drawImage(this.helperCanvas.node() as HTMLCanvasElement, 0, 0);

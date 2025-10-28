@@ -13,28 +13,28 @@ import {TAU} from '../const';
 
 export const identity = Tensor.product(
   direction.identity,
-  polarization.identity
+  polarization.identity,
 );
 
 export const zero = Tensor.product(
   direction.zero,
-  polarization.zero
+  polarization.zero,
 );
 
 const pipeH = Tensor.product(
   Tensor.sum(
     direction.diode[0]!,
-    direction.diode[2]!
+    direction.diode[2]!,
   ),
-  polarization.identity
+  polarization.identity,
 );
 
 const pipeV = Tensor.product(
   Tensor.sum(
     direction.diode[1]!,
-    direction.diode[3]!
+    direction.diode[3]!,
   ),
-  polarization.identity
+  polarization.identity,
 );
 
 const pipes = [pipeH, pipeV];
@@ -52,54 +52,54 @@ export const source = Array.from({length: 4}, (_, rotation) => {
 export const detector = Array.from({length: 4}, (_, rotation) =>
   Tensor.product(
     direction.absorbOneDirReflectOther[rotation]!,
-    polarization.reflectPhaseFromDenser
-  )
+    polarization.reflectPhaseFromDenser,
+  ),
 );
 
 export const cornerCube = Tensor.product(
   direction.cube,
-  polarization.identity
+  polarization.identity,
 );
 
 export const thinMirror = Array.from({length: 4}, (_, rotation) =>
   Tensor.product(
     direction.mirror[rotation]!,
-    polarization.reflectPhaseFromDenser
-  )
+    polarization.reflectPhaseFromDenser,
+  ),
 );
 
 // FIX(migdal) this one is not even unitary
 export const thinMirrorCoated = Array.from({length: 8}, (_, rotation) =>
   Tensor.product(
     direction.mirrorCoated[rotation]!,
-    polarization.reflectPhaseFromDenser
-  )
+    polarization.reflectPhaseFromDenser,
+  ),
 );
 
 export const thinSplitter = Array.from({length: 4}, (_, rotation) =>
   Tensor.sum(
     Tensor.byConstant(
       rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2]!,
-      {re: Math.SQRT1_2, im: 0}
+      {re: Math.SQRT1_2, im: 0},
     ),
     Tensor.byConstant(
       thinMirror[rotation]!,
-      {re: 0, im: -Math.SQRT1_2}
-    )
-  )
+      {re: 0, im: -Math.SQRT1_2},
+    ),
+  ),
 );
 
 export const thinSplitterCoated = Array.from({length: 8}, (_, rotation) =>
   Tensor.sum(
     Tensor.byConstant(
       rotation % 2 === 1 ? identity : pipes[(rotation / 2 + 1) % 2]!,
-      {re: Math.SQRT1_2, im: 0}
+      {re: Math.SQRT1_2, im: 0},
     ),
     Tensor.byConstant(
       thinMirrorCoated[rotation]!,
-      {re: Math.SQRT1_2, im: 0}
-    )
-  )
+      {re: Math.SQRT1_2, im: 0},
+    ),
+  ),
 );
 
 export const polarizingSplitter = Array.from({length: 2}, (_, rotation) => {
@@ -111,11 +111,11 @@ export const polarizingSplitter = Array.from({length: 2}, (_, rotation) => {
     const dirV = `${dir}|`;
     // Polarization - passes through
     acc[dirH] = {};
-    acc[dirH]![dirH] = {re: 1, im: 0};
+    acc[dirH][dirH] = {re: 1, im: 0};
     // Polarization | gets reflected
     acc[dirV] = {};
     if (reflectedDirection) {
-      acc[dirV]![`${reflectedDirection}|`] = {re: 1, im: 0};
+      acc[dirV][`${reflectedDirection}|`] = {re: 1, im: 0};
     }
     return acc;
   }, {} as Record<string, Record<string, {re: number, im: number}>>));
@@ -125,30 +125,30 @@ export const polarizingSplitter = Array.from({length: 2}, (_, rotation) => {
 // Quarter wave-plate
 export const glass = Tensor.product(
   direction.identity,
-  polarization.globalPhase(TAU / 4)
+  polarization.globalPhase(TAU / 4),
 );
 
 // Quarter wave-plate phase, but with opposite sign
 export const vacuumJar = Tensor.product(
   direction.identity,
-  polarization.globalPhase(-TAU / 4)
+  polarization.globalPhase(-TAU / 4),
 );
 
 
 export const absorber = Tensor.product(
   direction.identity,
-  polarization.globalAbsorption(0.5)
+  polarization.globalAbsorption(0.5),
 );
 
 // TODO check sign
 export const sugarSolution = Tensor.product(
   direction.identity,
-  polarization.rotation(TAU / 8)
+  polarization.rotation(TAU / 8),
 );
 
 export const doubleSugarSolution = Tensor.product(
   direction.identity,
-  polarization.rotation(TAU / 4)
+  polarization.rotation(TAU / 4),
 );
 
 // TODO make the formula easier or at least understand it
@@ -160,10 +160,10 @@ export const polarizer = Array.from({length: 4}, (_, rotation) =>
     direction.diode.map((directionGo, i) =>
       Tensor.product(
         directionGo,
-        polarization.projection(covariantAngle(rotation, i))
-      )
-    )
-  )
+        polarization.projection(covariantAngle(rotation, i)),
+      ),
+    ),
+  ),
 );
 
 export const polarizerNS = Array.from({length: 4}, (_, rotation) =>
@@ -172,16 +172,16 @@ export const polarizerNS = Array.from({length: 4}, (_, rotation) =>
       if (i === 1 || i === 3) {
         return Tensor.product(
           directionGo,
-          polarization.projection(covariantAngle(rotation, i))
+          polarization.projection(covariantAngle(rotation, i)),
         );
       } else {
         return Tensor.product(
           directionGo,
-          polarization.zero
+          polarization.zero,
         );
       }
-    })
-  )
+    }),
+  ),
 );
 
 export const polarizerWE = Array.from({length: 4}, (_, rotation) =>
@@ -190,16 +190,16 @@ export const polarizerWE = Array.from({length: 4}, (_, rotation) =>
       if (i === 0 || i === 2) {
         return Tensor.product(
           directionGo,
-          polarization.projection(covariantAngle(rotation, i))
+          polarization.projection(covariantAngle(rotation, i)),
         );
       } else {
         return Tensor.product(
           directionGo,
-          polarization.zero
+          polarization.zero,
         );
       }
-    })
-  )
+    }),
+  ),
 );
 
 // NOTE same notes as for polarizer
@@ -210,11 +210,11 @@ export const quarterWavePlate = Array.from({length: 4}, (_, rotation) =>
         directionGo,
         polarization.phaseShift(
           covariantAngle(rotation, i),
-          TAU / 4
-        )
-      )
-    )
-  )
+          TAU / 4,
+        ),
+      ),
+    ),
+  ),
 );
 
 // NOTE if I use 'zero' instead of this tensor product,
@@ -227,17 +227,17 @@ export const quarterWavePlateNS = Array.from({length: 4}, (_, rotation) =>
           directionGo,
           polarization.phaseShift(
             covariantAngle(rotation, i),
-            TAU / 4
-          )
+            TAU / 4,
+          ),
         );
       } else {
         return Tensor.product(
           directionGo,
-          polarization.zero
+          polarization.zero,
         );
       }
-    })
-  )
+    }),
+  ),
 );
 
 export const quarterWavePlateWE = Array.from({length: 4}, (_, rotation) =>
@@ -248,28 +248,28 @@ export const quarterWavePlateWE = Array.from({length: 4}, (_, rotation) =>
           directionGo,
           polarization.phaseShift(
             covariantAngle(rotation, i),
-            TAU / 4
-          )
+            TAU / 4,
+          ),
         );
       } else {
         return Tensor.product(
           directionGo,
-          polarization.zero
+          polarization.zero,
         );
       }
-    })
-  )
+    }),
+  ),
 );
 
 export const faradayRotator = Array.from({length: 4}, (_, rotation) =>
   Tensor.sum(
     Tensor.product(
       direction.diode[rotation]!,
-      polarization.rotation(TAU / 8)
+      polarization.rotation(TAU / 8),
     ),
     Tensor.product(
       direction.diode[(rotation + 2) % 4]!,
-      polarization.rotation(- TAU / 8)
-    )
-  )
+      polarization.rotation(- TAU / 8),
+    ),
+  ),
 );

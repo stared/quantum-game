@@ -1,5 +1,3 @@
-/*global window:false*/
-
 import {tileSize, absorptionDuration, absorptionTextDuration} from '../config';
 import {Particle} from './particle';
 import * as print from '../print';
@@ -21,6 +19,17 @@ export interface AbsorptionProbability {
   probability: number;
 }
 
+// Minimal interface for GameBoard used in particle animations
+export interface AnimationBoard {
+  svg: D3Selection;
+  level: {
+    width: number;
+    height: number;
+  };
+  animationStepDuration: number;
+  animationExists: boolean;
+}
+
 export class ParticleAnimation {
   stateHistory: ParticleEntry[][];
   history: Particle[][];
@@ -31,7 +40,7 @@ export class ParticleAnimation {
   interruptCallback: () => void;
   finishCallback: () => void;
   drawMode: string;
-  board: any; // GameBoard type - complex, using any for now
+  board: AnimationBoard;
   displayMessage: (message: string) => void;
   stepNo: number;
   playing: boolean;
@@ -41,14 +50,14 @@ export class ParticleAnimation {
   absorptionTextGroup!: D3Selection;
 
   constructor(
-    board: any,
+    board: AnimationBoard,
     history: ParticleEntry[][],
     measurementHistory: MeasurementResult[][],
     absorptionProbabilities: AbsorptionProbability[],
     interruptCallback: () => void,
     finishCallback: () => void,
     drawMode: string,
-    displayMessage: (message: string) => void
+    displayMessage: (message: string) => void,
   ) {
 
     this.stateHistory = history;
@@ -58,19 +67,19 @@ export class ParticleAnimation {
         if (!acc[key]) {
           acc[key] = [];
         }
-        acc[key]!.push(val);
+        acc[key].push(val);
         return acc;
       }, {});
 
       return Object.values(grouped).map((ray: ParticleEntry[]) => {
         const rayind: Record<string, ParticleEntry> = Object.fromEntries(
-          ray.map((val) => [val.to[1], val])
+          ray.map((val) => [val.to[1], val] as [string, ParticleEntry]),
         );
 
-        const hRe = rayind['-'] ? rayind['-']!.re : 0;
-        const hIm = rayind['-'] ? rayind['-']!.im : 0;
-        const vRe = rayind['|'] ? rayind['|']!.re : 0;
-        const vIm = rayind['|'] ? rayind['|']!.im : 0;
+        const hRe = rayind['-'] ? rayind['-'].re : 0;
+        const hIm = rayind['-'] ? rayind['-'].im : 0;
+        const vRe = rayind['|'] ? rayind['|'].re : 0;
+        const vIm = rayind['|'] ? rayind['|'].im : 0;
 
         return new Particle(ray[0]!.i, ray[0]!.j, ray[0]!.to[0] as Direction, hRe, hIm, vRe, vIm);
       });
@@ -147,25 +156,25 @@ export class ParticleAnimation {
   finish(): void {
     window.setTimeout(
       this.displayAbsorptionTexts.bind(this),
-      absorptionDuration
+      absorptionDuration,
     );
     const lastStep = this.measurementHistory.length - 1;
     window.setTimeout(
       this.displayMeasurementTexts.bind(this, lastStep),
-      this.animationStepDuration
+      this.animationStepDuration,
     );
     window.setTimeout(
       this.finishCallback.bind(this),
-      this.absorptionDuration
+      this.absorptionDuration,
     );
     window.setTimeout(
       () => {this.board.animationExists = false;},
-      this.absorptionDuration
+      this.absorptionDuration,
     );
     // Make text groups disappear
     window.setTimeout(
       this.removeTexts.bind(this),
-      absorptionDuration + absorptionTextDuration
+      absorptionDuration + absorptionTextDuration,
     );
   }
 

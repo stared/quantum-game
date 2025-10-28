@@ -1,8 +1,7 @@
-/*global window:false*/
-
+import d3 from '../d3-wrapper';
 import {TAU, perpendicularI, perpendicularJ} from '../const';
 import {oscillations, polarizationScaleH, polarizationScaleV} from '../config';
-import {ParticleAnimation, type MeasurementResult, type AbsorptionProbability} from './particle_animation';
+import {ParticleAnimation, type MeasurementResult, type AbsorptionProbability, type AnimationBoard} from './particle_animation';
 import type {D3Selection, ParticleEntry} from '../types';
 import type {Particle} from './particle';
 
@@ -11,14 +10,14 @@ export class SVGParticleAnimation extends ParticleAnimation {
   currentTimeout: number;
 
   constructor(
-    board: any,
+    board: AnimationBoard,
     history: ParticleEntry[][],
     measurementHistory: MeasurementResult[][],
     absorptionProbabilities: AbsorptionProbability[],
     interruptCallback: () => void,
     finishCallback: () => void,
     drawMode: string,
-    displayMessage: (message: string) => void
+    displayMessage: (message: string) => void,
   ) {
     super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode, displayMessage);
     this.currentTimeout = 0;
@@ -60,7 +59,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
       if (this.playing) {
         this.currentTimeout = window.setTimeout(
           this.nextFrame.bind(this),
-          this.animationStepDuration
+          this.animationStepDuration,
         );
       }
     } else {
@@ -77,7 +76,7 @@ export class SVGParticleAnimation extends ParticleAnimation {
 
     particles.attr('transform', (d: Particle) => `translate(${d.startX},${d.startY})`).style('opacity', (d: Particle) => Math.sqrt(d.prob));
 
-    particles.interrupt().transition().ease([0, 1] as any).duration(this.animationStepDuration).attrTween('transform', (d: Particle) => (t: number) => {
+    particles.interrupt().transition().ease(d3.easeLinear).duration(this.animationStepDuration).attrTween('transform', (d: Particle) => (t: number): string => {
         const h = polarizationScaleH * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
         const x = (1 - t) * d.startX + t * d.endX + perpendicularI[d.dir] * h;
         const y = (1 - t) * d.startY + t * d.endY + perpendicularJ[d.dir] * h;

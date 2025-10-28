@@ -49,7 +49,7 @@ export const cube = Tensor.fromObject(
       acc[dirFrom][dirTo] = {re: 1, im: 0};
     }
     return acc;
-  }, {} as Record<string, Record<string, {re: number, im: number}>>)
+  }, {} as Record<string, Record<string, {re: number, im: number}>>),
 );
 
 export const mirror = Array.from({length: 4}, (_, rotation) => {
@@ -61,7 +61,7 @@ export const mirror = Array.from({length: 4}, (_, rotation) => {
         acc[dirFrom][dirTo] = {re: 1, im: 0};
       }
       return acc;
-    }, {} as Record<string, Record<string, {re: number, im: number}>>)
+    }, {} as Record<string, Record<string, {re: number, im: number}>>),
   );
 });
 
@@ -75,7 +75,7 @@ export const mirrorCoated = Array.from({length: 8}, (_, rotation) => {
         acc[dirFrom][dirTo] = {re: sign, im: 0};
       }
       return acc;
-    }, {} as Record<string, Record<string, {re: number, im: number}>>)
+    }, {} as Record<string, Record<string, {re: number, im: number}>>),
   );
 });
 
@@ -87,7 +87,7 @@ export const diode = Array.from({length: 4}, (_, rotation) => {
         acc[dirFrom][dirFrom] = {re: 1, im: 0};
       }
       return acc;
-    }, {} as Record<string, Record<string, {re: number, im: number}>>)
+    }, {} as Record<string, Record<string, {re: number, im: number}>>),
   );
 });
 
@@ -100,6 +100,6 @@ export const absorbOneDirReflectOther = Array.from({length: 4}, (_, rotation) =>
         acc[dirFrom][dirTo] = {re: 1, im: 0};
       }
       return acc;
-    }, {} as Record<string, Record<string, {re: number, im: number}>>)
+    }, {} as Record<string, Record<string, {re: number, im: number}>>),
   );
 });

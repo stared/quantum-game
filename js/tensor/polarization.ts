@@ -58,9 +58,9 @@ export const phaseShift = (alpha: number, phi: number): Tensor => (
   Tensor.sum(
     Tensor.byConstant(
       projection(alpha),
-      {re: Math.cos(phi), im: Math.sin(phi)}
+      {re: Math.cos(phi), im: Math.sin(phi)},
     ),
-    projection(alpha + TAU / 4)
+    projection(alpha + TAU / 4),
   )
 );
 
@@ -71,9 +71,9 @@ export const phaseShift = (alpha: number, phi: number): Tensor => (
 // or maybe use just tensor.byConstant?
 
 export const globalPhase = (phi: number): Tensor => Tensor.fill(
-  polarizations, {re: Math.cos(phi), im: Math.sin(phi)}
+  polarizations, {re: Math.cos(phi), im: Math.sin(phi)},
 );
 
 export const globalAbsorption = (transmission: number): Tensor => Tensor.fill(
-  polarizations, {re: Math.sqrt(transmission), im: 0}
+  polarizations, {re: Math.sqrt(transmission), im: 0},
 );

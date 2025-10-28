@@ -61,7 +61,7 @@ export class LevelSelectorView extends View {
 
     listOfElements.append('span')
       .style('font-size', '1.5vh')
-      .text(((d: LevelWithNewTiles) => d.newTiles.length ? ` (NEW: ${d.newTiles.join(' ')})` : '') as any);
+      .text((d: LevelWithNewTiles) => d.newTiles.length ? ` (NEW: ${d.newTiles.join(' ')})` : '');
 
     this.bindMenuEvents();
   }
