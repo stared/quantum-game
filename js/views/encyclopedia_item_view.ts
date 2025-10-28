@@ -138,9 +138,9 @@ export class EncyclopediaItemView extends View {
     });
     // Navigation in encyclopedia entry
     const menuButtons = d3.selectAll('.encyclopedia-item__menu li button');
-    menuButtons.on('click', function (this: HTMLElement) {
+    menuButtons.on('click', function (_event) {
       const article = d3.select('.encyclopedia-item__container > article');
-      const headerIdSuffix = this.getAttribute('encyclopedia-nav');
+      const headerIdSuffix = (this as HTMLElement).getAttribute('encyclopedia-nav');
       const headerId = `encyclopedia-item__${headerIdSuffix}`;
       const header = window.document.getElementById(headerId);
       if (!header) {
