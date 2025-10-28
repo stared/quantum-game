@@ -33,11 +33,11 @@ export class EncyclopediaSelectorView extends View {
       .append('svg')
       .attr('viewBox', '0 0 100 100')
       .append('use')
-      .attr('xlink:href', (d: string) => `#${(tile as unknown as Record<string, tile.TileType>)[d]!.svgName}`)
+      .attr('xlink:href', (d: string) => `#${tile.tileMap[d]!.svgName}`)
       .attr('transform', 'translate(50, 50)');
     items
       .append('h4')
-      .text((d: string) => (tile as unknown as Record<string, tile.TileType>)[d]!.desc.name);
+      .text((d: string) => tile.tileMap[d]!.desc.name);
   }
 
   bindMenuEvents(): void {

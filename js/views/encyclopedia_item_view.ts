@@ -9,7 +9,7 @@ import type {TileType} from '../tile';
 
 export class EncyclopediaItemView extends View {
   get title(): string {
-    return (tile as unknown as Record<string, TileType>)[this.game.currentEncyclopediaItem as string]!.desc.name;
+    return tile.tileMap[this.game.currentEncyclopediaItem as string]!.desc.name;
   }
 
   get className(): string {
@@ -25,7 +25,7 @@ export class EncyclopediaItemView extends View {
       return;
     }
 
-    const tileData = (tile as unknown as Record<string, TileType>)[this.game.currentEncyclopediaItem as string]!;
+    const tileData = tile.tileMap[this.game.currentEncyclopediaItem as string]!;
 
     const article = d3.select('.encyclopedia-item__container > article');
 

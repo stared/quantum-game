@@ -85,7 +85,7 @@ export class Stock {
     }
 
     const newTile = stockSlotG.append('g')
-      .datum((d: StockSlotData) => new tile.Tile((tile as unknown as Record<string, tile.TileType>)[d.name]!, 0, false, d.i, d.j))
+      .datum((d: StockSlotData) => new tile.Tile(tile.tileMap[d.name]!, 0, false, d.i, d.j))
       .attr('class', 'tile')
       .attr('transform', (d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
       .each(function (tileObj: tile.Tile) {

@@ -566,3 +566,30 @@ export const allTiles = [
 ];
 
 export const nonVacuumTiles = allTiles.filter(tile => tile !== 'Vacuum');
+
+// Typed map for safe tile lookup by name
+export const tileMap: Record<string, TileType> = {
+  Vacuum,
+  Source,
+  CornerCube,
+  ThinMirror,
+  ThinSplitter,
+  ThinSplitterCoated,
+  PolarizingSplitter,
+  Polarizer,
+  PolarizerNS,
+  PolarizerWE,
+  QuarterWavePlate,
+  QuarterWavePlateNS,
+  QuarterWavePlateWE,
+  SugarSolution,
+  DoubleSugarSolution,
+  Mine,
+  Rock,
+  Glass,
+  VacuumJar,
+  Absorber,
+  Detector,
+  DetectorFour,
+  FaradayRotator,
+};
