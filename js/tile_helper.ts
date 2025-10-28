@@ -1,14 +1,18 @@
-// @ts-nocheck
 import d3 from './d3-wrapper';
 import {tileSize, tileHelperWidth, tileHelperHeight} from './config';
+import type {D3Selection} from './types';
+import type {Tile} from './tile';
+import type {BareBoard} from './bare_board';
+import type {Game} from './game';
 
 // shamelessly stolen from https://bl.ocks.org/mbostock/7555321
-const wrap = (text, width) => {
-  text.each(function() {
+const wrap = (text: D3Selection, width: number): void => {
+  // @ts-expect-error - D3 v3 each expects Element context
+  text.each(function(this: Element) {
     const text = d3.select(this);
     const words = text.text().split(/\s+/).reverse();
     let word;
-    let line = [];
+    let line: string[] = [];
     let lineNumber = 0;
     const lineHeight = 1.1; // ems
     const x = text.attr('x') || 0;
@@ -36,7 +40,20 @@ const wrap = (text, width) => {
 }
 
 export class TileHelper {
-  constructor(svg, bareBoard, game) {
+  svg: D3Selection;
+  game: Game;
+  width: number;
+  height: number;
+  shiftX: number;
+  shiftY: number;
+  helperGroup!: D3Selection;
+  tileBackground!: D3Selection;
+  tileUse!: D3Selection;
+  tileName!: D3Selection;
+  tileSummmary!: D3Selection;
+  helperHitbox!: D3Selection;
+
+  constructor(svg: D3Selection, bareBoard: BareBoard, game: Game) {
     this.svg = svg;
     this.game = game;
     this.width = tileHelperWidth * tileSize;
@@ -51,7 +68,7 @@ export class TileHelper {
     this.initialDraw();
   }
 
-  initialDraw() {
+  initialDraw(): void {
 
     // Reset element
     this.svg.select('.helper').remove();
@@ -96,15 +113,18 @@ export class TileHelper {
 
   }
 
-  show(tile) {
+  show(tile: Tile): void {
 
+    // @ts-expect-error - D3 v3 compatibility
     this.helperHitbox.on('click', () => {
       this.game.setEncyclopediaItem(tile.tileName);
       this.game.setView('encyclopediaItem');
     });
-    this.tileUse.attr('xlink:href', `#${tile.type.svgName}`)
+    this.tileUse.attr('xlink:href', `#${tile.type.svgName}`);
+    // @ts-expect-error - D3 v3 compatibility
     this.tileName.text(tile.type.desc.name)
       .call(wrap, (tileHelperWidth - 2) * tileSize);
+    // @ts-expect-error - D3 v3 compatibility
     this.tileSummmary.text(tile.type.desc.summary)
       .call(wrap, (tileHelperWidth - 0.5) * tileSize);
 

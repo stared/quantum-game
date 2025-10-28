@@ -1,13 +1,16 @@
-// @ts-nocheck
 import d3 from './d3-wrapper';
 import {tileSize, repositionSpeed} from './config';
 import {SoundService} from './sound_service';
 import * as tile from './tile';
+import type {D3Selection} from './types';
+import type {Tile} from './tile';
+import type {BareBoard} from './bare_board';
+import type {Stock} from './stock';
 
 // TODO should also work without stock
-export const bindDrag = (tileSelection, board, stock) => {
+export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: Stock): void => {
 
-  function reposition(data, keep = true) {
+  function reposition(data: Tile, keep = true): void {
     delete data.newI;
     delete data.newJ;
 
@@ -19,7 +22,8 @@ export const bindDrag = (tileSelection, board, stock) => {
         `translate(${data.x + tileSize / 2},${data.y + tileSize / 2})`
       )
       .delay(repositionSpeed)
-      .each((d) => {
+      // @ts-expect-error - D3 v3 compatibility
+      .each((d: Tile) => {
         if (!keep) {
           d.g.remove();
         }
@@ -28,7 +32,7 @@ export const bindDrag = (tileSelection, board, stock) => {
 
   const drag = d3.behavior.drag();
   drag
-    .on('dragstart', (source) => {
+    .on('dragstart', (source: Tile) => {
 
       d3.event.sourceEvent.stopPropagation();
       source.top = false;
@@ -45,8 +49,9 @@ export const bindDrag = (tileSelection, board, stock) => {
           SoundService.playThrottled('error');
           return;
         }
-        stock.regenerateTile(d3.select(source.node.parentNode));
+        stock.regenerateTile(d3.select(source.node!.parentNode));
         stock.updateCount(source.tileName, -1);
+        // @ts-expect-error - D3 v3 compatibility
         source.g.classed('stock-dragged', true);
       }
 
@@ -55,7 +60,7 @@ export const bindDrag = (tileSelection, board, stock) => {
         SoundService.playThrottled('error');
       }
     })
-    .on('drag', function (source) {
+    .on('drag', function (this: Element, source: Tile) {
 
       // Is it impossible to drag item?
       if (source.frozen) {
@@ -69,7 +74,7 @@ export const bindDrag = (tileSelection, board, stock) => {
       // Move element to the top
       if (!source.top) {
         // TODO still there are problems in Safari
-        source.node.parentNode.appendChild(source.node);
+        source.node!.parentNode!.appendChild(source.node!);
         source.top = true;
       }
 
@@ -78,7 +83,7 @@ export const bindDrag = (tileSelection, board, stock) => {
       source.newI = Math.floor(d3.event.x / tileSize);
       source.newJ = Math.floor(d3.event.y / tileSize);
     })
-    .on('dragend', (source) => {
+    .on('dragend', (source: Tile) => {
 
       if (source.dontDrag) {
         delete source.dontDrag;
@@ -128,7 +133,7 @@ export const bindDrag = (tileSelection, board, stock) => {
 
       // Otherwise...
       // Find target and target element
-      const target = board.tileMatrix[source.newI][source.newJ];
+      const target = board.tileMatrix[source.newI!]![source.newJ!]!;
 
       //  Dragged on an occupied tile?
       if (target.tileName !== 'Vacuum') {
@@ -153,7 +158,7 @@ export const bindDrag = (tileSelection, board, stock) => {
 
       // Dragging on and empty tile
       if (!source.fromStock) {
-        board.tileMatrix[source.i][source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
+        board.tileMatrix[source.i]![source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
       }
       board.logger.logAction('drag', {
         name: source.tileName,
@@ -165,15 +170,17 @@ export const bindDrag = (tileSelection, board, stock) => {
         toJ: target.i,
         success: true,
       });
-      board.tileMatrix[target.i][target.j] = source;
+      board.tileMatrix[target.i]![target.j] = source;
       source.i = target.i;
       source.j = target.j;
       if (source.fromStock) {
         source.fromStock = false;
-        board.boardGroup.node().appendChild(source.node);
+        // @ts-expect-error - D3 v3 compatibility
+        board.boardGroup!.node().appendChild(source.node!);
         board.clickBehavior(source.g, board);
+        // @ts-expect-error - D3 v3 compatibility
         source.g.insert('rect', ':first-child')
-          .attr('class', (d) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
+          .attr('class', (d: Tile) => d.frozen ? 'frost frost-frozen' : 'frost frost-nonfrozen')
           .attr('x', -tileSize / 2)
           .attr('y', -tileSize / 2)
           .attr('width', tileSize)
@@ -183,6 +190,6 @@ export const bindDrag = (tileSelection, board, stock) => {
 
     });
 
-  tileSelection
-    .call(drag);
+  // @ts-expect-error - D3 v3 compatibility
+  tileSelection.call(drag);
 }

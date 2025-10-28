@@ -461,6 +461,13 @@ export class Tile {
   g!: D3Selection; // D3 group selector, set externally
   node?: Element; // DOM element for g, set externally
 
+  // Properties used during drag and drop operations
+  newI?: number;
+  newJ?: number;
+  top?: boolean;
+  dontDrag?: boolean;
+  fromStock?: boolean;
+
   constructor(type: TileType = Vacuum, rotation = 0, frozen = true, i = 0, j = 0) {
     this.type = type;
     this.rotation = rotation;
