@@ -54,10 +54,10 @@ export class Stock {
     }));
 
     this.stockSlots = this.stockGroup
-      .selectAll('.stock-slot')
+      ['selectAll']('.stock-slot')
       .data(dataForStockDrawing);
 
-    const stockSlotsEntered = this.stockSlots.enter()
+    const stockSlotsEntered = this.stockSlots['enter']()
       .append('g')
         .attr('class', 'stock-slot')
         .classed('stock-empty', (d) => this.stock[d.name] <= 0);
@@ -85,7 +85,7 @@ export class Stock {
     }
 
     const newTile = stockSlotG.append('g')
-      .datum((d: StockSlotData) => new tile.Tile(tile.tileMap[d.name]!, 0, false, d.i, d.j))
+      ['datum']((d: StockSlotData) => new tile.Tile(tile.tileMap[d.name]!, 0, false, d.i, d.j))
       .attr('class', 'tile')
       .attr('transform', (d: tile.Tile) => `translate(${d.x + tileSize / 2},${d.y + tileSize / 2})`)
       .each(function (tileObj: tile.Tile) {
@@ -112,10 +112,10 @@ export class Stock {
     this.stock[tileName] += change;
 
     this.stockSlots
-      .classed('stock-empty', (d) => this.stock[d.name] <= 0);
+      ['classed']('stock-empty', (d) => this.stock[d.name] <= 0);
 
     this.stockSlots.select('text')
-      .text((d) => `x ${this.stock[d.name]}`);
+      ['text']((d) => `x ${this.stock[d.name]}`);
   }
 
 }

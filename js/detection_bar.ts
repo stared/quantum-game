@@ -82,7 +82,7 @@ export class DetectionBar {
     this.detectorsText = this.countG.append('text')
       .attr('class', 'detection-bar-text')
       .attr('y', barHeight / 2)
-      .text('detectors');
+      ['text']('detectors');
 
     //
     // mine group
@@ -116,10 +116,10 @@ export class DetectionBar {
 
     this.counts = Array.from({length: count}, (_, i) => i);
     this.countBoxes = this.countG
-      .selectAll('.count-box')
+      ['selectAll']('.count-box')
       .data(this.counts);
 
-    this.countBoxes.enter()
+    this.countBoxes['enter']()
       .append('rect')
       .attr('class', 'count-box detection-bar-box-stroke')
       .attr('x', (d, i) => barHeight * i)
@@ -129,7 +129,7 @@ export class DetectionBar {
       .style('fill', '#fff')
       .style('fill-opacity', 0.2);
 
-    this.countBoxes.exit()
+    this.countBoxes['exit']()
       .remove();
 
     this.detectorsText
@@ -144,7 +144,7 @@ export class DetectionBar {
       .attr('width', this.percentScale(probability));
 
     this.percentText
-      .text(`${percentStr(probability)}% (out of ${percentStr(this.requiredProbability)}%) detection`);
+      ['text'](`${percentStr(probability)}% (out of ${percentStr(this.requiredProbability)}%) detection`);
 
     this.countBoxes.transition().duration(absorptionDuration)
       .style('fill', (d, i) => count > i ? '#0a0' : '#fff')
@@ -155,8 +155,8 @@ export class DetectionBar {
       .style('fill-opacity', risk ? 0.5 : 0.2);
 
     this.mineText
-      .text(`${risk ? (100 * risk).toFixed(1) :  ''}${risk ? '% risk' : "it's safe"}`)
-      .classed('message-failure', risk);
+      ['text'](`${risk ? (100 * risk).toFixed(1) :  ''}${risk ? '% risk' : "it's safe"}`)
+      ['classed']('message-failure', risk);
 
   }
 

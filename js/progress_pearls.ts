@@ -46,9 +46,9 @@ export class ProgressPearls {
     const isWon = (d: LevelRecipe): boolean => this.gameBoard.storage.getLevelIsWon(d.id!);
 
     this.pearls
-      .classed('pearl--passed', isWon)
-      .classed('pearl--current', (d: LevelRecipe) => d.id === this.gameBoard.storage.getCurrentLevelId())
-      .on('mouseover', (d: LevelRecipe) => {
+      ['classed']('pearl--passed', isWon)
+      ['classed']('pearl--current', (d: LevelRecipe) => d.id === this.gameBoard.storage.getCurrentLevelId())
+      ['on']('mouseover', (d: LevelRecipe) => {
         this.gameBoard.titleManager.displayMessage(
           `GO TO: ${d.i}. ${d.name} ${isWon(d) ? '[won]' : ''}`,
           ''

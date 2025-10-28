@@ -82,7 +82,7 @@ export class GameBoard {
     this.logger = this.bareBoard.logger;
     this.logger.logAction('initialLevel');
 
-    this.boardControls = svg.selectAll('.board-controls');
+    this.boardControls = svg['selectAll']('.board-controls');
     this.activateBoardControls();
 
     this.loadLevel(levelId);
@@ -249,20 +249,20 @@ export class GameBoard {
     const bareBoard = this.bareBoard;
     const boardControls = this.boardControls;
     boardControls.select('.play')
-      .on('click', bareBoard.play.bind(bareBoard))
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('PLAY/PAUSE'));
+      ['on']('click', bareBoard.play.bind(bareBoard))
+      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('PLAY/PAUSE'));
     boardControls.select('.stop')
-      .on('click', bareBoard.stop.bind(bareBoard))
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('STOP'));
+      ['on']('click', bareBoard.stop.bind(bareBoard))
+      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('STOP'));
     boardControls.select('.forward')
-      .on('click', bareBoard.forward.bind(bareBoard))
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('NEXT STEP'));
+      ['on']('click', bareBoard.forward.bind(bareBoard))
+      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('NEXT STEP'));
     const durationToSlider = d3.scale.log()
       .domain([animationStepDurationMax, animationStepDurationMin])
       .range([0, 1]);
 
     boardControls.select('.speed')
-      .on('click', function () {
+      ['on']('click', function () {
         const baseWidth = 100; // width in px in SVG without scaling
         const mouseX = d3.mouse(this)[0];
         bareBoard.animationStepDuration = durationToSlider.invert(mouseX/baseWidth);
@@ -274,23 +274,23 @@ export class GameBoard {
         d3.select(this).select('rect')
           .attr('x', mouseX - 3);
       })
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('CHANGE SPEED'));
+      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('CHANGE SPEED'));
 
     boardControls.select('.reset')
-      .on('click', () => {
+      ['on']('click', () => {
         gameBoard.reloadLevel(false);
       })
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
+      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('RESET LEVEL'));
 
     boardControls.select('.download')
-      .on('click', () => {
+      ['on']('click', () => {
         bareBoard.logger.logAction('download');
         gameBoard.downloadCurrentLevel();
       })
-      .on('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
+      ['on']('mouseover', () => gameBoard.titleManager.displayMessage('DOWNLOAD LEVEL AS JSON'));
 
     boardControls.select('.view-mode')
-      .on('click', function () {
+      ['on']('click', function () {
         let newMode;
         if (bareBoard.drawMode === 'oscilloscope') {
           newMode = 'orthogonal';
@@ -304,7 +304,7 @@ export class GameBoard {
       });
 
     boardControls.select('.measurement-mode')
-      .on('click', function () {
+      ['on']('click', function () {
         let newMode;
         if (bareBoard.measurementMode === 'Copenhagen') {
           newMode = 'delayed meas.';

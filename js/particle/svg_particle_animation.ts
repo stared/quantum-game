@@ -69,11 +69,11 @@ export class SVGParticleAnimation extends ParticleAnimation {
   }
 
   updateParticles(): void {
-    const particles = this.particleGroup.selectAll('.particle').data(this.history[this.stepNo]);
+    const particles = this.particleGroup['selectAll']('.particle').data(this.history[this.stepNo]);
 
-    particles.exit().remove();
+    particles['exit']().remove();
 
-    particles.enter().append('use').attr({
+    particles['enter']().append('use').attr({
         'xlink:href': '#particle',
         'class': 'particle',
       });

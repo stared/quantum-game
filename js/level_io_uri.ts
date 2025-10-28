@@ -98,11 +98,11 @@ const parseAllTiles = (allTileString: string, width: number): TileRecipe[] =>
 export const queryString2levelRecipe = (queryString: string): LevelRecipe => {
   const params = parseQueryString(queryString);
   return {
-    name:   params.n!,
+    name:   params['n']!,
     group:  'Shared',
-    width:  parseInt(params.w!),
-    height: parseInt(params.h!),
-    tiles:  parseAllTiles(params.t!, parseInt(params.w!)),
+    width:  parseInt(params['w']!),
+    height: parseInt(params['h']!),
+    tiles:  parseAllTiles(params['t']!, parseInt(params['w']!)),
   };
 }
 
