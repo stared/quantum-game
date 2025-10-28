@@ -1,17 +1,33 @@
-// @ts-nocheck
 /*global window:false*/
 import d3 from '../d3-wrapper';
 
 import {TAU, perpendicularI, perpendicularJ} from '../const';
 import {tileSize, oscillations, polarizationScaleH, polarizationScaleV, resizeThrottle, canvasDrawFrequency} from '../config';
-import {ParticleAnimation} from './particle_animation';
+import {ParticleAnimation, type MeasurementResult, type AbsorptionProbability} from './particle_animation';
+import type {D3Selection, ParticleEntry} from '../types';
 
 export class CanvasParticleAnimation extends ParticleAnimation {
-  constructor(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode, displayMessage) {
+  canvas!: D3Selection;
+  helperCanvas!: D3Selection;
+  ctx!: CanvasRenderingContext2D;
+  helperCtx!: CanvasRenderingContext2D;
+  startTime: number;
+  pauseTime: number;
+  lastStepFloat!: number;
+  throttledResizeCanvas: () => void;
+  static clearingFramesLeft?: number;
+
+  constructor(
+    board: any,
+    history: ParticleEntry[][],
+    measurementHistory: MeasurementResult[][],
+    absorptionProbabilities: AbsorptionProbability[],
+    interruptCallback: () => void,
+    finishCallback: () => void,
+    drawMode: string,
+    displayMessage: (message: string) => void
+  ) {
     super(board, history, measurementHistory, absorptionProbabilities, interruptCallback, finishCallback, drawMode, displayMessage);
-    this.canvas = null;
-    this.helperCanvas = null;
-    this.ctx = null;
     this.startTime = 0;
     this.pauseTime = 0;
     // Prepare throttled version of resizeCanvas
@@ -25,7 +41,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     };
   }
 
-  updateStartTime() {
+  updateStartTime(): void {
     // If we paused, we have to change startTime for animation to work.
     if (!this.playing && this.startTime <= this.pauseTime) {
       const time = new Date().getTime();
@@ -33,31 +49,33 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
   }
 
-  stop() {
+  override stop(): void {
     super.stop();
     window.removeEventListener('resize', this.throttledResizeCanvas);
+    // @ts-expect-error - D3 v3 compatibility
     this.canvas.classed('canvas--hidden', true);
   }
 
-  play() {
+  override play(): void {
     this.updateStartTime();
     super.play();
+    // @ts-expect-error - D3 v3 compatibility
     this.canvas.classed('canvas--hidden', false);
   }
 
-  forward() {
+  override forward(): void {
     this.updateStartTime();
     super.forward();
   }
 
-  initialize() {
+  override initialize(): void {
     super.initialize();
     // Create canvas, get context
     this.canvas = d3.select('#gameCanvas');
-    this.ctx = this.canvas[0][0].getContext('2d');
+    this.ctx = this.canvas[0][0].getContext('2d')!;
     // Similar for helper canvas
     this.helperCanvas = d3.select('#gameHelperCanvas');
-    this.helperCtx = this.helperCanvas[0][0].getContext('2d');
+    this.helperCtx = this.helperCanvas[0][0].getContext('2d')!;
     // Interrupt animation when clicked on canvas
     this.canvas[0][0].addEventListener('click', this.interrupt.bind(this));
     // Initial canvas resize
@@ -69,35 +87,32 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     this.startTime = new Date().getTime();
     this.lastStepFloat = 0;
     // Show the canvas (useful when initing animation via "next step" button)
+    // @ts-expect-error - D3 v3 compatibility
     this.canvas.classed('canvas--hidden', false);
   }
 
-  interrupt() {
+  interrupt(): void {
     this.stop();
     this.interruptCallback();
   }
 
-  resizeCanvas() {
+  resizeCanvas(): void {
     // Get the size of #game > svg > .background element
     const box = this.board.svg.select('.background').node().getBoundingClientRect();
-    const resizer = (canvas) => {
+    const resizer = (canvas: D3Selection): void => {
       canvas
-        .style({
-          width:  `${Math.round(box.width)}px`,
-          height: `${Math.round(box.height)}px`,
-          top:    `${Math.round(box.top)}px`,
-          left:   `${Math.round(box.left)}px`,
-        })
-        .attr({
-          width:  this.board.level.width * tileSize,
-          height: this.board.level.height * tileSize,
-        });
-    }
+        .style('width', `${Math.round(box.width)}px`)
+        .style('height', `${Math.round(box.height)}px`)
+        .style('top', `${Math.round(box.top)}px`)
+        .style('left', `${Math.round(box.left)}px`)
+        .attr('width', this.board.level.width * tileSize)
+        .attr('height', this.board.level.height * tileSize);
+    };
     resizer(this.canvas);
     resizer(this.helperCanvas);
   }
 
-  nextFrame() {
+  override nextFrame(): void {
     const time = new Date().getTime();
     const stepFloat = (time - this.startTime) / this.animationStepDuration;
     const oldStepNo = this.stepNo;
@@ -126,9 +141,9 @@ export class CanvasParticleAnimation extends ParticleAnimation {
   }
 
   /**
-   *
+   * Update particles at specified step float position
    */
-  updateParticles(stepFloat, lastStepFloat) {
+  updateParticles(stepFloat: number, lastStepFloat: number): void {
     const substepStart = Math.round(lastStepFloat * canvasDrawFrequency);
     const substepEnd = Math.round(stepFloat * canvasDrawFrequency);
     for (let substep = substepStart; substep <= substepEnd; ++substep) {
@@ -150,7 +165,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
    * It may happen that it's below 0, e.g. when we draw particles from previous
    * frame.
    */
-  drawParticlesOrthogonalMode(t) {
+  drawParticlesOrthogonalMode(t: number): void {
     this.clearAlpha(0.95);
     // Determine which step to access. It is possible that we progressed with
     // this.stepNo, but we have still to draw some dots from previous step.
@@ -161,7 +176,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
     // Actual drawing
     this.ctx.fillStyle = 'red';
-    this.history[stepNo].forEach((d) => {
+    this.history[stepNo]!.forEach((d) => {
       this.ctx.beginPath();
       this.ctx.globalAlpha = d.prob;
       const h = polarizationScaleH * (d.hRe * Math.cos(oscillations * TAU * t) + d.hIm * Math.sin(oscillations * TAU * t)) / Math.sqrt(d.prob);
@@ -178,18 +193,19 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     });
   }
 
-  drawParticlesOscilloscopeMode(t) {
+  drawParticlesOscilloscopeMode(t: number): void {
     this.clearAlpha(0.9);
     // Determine which step to access. It is possible that we progressed with
     // this.stepNo, but we have still to draw some dots from previous step.
     let stepNo = this.stepNo;
-    while (t < 0) {
+    let tCopy = t;
+    while (tCopy < 0) {
       stepNo--;
-      t += 1;
+      tCopy += 1;
     }
     // Actual drawing
     this.ctx.fillStyle = 'red';
-    this.history[stepNo].forEach((d) => {
+    this.history[stepNo]!.forEach((d) => {
 
       const movX = (1 - t) * d.startX + t * d.endX;
       const movY = (1 - t) * d.startY + t * d.endY;
@@ -217,12 +233,12 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     });
   }
 
-  finish() {
+  override finish(): void {
     super.finish();
     this.startClearing();
   }
 
-  startClearing() {
+  startClearing(): void {
     // There may be multiple existing instances of CanvasParticleAnimation
     // at the same time - if player presses `play` just after previous animation
     // has ended. There may be an overlap between old animation clearing
@@ -232,7 +248,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     this.clearing();
   }
 
-  clearing() {
+  clearing(): void {
     if (
       CanvasParticleAnimation.clearingFramesLeft == null
       || CanvasParticleAnimation.clearingFramesLeft <= 0
@@ -241,6 +257,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     }
     if (CanvasParticleAnimation.clearingFramesLeft === 1) {
       this.clearAlpha(0);
+      // @ts-expect-error - D3 v3 compatibility
       this.canvas.classed('canvas--hidden', true);
       return;
     }
@@ -249,7 +266,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
     window.setTimeout(this.clearing.bind(this), 50);
   }
 
-  static stopClearing() {
+  static stopClearing(): void {
     CanvasParticleAnimation.clearingFramesLeft = 0;
   }
 
@@ -258,7 +275,7 @@ export class CanvasParticleAnimation extends ParticleAnimation {
    * alpha - how much (in terms of transparency) of previous frame stays.
    * clearAlpha(0) should work like clearRect().
    */
-   clearAlpha(alpha) {
+   clearAlpha(alpha: number): void {
      // Reset alpha
      this.ctx.globalAlpha = 1;
      // Copy image to helper context

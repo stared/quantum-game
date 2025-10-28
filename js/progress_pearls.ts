@@ -19,10 +19,10 @@ export class ProgressPearls {
   }
 
   draw(): void {
-    this.pearls = this.g.selectAll('.pearl')
+    this.pearls = this.g['selectAll']('.pearl')
       .data(this.levels);
 
-    const pearlsEntered = this.pearls.enter()
+    const pearlsEntered = this.pearls['enter']()
       .append('g')
         .attr('class', 'pearl')
         .attr('transform', (_d, i) => `translate(${pearlDistance * (i % pearlsPerRow + 0.5)}, ${pearlDistance * (Math.floor(i / pearlsPerRow) - 0.75)})`)
