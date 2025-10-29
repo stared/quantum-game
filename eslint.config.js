@@ -6,19 +6,8 @@ export default [
   js.configs.recommended,
   {
     ignores: [
-      // Ignore duplicate .js source files (old versions before TypeScript migration)
-      'src/config.js',
-      'src/const.js',
-      'src/tile.js',
-      'src/simulation.js',
-      'src/level.js',
-      'src/winning_status.js',
-      'src/particle/particle.js',
-      'src/tensor/tensor.js',
       // Ignore .js spec files (not in tsconfig)
       'src/**/*.spec.js',
-      // Ignore .d.ts files (type declarations only, not linted by tsconfig)
-      'src/**/*.d.ts',
     ],
   },
   {

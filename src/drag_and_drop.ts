@@ -49,8 +49,8 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
           SoundService.playThrottled('error');
           return;
         }
-        const parentNode = source.node!.parentNode;
-        if (parentNode !== null) {
+        const parentNode = source.node?.parentNode;
+        if (parentNode !== null && parentNode !== undefined) {
           stock.regenerateTile(d3.select(parentNode as Element) as D3Selection);
         }
         stock.updateCount(source.tileName, -1);
@@ -76,8 +76,8 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
       // Move element to the top
       if (source.top !== true) {
         // TODO still there are problems in Safari
-        const parentNode = source.node!.parentNode;
-        if (parentNode !== null && source.node !== null) {
+        const parentNode = source.node?.parentNode;
+        if (parentNode !== null && parentNode !== undefined && source.node !== null) {
           parentNode.appendChild(source.node as Node);
         }
         source.top = true;
@@ -138,7 +138,12 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
 
       // Otherwise...
       // Find target and target element
-      const target = board.tileMatrix[source.newI]![source.newJ]!;
+      const targetRow = board.tileMatrix[source.newI];
+      const target = targetRow?.[source.newJ];
+      if (!target) {
+        // Should not happen as we validated bounds above
+        return;
+      }
 
       //  Dragged on an occupied tile?
       if (target.tileName !== 'Vacuum') {
@@ -163,7 +168,10 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
 
       // Dragging on and empty tile
       if (source.fromStock !== true) {
-        board.tileMatrix[source.i]![source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
+        const sourceRow = board.tileMatrix[source.i];
+        if (sourceRow) {
+          sourceRow[source.j] = new tile.Tile(tile.Vacuum, 0, false, source.i, source.j);
+        }
       }
       board.logger.logAction('drag', {
         name: source.tileName,
@@ -175,13 +183,15 @@ export const bindDrag = (tileSelection: D3Selection, board: BareBoard, stock: St
         toJ: target.i,
         success: true,
       });
-      board.tileMatrix[target.i]![target.j] = source;
+      if (targetRow !== undefined) {
+        targetRow[target.j] = source;
+      }
       source.i = target.i;
       source.j = target.j;
       if (source.fromStock === true) {
         source.fromStock = false;
-        const boardGroupNode = board.boardGroup!.node() as Element | null;
-        if (boardGroupNode !== null && source.node !== null) {
+        const boardGroupNode = board.boardGroup?.node() as Element | null | undefined;
+        if (boardGroupNode !== null && boardGroupNode !== undefined && source.node !== null) {
           boardGroupNode.appendChild(source.node as Node);
         }
         board.clickBehavior(source.g, board);

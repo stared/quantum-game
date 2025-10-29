@@ -53,14 +53,14 @@ export class Simulation {
     const initialState: ParticleEntry[] = [];
     for (let i = 0; i < this.levelWidth; i++) {
       for (let j = 0; j < this.levelHeight; j++) {
+        const tile = this.tileMatrix[i]?.[j];
+        if (!tile) continue;
+
         // Recognize generating tiles by having 'generation' method
-        if (!this.tileMatrix[i]![j]!.type.generation) {
+        if (!tile.type.generation) {
           continue;
         }
-        const emissions =
-          this.tileMatrix[i]![j]!.type.generation!(
-            this.tileMatrix[i]![j]!.rotation,
-          );
+        const emissions = tile.type.generation(tile.rotation);
         // emissions is PhotonGeneration[][] (array of arrays)
         emissions.forEach((emissionSet) => {
           emissionSet.forEach((emission) => {
@@ -127,7 +127,7 @@ export class Simulation {
   displace(state: ParticleEntry[]): ParticleEntry[] {
     return state.map((entry) => {
       // 'to' value = direction + polarization
-      const dir = entry.to[0]! as Direction;
+      const dir = (entry.to[0] ?? '>') as Direction;
       const newI = entry.i + velocityI[dir];
       const newJ = entry.j + velocityJ[dir];
       return {
@@ -152,16 +152,17 @@ export class Simulation {
       }))
       .filter(({prob}) => prob > EPSILON)
       .map(({prob, location}): AbsorptionEvent => {
+        const coords = location.split(' ');
         return {
           probability: prob,
           measured: false,
-          i: parseInt(location.split(' ')[0]!),
-          j: parseInt(location.split(' ')[1]!),
+          i: parseInt(coords[0] ?? '0'),
+          j: parseInt(coords[1] ?? '0'),
         };
       });
 
     bins.forEach((each) => {
-      each.tile = this.tileMatrix[each.i] && this.tileMatrix[each.i]![each.j];
+      each.tile = this.tileMatrix[each.i]?.[each.j];
     });
 
 
@@ -171,11 +172,11 @@ export class Simulation {
     if (this.noClickYet) {
       if (onlyDetectors > 0) {
         // the cheated variant
-        for (let k = 0; k < bins.length; k++) {
-          if ((bins[k]!.tile as Tile).isDetector) {
-            probSum += bins[k]!.probability * onlyDetectors;
+        for (const bin of bins) {
+          if ((bin.tile as Tile).isDetector) {
+            probSum += bin.probability * onlyDetectors;
             if (probSum > rand) {
-              bins[k]!.measured = true;
+              bin.measured = true;
               this.noClickYet = false;
               break;
             }
@@ -183,10 +184,10 @@ export class Simulation {
         }
       } else {
         // usual variant
-        for (let k = 0; k < bins.length; k++) {
-          probSum += bins[k]!.probability;
+        for (const bin of bins) {
+          probSum += bin.probability;
           if (probSum > rand) {
-            bins[k]!.measured = true;
+            bin.measured = true;
             this.noClickYet = false;
             break;
           }
@@ -213,14 +214,19 @@ export class Simulation {
       ) {
         return acc;
       }
-      const tile = this.tileMatrix[entry.i]![entry.j]!;
+      const tile = this.tileMatrix[entry.i]?.[entry.j];
+      if (!tile) {
+        return acc;
+      }
 
       const transitionAmplitudes = tile.transitionAmplitudes;
       // transitionAmplitudes can be either Tensor or Tensor[] depending on the tile
       // For simulation, we use it as a single Tensor (array case handled elsewhere)
-      const tensorMap = Array.isArray(transitionAmplitudes)
-        ? transitionAmplitudes[0]!.map
-        : transitionAmplitudes.map;
+      const firstTensor = Array.isArray(transitionAmplitudes) ? transitionAmplitudes[0] : transitionAmplitudes;
+      if (!firstTensor) {
+        return acc;
+      }
+      const tensorMap = firstTensor.map;
       const transition = tensorMap.get(entry.to);
       if (transition) {
         for (const [to, change] of transition) {
@@ -229,9 +235,10 @@ export class Simulation {
           const re = entry.re * change.re - entry.im * change.im;
           const im = entry.re * change.im + entry.im * change.re;
           // Add to bin
-          if (binKey in acc) {
-            acc[binKey]!.re += re;
-            acc[binKey]!.im += im;
+          const existing = acc[binKey];
+          if (existing) {
+            existing.re += re;
+            existing.im += im;
           } else {
             acc[binKey] = {
               i:  entry.i,
