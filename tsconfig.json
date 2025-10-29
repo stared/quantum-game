@@ -46,12 +46,12 @@
     /* Paths */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./js/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
-    "js/**/*.ts",
-    "js/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "*.config.ts",
     "*.ts",
     "app.js"
