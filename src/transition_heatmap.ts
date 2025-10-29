@@ -1,0 +1,191 @@
+import d3 from './d3-wrapper';
+import {TAU, EPSILON} from './const';
+import {Tooltip} from './tooltip';
+import type {D3Selection, ComplexNumber} from './types';
+
+const toggleDuraton = 1000;
+
+const complexToPureColor = (z: ComplexNumber): string => {
+  if (z.re === 0 && z.im === 0) {
+    return '#ffffff';
+  } else {
+    const angleInDegrees = (Math.atan2(z.im, z.re) * 360 / TAU + 360) % 360;
+    // NOTE for color (light theme) it would be: d3.hsl(angleInDegrees, 1, 1 - r / 2)
+    return d3.hsl(angleInDegrees, 1, 0.5).toString();
+  }
+};
+
+const complexToOpacity = (z: ComplexNumber): number => Math.sqrt(z.re * z.re + z.im * z.im);
+
+// see http://www.fileformat.info/info/unicode/block/arrows/utf8test.htm
+const prettierArrows: Record<string, string> = {
+  '>': '⇢',  // ⇢
+  '^': '⇡',  // ⇡
+  '<': '⇠',  // ⇠
+  'v': '⇣',  // ⇣
+  '-': '↔',  // ↔
+  '|': '↕',  // ↕
+};
+
+const prettifyBasis = (basis: string): string => `${prettierArrows[basis[0]!]!}${prettierArrows[basis[1]!]!}`;
+
+const basisDirPol = ['>-', '>|', '^-', '^|', '<-', '<|', 'v-', 'v|'];
+const basisPolDir = ['>-', '^-', '<-', 'v-', '>|', '^|', '<|', 'v|'];
+
+interface MatrixElement extends ComplexNumber {
+  from: string;
+  to: string;
+}
+
+export class TransitionHeatmap {
+  g: D3Selection;
+  tooltip: Tooltip;
+  size: number;
+  basis: string[];
+  labelIn!: D3Selection;
+  labelOut!: D3Selection;
+  matrixElement!: D3Selection;
+
+  constructor(selectorSvg: D3Selection, selectorForTooltip: D3Selection, size = 200) {
+    this.g = selectorSvg.append('g')
+      .attr('class', 'transition-heatmap')
+      .on('click', () => this.toggleBasis());
+
+    this.tooltip = new Tooltip(selectorForTooltip);
+    this.size = size;
+    this.basis = basisDirPol;
+  }
+
+  updateFromTensor(tensor: unknown): void {
+    interface TensorLike {
+      get: (key: string) => TensorLike | ComplexNumber;
+    }
+    const tensorAny = tensor as TensorLike;
+
+    const arrayContent = this.basis
+      .map((outputBase) => this.basis
+        .map((inputBase) => {
+          const inputTensor = tensorAny.get(inputBase) as TensorLike;
+          const element = (inputTensor.get(outputBase) as ComplexNumber | undefined) || {re: 0, im: 0};
+          return {
+            from: inputBase,
+            to: outputBase,
+            re: element.re,
+            im: element.im,
+          };
+        }),
+      );
+
+    this.update(this.basis, arrayContent.flat());
+  }
+
+  toggleBasis(): void {
+
+    if (this.basis === basisDirPol) {
+      this.basis = basisPolDir;
+    } else {
+      this.basis = basisDirPol;
+    }
+
+    this.update(this.basis);
+
+  }
+
+  update(labels: string[], matrixElements: MatrixElement[] | null = null): void {
+
+    const position: Record<string, number> = Object.fromEntries(labels.map((d, i) => [d, i]));
+
+    const scale = d3.scaleLinear()
+      .domain([-1, labels.length])
+      .range([0, this.size]);
+
+    const squareSize = scale(1) - scale(0);
+
+    // in (top) basis labels
+
+    this.labelIn = this.g
+      .selectAll<SVGTextElement, string>('.label-in')
+      .data(labels, (_d, _i, _nodes) => _d);
+
+    this.labelIn.enter()
+      .append('text')
+        .attr('class', 'label-in');
+
+    this.labelIn
+    .attr('y', scale(-0.5))
+    .style('text-anchor', 'middle')
+    .text(prettifyBasis)
+    .transition()
+      .duration(toggleDuraton)
+      .attr('x', (_d, i) => scale(i + 0.5))
+      .attr('dy', '0.5em');
+
+    this.labelIn.exit()
+      .remove();
+
+    // out (left) basis labels
+
+    this.labelOut = this.g
+      .selectAll<SVGTextElement, string>('.label-out')
+      .data(labels, (_d, _i, _nodes) => _d);
+
+    this.labelOut.enter()
+      .append('text')
+        .attr('class', 'label-out');
+
+    this.labelOut
+      .attr('x', scale(-0.5))
+      .style('text-anchor', 'middle')
+      .text(prettifyBasis)
+      .transition()
+        .duration(toggleDuraton)
+        .attr('y', (_d, i) => scale(i + 0.5))
+        .attr('dy', '0.5em');
+
+    this.labelOut.exit()
+      .remove();
+
+    // matrix elements
+
+    if (matrixElements != null) {
+
+      this.matrixElement = this.g
+        .selectAll<SVGRectElement, MatrixElement>('.matrix-element')
+        .data(matrixElements, (_d, _i, _nodes) => `${_d.from} ${_d.to}`);
+
+      this.matrixElement.enter()
+        .append('rect')
+          .attr('class', 'matrix-element')
+          .on('mouseover', (event, d: MatrixElement) => {
+            const r = Math.sqrt(d.re * d.re + d.im * d.im);
+            const phi = Math.atan2(d.im, d.re) / TAU;
+            const sign = d.im >= 0 ? '+' : '-';
+            if (r > EPSILON) {
+              this.tooltip.show(
+                `${d.re.toFixed(3)} ${sign} ${Math.abs(d.im).toFixed(3)} <i>i</i><br>
+                = ${r.toFixed(3)} exp(${phi.toFixed(3)} <i>i τ</i>)`,
+                (event as MouseEvent).pageX,
+                (event as MouseEvent).pageY,
+              );
+            }
+          })
+          .on('mouseout', (_event) => this.tooltip.out());
+
+    }
+
+    this.matrixElement
+      .attr('width', squareSize - 1)
+      .attr('height', squareSize - 1)
+      .style('fill', complexToPureColor)
+      .style('fill-opacity', complexToOpacity)
+      .transition()
+        .duration(toggleDuraton)
+          .attr('y', (d: MatrixElement) => scale(position[d.to]!) + 0.5)
+          .attr('x', (d: MatrixElement) => scale(position[d.from]!) + 0.5);
+
+    this.matrixElement.exit()
+      .remove();
+
+  }
+
+}

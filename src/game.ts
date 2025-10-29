@@ -1,0 +1,143 @@
+import d3 from './d3-wrapper';
+
+import * as level from './level';
+import {GameBoard} from './game_board';
+import {PopupManager} from './popup_manager';
+import {SoundService} from './sound_service';
+import {Storage} from './storage';
+
+import {GameView} from './views/game_view';
+import {LevelSelectorView} from './views/level_selector_view';
+import {EncyclopediaSelectorView} from './views/encyclopedia_selector_view';
+import {EncyclopediaItemView} from './views/encyclopedia_item_view';
+
+interface GameViews {
+  levelSelector: LevelSelectorView;
+  game: GameView;
+  encyclopediaSelector: EncyclopediaSelectorView;
+  encyclopediaItem: EncyclopediaItemView;
+}
+
+type ViewName = keyof GameViews;
+
+interface View {
+  title: string;
+  className: string;
+  initialize(): void;
+  resetContent?(): void;
+}
+
+export class Game {
+  storage: Storage;
+  popupManager: PopupManager;
+  views: GameViews;
+  gameBoard: GameBoard | null;
+  currentEncyclopediaItem: unknown;
+  currentView?: View;
+
+  constructor() {
+    // Initialize sound
+    SoundService.initialize();
+    // Outer dependencies and controllers
+    this.storage = new Storage();
+    // Pop-ups
+    this.popupManager = new PopupManager(
+      d3.select('.popup'),
+      () => this.gameBoard?.loadNextLevel());
+    // View definitions
+    this.views = this.createViews();
+    // State
+    this.gameBoard = null;
+    this.currentEncyclopediaItem = null;
+  }
+
+  createViews(): GameViews {
+    return {
+      levelSelector: new LevelSelectorView(this),
+      game: new GameView(this),
+      encyclopediaSelector: new EncyclopediaSelectorView(this),
+      encyclopediaItem: new EncyclopediaItemView(this),
+    }
+  }
+
+  setView(viewName: ViewName): void {
+    if (!(viewName in this.views)) {
+      window.console.error(`Invalid view: ${viewName}`);
+      return;
+    }
+    this.currentView = this.views[viewName];
+    // Set titles
+    d3.select('.top-bar__title').text(this.currentView.title);
+    // Switch visible content
+    d3.selectAll(`.${this.currentView.className}`).classed('view--hidden', false);
+    d3.selectAll(`.view:not(.${this.currentView.className})`).classed('view--hidden', true);
+  }
+
+  setEncyclopediaItem(item: unknown): void {
+    this.currentEncyclopediaItem = item;
+    // Reset the encyclopedia item view
+    if (this.views.encyclopediaItem.resetContent !== undefined) {
+      this.views.encyclopediaItem.resetContent();
+    }
+  }
+
+  htmlReady(): void {
+    // Initialize views' controllers
+    for (const view in this.views) {
+      this.views[view as ViewName].initialize();
+    }
+    this.setView('game');
+
+    // for debugging purposes
+    interface WindowWithGameBoard extends Window {
+      gameBoard?: GameBoard | null;
+    }
+    (window as WindowWithGameBoard).gameBoard = this.gameBoard;
+  }
+
+  createGameBoard(): void {
+    const currentLevelId = this.storage.getCurrentLevelId();
+    const initialLevelId = (currentLevelId !== null && currentLevelId !== '') ? currentLevelId : level.levels[1]!.id!;
+    this.gameBoard = new GameBoard(
+      d3.select('#game svg.game-svg'),
+      d3.select('#game svg.blink-svg'),
+      this,
+      this.popupManager,
+      this.storage,
+      initialLevelId);
+  }
+
+  bindMenuEvents(): void {
+    this.gameBoard!.svg.select('.navigation-controls .level-list')
+      .on('click', (_event) => {
+        this.gameBoard!.stop();
+        this.setView('levelSelector');
+      })
+      .on('mouseover', (_event) =>
+        this.gameBoard!.titleManager.displayMessage('SELECT LEVEL', 'progress'),
+      );
+    this.gameBoard!.svg.select('.navigation-controls .encyclopedia')
+      .on('click', (_event) => {
+        this.gameBoard!.stop();
+        this.setView('encyclopediaSelector');
+      })
+      .on('mouseover', (_event) =>
+        this.gameBoard!.titleManager.displayMessage('ENCYCLOPEDIA', 'progress'),
+      );
+
+    const overlay = this.gameBoard!.svg.select('.interface-hint-overlay');
+    this.gameBoard!.svg.select('.navigation-controls .help')
+      .on('click',     (_event) => overlay.classed('hidden', !overlay.classed('hidden')))
+      .on('mouseover', (_event) => overlay.classed('hidden', false))
+      .on('mouseout',  (_event) => overlay.classed('hidden', true));
+
+    this.gameBoard!.svg.select('.navigation-controls .sandbox')
+      .on('click', (_event) => {
+        this.gameBoard!.loadLevel(level.levels[0]!.id!);
+      })
+      .on('mouseover', (_event) =>
+        this.gameBoard!.titleManager.displayMessage('SANDBOX LEVEL', 'progress'),
+      );
+  }
+
+}
