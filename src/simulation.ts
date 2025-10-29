@@ -297,9 +297,11 @@ export class Simulation {
     let detectionSoFar = 0;
     let stepNo: number;
     let lastStep: ParticleEntry[];
-    for (stepNo = 0; stepNo < absAtDetByTime.length; ++stepNo) {
+    // Start from index 1 because absAtDetByTime[0] is initial state (no absorptions yet)
+    // stepNo represents the step number being simulated (1, 2, 3, ...)
+    for (stepNo = 1; stepNo < absAtDetByTime.length; ++stepNo) {
       lastStep = this.propagate(true, 1 / (totalDetection - detectionSoFar ));
-      detectionSoFar += absAtDetByTime[stepNo + 1]!;
+      detectionSoFar += absAtDetByTime[stepNo];
       if (!lastStep.length) {
         break;
       }
