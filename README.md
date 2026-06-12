@@ -77,7 +77,7 @@ Alternatively, you can install dependencies using Docker.
 
 ### Running
 
-* If your build completes sucessfully there will be a new image ID printed at the end of the build, which you can then use to to run it: `docker run -d -p 80:8080 ${IMAGE_ID_FROM_BUILD}`
+* If your build completes successfully there will be a new image ID printed at the end of the build, which you can then use to run it: `docker run -d -p 80:8080 ${IMAGE_ID_FROM_BUILD}`
 * or for a community built image try this: `docker run -d -p 80:8080 spkane/quantum-game:latest`
 
 and then open up a web browser and point it to port 80 on your Docker host.
